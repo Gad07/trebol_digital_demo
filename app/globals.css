@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trebol: #5C9E31;
+  --color-carbon: #2D2D2D;
+  --color-hueso: #F5F5F5;
+  --color-gris: #666666;
+  --font-sans: var(--font-roboto), sans-serif;
+}
+
+:root {
+  --color-verde: #5C9E31;
+  --color-verde-hover: #4a7d27;
+  --color-carbon: #2D2D2D;
+  --color-gris: #666666;
+  --color-hueso: #F5F5F5;
+  --color-blanco: #FFFFFF;
+
+  /* Glassmorphism Variables para Navbar u otros modulos que lo sigan requiriendo */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-hueso);
+  color: var(--color-carbon);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mantener esta clase para el Navbar original */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+}
