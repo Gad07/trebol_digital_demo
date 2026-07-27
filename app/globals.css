@@ -16,16 +16,14 @@
   --color-hueso: #F5F5F5;
   --color-blanco: #FFFFFF;
 
-  /* Glassmorphism Variables para Navbar u otros modulos que lo sigan requiriendo */
+  /* Glassmorphism Variables */
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: 1px solid rgba(255, 255, 255, 0.8);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
 }
 
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  height: 100%;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -35,7 +33,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Mantener esta clase para el Navbar original */
+/* Glass panel utility */
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);

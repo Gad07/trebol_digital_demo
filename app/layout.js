@@ -117,6 +117,9 @@ const jsonLd = {
   priceRange: "$$",
 };
 
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={roboto.variable}>
@@ -148,7 +151,9 @@ export default function RootLayout({ children }) {
           </svg>
         </div>
 
+        <Navbar />
         {children}
+        <Footer />
 
         {/* ═══ Analytics & Tracking ═══ */}
 
