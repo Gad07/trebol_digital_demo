@@ -1,10 +1,10 @@
-﻿'use client';
+'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowUpRight, Target, Zap, BarChart3, 
+import {
+  ArrowUpRight, Target, Zap, BarChart3,
   Users, Bot, CheckCircle2, TrendingUp, Sparkles, Plus, Minus
 } from 'lucide-react';
 import CanalesScrollytelling from '@/components/CanalesScrollytelling';
@@ -78,6 +78,10 @@ const faqItems = [
 export default function MarketingPage() {
   const [openFaq, setOpenFaq] = useState(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
   };
@@ -123,88 +127,65 @@ export default function MarketingPage() {
           </motion.h1>
         </div>
 
-        {/* Hero Visual Image Banner */}
+        {/* Hero Visual Image Banner - 100% CLEAN WITHOUT TEXT OVERLAYS */}
         <div className="w-[95%] max-w-[1500px] h-[55vh] md:h-[65vh] rounded-[3rem] overflow-hidden shadow-2xl relative border border-white z-10 group">
           <img
             src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1800&q=80"
             alt="Marketing Estratégico Trébol"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-carbon/90 via-transparent to-transparent flex items-end p-8 md:p-14">
-            <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div>
-                <span className="text-xs font-mono font-bold text-trebol uppercase tracking-widest block mb-1">Ecosistema de Captación Continuo</span>
-                <h2 className="text-3xl md:text-5xl font-black text-white">4.8× ROAS Promedio Generado</h2>
-              </div>
-              <Link
-                href="/agenda"
-                className="inline-flex items-center gap-2 bg-trebol text-white font-bold px-8 py-4 rounded-full hover:bg-white hover:text-carbon transition-colors duration-300 shadow-xl shrink-0"
-              >
-                Solicitar Plan de Pauta
-                <ArrowUpRight size={20} />
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* ── MATRIZ DE CANALES DE CONVERSIÓN (APPLE SCROLLYTELLING) ───── */}
       <CanalesScrollytelling />
 
-      {/* ── MÓDULO 1: HOJA DE RUTA EN 4 PASOS (ANIMADO) ─────── */}
-      <section className="w-full bg-carbon text-hueso py-28 px-6 md:px-12 relative overflow-hidden border-t border-white/10">
-        
-        {/* Glow de Fondo */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[40rem] h-[40rem] bg-trebol/15 rounded-full blur-[160px] pointer-events-none" />
-
+      {/* ── SECCIÓN 4 PASOS: RUTA ESTRATÉGICA DE CAPTACIÓN (CLEAN WHITE EDITORIAL) ─────── */}
+      <section className="w-full bg-white text-carbon py-28 px-6 md:px-12 relative z-10 border-t border-neutral-200">
         <div className="max-w-[1400px] mx-auto relative z-10">
-          
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20 shadow-[0_0_15px_rgba(46,204,113,0.2)]">
-                Hoja de Ruta en 4 Pasos
-              </span>
-              <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+              <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.9]">
                 Ruta Estratégica de <br />
                 <span className="text-trebol">Captación Escalable.</span>
               </h2>
             </div>
-            <p className="text-lg md:text-xl text-neutral-300 font-light max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-carbon/70 font-light max-w-xl leading-relaxed">
               Un sistema automatizado de 4 etapas que transforma la atención masiva en prospectos calificados y cierres comerciales medibles.
             </p>
           </div>
 
-          {/* Línea Conectora Animada (Desktop) */}
-          <div className="hidden md:block w-full h-1 bg-neutral-800 rounded-full mb-12 relative overflow-hidden">
-            <motion.div 
-              initial={{ x: '-100%' }}
-              whileInView={{ x: '0%' }}
+          {/* Línea Conectora Continua en Verde Trébol (Sin Neón) */}
+          <div className="hidden md:block w-full h-1.5 bg-neutral-200 rounded-full mb-12 relative overflow-hidden">
+            <motion.div
+              initial={{ width: '0%' }}
+              whileInView={{ width: '100%' }}
               viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-              className="w-full h-full bg-gradient-to-r from-trebol via-[#00F2FE] to-trebol shadow-[0_0_14px_rgba(46,204,113,0.9)]"
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="h-full bg-trebol rounded-full"
             />
           </div>
 
-          {/* Grid de 4 Pasos Animados */}
+          {/* Grid de 4 Pasos en Tarjetas Negras/Carbon Premium */}
           <div className="grid md:grid-cols-4 gap-6">
             {roadmapSteps.map((step, idx) => {
               const IconoComponente = step.icono;
               return (
                 <motion.div
                   key={step.num}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
-                  whileHover={{ y: -10, scale: 1.02 }}
-                  className="bg-neutral-900/90 border border-neutral-800 rounded-[2.5rem] p-8 hover:border-trebol hover:shadow-[0_20px_40px_rgba(46,204,113,0.25)] transition-all duration-500 group relative flex flex-col justify-between h-full backdrop-blur-xl"
+                  transition={{ duration: 0.5, delay: idx * 0.12 }}
+                  className="bg-carbon text-hueso border border-white/10 rounded-[2.5rem] p-8 hover:border-trebol/50 hover:shadow-2xl transition-all duration-300 group flex flex-col justify-between h-full"
                 >
                   <div className="space-y-6">
                     <div className="flex justify-between items-center">
-                      <span className="text-4xl font-black font-mono text-trebol drop-shadow-[0_0_10px_rgba(46,204,113,0.5)]">
+                      <span className="text-4xl font-black font-mono text-trebol">
                         {step.num}
                       </span>
-                      <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol group-hover:scale-110 group-hover:bg-trebol group-hover:text-black transition-all duration-300">
+                      <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol group-hover:bg-trebol group-hover:text-black transition-all duration-300">
                         <IconoComponente size={24} />
                       </div>
                     </div>
@@ -212,12 +193,12 @@ export default function MarketingPage() {
                     <h3 className="text-2xl font-black text-white group-hover:text-trebol transition-colors">
                       {step.titulo}
                     </h3>
-                    <p className="text-sm text-neutral-400 font-light leading-relaxed">
+                    <p className="text-sm text-neutral-300 font-light leading-relaxed">
                       {step.descripcion}
                     </p>
                   </div>
 
-                  <div className="pt-8 border-t border-neutral-800/80 mt-8 space-y-2 text-xs font-mono text-neutral-300">
+                  <div className="pt-8 border-t border-white/10 mt-8 space-y-2 text-xs font-mono text-neutral-300">
                     {step.metricas.map((m, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <CheckCircle2 size={14} className="text-trebol shrink-0" />
@@ -238,9 +219,6 @@ export default function MarketingPage() {
         <div className="max-w-[1400px] mx-auto">
 
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
-              Ventaja Competitiva
-            </span>
             <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-none mb-6">
               ¿Por qué las marcas líderes <br />
               <span className="text-trebol">eligen a Trébol Digital?</span>
@@ -251,14 +229,14 @@ export default function MarketingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            
+
             {/* Feature 1 */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(92,158,49,0.08)] border-2 border-trebol/40 hover:border-trebol hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
             >
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
                 <BarChart3 size={28} />
@@ -282,12 +260,12 @@ export default function MarketingPage() {
             </motion.div>
 
             {/* Feature 2 */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(92,158,49,0.08)] border-2 border-trebol/40 hover:border-trebol hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
             >
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
                 <Sparkles size={28} />
@@ -311,12 +289,12 @@ export default function MarketingPage() {
             </motion.div>
 
             {/* Feature 3 */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(92,158,49,0.08)] border-2 border-trebol/40 hover:border-trebol hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
             >
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
                 <Users size={28} />
@@ -347,11 +325,8 @@ export default function MarketingPage() {
       {/* ── MÓDULO 3: PREGUNTAS FRECUENTES (FAQ ACORDEÓN) ─────────────────── */}
       <section className="w-full bg-white py-28 px-6 md:px-12 border-t border-neutral-200/80 relative">
         <div className="max-w-[1100px] mx-auto">
-          
+
           <div className="text-center mb-16">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
-              Resolviendo tus Dudas
-            </span>
             <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-none mb-4">
               Preguntas <span className="text-trebol">Frecuentes.</span>
             </h2>
@@ -364,11 +339,10 @@ export default function MarketingPage() {
             {faqItems.map((item, index) => {
               const isOpen = openFaq === index;
               return (
-                <div 
-                  key={index} 
-                  className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
-                    isOpen ? 'border-trebol bg-[#f8fcf6] shadow-lg' : 'border-neutral-200 bg-white hover:border-neutral-300'
-                  }`}
+                <div
+                  key={index}
+                  className={`rounded-3xl border transition-all duration-300 overflow-hidden ${isOpen ? 'border-trebol bg-[#f8fcf6] shadow-lg' : 'border-neutral-200 bg-white hover:border-neutral-300'
+                    }`}
                 >
                   <button
                     onClick={() => toggleFaq(index)}
@@ -377,9 +351,8 @@ export default function MarketingPage() {
                     <span className="text-lg md:text-xl font-bold text-carbon tracking-tight">
                       {item.pregunta}
                     </span>
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'bg-trebol text-[#000000] rotate-180 font-bold' : 'bg-neutral-100 text-carbon'
-                    }`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${isOpen ? 'bg-trebol text-[#000000] rotate-180 font-bold' : 'bg-neutral-100 text-carbon'
+                      }`}>
                       {isOpen ? <Minus size={20} /> : <Plus size={20} />}
                     </div>
                   </button>

@@ -1,60 +1,211 @@
-﻿'use client';
-import { useState, useRef, useEffect } from 'react';
+'use client';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
 import { 
-  ArrowUpRight, CheckCircle2, Play, RefreshCw, Bot, Cpu, 
-  Sparkles, ShieldCheck, Lock, Server, Terminal, Zap, FileText, Check,
-  PlayCircle
+  ArrowUpRight, CheckCircle2, Bot, Cpu, 
+  Sparkles, ShieldCheck, Lock, Server, Zap, Check,
+  MessageSquare, Users, BarChart3, Clock, Database,
+  Mail, FileText, Activity, GitFork, Layers, Play, RotateCcw,
+  GitBranch, Plus, ArrowRight
 } from 'lucide-react';
 
-const aiPrompts = [
+const n8nCanvasWorkflows = [
   {
-    title: '1. Agente Comercial & Atención WhatsApp 24/7',
-    status: '● Activo 24/7',
-    ahorro: 'Liberadas 25h/semana',
-    model: 'Trébol Customer Agent v3',
-    cliLogs: [
-      { type: 'cmd', text: '&gt; INICIANDO AGENTE COMERCIAL DE ATENCIÓN Y VENTAS 24/7' },
-      { type: 'info', text: '✔ [MENSAJE RECIBIDO 02:40 AM]: "¿Precios y disponibilidad para agendar una demostración?"' },
-      { type: 'process', text: '⚡ [RESPUESTA IA < 1s]: Asistente envía propuesta técnica y evalúa perfil comercial' },
-      { type: 'process', text: '⚡ [CUALIFICACIÓN B2B]: Prospecto verificado: Empresa de 85 empleados (Presupuesto Validado)' },
-      { type: 'process', text: '⚡ [CALENDARIO EN VIVO]: Verificando agenda directiva... Cita agendada para el Jueves 10:00 AM' },
-      { type: 'success', text: '✔ [RESULTADO COMERCIAL]: Prospecto agendado en CRM + Notificación en tiempo real por WhatsApp' },
-      { type: 'success', text: '✔ [IMPACTO EN EL NEGOCIO]: +40% conversión de clientes nocturnos sin intervención humana' }
-    ]
+    id: 'wf-whatsapp',
+    title: 'Bots de WhatsApp 24/7 & Captación Comercial',
+    description: 'Automatiza la cualificación de prospectos, respuestas inmediatas por WhatsApp y agendamiento de citas en Google Calendar sin intervención humana.',
+    layoutType: 'v-shape',
+    tree: {
+      trigger: {
+        id: 'node-trigger',
+        step: 1,
+        title: "On 'WhatsApp Message' Form Submission",
+        subtitle: 'Mensaje: "¿Tienen citas enterprise hoy?"',
+        icon: MessageSquare,
+        type: 'Trigger'
+      },
+      aiEngine: {
+        id: 'node-ai',
+        step: 2,
+        title: 'Trébol Commerce Agent v4',
+        subtitle: 'Cualificando Presupuesto ($50k+)',
+        icon: Cpu,
+        type: 'AI Core Engine'
+      },
+      router: {
+        id: 'node-router',
+        step: 3,
+        title: 'Is Manager?',
+        subtitle: '¿Empresa > 50 empleados?',
+        icon: GitBranch,
+        type: 'Condition Router'
+      },
+      branches: {
+        top: {
+          id: 'node-top',
+          step: 4,
+          title: 'Create Jira / Calendar Admin',
+          subtitle: 'Cita Agendada: Jueves 10:00 AM',
+          icon: Clock,
+          status: 'True Path'
+        },
+        bottom: {
+          id: 'node-bottom',
+          step: 4,
+          title: 'Create Slack User / CRM',
+          subtitle: 'Estatus: "Cualificado B2B"',
+          icon: Database,
+          status: 'False Path'
+        },
+        bottomSub: {
+          id: 'node-bottom-sub',
+          step: 5,
+          title: 'Update Slack Profile / WhatsApp',
+          subtitle: 'Confirmación Enviada con Mapa',
+          icon: Zap,
+          status: 'Notification'
+        }
+      }
+    },
+    stepMessages: {
+      1: 'PASO 1 [TRIGGER]: Recibiendo mensaje de WhatsApp "¿Tienen citas enterprise hoy para 85 empleados?"',
+      2: 'PASO 2 [PROCESAMIENTO IA]: Trébol Agent v4 analizando intención y cualificando presupuesto ($50k+ MXN)...',
+      3: 'PASO 3 [ROUTER DECISIÓN]: Evaluando condición "Is Manager? / ¿Empresa > 50 emp?" -> Evaluación: TRUE',
+      4: 'PASO 4 [EJECUCIÓN RAMIFICADA]: Agendando Demo Executive en Google Calendar y creando Lead en HubSpot CRM...',
+      5: 'PASO 5 [RESPUESTA FINAL]: Enviando confirmación con mapa de acceso por WhatsApp Cloud API.'
+    }
   },
   {
-    title: '2. Filtro de Reclutamiento & RRHH',
-    status: '● Proceso Concluido',
-    ahorro: 'Reducción de 3 días a 10 min',
-    model: 'Trébol HR Screener v2',
-    cliLogs: [
-      { type: 'cmd', text: '&gt; INICIANDO EVALUACIÓN ALGORÍTMICA DE TALENTO Y RRHH' },
-      { type: 'info', text: '✔ [RECEPCIÓN MASIVA]: 150 Currículums en PDF procesados simultáneamente' },
-      { type: 'process', text: '⚡ [EXTRACCIÓN ALGORÍTMICA]: Escaneo de experiencia técnica, proyectos e idiomas en 4.2s' },
-      { type: 'process', text: '🥇 [RANK 1]: Carlos Mendoza (98% Compatibilidad) — 8 años exp, Stack Next.js/Python, C1' },
-      { type: 'process', text: '🥈 [RANK 2]: Mariana Silva (95% Compatibilidad) — 6 años exp, React/AWS, C1' },
-      { type: 'process', text: '🥉 [RANK 3]: Roberto Gómez (91% Compatibilidad) — 7 años exp, Node.js/DevOps, C2' },
-      { type: 'success', text: '✔ [RESULTADO RRHH]: 147 candidatos notificados y Top 3 perfiles enviados a la dirección de RRHH' },
-      { type: 'success', text: '✔ [IMPACTO EN EL NEGOCIO]: Tiempo de selección reducido de 3 días manuales a 10 segundos' }
-    ]
+    id: 'wf-rrhh',
+    title: 'Reclutamiento Algorítmico & Filtro de CVs RRHH',
+    description: 'Procesa cientos de currículums en PDF simultáneamente, evalúa compatibilidad técnica y notifica al equipo de Selección en minutos.',
+    layoutType: 'horizontal-split',
+    tree: {
+      trigger: {
+        id: 'node-trigger',
+        step: 1,
+        title: "On 'PDF Resume' Submission",
+        subtitle: '150 CVs recibidos para vacante Senior',
+        icon: Users,
+        type: 'Trigger'
+      },
+      aiEngine: {
+        id: 'node-ai',
+        step: 2,
+        title: 'Trébol Talent-Parser v2',
+        subtitle: 'Multimodal Resume Engine (4.2s)',
+        icon: Cpu,
+        type: 'AI Core Engine'
+      },
+      router: {
+        id: 'node-router',
+        step: 3,
+        title: 'Is Qualified?',
+        subtitle: '¿Score Fit > 85%?',
+        icon: GitBranch,
+        type: 'Condition Router'
+      },
+      branches: {
+        top: {
+          id: 'node-top',
+          step: 4,
+          title: 'Create Interview Invitation',
+          subtitle: 'Carlos M. (98%), Mariana S. (95%)',
+          icon: CheckCircle2,
+          status: 'True Path'
+        },
+        bottom: {
+          id: 'node-bottom',
+          step: 4,
+          title: 'Create Slack Notification',
+          subtitle: 'Resumen Top 3 enviado a RRHH',
+          icon: Zap,
+          status: 'False Path'
+        },
+        bottomSub: {
+          id: 'node-bottom-sub',
+          step: 5,
+          title: 'Update Candidate Database',
+          subtitle: '150 Pruebas Técnicas enviadas',
+          icon: Mail,
+          status: 'Notification'
+        }
+      }
+    },
+    stepMessages: {
+      1: 'PASO 1 [TRIGGER]: 150 CVs en PDF recibidos masivamente para la vacante Senior Lead...',
+      2: 'PASO 2 [PROCESAMIENTO IA]: Trébol Talent-Parser escaneando stack técnico, portafolios e inglés C1 en 4.2s...',
+      3: 'PASO 3 [ROUTER DECISIÓN]: Evaluando condición "Is Qualified? / ¿Score Fit > 85%?" -> 12 candidatos aprobados',
+      4: 'PASO 4 [EJECUCIÓN RAMIFICADA]: Agendando entrevista técnica para Top 3 y notificando al canal directivo de Slack...',
+      5: 'PASO 5 [RESPUESTA FINAL]: Despachando 150 correos automatizados con confirmación y prueba técnica.'
+    }
   },
   {
-    title: '3. Automatizador de Reportes Financieros',
-    status: '● Programado cada Lunes',
-    ahorro: '15 horas manuales ahorradas',
-    model: 'Trébol Finance Sync v1',
-    cliLogs: [
-      { type: 'cmd', text: '&gt; INICIANDO CONCILIACIÓN FINANCIERA MULTIBANCO ENCRIPTADA' },
-      { type: 'info', text: '✔ [CONEXIÓN ENCRIPTADA AES-256]: Sincronizando datos con BBVA, Banorte y Santander' },
-      { type: 'process', text: '⚡ [BBVA]: $840,000 MXN | [BANORTE]: $420,200 MXN | [SANTANDER]: $220,000 MXN' },
-      { type: 'process', text: '⚡ [INGRESOS TOTALES]: $1,480,200 MXN | [EGRESOS OPERATIVOS]: $620,400 MXN' },
-      { type: 'process', text: '⚡ [MARGEN OPERATIVO]: +58.1% Utilidad Neta (+$859,800 MXN acumulados)' },
-      { type: 'success', text: '✔ [RESULTADO FINANCIERO]: Reporte PDF generado e integrado al sistema contable automáticamente' },
-      { type: 'success', text: '✔ [IMPACTO EN EL NEGOCIO]: Cero margen de error humano y 15 horas de trabajo manual ahorradas a la semana' }
-    ]
-  },
+    id: 'wf-finance',
+    title: 'Conciliación Financiera Multi-Banco & ERP',
+    description: 'Conecta las cuentas bancarias de la empresa por API encriptada, concilia depósitos vs facturas emitidas y genera reportes en el ERP.',
+    layoutType: 'zig-zag',
+    tree: {
+      trigger: {
+        id: 'node-trigger',
+        step: 1,
+        title: "On 00:00 AM Cron Schedule",
+        subtitle: 'Sincronización BBVA, Banorte, Santander',
+        icon: Clock,
+        type: 'Trigger'
+      },
+      aiEngine: {
+        id: 'node-ai',
+        step: 2,
+        title: 'Trébol Finance-Sync v3',
+        subtitle: 'Cruce $1.48M depósitos vs egresos',
+        icon: Cpu,
+        type: 'AI Core Engine'
+      },
+      router: {
+        id: 'node-router',
+        step: 3,
+        title: 'Is Reconciled?',
+        subtitle: '¿Folio Fiscal Coincide?',
+        icon: GitBranch,
+        type: 'Condition Router'
+      },
+      branches: {
+        top: {
+          id: 'node-top',
+          step: 4,
+          title: 'Update SAP / ERP Database',
+          subtitle: 'Facturas Conciliadas 100%',
+          icon: Server,
+          status: 'True Path'
+        },
+        bottom: {
+          id: 'node-bottom',
+          step: 4,
+          title: 'Validate Bank API Token',
+          subtitle: 'Certificado AES-256 Validado',
+          icon: ShieldCheck,
+          status: 'False Path'
+        },
+        bottomSub: {
+          id: 'node-bottom-sub',
+          step: 5,
+          title: 'Export PDF Report to Board',
+          subtitle: 'Reporte Financiero enviado',
+          icon: FileText,
+          status: 'Notification'
+        }
+      }
+    },
+    stepMessages: {
+      1: 'PASO 1 [TRIGGER]: Cron automatizado de medianoche activa sincronización bancaria multi-cuenta...',
+      2: 'PASO 2 [PROCESAMIENTO IA]: Trébol Finance-Sync cruzando $1.48M MXN en depósitos vs facturas emitidas...',
+      3: 'PASO 3 [ROUTER DECISIÓN]: Verificando coincidencia de folios fiscales -> 100% de coincidencia exacta',
+      4: 'PASO 4 [EJECUCIÓN RAMIFICADA]: Actualizando estatus en SAP/ERP y validando certificado bancario AES-256...',
+      5: 'PASO 5 [RESPUESTA FINAL]: Generando PDF de novedades y enviando reporte a Dirección.'
+    }
+  }
 ];
 
 const pilaresSeguridad = [
@@ -103,10 +254,107 @@ const roadmapIA = [
 ];
 
 export default function IAPage() {
-  const [activePrompt, setActivePrompt] = useState(0);
-  const [displayedLogs, setDisplayedLogs] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const current = aiPrompts[activePrompt];
+  const [selectedWorkflowIdx, setSelectedWorkflowIdx] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [lines, setLines] = useState(null);
+
+  const canvasRef = useRef(null);
+  const activeWf = n8nCanvasWorkflows[selectedWorkflowIdx];
+  const tree = activeWf.tree;
+  const layout = activeWf.layoutType;
+
+  const TriggerIcon = tree.trigger.icon;
+  const AiIcon = tree.aiEngine.icon;
+  const RouterIcon = tree.router.icon;
+  const TopIcon = tree.branches.top.icon;
+  const BottomIcon = tree.branches.bottom.icon;
+  const BottomSubIcon = tree.branches.bottomSub.icon;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Animación Secuencial Iluminada de Pasos 1 -> 2 -> 3 -> 4 -> 5
+  useEffect(() => {
+    let interval = null;
+    if (isPlaying) {
+      setActiveStep(1);
+      let step = 1;
+      interval = setInterval(() => {
+        step++;
+        if (step > 5) {
+          step = 1;
+        }
+        setActiveStep(step);
+      }, 2200);
+    }
+    return () => clearInterval(interval);
+  }, [selectedWorkflowIdx, isPlaying]);
+
+  // MEDIDOR DE PUERTOS PIXEL-PERFECT BASADO EN RESIZEOBSERVER Y PIXELES REALES DEL DOM
+  const updateConnections = () => {
+    if (!canvasRef.current) return;
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+
+    const getPortPos = (id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return null;
+      return {
+        x: rect.left - canvasRect.left + rect.width / 2,
+        y: rect.top - canvasRect.top + rect.height / 2
+      };
+    };
+
+    const pTrigOut = getPortPos('port-trig-out');
+    const pAiIn = getPortPos('port-ai-in');
+    const pAiOut = getPortPos('port-ai-out');
+    const pRouterIn = getPortPos('port-router-in');
+    const pRouterTrue = getPortPos('port-router-true');
+    const pRouterFalse = getPortPos('port-router-false');
+    const pTopIn = getPortPos('port-branch-top-in');
+    const pMidIn = getPortPos('port-branch-mid-in');
+    const pBotIn = getPortPos('port-branch-bot-in');
+
+    if (!pTrigOut || !pAiIn || !pAiOut || !pRouterIn || !pRouterTrue || !pRouterFalse || !pTopIn || !pMidIn || !pBotIn) return;
+
+    const createBezier = (p1, p2) => {
+      const dx = Math.max(35, Math.abs(p2.x - p1.x) * 0.45);
+      return `M ${p1.x} ${p1.y} C ${p1.x + dx} ${p1.y}, ${p2.x - dx} ${p2.y}, ${p2.x} ${p2.y}`;
+    };
+
+    setLines({
+      line1: createBezier(pTrigOut, pAiIn),
+      line2: createBezier(pAiOut, pRouterIn),
+      lineTrue: createBezier(pRouterTrue, pTopIn),
+      lineFalse1: createBezier(pRouterFalse, pMidIn),
+      lineFalse2: createBezier(pRouterFalse, pBotIn),
+      trueLabel: { x: (pRouterTrue.x + pTopIn.x) / 2, y: (pRouterTrue.y + pTopIn.y) / 2 - 10 },
+      falseLabel: { x: (pRouterFalse.x + pMidIn.x) / 2, y: (pRouterFalse.y + pMidIn.y) / 2 - 10 }
+    });
+  };
+
+  useLayoutEffect(() => {
+    updateConnections();
+    const observer = new ResizeObserver(() => updateConnections());
+    if (canvasRef.current) observer.observe(canvasRef.current);
+    
+    window.addEventListener('resize', updateConnections);
+
+    const timer1 = setTimeout(updateConnections, 60);
+    const timer2 = setTimeout(updateConnections, 200);
+    const timer3 = setTimeout(updateConnections, 500);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateConnections);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, [selectedWorkflowIdx, activeStep]);
 
   // Ref para el progreso de scroll progresivo de la barra continua
   const roadmapRef = useRef(null);
@@ -115,33 +363,9 @@ export default function IAPage() {
     offset: ["start 65%", "end 75%"]
   });
 
-  const handleSimulate = (idx) => {
-    setActivePrompt(idx);
-  };
-
-  useEffect(() => {
-    const logs = aiPrompts[activePrompt].cliLogs;
-    setDisplayedLogs([]);
-    setIsTyping(true);
-    
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < logs.length) {
-        const nextLog = logs[index];
-        setDisplayedLogs((prev) => [...prev, nextLog]);
-        index++;
-      } else {
-        setIsTyping(false);
-        clearInterval(interval);
-      }
-    }, 320);
-
-    return () => clearInterval(interval);
-  }, [activePrompt]);
-
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
-      {/* ── HERO EXACTO ESTILO HOME CON BADGE FLOTANTE & LUZ AMBIENTAL (IMAGEN LIMPIA SIN TEXTOS) ───── */}
+      {/* ── HERO EDITORIAL CLARO CON LUZ AMBIENTAL ───── */}
       <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-4 md:px-12 bg-hueso overflow-hidden">
         
         {/* Animated Green Ambient Light Blobs */}
@@ -210,103 +434,240 @@ export default function IAPage() {
         </motion.div>
       </section>
 
-      {/* ── TERMINAL MAC CON DATOS COMERCIALES EN VIVO (ESTILO DEVELOPER CLI CON IMPACTO B2B) ───── */}
+      {/* ── SECCIÓN INTERACTIVA: LIENZO N8N 2D SIN CRUCE DE CABLES SOBRE TARJETAS ───── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-28 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Consola Operativa en Tiempo Real
-          </span>
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Prueba cómo Operan los <span className="text-trebol">Agentes.</span>
+            Lienzo de Flujos <span className="text-trebol">n8n Canvas.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Selecciona un caso de uso comercial a continuación para presenciar el impacto operativo e indicadores en tiempo real.
+            Diagrama de nodos conectivos con puertos de entrada/salida y ramificación lógica en tiempo real.
           </p>
         </div>
 
-        {/* Tarjetas de Selección de Escenario */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          {aiPrompts.map((p, idx) => (
-            <button
-              key={p.title}
-              onClick={() => handleSimulate(idx)}
-              className={`p-8 rounded-[2.5rem] text-left transition-all duration-300 border flex flex-col justify-between h-48 ${
-                activePrompt === idx
-                  ? 'bg-carbon text-hueso border-trebol shadow-2xl scale-[1.02]'
-                  : 'bg-white text-carbon border-neutral-200 hover:border-trebol/50 shadow-sm'
-              }`}
-            >
-              <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol block mb-2">{p.status}</span>
-                <h3 className="text-xl font-bold tracking-tight">{p.title}</h3>
-              </div>
-
-              <div className="flex items-center justify-between pt-4 border-t border-current/10 font-mono text-xs">
-                <span>{p.ahorro}</span>
-                <PlayCircle size={20} className={activePrompt === idx ? 'text-trebol fill-trebol/20' : 'text-carbon/30'} />
-              </div>
-            </button>
-          ))}
+        {/* Selector de 3 Flujos de Negocio */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {n8nCanvasWorkflows.map((wf, idx) => {
+            const isSelected = selectedWorkflowIdx === idx;
+            return (
+              <button
+                key={wf.id}
+                onClick={() => setSelectedWorkflowIdx(idx)}
+                className={`p-8 rounded-[2.5rem] text-left transition-all duration-400 border-2 flex flex-col justify-between h-44 cursor-pointer ${
+                  isSelected
+                    ? 'bg-carbon text-hueso border-trebol shadow-2xl scale-[1.02]'
+                    : 'bg-white text-carbon border-trebol/30 hover:border-trebol shadow-[0_15px_40px_rgba(92,158,49,0.06)] hover:shadow-xl'
+                }`}
+              >
+                <div>
+                  <h3 className="text-xl font-bold tracking-tight mb-2">{wf.title}</h3>
+                  <p className={`text-xs leading-relaxed font-light ${isSelected ? 'text-neutral-300' : 'text-carbon/70'}`}>
+                    {wf.description}
+                  </p>
+                </div>
+              </button>
+            );
+          })}
         </div>
 
-        {/* TERMINAL ESTILO MAC DEVELOPER CON DATOS COMERCIALES */}
-        <div className="bg-[#0f1115] text-neutral-100 rounded-[3.5rem] p-8 md:p-14 shadow-2xl border border-trebol/30 relative overflow-hidden font-mono">
+        {/* CANVASES STUDIO TIPO N8N (LÍNEAS LIMPIAS VIAJANDO SOLAMENTE POR ESPACIOS VACÍOS) */}
+        <div className="bg-[#f8fafc] text-carbon rounded-[3.5rem] p-6 md:p-10 shadow-2xl border-2 border-trebol/40 relative overflow-hidden font-mono bg-[radial-gradient(#94a3b833_1.5px,transparent_1.5px)] [background-size:24px_24px] w-full">
           
-          {/* Header Bar macOS Terminal */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-6">
+          {/* Header Bar Studio */}
+          <div className="flex flex-wrap items-center justify-between border-b border-slate-200 pb-6 mb-8 gap-4 relative z-10">
             <div className="flex items-center gap-3">
-              <span className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-sm" />
-              <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
-              <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
-              <span className="text-xs text-neutral-400 font-mono ml-2">trebol-console — zsh — live execution</span>
+              <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm" />
+              <div className="w-3 h-3 rounded-full bg-amber-400 shadow-sm" />
+              <div className="w-3 h-3 rounded-full bg-trebol shadow-sm" />
+              <span className="text-xs font-mono text-slate-500 ml-2">n8n-studio-canvas — visual node workflow editor ({layout.toUpperCase()} LAYOUT)</span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-trebol font-bold bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/30 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
-                {current.model}
-              </span>
-            </div>
-          </div>
-
-          {/* LOGS DE TERMINAL EN VIVO CON RESULTADOS DE VALOR COMERCIAL */}
-          <div className="bg-[#08090c] p-6 md:p-8 rounded-2xl border border-white/5 min-h-[340px] font-mono text-sm md:text-base leading-relaxed space-y-3 relative overflow-hidden">
-            {displayedLogs.map((log, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.25 }}
-                className="flex items-start gap-2"
+            <div className="flex items-center gap-3 text-xs">
+              <span className="text-slate-600">Estado Ejecución: <strong className="text-trebol">Paso {activeStep} de 5</strong></span>
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="bg-carbon hover:bg-trebol text-white transition-colors px-4 py-1.5 rounded-full text-xs font-mono font-bold flex items-center gap-2 border border-black/10 shadow-sm"
               >
-                {log.type === 'cmd' && (
-                  <p className="text-cyan-400 font-bold bg-cyan-950/30 px-3 py-1 rounded border border-cyan-500/30 w-full">{log.text}</p>
-                )}
-                {log.type === 'info' && (
-                  <p className="text-sky-300 font-medium">{log.text}</p>
-                )}
-                {log.type === 'process' && (
-                  <p className="text-neutral-300 font-light">{log.text}</p>
-                )}
-                {log.type === 'success' && (
-                  <p className="text-[#70C039] font-bold bg-trebol/10 p-3 rounded-xl border border-trebol/30 w-full">{log.text}</p>
-                )}
-              </motion.div>
-            ))}
-
-            {/* Cursor Pulsante █ */}
-            {isTyping && (
-              <div className="flex items-center gap-2 text-trebol pt-2">
-                <span className="inline-block w-2.5 h-5 bg-trebol animate-pulse" />
-                <span className="text-xs text-neutral-400 font-mono">Procesando datos operativos por API segura...</span>
-              </div>
-            )}
+                <RotateCcw size={14} />
+                {isPlaying ? 'Pausar Simulación' : 'Iniciar Simulación'}
+              </button>
+            </div>
           </div>
 
-          {/* Footer Informativo de la Terminal */}
-          <div className="flex flex-wrap items-center justify-between border-t border-white/10 pt-4 mt-6 text-xs text-neutral-400 font-mono gap-2">
-            <span>Privacidad Empresarial Garantizada — Conexión Comercial API</span>
-            <span className="text-trebol font-bold">⚡ Respuesta &lt; 1.2s</span>
+          {/* BANNER DE INSTRUCCIÓN Y ESTADO ACTUAL DE LA IA */}
+          <div className="mb-8 bg-carbon text-hueso border-2 border-trebol/60 p-4 rounded-2xl relative z-10 flex items-center justify-between shadow-[0_10px_30px_rgba(92,158,49,0.2)]">
+            <div className="flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-trebol animate-ping shrink-0" />
+              <p className="text-xs md:text-sm font-mono text-white font-bold tracking-tight">
+                {activeWf.stepMessages[activeStep]}
+              </p>
+            </div>
+            <span className="hidden md:inline-block text-xs font-mono text-trebol bg-trebol/10 px-3 py-1 rounded-full border border-trebol/30 shrink-0 font-bold">
+              Nodo {activeStep} en Ejecución
+            </span>
+          </div>
+
+          {/* CONTENEDOR DEL LIENZO: COLUMNAS SEQUENTIALES (COL 1 -> COL 2 -> COL 3 -> COL 4) */}
+          <div ref={canvasRef} className="relative min-h-[500px] w-full z-10 py-2 overflow-hidden">
+            
+            {/* SVG OVERLAY DETRÁS DE LAS TARJETAS (z-0) */}
+            {lines && (
+              <svg className="w-full h-full absolute inset-0 pointer-events-none z-0 overflow-visible">
+                <path 
+                  d={lines.line1} 
+                  stroke={activeStep >= 2 ? "#5C9E31" : "#94a3b8"} 
+                  strokeWidth={activeStep >= 2 ? "3.5" : "2"} 
+                  strokeDasharray={activeStep === 1 ? "6 6" : "none"}
+                  fill="none"
+                />
+                <path 
+                  d={lines.line2} 
+                  stroke={activeStep >= 3 ? "#5C9E31" : "#94a3b8"} 
+                  strokeWidth={activeStep >= 3 ? "3.5" : "2"} 
+                  fill="none"
+                />
+                <path 
+                  d={lines.lineTrue} 
+                  stroke={activeStep >= 4 ? "#5C9E31" : "#94a3b8"} 
+                  strokeWidth={activeStep >= 4 ? "3.5" : "2"} 
+                  fill="none" 
+                />
+                <text x={lines.trueLabel.x} y={lines.trueLabel.y} fill={activeStep >= 4 ? "#5C9E31" : "#64748b"} fontSize="12" fontFamily="monospace" fontWeight="bold">true</text>
+
+                <path 
+                  d={lines.lineFalse1} 
+                  stroke={activeStep >= 4 ? "#0284c7" : "#94a3b8"} 
+                  strokeWidth={activeStep >= 4 ? "3.5" : "2"} 
+                  fill="none" 
+                />
+                <text x={lines.falseLabel.x} y={lines.falseLabel.y} fill={activeStep >= 4 ? "#0284c7" : "#64748b"} fontSize="12" fontFamily="monospace" fontWeight="bold">false</text>
+
+                <path 
+                  d={lines.lineFalse2} 
+                  stroke={activeStep >= 5 ? "#d97706" : "#94a3b8"} 
+                  strokeWidth={activeStep >= 5 ? "3.5" : "2"} 
+                  fill="none" 
+                />
+              </svg>
+            )}
+
+            {/* RETÍCULA DE 4 COLUMNAS EN LÍNEA SECUENCIAL SIN CRUCES DE TARJETAS */}
+            <div className="w-full relative z-10 grid grid-cols-1 md:grid-cols-4 gap-4 items-center min-h-[460px]">
+              
+              {/* COLUMNA 1: TRIGGER (PASO 1) */}
+              <div className={`flex justify-center w-full ${
+                layout === 'v-shape' ? 'self-start mt-4' : layout === 'zig-zag' ? 'self-start mt-2' : 'self-center'
+              }`}>
+                <div className={`w-full max-w-[210px] p-4 rounded-3xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-2xl z-10 ${
+                  activeStep === 1 ? 'border-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.5)] scale-105' : 'border-white/10 opacity-80'
+                }`}>
+                  <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 flex items-center justify-center mx-auto mb-2 shadow-inner"><TriggerIcon size={20} /></div>
+                  <span className="text-[8px] uppercase font-bold text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded-full border border-cyan-500/40 block w-fit mx-auto mb-1.5">{tree.trigger.type}</span>
+                  <h4 className="text-xs font-bold text-white font-sans text-center mb-1 leading-tight line-clamp-1">{tree.trigger.title}</h4>
+                  <p className="text-[9px] text-neutral-300 font-sans text-center leading-snug line-clamp-2">{tree.trigger.subtitle}</p>
+
+                  <div id="port-trig-out" className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-carbon border-2 border-cyan-400 items-center justify-center shadow-md">
+                    <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                  </div>
+                </div>
+              </div>
+
+              {/* COLUMNA 2: TRÉBOL AI CORE (PASO 2) */}
+              <div className={`flex justify-center w-full ${
+                layout === 'v-shape' ? 'self-end mb-4' : layout === 'zig-zag' ? 'self-center' : 'self-center'
+              }`}>
+                <div className={`w-full max-w-[210px] p-4 rounded-3xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-2xl z-10 ${
+                  activeStep === 2 ? 'border-trebol shadow-[0_0_35px_rgba(92,158,49,0.6)] scale-105' : 'border-white/10 opacity-80'
+                }`}>
+                  <div id="port-ai-in" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-carbon border-2 border-trebol items-center justify-center shadow-md"><div className="w-1.5 h-1.5 rounded-full bg-trebol" /></div>
+                  <div className="w-10 h-10 rounded-2xl bg-trebol/20 border border-trebol/40 text-trebol flex items-center justify-center mx-auto mb-2 shadow-inner"><AiIcon size={20} /></div>
+                  <span className="text-[8px] uppercase font-bold text-white bg-trebol px-2 py-0.5 rounded-full block w-fit mx-auto mb-1.5 shadow-sm">{tree.aiEngine.type}</span>
+                  <h4 className="text-xs font-bold text-white font-sans text-center mb-1 leading-tight line-clamp-1">{tree.aiEngine.title}</h4>
+                  <p className="text-[9px] text-neutral-300 font-sans text-center leading-snug line-clamp-2">{tree.aiEngine.subtitle}</p>
+                  <div id="port-ai-out" className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-carbon border-2 border-trebol items-center justify-center shadow-md"><div className="w-1.5 h-1.5 rounded-full bg-trebol" /></div>
+                </div>
+              </div>
+
+              {/* COLUMNA 3: ROUTER CONDICIONAL (PASO 3) */}
+              <div className={`flex justify-center w-full ${
+                layout === 'v-shape' ? 'self-start mt-2' : layout === 'zig-zag' ? 'self-end mb-2' : 'self-center'
+              }`}>
+                <div className={`w-full max-w-[190px] p-4 rounded-3xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-2xl z-10 ${
+                  activeStep === 3 ? 'border-amber-400 shadow-[0_0_35px_rgba(251,191,36,0.5)] scale-105' : 'border-white/10 opacity-80'
+                }`}>
+                  <div id="port-router-in" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-carbon border-2 border-amber-400 items-center justify-center shadow-md"><div className="w-1.5 h-1.5 rounded-full bg-amber-400" /></div>
+                  <div className="w-9 h-9 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mx-auto mb-1.5 shadow-inner"><RouterIcon size={18} /></div>
+                  <span className="text-[8px] uppercase font-bold text-amber-400 bg-amber-950 px-2 py-0.5 rounded-full border border-amber-500/40 block w-fit mx-auto mb-1">{tree.router.type}</span>
+                  <h4 className="text-[11px] font-bold text-white font-sans text-center leading-tight truncate">{tree.router.title}</h4>
+
+                  <div id="port-router-true" className="hidden md:flex absolute -right-3 top-1/3 -translate-y-1/2 w-4 h-4 rounded-full bg-trebol text-white border-2 border-white items-center justify-center text-[8px] font-bold shadow-md">T</div>
+                  <div id="port-router-false" className="hidden md:flex absolute -right-3 top-2/3 -translate-y-1/2 w-4 h-4 rounded-full bg-cyan-400 text-black border-2 border-white items-center justify-center text-[8px] font-bold shadow-md">F</div>
+                </div>
+              </div>
+
+              {/* COLUMNA 4: TARJETAS DE ACCIÓN RAMIFICADAS (PASOS 4 & 5) */}
+              <div className="flex flex-col justify-between space-y-3 w-full z-10">
+                {/* Branch Top Card (True Path) */}
+                <div className={`p-3.5 rounded-2xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-xl z-10 ${
+                  activeStep === 4 ? 'border-trebol shadow-[0_0_30px_rgba(92,158,49,0.5)] scale-102' : 'border-white/10 opacity-80'
+                }`}>
+                  <div id="port-branch-top-in" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-trebol border border-white items-center justify-center shadow-md"><Check size={8} className="text-white" /></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${activeStep === 4 ? 'bg-trebol text-white font-bold shadow-md' : 'bg-trebol/20 text-trebol border border-trebol/30'}`}><TopIcon size={16} /></div>
+                    <div className="overflow-hidden">
+                      <span className="text-[7px] bg-trebol/20 text-trebol px-1.5 py-0.5 rounded border border-trebol/30 uppercase font-bold block w-fit mb-0.5">{tree.branches.top.status}</span>
+                      <h4 className="text-[11px] font-bold text-white font-sans leading-tight truncate">{tree.branches.top.title}</h4>
+                      <p className="text-[9px] text-neutral-300 font-sans leading-tight truncate">{tree.branches.top.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Branch Mid Card (False Path 1) */}
+                <div className={`p-3.5 rounded-2xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-xl z-10 ${
+                  activeStep === 4 ? 'border-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.5)] scale-102' : 'border-white/10 opacity-80'
+                }`}>
+                  <div id="port-branch-mid-in" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-cyan-400 border border-white items-center justify-center shadow-md"><div className="w-1 h-1 rounded-full bg-black" /></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${activeStep === 4 ? 'bg-cyan-500 text-black font-bold shadow-md' : 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'}`}><BottomIcon size={16} /></div>
+                    <div className="overflow-hidden">
+                      <span className="text-[7px] bg-cyan-950 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/30 uppercase font-bold block w-fit mb-0.5">{tree.branches.bottom.status}</span>
+                      <h4 className="text-[11px] font-bold text-white font-sans leading-tight truncate">{tree.branches.bottom.title}</h4>
+                      <p className="text-[9px] text-neutral-300 font-sans leading-tight truncate">{tree.branches.bottom.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Branch Bot Card (False Path 2) */}
+                <div className={`p-3.5 rounded-2xl border-2 transition-all duration-500 relative bg-carbon text-hueso shadow-xl z-10 ${
+                  activeStep === 5 ? 'border-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.5)] scale-102' : 'border-white/10 opacity-80'
+                }`}>
+                  <div id="port-branch-bot-in" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-amber-400 border border-white items-center justify-center shadow-md"><div className="w-1 h-1 rounded-full bg-black" /></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${activeStep === 5 ? 'bg-amber-400 text-black font-bold shadow-md' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}`}><BottomSubIcon size={16} /></div>
+                    <div className="overflow-hidden">
+                      <span className="text-[7px] bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded border border-amber-500/30 uppercase font-bold block w-fit mb-0.5">{tree.branches.bottomSub.status}</span>
+                      <h4 className="text-[11px] font-bold text-white font-sans leading-tight truncate">{tree.branches.bottomSub.title}</h4>
+                      <p className="text-[9px] text-neutral-300 font-sans leading-tight truncate">{tree.branches.bottomSub.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Footer Informativo del Canvas n8n */}
+          <div className="flex flex-wrap items-center justify-between border-t border-slate-200 pt-4 mt-8 text-xs text-slate-500 font-mono gap-2 relative z-10">
+            <span className="flex items-center gap-2">
+              <Layers size={14} className="text-trebol" />
+              Diagrama n8n Canónico — Conexiones Vectoriales Limpias Viajando Exclusivamente por Espacios Libres (Sin Cruce de Tarjetas)
+            </span>
+            <Link
+              href="/agenda"
+              className="text-trebol font-bold hover:underline flex items-center gap-1"
+            >
+              Diseñar Mi Flujo a Medida <ArrowUpRight size={14} />
+            </Link>
           </div>
 
         </div>
@@ -316,9 +677,6 @@ export default function IAPage() {
       <section ref={roadmapRef} className="w-full bg-hueso py-24 px-6 md:px-12 relative z-10 border-t border-carbon/10">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-20">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
-              Metodología de Despliegue
-            </span>
             <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
               Hoja de Ruta en <span className="text-trebol">4 Pasos.</span>
             </h2>
@@ -360,7 +718,7 @@ export default function IAPage() {
                   </motion.div>
                 </div>
 
-                {/* COLUMNA 2: Tarjeta con efecto foco al centro */}
+                {/* COLUMNA 2: Tarjeta con estilo estandarizado */}
                 <motion.div 
                   initial={{ 
                     opacity: 0.35,
@@ -406,9 +764,6 @@ export default function IAPage() {
       {/* ── SECCIÓN ÚNICA 3: MATRIZ DE SEGURIDAD & GOBERNANZA DE DATOS ─ */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-32 relative z-10 font-sans">
         <div className="text-center mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Seguridad Garantizada
-          </span>
           <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter">
             Gobernanza & Protección de Datos.
           </h2>
@@ -420,7 +775,7 @@ export default function IAPage() {
             return (
               <div
                 key={p.titulo}
-                className="bg-white/80 backdrop-blur-2xl border border-white rounded-[2.5rem] p-8 hover:border-trebol/50 transition-all duration-300 flex flex-col justify-between shadow-xl"
+                className="bg-white rounded-[2.5rem] p-8 border-2 border-trebol/40 hover:border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.08)] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-400 flex flex-col justify-between"
               >
                 <div>
                   <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol mb-6">

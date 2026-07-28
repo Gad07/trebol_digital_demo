@@ -56,7 +56,7 @@ export default function Services() {
           
           {/* Columna Izquierda: Bloqueada al Centro de la Pantalla */}
           <div className="md:col-span-5 relative z-10">
-            <div className="p-10 md:p-14 bg-trebol/85 backdrop-blur-3xl border border-white/30 rounded-3xl shadow-[0_20px_50px_rgba(92,158,49,0.35)] overflow-hidden">
+            <div className="p-10 md:p-14 bg-trebol border border-white/30 rounded-3xl shadow-[0_20px_50px_rgba(92,158,49,0.35)] overflow-hidden relative">
               {/* Ambient Breathing Light */}
               <motion.div 
                 animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.7, 0.3] }}

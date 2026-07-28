@@ -77,7 +77,7 @@ export default function SolucionesPage() {
           
           {/* Columna Izquierda: Sticky Card */}
           <div className="md:col-span-5 relative z-10">
-            <div className="sticky top-32 p-10 md:p-14 bg-trebol/80 backdrop-blur-3xl border border-white/20 rounded-[3rem] shadow-[0_8px_32px_rgba(92,158,49,0.3)] overflow-hidden">
+            <div className="sticky top-32 p-10 md:p-14 bg-trebol border border-white/20 rounded-[3rem] shadow-[0_8px_32px_rgba(92,158,49,0.3)] overflow-hidden relative">
               <div className="absolute -top-32 -right-32 w-80 h-80 bg-white/20 blur-[80px] rounded-full pointer-events-none" />
 
               <motion.h2

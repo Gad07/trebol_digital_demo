@@ -1,5 +1,5 @@
-﻿'use client';
-import { useState, useRef } from 'react';
+'use client';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
 import { 
@@ -75,6 +75,10 @@ const roadmapOrg = [
 
 export default function DesarrolloOrgPage() {
   const [checkedSintomas, setCheckedSintomas] = useState([1, 3]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Ref para el scroll progresivo de la barra continua de Roadmap
   const roadmapRef = useRef(null);
@@ -170,9 +174,6 @@ export default function DesarrolloOrgPage() {
       {/* ── SECCIÓN ÚNICA 1: DIAGNÓSTICO INTERACTIVO DE SALUD OPERATIVA ─ */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-28 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Diagnóstico Interactivo
-          </span>
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
             Evalúa la Salud de tu Empresa
           </h2>
@@ -250,9 +251,6 @@ export default function DesarrolloOrgPage() {
       <section ref={roadmapRef} className="w-full bg-hueso py-24 px-6 md:px-12 relative z-10 border-t border-carbon/10">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-20">
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
-              Metodología de Despliegue
-            </span>
             <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
               Hoja de Ruta en <span className="text-trebol">4 Pasos.</span>
             </h2>
@@ -340,9 +338,6 @@ export default function DesarrolloOrgPage() {
       {/* ── SECCIÓN ÚNICA 3: TABLA INTERACTIVA MATRIZ RACI ───────────── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Claridad de Roles
-          </span>
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
             Matriz RACI en la Práctica.
           </h2>
@@ -355,7 +350,7 @@ export default function DesarrolloOrgPage() {
           {raciItems.map((item) => (
             <div
               key={item.decision}
-              className="bg-white/80 backdrop-blur-2xl border border-white rounded-[2.5rem] p-8 md:p-10 shadow-xl grid md:grid-cols-12 gap-6 items-center hover:border-trebol/40 transition-colors"
+              className="bg-white rounded-[2.5rem] p-8 md:p-10 border-2 border-trebol/40 hover:border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.08)] hover:shadow-2xl transition-all duration-400 grid md:grid-cols-12 gap-6 items-center"
             >
               <div className="md:col-span-4">
                 <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block mb-1">Decisión Estratégica:</span>
