@@ -1,13 +1,13 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
 import { 
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
-  MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
-  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock
 } from 'lucide-react';
 
 const techStack = [
@@ -47,15 +47,15 @@ const roadmapWeb = [
 ];
 
 const designModes = [
-  { id: 'brutalism', label: '1. Neo-Brutalismo Industrial (Kraft Berlin)', metric: 'Impacto Visual Directo' },
-  { id: 'luxury', label: '2. Luxury E-Commerce (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
-  { id: 'aurora-space', label: '3. Aurora Neón Espacial (Cosmic Nebula)', metric: 'UI Cósmica & Holográfica' },
-  { id: 'swiss', label: '4. Editorial Swiss Grid (Foundation)', metric: 'Diseño Tipográfico Suizo' },
+  { id: 'b2b', label: '1. Portal B2B Enterprise', metric: '+280% Conversión de Leads' },
+  { id: 'ecommerce', label: '2. E-Commerce & Checkout', metric: '+3.4x Tasa de Finalización' },
+  { id: 'saas', label: '3. Plataforma SaaS & App', metric: '99/100 Google Lighthouse' },
+  { id: 'institutional', label: '4. Portal Institucional / Salud', metric: 'Acceso Universal & SSL A+' },
 ];
 
 export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
-  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Aurora Neón Espacial Mode 3
+  const [activeMode, setActiveMode] = useState(0);
   const [sliderPos, setSliderPos] = useState(50);
 
   // Ref para el progreso de scroll progresivo de la barra continua
@@ -297,21 +297,21 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, AURORA NEÓN ESPACIAL, SWISS) ── */}
+      {/* ── SECCIÓN ÚNICA 3: WEB DENTRO DE OTRA WEB CON 4 PESTAÑAS DE TIPOS DE SITIO (100% CÓDIGO NATIVO) ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Showcase de Estilos de Diseño Vanguardistas
+            Comparador Interactivo de Código a Interfaz
           </span>
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
             Una <span className="text-trebol">Web dentro de Otra Web.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Aurora Neón Espacial y Tipografía Suiza) recortando en vivo con el deslizador.
+            Selecciona el tipo de proyecto y arrastra el deslizador para comparar en vivo el sitio tradicional en código frente a la arquitectura Trébol.
           </p>
         </div>
 
-        {/* Modalidad Selector Tabs */}
+        {/* Modalidad Selector Tabs - 4 TIPOS DE PROYECTO WEB EN CÓDIGO */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
           {designModes.map((m, idx) => (
             <button
@@ -329,7 +329,7 @@ export default function DesarrolloWebPage() {
           ))}
         </div>
 
-        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
+        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON DOS WEBS REALES RENDERIZADAS EN CÓDIGO NATIVO */}
         <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
           
           {/* Header Bar Browser MacOS */}
@@ -338,336 +338,203 @@ export default function DesarrolloWebPage() {
               <span className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-sm" />
               <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
               <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
-              <span className="text-xs font-mono text-neutral-400 ml-2">design-system-renderer — style: {designModes[activeMode].id}</span>
+              <span className="text-xs font-mono text-neutral-400 ml-2">trebol-browser — mode: {designModes[activeMode].id}</span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-trebol font-bold bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/30">
-                ◄ Desliza la barra para recortar el diseño ►
+                ◄ Desliza la barra para recortar el código ►
               </span>
             </div>
           </div>
 
-          {/* VIEWPORT INTERACTIVO CON MOCKUPS WEBS 100% ÚNICAS EN ESTILO Y CORRIENTE VISUAL */}
-          <div className="relative w-full h-[540px] md:h-[620px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
+          {/* VIEWPORT INTERACTIVO CON 2 WEBS REALES RENDERIZADAS EN CÓDIGO NATIVO SEGÚN PESTAÑA */}
+          <div className="relative w-full h-[520px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
             
-            {/* 1. LADO DERECHO: EL NUEVO ESTILO DE DISEÑO EN CÓDIGO NATIVO */}
-            <div className="absolute inset-0 w-full h-full overflow-hidden font-sans">
+            {/* 1. LADO DERECHO: LA WEB DE TRÉBOL EN CÓDIGO NATIVO (DESPUÉS / NEXT.JS) */}
+            <div className="absolute inset-0 w-full h-full bg-[#0d0f12] text-white p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+              
+              {/* Top Navigation Bar Trébol */}
+              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-trebol flex items-center justify-center font-black text-white text-xs">☘</div>
+                  <span className="font-black tracking-tight text-lg">TRÉBOL <span className="text-trebol font-mono text-xs font-bold">DIGITAL</span></span>
+                </div>
+                <div className="flex items-center gap-4 text-xs font-mono">
+                  <span className="bg-trebol/10 text-trebol px-3 py-1.5 rounded-full border border-trebol/30">● Next.js 16 Native</span>
+                  <span className="hidden md:inline bg-white/10 px-3 py-1.5 rounded-full">⚡ 1.1s Carga</span>
+                </div>
+              </div>
 
-              {/* STYLE 1: NEO-BRUTALISMO INDUSTRIAL (KRAFT BERLIN) */}
+              {/* RENDERIZADO DINÁMICO DE PÁGINA TRÉBOL SEGÚN PESTAÑA */}
               {activeMode === 0 && (
-                <div className="w-full h-full bg-[#FFFDF0] text-[#000000] p-6 md:p-10 flex flex-col justify-between font-mono border-4 border-black">
-                  <div className="flex justify-between items-center border-b-4 border-black pb-4">
-                    <div className="flex items-center gap-2 font-black text-black text-lg bg-[#FFE500] px-3 py-1 border-2 border-black shadow-[3px_3px_0px_#000]">
-                      ⚡ KRAFT_INDUSTRIAL.DE
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-bold">
-                      <span className="bg-[#7000FF] text-white px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000]">BUILD: 2026.04</span>
-                      <button className="bg-black text-white px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#FFE500] hover:bg-[#FFE500] hover:text-black transition-all">
-                        GET SPEC SHEET ↗
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="my-auto space-y-4 font-sans">
-                    <div className="inline-block bg-[#FFE500] text-black font-mono font-bold text-xs px-3 py-1 border-2 border-black shadow-[3px_3px_0px_#000]">
-                      /// RAW NEO-BRUTALIST ARCHITECTURE
-                    </div>
-                    <h3 className="text-3xl md:text-5xl font-black text-black leading-none uppercase tracking-tight">
-                      HEAVY INDUSTRIAL <br />
-                      <span className="bg-[#7000FF] text-white px-2">ENGINEERING.</span>
-                    </h3>
-                    <p className="text-xs md:text-sm font-mono text-black font-bold max-w-lg leading-relaxed">
-                      Zero useless decoration. Pure structural efficiency with high-contrast UI feedback and raw performance.
-                    </p>
-
-                    <div className="grid grid-cols-3 gap-3 font-mono pt-2">
-                      <div className="bg-white p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-neutral-500">SPEED</span>
-                        <span className="text-base font-black text-black">1.1 SEC</span>
-                      </div>
-                      <div className="bg-[#FFE500] p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-black">LIGHTHOUSE</span>
-                        <span className="text-base font-black text-black">99/100</span>
-                      </div>
-                      <div className="bg-[#7000FF] text-white p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-white/80">CONVERSION</span>
-                        <span className="text-base font-black text-white">+280%</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t-4 border-black pt-3 text-xs font-mono font-bold">
-                    <span>STYLE: NEO-BRUTALISM // HARD SHADOWS</span>
-                    <span>BERLIN / TOKYO ARCHITECTURE</span>
+                <div className="my-auto max-w-xl space-y-5">
+                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-widest bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/20 inline-block">
+                    1. Portal B2B Enterprise Architecture
+                  </span>
+                  <h3 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                    Plataforma B2B de <br />
+                    <span className="text-[#70C039]">Rendimiento Directivo.</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-neutral-300 font-light leading-relaxed">
+                    Captación de prospectos de alto valor con cualificación automática por API y sync nativo con tu CRM.
+                  </p>
+                  <div className="flex items-center gap-4 pt-2">
+                    <button className="bg-[#5C9E31] text-white font-bold text-xs md:text-sm px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-white hover:text-carbon transition-colors">
+                      Solicitar Propuesta Directiva <ArrowRight size={16} />
+                    </button>
                   </div>
                 </div>
               )}
 
-              {/* STYLE 2: LUXURY E-COMMERCE (AURA PARIS) - User's Favorite! */}
               {activeMode === 1 && (
-                <div className="w-full h-full bg-[#FAF8F5] text-[#2C2523] p-6 md:p-10 flex flex-col justify-between font-serif">
-                  <div className="flex justify-between items-center border-b border-[#E5DFD9] pb-4 font-sans">
-                    <span className="font-serif tracking-[0.3em] font-bold text-xl text-[#2C2523]">A U R A</span>
-                    <div className="hidden md:flex gap-6 text-xs uppercase tracking-widest text-neutral-600">
-                      <span>Collection 2026</span>
-                      <span>Atelier</span>
-                      <span>Runway</span>
+                <div className="my-auto max-w-xl space-y-5">
+                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-widest bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/20 inline-block flex items-center gap-2 w-fit">
+                    <ShoppingBag size={14} /> 2. E-Commerce & Stripe Native Checkout
+                  </span>
+                  <h3 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                    Tienda Digital con <br />
+                    <span className="text-[#70C039]">Compra en 1-Clic.</span>
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 pt-2">
+                    <div className="bg-white/5 p-3.5 rounded-2xl border border-white/10">
+                      <span className="text-xs font-mono text-neutral-400 block">Producto Flagship</span>
+                      <span className="text-base font-bold text-white font-mono">$1,299 MXN</span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs font-sans">
-                      <span className="text-xs uppercase tracking-wider font-bold">Cart (0)</span>
-                      <button className="bg-[#2C2523] text-white px-5 py-2 rounded-full text-xs font-sans tracking-wider uppercase">
-                        Explore Store
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="my-auto space-y-4">
-                    <span className="text-xs font-sans tracking-[0.25em] uppercase text-[#B58A63] font-bold block">
-                      Haute Couture — Spring Edition
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-serif text-[#2C2523] leading-tight font-normal">
-                      Minimalist Organic <br />
-                      <span className="italic font-light">Luxury Aesthetics.</span>
-                    </h3>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4 font-sans">
-                      <div className="bg-white p-3 rounded-xl border border-[#E5DFD9] space-y-2 shadow-sm">
-                        <div className="w-full h-24 bg-[#F2EDE7] rounded-lg flex items-center justify-center text-[10px] text-neutral-500 uppercase tracking-widest font-bold">
-                          Silk Trench Coat
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="font-bold">$2,800 USD</span>
-                          <span className="text-[10px] text-[#B58A63] font-bold">In Stock</span>
-                        </div>
-                      </div>
-
-                      <div className="bg-white p-3 rounded-xl border border-[#E5DFD9] space-y-2 shadow-sm">
-                        <div className="w-full h-24 bg-[#F2EDE7] rounded-lg flex items-center justify-center text-[10px] text-neutral-500 uppercase tracking-widest font-bold">
-                          Leather Booties
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="font-bold">$1,450 USD</span>
-                          <span className="text-[10px] text-[#B58A63] font-bold">In Stock</span>
-                        </div>
-                      </div>
-
-                      <div className="hidden md:block bg-white p-3 rounded-xl border border-[#E5DFD9] space-y-2 shadow-sm">
-                        <div className="w-full h-24 bg-[#F2EDE7] rounded-lg flex items-center justify-center text-[10px] text-neutral-500 uppercase tracking-widest font-bold">
-                          Cashmere Scarf
-                        </div>
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="font-bold">$680 USD</span>
-                          <span className="text-[10px] text-[#B58A63] font-bold">Limited</span>
-                        </div>
-                      </div>
+                    <div className="bg-trebol/10 p-3.5 rounded-2xl border border-trebol/30 flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-trebol">Stripe Checkout OK</span>
+                      <ShieldCheck size={18} className="text-trebol" />
                     </div>
                   </div>
-
-                  <div className="flex justify-between items-center border-t border-[#E5DFD9] pt-3 text-xs font-sans text-neutral-500">
-                    <span>Identity: Aura Paris Editorial Design</span>
-                    <span>Checkout: Instant Apple Pay Ready</span>
-                  </div>
+                  <button className="bg-[#5C9E31] text-white font-bold text-xs md:text-sm px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-white hover:text-carbon transition-colors w-fit">
+                    Comprar en 1-Clic <CreditCard size={16} />
+                  </button>
                 </div>
               )}
 
-              {/* STYLE 3: AURORA NEÓN ESPACIAL (COSMIC NEBULA / DISCORD NITRO STYLE) - Fondo Neón Cósmico, esferas de luz aurora, tarjetas de cristal holográficas */}
               {activeMode === 2 && (
-                <div className="w-full h-full bg-[#070414] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
-                  
-                  {/* Glowing Aurora Cosmic Light Orbs */}
-                  <div className="absolute top-0 right-0 w-[24rem] h-[24rem] bg-gradient-to-br from-fuchsia-500/30 via-purple-600/25 to-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-[22rem] h-[22rem] bg-gradient-to-tr from-cyan-400/25 via-blue-600/20 to-fuchsia-600/30 rounded-full blur-[100px] pointer-events-none" />
-
-                  {/* Header Bar */}
-                  <div className="flex justify-between items-center border-b border-purple-500/20 pb-4 relative z-10">
-                    <div className="flex items-center gap-2 font-black text-fuchsia-300 text-lg tracking-tight">
-                      <Sparkle size={20} className="text-fuchsia-400 animate-pulse" />
-                      COSMIC // AURORA NEBULA
+                <div className="my-auto max-w-xl space-y-5">
+                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-widest bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/20 inline-block flex items-center gap-2 w-fit">
+                    <BarChart3 size={14} /> 3. SaaS Dashboard & High-Scale App
+                  </span>
+                  <h3 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                    Panel de Analítica <br />
+                    <span className="text-[#70C039]">Ultra-Reactivo 60 FPS.</span>
+                  </h3>
+                  <div className="bg-[#181a1f] p-4 rounded-2xl border border-white/10 space-y-2">
+                    <div className="flex justify-between text-xs font-mono">
+                      <span>Live CPU Load: 2.1%</span>
+                      <span className="text-trebol">99/100 Lighthouse</span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs font-mono">
-                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3.5 py-1.5 rounded-full border border-fuchsia-500/30 font-bold shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                        🌌 Aurora Mesh Active
-                      </span>
-                      <button className="bg-gradient-to-r from-fuchsia-500 via-purple-600 to-cyan-400 text-white font-bold px-5 py-2 rounded-full text-xs hover:scale-105 transition-all shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-                        Explore Cosmos 🚀
-                      </button>
+                    <div className="w-full bg-trebol/20 h-2 rounded-full overflow-hidden">
+                      <div className="bg-trebol h-full w-[99%]" />
                     </div>
                   </div>
-
-                  {/* Hero Holographic Content */}
-                  <div className="my-auto space-y-5 max-w-xl relative z-10">
-                    <span className="bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 text-cyan-300 px-4 py-1.5 rounded-full font-mono text-xs font-bold border border-cyan-400/30 inline-block shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                      ✨ SPATIAL NEON ARCHITECTURE
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-white leading-[0.95] tracking-tight">
-                      Cosmic Aurora <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-300 to-cyan-300">Holographic Experience.</span>
-                    </h3>
-
-                    {/* Holographic Cards Grid */}
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">NEBULA SPEED</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">0.8s</span>
-                      </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold block">FPS RATE</span>
-                        <span className="text-lg md:text-2xl font-black text-cyan-300 font-mono">120 FPS</span>
-                      </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">LIGHTHOUSE</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">99/100</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t border-purple-500/20 pt-3 text-xs font-mono text-purple-300/80 relative z-10">
-                    <span>STYLE: AURORA NEÓN ESPACIAL (COSMIC DISCORD STYLE)</span>
-                    <span className="text-fuchsia-400 font-bold">HOLOGRAPHIC MESH</span>
-                  </div>
+                  <button className="bg-[#5C9E31] text-white font-bold text-xs md:text-sm px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-white hover:text-carbon transition-colors w-fit">
+                    Acceder a la App <Zap size={16} />
+                  </button>
                 </div>
               )}
 
-              {/* STYLE 4: SWISS EDITORIAL GRID (FOUNDATION ARCHITECTURE) */}
               {activeMode === 3 && (
-                <div className="w-full h-full bg-[#FAFAFA] text-[#111111] p-6 md:p-10 flex flex-col justify-between font-sans">
-                  <div className="flex justify-between items-center border-b border-neutral-300 pb-4">
-                    <span className="font-black tracking-tighter text-lg uppercase text-black">FOUNDATION / DESIGN</span>
-                    <div className="flex items-center gap-6 text-xs font-mono text-neutral-600">
-                      <span>VOL. 2026</span>
-                      <span className="font-bold text-black">SWISS GRID ARCHITECTURE</span>
-                    </div>
-                  </div>
-
-                  <div className="my-auto space-y-5">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl md:text-3xl font-black font-mono text-neutral-400">01 /</span>
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest bg-neutral-200 text-black px-3 py-1 rounded">
-                        INTERNATIONAL TYPOGRAPHIC STYLE
-                      </span>
-                    </div>
-
-                    <h3 className="text-3xl md:text-5xl font-black text-black leading-[0.9] tracking-tighter uppercase">
-                      Swiss Precision <br />
-                      <span className="text-neutral-500 font-light italic">Layout System.</span>
-                    </h3>
-
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 border-t border-b border-neutral-300 py-4 font-mono text-xs">
-                      <div>
-                        <span className="text-[10px] text-neutral-500 block uppercase">GRID COLUMNS</span>
-                        <strong className="text-black font-bold">12-Column Fixed</strong>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-neutral-500 block uppercase">TYPOGRAPHY</span>
-                        <strong className="text-black font-bold">Helvetica Neue / Inter</strong>
-                      </div>
-                      <div className="hidden md:block">
-                        <span className="text-[10px] text-neutral-500 block uppercase">CONTRAST</span>
-                        <strong className="text-black font-bold">AAA Certified</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center pt-3 text-xs font-mono text-neutral-500">
-                    <span>STYLE: SWISS EDITORIAL GRID</span>
-                    <span className="text-black font-bold">ZÜRICH DESIGN SCHOOL</span>
-                  </div>
+                <div className="my-auto max-w-xl space-y-5">
+                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-widest bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/20 inline-block flex items-center gap-2 w-fit">
+                    <Lock size={14} /> 4. Portal Institucional / Salud / Educación
+                  </span>
+                  <h3 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                    Gobernanza Digital & <br />
+                    <span className="text-[#70C039]">Acceso Universal AAA.</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-neutral-300 font-light leading-relaxed">
+                    Cumplimiento estricto de accesibilidad WCAG 2.1, encriptación SOC 2 Type II y velocidad garantizada en millones de visitas.
+                  </p>
+                  <button className="bg-[#5C9E31] text-white font-bold text-xs md:text-sm px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-white hover:text-carbon transition-colors w-fit">
+                    Explorar Portal Institucional <ArrowRight size={16} />
+                  </button>
                 </div>
               )}
 
+              {/* Footer Badge Trébol */}
+              <div className="flex justify-between items-center pt-4 border-t border-white/10 text-xs font-mono text-neutral-400">
+                <span>Métrica Objetivo: {designModes[activeMode].metric}</span>
+                <span className="text-trebol font-bold">● Vercel Edge Global CDN</span>
+              </div>
             </div>
 
-            {/* 2. LADO IZQUIERDO: LA WEB VIEJA TRADICIONAL MOCKUP EN CÓDIGO NATIVO (ANTES / WORDPRESS OBSOLETO) */}
+            {/* 2. LADO IZQUIERDO: LA WEB VIEJA TRADICIONAL EN CÓDIGO NATIVO (ANTES / WORDPRESS OBSOLETO) */}
             <div 
               className="absolute top-0 left-0 bottom-0 overflow-hidden z-10 border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
               style={{ width: `${sliderPos}%` }}
             >
               <div 
-                className="w-full h-full bg-[#dce3ec] text-[#222222] p-6 md:p-10 flex flex-col justify-between font-serif border-r border-gray-400"
+                className="w-full h-full bg-[#dce3ec] text-[#222222] p-8 md:p-12 flex flex-col justify-between font-serif border-r border-gray-400"
                 style={{ width: '1000px', maxWidth: 'none' }}
               >
-                {/* Clunky Old Web Header */}
+                {/* Clunky Old Web Top Bar */}
                 <div className="bg-[#1e3a8a] text-white p-3 rounded-md flex justify-between items-center text-xs font-sans">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold uppercase tracking-wider">Plantilla_Generica_{designModes[activeMode].id}_v2016.php</span>
-                  </div>
-                  <span className="bg-red-600 px-2.5 py-1 rounded text-[10px] font-mono font-bold">⚠️ WordPress 4.9 (Plugins Lentos)</span>
+                  <span className="font-bold uppercase tracking-wider">SitioWeb_Modo_{designModes[activeMode].id}_v2016.php</span>
+                  <span className="bg-red-600 px-2 py-0.5 rounded text-[10px] font-mono">⚠️ WordPress 4.9 (Plugins Lentos)</span>
                 </div>
 
-                {/* Old Nav Bar Mockup */}
-                <div className="bg-gray-200 text-gray-700 text-[11px] font-sans p-2 rounded flex gap-4 font-bold border border-gray-300">
-                  <span>INICIO</span>
-                  <span>NOSOTROS</span>
-                  <span>SERVICIOS</span>
-                  <span>PRODUCTOS</span>
-                  <span>GALERÍA</span>
-                  <span>CONTACTO</span>
-                </div>
-
-                {/* RENDERIZADO DINÁMICO DE PÁGINA VIEJA MOCKUP SEGÚN PESTAÑA */}
+                {/* RENDERIZADO DINÁMICO DE PÁGINA VIEJA SEGÚN PESTAÑA */}
                 {activeMode === 0 && (
-                  <div className="my-auto space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md max-w-xl">
+                  <div className="my-auto max-w-xl space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md">
                     <span className="text-xs text-red-600 font-bold uppercase tracking-wider flex items-center gap-1">
-                      <AlertTriangle size={14} /> Tiempo de Carga: 5.8 segundos (Error 404)
+                      <AlertTriangle size={14} /> Tiempo de Carga: 5.8 segundos (Lento)
                     </span>
-                    <h3 className="text-2xl font-bold text-[#1e3a8a] font-serif">
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#1e3a8a] font-serif">
                       ¡Bienvenidos a Nuestra Empresa B2B!
                     </h3>
-                    <p className="text-xs text-gray-600 leading-relaxed font-sans">
-                      Somos una empresa prestadora de servicios. Haga clic abajo para descargar nuestro catálogo en PDF (45 MB) o llamar por teléfono al conmutador.
+                    <p className="text-xs md:text-sm text-gray-600 leading-relaxed font-sans">
+                      Somos una empresa prestadora de servicios. Haga clic abajo para descargar nuestro catálogo en PDF (45 MB) o llamar por teléfono.
                     </p>
-                    <div className="pt-2">
-                      <button className="bg-blue-800 text-white font-bold text-xs px-5 py-2.5 rounded shadow">
-                        [ DESCARGAR CATÁLOGO PDF (45MB) ]
-                      </button>
-                    </div>
+                    <button className="bg-blue-800 text-white font-bold text-xs px-5 py-2.5 rounded shadow">
+                      [ DESCARGAR CATÁLOGO PDF (45MB) ]
+                    </button>
                   </div>
                 )}
 
                 {activeMode === 1 && (
-                  <div className="my-auto space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md max-w-xl">
+                  <div className="my-auto max-w-xl space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md">
                     <span className="text-xs text-red-600 font-bold uppercase tracking-wider flex items-center gap-1">
                       <AlertTriangle size={14} /> ⚠️ Error 504: Pasarela de Pago Caída
                     </span>
-                    <h3 className="text-2xl font-bold text-[#1e3a8a] font-serif">
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#1e3a8a] font-serif">
                       Tienda Virtual de Productos
                     </h3>
-                    <div className="border border-gray-300 p-3 rounded text-xs text-gray-500 font-mono">
-                      Formulario de Checkout: 14 Campos requeridos (Nombre, Dirección, CP, RFC, Banco, Comprobante).
-                    </div>
+                    <p className="text-xs text-gray-600 font-sans">
+                      Para realizar un pedido, complete el formulario de 14 campos y envíe el comprobante de transferencia bancaria por correo.
+                    </p>
                     <button className="bg-gray-700 text-white font-bold text-xs px-5 py-2.5 rounded shadow">
-                      [ ENVIAR SOLICITUD DE COMPRA ]
+                      [ SOLICITAR COMPRA POR CORREO ]
                     </button>
                   </div>
                 )}
 
                 {activeMode === 2 && (
-                  <div className="my-auto space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md max-w-xl">
+                  <div className="my-auto max-w-xl space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md">
                     <span className="text-xs text-red-600 font-bold uppercase tracking-wider flex items-center gap-1">
                       <AlertTriangle size={14} /> ⚠️ 82 Plugins Sobrecargados
                     </span>
-                    <h3 className="text-2xl font-bold text-[#1e3a8a] font-serif">
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#1e3a8a] font-serif">
                       Sistema de Administración v1.0
                     </h3>
-                    <div className="bg-gray-100 p-4 rounded text-xs font-mono text-gray-600 border border-gray-300">
-                      Cargando datos del servidor... (Tiempo estimado de espera: 12 segundos)
+                    <div className="bg-gray-100 p-3 rounded text-xs font-mono text-gray-600">
+                      Cargando datos de servidor... (Espera estimada: 12 segundos)
                     </div>
                   </div>
                 )}
 
                 {activeMode === 3 && (
-                  <div className="my-auto space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md max-w-xl">
+                  <div className="my-auto max-w-xl space-y-4 font-sans bg-white p-6 rounded-xl border border-gray-300 shadow-md">
                     <span className="text-xs text-red-600 font-bold uppercase tracking-wider flex items-center gap-1">
                       <AlertTriangle size={14} /> Sitio No Seguro (HTTP)
                     </span>
-                    <h3 className="text-2xl font-bold text-[#1e3a8a] font-serif">
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#1e3a8a] font-serif">
                       Directorio Institucional
                     </h3>
                     <p className="text-xs text-gray-600 font-sans">
-                      Para solicitar atención o consultar información institucional, acuda a nuestras oficinas en horario de atención de Lunes a Viernes.
+                      Para solicitar atención o consultar información institucional, acuda a nuestras oficinas en horario de atención.
                     </p>
                   </div>
                 )}
@@ -675,7 +542,7 @@ export default function DesarrolloWebPage() {
                 {/* Old Footer */}
                 <div className="bg-gray-300 p-3 rounded text-[11px] font-sans text-gray-700 flex justify-between">
                   <span>Copyright © 2016 Todos los Derechos Reservados</span>
-                  <span className="text-red-700 font-mono font-bold">Google Speed Index: 42/100</span>
+                  <span className="text-red-700 font-mono">Google Speed Index: 42/100</span>
                 </div>
               </div>
             </div>
@@ -704,7 +571,7 @@ export default function DesarrolloWebPage() {
 
           {/* Footer Bar */}
           <div className="w-full flex items-center justify-between border-t border-white/10 pt-4 mt-6 text-xs text-neutral-400 font-mono">
-            <span>4 Corrientes de Diseño Web Renderizadas 100% en Código Nativo</span>
+            <span>4 Tipos de Proyectos Renderizados 100% en Código Nativo</span>
             <span className="text-trebol font-bold">⚡ Desliza para recortar</span>
           </div>
 
@@ -771,3 +638,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")

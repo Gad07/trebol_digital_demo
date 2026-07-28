@@ -1,4 +1,6 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
@@ -771,3 +773,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")

@@ -1,4 +1,6 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
@@ -6,8 +8,7 @@ import {
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
-  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight
 } from 'lucide-react';
 
 const techStack = [
@@ -49,13 +50,13 @@ const roadmapWeb = [
 const designModes = [
   { id: 'brutalism', label: '1. Neo-Brutalismo Industrial (Kraft Berlin)', metric: 'Impacto Visual Directo' },
   { id: 'luxury', label: '2. Luxury E-Commerce (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
-  { id: 'aurora-space', label: '3. Aurora Neón Espacial (Cosmic Nebula)', metric: 'UI Cósmica & Holográfica' },
+  { id: 'editorial', label: '3. Editorial Periódico Retro (The Digital Chronicle)', metric: 'Diseño Periodístico Vintage' },
   { id: 'swiss', label: '4. Editorial Swiss Grid (Foundation)', metric: 'Diseño Tipográfico Suizo' },
 ];
 
 export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
-  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Aurora Neón Espacial Mode 3
+  const [activeMode, setActiveMode] = useState(2); // Setting focus directly to Mode 3
   const [sliderPos, setSliderPos] = useState(50);
 
   // Ref para el progreso de scroll progresivo de la barra continua
@@ -297,7 +298,7 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, AURORA NEÓN ESPACIAL, SWISS) ── */}
+      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS DE DISEÑO ÚNICOS ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
@@ -307,7 +308,7 @@ export default function DesarrolloWebPage() {
             Una <span className="text-trebol">Web dentro de Otra Web.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Aurora Neón Espacial y Tipografía Suiza) recortando en vivo con el deslizador.
+            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Editorial Periódico Vintage y Tipografía Suiza) recortando en vivo con el deslizador.
           </p>
         </div>
 
@@ -471,62 +472,51 @@ export default function DesarrolloWebPage() {
                 </div>
               )}
 
-              {/* STYLE 3: AURORA NEÓN ESPACIAL (COSMIC NEBULA / DISCORD NITRO STYLE) - Fondo Neón Cósmico, esferas de luz aurora, tarjetas de cristal holográficas */}
+              {/* STYLE 3: EDITORIAL PERIÓDICO RETRO (THE DIGITAL CHRONICLE) - Papel crema antiguo, tipografía de imprenta, sellos periodísticos */}
               {activeMode === 2 && (
-                <div className="w-full h-full bg-[#070414] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
+                <div className="w-full h-full bg-[#F4EFEA] text-[#1C1817] p-6 md:p-10 flex flex-col justify-between font-serif border-8 border-[#E5DEC9] shadow-inner">
                   
-                  {/* Glowing Aurora Cosmic Light Orbs */}
-                  <div className="absolute top-0 right-0 w-[24rem] h-[24rem] bg-gradient-to-br from-fuchsia-500/30 via-purple-600/25 to-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-[22rem] h-[22rem] bg-gradient-to-tr from-cyan-400/25 via-blue-600/20 to-fuchsia-600/30 rounded-full blur-[100px] pointer-events-none" />
-
-                  {/* Header Bar */}
-                  <div className="flex justify-between items-center border-b border-purple-500/20 pb-4 relative z-10">
-                    <div className="flex items-center gap-2 font-black text-fuchsia-300 text-lg tracking-tight">
-                      <Sparkle size={20} className="text-fuchsia-400 animate-pulse" />
-                      COSMIC // AURORA NEBULA
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-mono">
-                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3.5 py-1.5 rounded-full border border-fuchsia-500/30 font-bold shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                        🌌 Aurora Mesh Active
-                      </span>
-                      <button className="bg-gradient-to-r from-fuchsia-500 via-purple-600 to-cyan-400 text-white font-bold px-5 py-2 rounded-full text-xs hover:scale-105 transition-all shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-                        Explore Cosmos 🚀
-                      </button>
-                    </div>
+                  {/* Vintage Newspaper Masthead */}
+                  <div className="border-b-2 border-t-2 border-[#1C1817] py-2 flex justify-between items-center text-xs font-serif italic">
+                    <span>Vol. CXXIV — No. 842</span>
+                    <span className="font-bold tracking-widest uppercase font-serif not-italic text-sm">THE DIGITAL CHRONICLE</span>
+                    <span>Price: 5 Cents // Edition 2026</span>
                   </div>
 
-                  {/* Hero Holographic Content */}
-                  <div className="my-auto space-y-5 max-w-xl relative z-10">
-                    <span className="bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 text-cyan-300 px-4 py-1.5 rounded-full font-mono text-xs font-bold border border-cyan-400/30 inline-block shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                      ✨ SPATIAL NEON ARCHITECTURE
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-white leading-[0.95] tracking-tight">
-                      Cosmic Aurora <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-300 to-cyan-300">Holographic Experience.</span>
+                  <div className="my-auto space-y-4 font-serif">
+                    <div className="flex items-center gap-3">
+                      <span className="bg-[#1C1817] text-[#F4EFEA] text-[10px] font-sans font-bold uppercase tracking-widest px-2.5 py-1">
+                        SPECIAL EDITORIAL DISPATCH
+                      </span>
+                      <span className="text-xs italic font-serif text-neutral-600">Archival Print Engineering</span>
+                    </div>
+
+                    <h3 className="text-3xl md:text-5xl font-serif text-[#1C1817] leading-[0.95] tracking-tight font-bold">
+                      REVOLUTION IN DIGITAL <br />
+                      <span className="italic font-normal">PRESS & CODE.</span>
                     </h3>
 
-                    {/* Holographic Cards Grid */}
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">NEBULA SPEED</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">0.8s</span>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 border-t border-[#1C1817] pt-3 font-serif text-xs">
+                      <div>
+                        <strong className="block font-bold text-sm">Drop Cap Typography</strong>
+                        <p className="text-[11px] text-neutral-700 leading-tight">Authentic press typesetting with serif layout rules.</p>
                       </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold block">FPS RATE</span>
-                        <span className="text-lg md:text-2xl font-black text-cyan-300 font-mono">120 FPS</span>
+                      <div>
+                        <strong className="block font-bold text-sm">Ink & Paper Texture</strong>
+                        <p className="text-[11px] text-neutral-700 leading-tight">Tactile organic feel with zero digital glare.</p>
                       </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">LIGHTHOUSE</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">99/100</span>
+                      <div className="hidden md:block">
+                        <strong className="block font-bold text-sm">Archival Standard</strong>
+                        <p className="text-[11px] text-neutral-700 leading-tight">Certified 99/100 Lighthouse performance grade.</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center border-t border-purple-500/20 pt-3 text-xs font-mono text-purple-300/80 relative z-10">
-                    <span>STYLE: AURORA NEÓN ESPACIAL (COSMIC DISCORD STYLE)</span>
-                    <span className="text-fuchsia-400 font-bold">HOLOGRAPHIC MESH</span>
+                  <div className="flex justify-between items-center border-t border-[#1C1817] pt-2 text-xs font-serif italic">
+                    <span>Printed in London & New York</span>
+                    <span className="not-italic font-mono text-[10px] bg-neutral-200 px-2 py-0.5 rounded border border-neutral-400">
+                      [ STAMP: APPROVED 2026 ]
+                    </span>
                   </div>
                 </div>
               )}
@@ -771,3 +761,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")

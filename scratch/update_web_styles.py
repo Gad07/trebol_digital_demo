@@ -1,4 +1,6 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
@@ -6,8 +8,7 @@ import {
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
-  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight
 } from 'lucide-react';
 
 const techStack = [
@@ -49,13 +50,13 @@ const roadmapWeb = [
 const designModes = [
   { id: 'brutalism', label: '1. Neo-Brutalismo Industrial (Kraft Berlin)', metric: 'Impacto Visual Directo' },
   { id: 'luxury', label: '2. Luxury E-Commerce (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
-  { id: 'aurora-space', label: '3. Aurora Neón Espacial (Cosmic Nebula)', metric: 'UI Cósmica & Holográfica' },
+  { id: 'aurora', label: '3. Aurora Bento Grid (Lumina App)', metric: 'UI Orgánica & Fluida' },
   { id: 'swiss', label: '4. Editorial Swiss Grid (Foundation)', metric: 'Diseño Tipográfico Suizo' },
 ];
 
 export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
-  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Aurora Neón Espacial Mode 3
+  const [activeMode, setActiveMode] = useState(1); // Defaulting to 1 (Luxury E-Commerce user favorite!)
   const [sliderPos, setSliderPos] = useState(50);
 
   // Ref para el progreso de scroll progresivo de la barra continua
@@ -297,7 +298,7 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, AURORA NEÓN ESPACIAL, SWISS) ── */}
+      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS COMPLETAS CON 4 ESTILOS DE DISEÑO ÚNICOS (BRUTALISMO, LUXURY, AURORA, SWISS) ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
@@ -307,11 +308,11 @@ export default function DesarrolloWebPage() {
             Una <span className="text-trebol">Web dentro de Otra Web.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Aurora Neón Espacial y Tipografía Suiza) recortando en vivo con el deslizador.
+            Explora 4 corrientes de diseño web de vanguardia (Neo-Brutalismo, E-Commerce de Lujo, Aurora Bento Grid y Tipografía Suiza) recortando en vivo con el deslizador.
           </p>
         </div>
 
-        {/* Modalidad Selector Tabs */}
+        {/* Modalidad Selector Tabs - 4 ESTILOS VANGUARDISTAS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
           {designModes.map((m, idx) => (
             <button
@@ -354,7 +355,7 @@ export default function DesarrolloWebPage() {
             {/* 1. LADO DERECHO: EL NUEVO ESTILO DE DISEÑO EN CÓDIGO NATIVO */}
             <div className="absolute inset-0 w-full h-full overflow-hidden font-sans">
 
-              {/* STYLE 1: NEO-BRUTALISMO INDUSTRIAL (KRAFT BERLIN) */}
+              {/* STYLE 1: NEO-BRUTALISMO INDUSTRIAL (KRAFT BERLIN) - Bordes gruesos negros, sombras duras, amarillo mostaza */}
               {activeMode === 0 && (
                 <div className="w-full h-full bg-[#FFFDF0] text-[#000000] p-6 md:p-10 flex flex-col justify-between font-mono border-4 border-black">
                   <div className="flex justify-between items-center border-b-4 border-black pb-4">
@@ -404,7 +405,7 @@ export default function DesarrolloWebPage() {
                 </div>
               )}
 
-              {/* STYLE 2: LUXURY E-COMMERCE (AURA PARIS) - User's Favorite! */}
+              {/* STYLE 2: LUXURY E-COMMERCE (AURA PARIS) - User's Favorite! Blancos marfil, serif luxury, terracota */}
               {activeMode === 1 && (
                 <div className="w-full h-full bg-[#FAF8F5] text-[#2C2523] p-6 md:p-10 flex flex-col justify-between font-serif">
                   <div className="flex justify-between items-center border-b border-[#E5DFD9] pb-4 font-sans">
@@ -471,67 +472,66 @@ export default function DesarrolloWebPage() {
                 </div>
               )}
 
-              {/* STYLE 3: AURORA NEÓN ESPACIAL (COSMIC NEBULA / DISCORD NITRO STYLE) - Fondo Neón Cósmico, esferas de luz aurora, tarjetas de cristal holográficas */}
+              {/* STYLE 3: AURORA BENTO GRID (LUMINA ANALYTICS) - Mesh gradients orgánicos, glassmorphism suave, bento grid */}
               {activeMode === 2 && (
-                <div className="w-full h-full bg-[#070414] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
+                <div className="w-full h-full bg-slate-900 text-slate-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
                   
-                  {/* Glowing Aurora Cosmic Light Orbs */}
-                  <div className="absolute top-0 right-0 w-[24rem] h-[24rem] bg-gradient-to-br from-fuchsia-500/30 via-purple-600/25 to-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-[22rem] h-[22rem] bg-gradient-to-tr from-cyan-400/25 via-blue-600/20 to-fuchsia-600/30 rounded-full blur-[100px] pointer-events-none" />
+                  {/* Aurora Mesh Blur Blobs */}
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/20 rounded-full blur-[90px] pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-80 h-80 bg-teal-400/20 rounded-full blur-[90px] pointer-events-none" />
 
-                  {/* Header Bar */}
-                  <div className="flex justify-between items-center border-b border-purple-500/20 pb-4 relative z-10">
-                    <div className="flex items-center gap-2 font-black text-fuchsia-300 text-lg tracking-tight">
-                      <Sparkle size={20} className="text-fuchsia-400 animate-pulse" />
-                      COSMIC // AURORA NEBULA
+                  <div className="flex justify-between items-center border-b border-white/10 pb-4 relative z-10">
+                    <div className="flex items-center gap-2 font-black text-emerald-400 text-base tracking-tight">
+                      <Grid size={18} className="text-emerald-400" />
+                      LUMINA // BENTO
                     </div>
                     <div className="flex items-center gap-3 text-xs font-mono">
-                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3.5 py-1.5 rounded-full border border-fuchsia-500/30 font-bold shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                        🌌 Aurora Mesh Active
-                      </span>
-                      <button className="bg-gradient-to-r from-fuchsia-500 via-purple-600 to-cyan-400 text-white font-bold px-5 py-2 rounded-full text-xs hover:scale-105 transition-all shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-                        Explore Cosmos 🚀
+                      <span className="bg-emerald-500/10 text-emerald-300 px-3 py-1 rounded-full border border-emerald-500/20">● Aurora Mesh v2</span>
+                      <button className="bg-emerald-400 text-slate-950 font-bold px-4 py-1.5 rounded-full text-xs hover:bg-white transition-all shadow-md">
+                        Explore Bento ↗
                       </button>
                     </div>
                   </div>
 
-                  {/* Hero Holographic Content */}
-                  <div className="my-auto space-y-5 max-w-xl relative z-10">
-                    <span className="bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 text-cyan-300 px-4 py-1.5 rounded-full font-mono text-xs font-bold border border-cyan-400/30 inline-block shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                      ✨ SPATIAL NEON ARCHITECTURE
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-white leading-[0.95] tracking-tight">
-                      Cosmic Aurora <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-300 to-cyan-300">Holographic Experience.</span>
-                    </h3>
+                  {/* Bento Grid Layout */}
+                  <div className="my-auto grid grid-cols-3 gap-3 relative z-10 pt-2">
+                    <div className="col-span-2 bg-white/10 backdrop-blur-xl p-5 rounded-3xl border border-white/15 space-y-2">
+                      <span className="text-[10px] font-mono font-bold text-emerald-300 uppercase tracking-widest block">
+                        Fluid Aurora Architecture
+                      </span>
+                      <h4 className="text-xl md:text-2xl font-black text-white leading-snug">
+                        Organic Glassmorphism & Bento Layout.
+                      </h4>
+                      <p className="text-xs text-slate-300 font-light leading-relaxed">
+                        Componentes modulados en tarjetas bento con gradientes orgánicos de alta refracción.
+                      </p>
+                    </div>
 
-                    {/* Holographic Cards Grid */}
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">NEBULA SPEED</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">0.8s</span>
-                      </div>
+                    <div className="bg-emerald-500/20 backdrop-blur-xl p-5 rounded-3xl border border-emerald-400/30 flex flex-col justify-between">
+                      <span className="text-[10px] font-mono font-bold text-emerald-300 block">SCORE</span>
+                      <span className="text-3xl font-black text-white font-mono">99/100</span>
+                      <span className="text-[10px] text-emerald-300 block">Google Speed</span>
+                    </div>
 
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold block">FPS RATE</span>
-                        <span className="text-lg md:text-2xl font-black text-cyan-300 font-mono">120 FPS</span>
-                      </div>
+                    <div className="bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 flex justify-between items-center">
+                      <span className="text-xs font-bold text-white">Interactive State</span>
+                      <span className="text-xs font-mono text-emerald-400 font-bold">60 FPS</span>
+                    </div>
 
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">LIGHTHOUSE</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">99/100</span>
-                      </div>
+                    <div className="col-span-2 bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 flex justify-between items-center">
+                      <span className="text-xs font-bold text-slate-300">Responsividad Orgánica</span>
+                      <span className="text-xs font-mono text-white font-bold">Zero Layout Shift</span>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center border-t border-purple-500/20 pt-3 text-xs font-mono text-purple-300/80 relative z-10">
-                    <span>STYLE: AURORA NEÓN ESPACIAL (COSMIC DISCORD STYLE)</span>
-                    <span className="text-fuchsia-400 font-bold">HOLOGRAPHIC MESH</span>
+                  <div className="flex justify-between items-center border-t border-white/10 pt-3 text-xs font-mono text-slate-400 relative z-10">
+                    <span>STYLE: AURORA MESH & BENTO GRID</span>
+                    <span className="text-emerald-400 font-bold">MODULAR UI</span>
                   </div>
                 </div>
               )}
 
-              {/* STYLE 4: SWISS EDITORIAL GRID (FOUNDATION ARCHITECTURE) */}
+              {/* STYLE 4: SWISS EDITORIAL GRID (FOUNDATION ARCHITECTURE) - Tipografía Suiza pulcra, líneas grises finas, números grandes 01 02 */}
               {activeMode === 3 && (
                 <div className="w-full h-full bg-[#FAFAFA] text-[#111111] p-6 md:p-10 flex flex-col justify-between font-sans">
                   <div className="flex justify-between items-center border-b border-neutral-300 pb-4">
@@ -704,7 +704,7 @@ export default function DesarrolloWebPage() {
 
           {/* Footer Bar */}
           <div className="w-full flex items-center justify-between border-t border-white/10 pt-4 mt-6 text-xs text-neutral-400 font-mono">
-            <span>4 Corrientes de Diseño Web Renderizadas 100% en Código Nativo</span>
+            <span>4 Corrientes de Diseño Web de Vanguardia Renderizadas 100% en Código</span>
             <span className="text-trebol font-bold">⚡ Desliza para recortar</span>
           </div>
 
@@ -771,3 +771,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")

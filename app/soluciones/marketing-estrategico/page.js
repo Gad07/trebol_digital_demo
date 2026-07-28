@@ -1,17 +1,86 @@
 ﻿'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, Calculator } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  ArrowUpRight, Target, Zap, BarChart3, 
+  Users, Bot, CheckCircle2, TrendingUp, Sparkles, Plus, Minus
+} from 'lucide-react';
 import CanalesScrollytelling from '@/components/CanalesScrollytelling';
 
-export default function MarketingPage() {
-  const [presupuesto, setPresupuesto] = useState(25000);
+const roadmapSteps = [
+  {
+    num: "01",
+    titulo: "Atracción Hipersegmentada",
+    descripcion: "Pauta activa en Google Search (intención alta) y Meta/TikTok Ads (descubrimiento visual) dirigida exclusivamente a tomadores de decisión y perfiles AB/C+.",
+    icono: Target,
+    metricas: [
+      "CPC Optimizado: ~$14 MXN",
+      "Segmentación Psicográfica"
+    ]
+  },
+  {
+    num: "02",
+    titulo: "Landings de Alta Conversión",
+    descripcion: "Páginas de aterrizaje optimizadas con copywriting persuasivo, velocidad de carga de nivel editorial y prueba social que multiplican las conversiones.",
+    icono: Zap,
+    metricas: [
+      "18.4% Tasa de Conversión",
+      "Carga &lt; 1.2 segundos"
+    ]
+  },
+  {
+    num: "03",
+    titulo: "Calificación Instantánea",
+    descripcion: "Sincronización automática con tu CRM y alertas inmediatas por WhatsApp para que tu equipo comercial contacte y cierre los prospectos en minutos.",
+    icono: Bot,
+    metricas: [
+      "Alertas WhatsApp & CRM",
+      "Filtro de Leads Basura"
+    ]
+  },
+  {
+    num: "04",
+    titulo: "Escalado & Atribución 4.8×",
+    descripcion: "Reasignación diaria de pauta hacia las palabras clave y anuncios con mayor ROAS para maximizar el retorno sobre inversión publicitaria.",
+    icono: TrendingUp,
+    metricas: [
+      "4.8× ROAS Promedio",
+      "Optimización Diaria"
+    ]
+  }
+];
 
-  // Estimaciones
-  const estimarProspectos = Math.round(presupuesto / 110);
-  const estimarVentas = Math.round(estimarProspectos * 0.15);
-  const retornoEstimado = (presupuesto * 4.8).toLocaleString('es-MX');
+const faqItems = [
+  {
+    pregunta: "¿En cuánto tiempo se comienzan a ver los primeros prospectos calificados?",
+    respuesta: "Las campañas en Google Search Ads y Meta Ads comienzan a generar impresiones y prospectos desde los primeros 3 a 5 días tras el despliegue de la pauta. Durante los primeros 14 días realizamos optimizaciones algorítmicas diarias de palabras clave y audiencias para estabilizar el Costo por Lead (CPL)."
+  },
+  {
+    pregunta: "¿Cuál es la inversión mínima recomendada en pauta publicitaria?",
+    respuesta: "Recomendamos una inversión en pauta a partir de $15,000 MXN mensuales directos a las plataformas. Esto garantiza un volumen de datos suficiente para que los algoritmos de pujas inteligentes de Google y Meta optimicen las conversiones y logren un ROAS promedio de 4.8×."
+  },
+  {
+    pregunta: "¿Cómo garantizan que los prospectos sean calificados y no leads basura?",
+    respuesta: "Implementamos formularios interactivos con preguntas de filtro (rol comercial, tamaño de empresa, presupuesto disponible) y validación anti-spam. Además, integramos alertas automáticas con tu CRM y WhatsApp para que tu equipo valore y cierre los prospectos en minutos."
+  },
+  {
+    pregunta: "¿Los costos de pauta se pagan directamente a las plataformas?",
+    respuesta: "Sí, con 100% de transparencia. La inversión en anuncios se cobra directamente desde tu tarjeta de crédito/débito a tus propias cuentas publicitarias en Google Ads, Meta Ads y TikTok Ads. Trébol Digital únicamente administra, optimiza y crea la estrategia por una tarifa de gestión fija."
+  },
+  {
+    pregunta: "¿Qué incluye el Laboratorio de Creativos & Video UGC?",
+    respuesta: "Incluye la redacción continua de guiones persuasivos de copywriting, producción/edición de anuncios en video vertical 9:16 para Instagram Reels y TikTok Ads, diseño de carruseles estáticos y pruebas A/B constantes para evitar la fatiga publicitaria."
+  }
+];
+
+export default function MarketingPage() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen">
@@ -82,93 +151,263 @@ export default function MarketingPage() {
       {/* ── MATRIZ DE CANALES DE CONVERSIÓN (APPLE SCROLLYTELLING) ───── */}
       <CanalesScrollytelling />
 
-      {/* ── SECCIÓN INTERACTIVA: CALCULADORA DE ROI PUBLICITARIO ─────── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10">
-        <div className="text-center mb-16">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block">
-            Proyección Comercial
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter">
-            Calculadora de Retorno de Inversión (ROI)
-          </h2>
-          <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Ajusta el presupuesto publicitario proyectado y calcula los prospectos y ventas estimadas.
-          </p>
-        </div>
+      {/* ── MÓDULO 1: HOJA DE RUTA EN 4 PASOS (ANIMADO) ─────── */}
+      <section className="w-full bg-carbon text-hueso py-28 px-6 md:px-12 relative overflow-hidden border-t border-white/10">
+        
+        {/* Glow de Fondo */}
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[40rem] h-[40rem] bg-trebol/15 rounded-full blur-[160px] pointer-events-none" />
 
-        <div className="bg-white backdrop-blur-2xl border border-gray-200 rounded-[3.5rem] p-8 md:p-16 shadow-2xl grid md:grid-cols-12 gap-12 items-center">
-          {/* Slider Control Column */}
-          <div className="md:col-span-6 space-y-8">
+        <div className="max-w-[1400px] mx-auto relative z-10">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <div>
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-carbon/50 block mb-2">Presupuesto Publicitario Mensual:</span>
-              <span className="text-5xl md:text-6xl font-black text-trebol font-mono">
-                ${presupuesto.toLocaleString('es-MX')} MXN
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20 shadow-[0_0_15px_rgba(46,204,113,0.2)]">
+                Hoja de Ruta en 4 Pasos
               </span>
+              <h2 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+                Ruta Estratégica de <br />
+                <span className="text-trebol">Captación Escalable.</span>
+              </h2>
             </div>
+            <p className="text-lg md:text-xl text-neutral-300 font-light max-w-xl leading-relaxed">
+              Un sistema automatizado de 4 etapas que transforma la atención masiva en prospectos calificados y cierres comerciales medibles.
+            </p>
+          </div>
 
-            <input
-              type="range"
-              min="5000"
-              max="100000"
-              step="5000"
-              value={presupuesto}
-              onChange={(e) => setPresupuesto(Number(e.target.value))}
-              className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-trebol"
+          {/* Línea Conectora Animada (Desktop) */}
+          <div className="hidden md:block w-full h-1 bg-neutral-800 rounded-full mb-12 relative overflow-hidden">
+            <motion.div 
+              initial={{ x: '-100%' }}
+              whileInView={{ x: '0%' }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              className="w-full h-full bg-gradient-to-r from-trebol via-[#00F2FE] to-trebol shadow-[0_0_14px_rgba(46,204,113,0.9)]"
             />
-
-            <div className="flex justify-between text-xs font-mono text-carbon/50 font-bold">
-              <span>$5,000 MXN</span>
-              <span>$50,000 MXN</span>
-              <span>$100,000 MXN</span>
-            </div>
-
-            <div className="bg-[#EEF7E6] p-6 rounded-2xl border border-trebol/30 text-sm text-carbon/80 leading-relaxed font-mono text-xs">
-              <strong>Nota de Transparencia:</strong> Estimación basada en CPL promedio de $110 MXN y tasa de conversión comercial del 15%.
-            </div>
           </div>
 
-          {/* Results Output Cards */}
-          <div className="md:col-span-6 bg-carbon text-hueso rounded-[2.5rem] p-8 md:p-10 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider flex items-center gap-2">
-                <Calculator size={16} />
-                Resultados Proyectados
-              </span>
-              <span className="w-2.5 h-2.5 rounded-full bg-trebol animate-pulse" />
-            </div>
+          {/* Grid de 4 Pasos Animados */}
+          <div className="grid md:grid-cols-4 gap-6">
+            {roadmapSteps.map((step, idx) => {
+              const IconoComponente = step.icono;
+              return (
+                <motion.div
+                  key={step.num}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  className="bg-neutral-900/90 border border-neutral-800 rounded-[2.5rem] p-8 hover:border-trebol hover:shadow-[0_20px_40px_rgba(46,204,113,0.25)] transition-all duration-500 group relative flex flex-col justify-between h-full backdrop-blur-xl"
+                >
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <span className="text-4xl font-black font-mono text-trebol drop-shadow-[0_0_10px_rgba(46,204,113,0.5)]">
+                        {step.num}
+                      </span>
+                      <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol group-hover:scale-110 group-hover:bg-trebol group-hover:text-black transition-all duration-300">
+                        <IconoComponente size={24} />
+                      </div>
+                    </div>
 
-            <div className="grid grid-cols-2 gap-6 pt-2">
-              <div>
-                <span className="text-xs font-mono text-gray-400 block mb-1">Prospectos Calificados:</span>
-                <span className="text-4xl md:text-5xl font-black text-white font-mono">{estimarProspectos}</span>
-                <span className="text-xs font-mono text-trebol block mt-1">leads / mes</span>
-              </div>
+                    <h3 className="text-2xl font-black text-white group-hover:text-trebol transition-colors">
+                      {step.titulo}
+                    </h3>
+                    <p className="text-sm text-neutral-400 font-light leading-relaxed">
+                      {step.descripcion}
+                    </p>
+                  </div>
 
-              <div>
-                <span className="text-xs font-mono text-gray-400 block mb-1">Cierres Estimados:</span>
-                <span className="text-4xl md:text-5xl font-black text-trebol font-mono">{estimarVentas}</span>
-                <span className="text-xs font-mono text-gray-400 block mt-1">clientes nuevos</span>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-white/10">
-              <span className="text-xs font-mono text-gray-400 block mb-1">Ingreso Bruto Proyectado (4.8× ROAS):</span>
-              <span className="text-4xl md:text-5xl font-black text-white font-mono">${retornoEstimado} MXN</span>
-            </div>
-
-            <Link
-              href="/agenda"
-              className="w-full inline-flex items-center justify-center gap-2 bg-trebol text-white font-bold py-4 rounded-full hover:bg-white hover:text-carbon transition-colors duration-300 text-base shadow-xl pt-4"
-            >
-              Desplegar Estrategia Comercial
-              <ArrowUpRight size={18} />
-            </Link>
+                  <div className="pt-8 border-t border-neutral-800/80 mt-8 space-y-2 text-xs font-mono text-neutral-300">
+                    {step.metricas.map((m, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                        <span dangerouslySetInnerHTML={{ __html: m }} />
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
-      {/* ── Contact CTA Editorial ────────────────────── */}
-      <section className="w-full bg-hueso pb-32 px-6 md:px-12">
+      {/* ── MÓDULO 2: DIFERENCIADORES Y GARANTÍAS DE PAUTA STRATÉGICA ─────── */}
+      <section className="w-full bg-hueso py-28 px-6 md:px-12 relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto">
+
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
+              Ventaja Competitiva
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-none mb-6">
+              ¿Por qué las marcas líderes <br />
+              <span className="text-trebol">eligen a Trébol Digital?</span>
+            </h2>
+            <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
+              Combinamos tecnología propia, copywriters expertos y análisis de datos en tiempo real para garantizar pauta con resultados comerciales comprobados.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            
+            {/* Feature 1 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
+                <BarChart3 size={28} />
+              </div>
+              <h3 className="text-2xl font-black text-carbon mb-4">
+                Atribución Transparente en Tiempo Real
+              </h3>
+              <p className="text-carbon/70 text-sm leading-relaxed mb-6 font-light">
+                Olvídate de reportes manuales en PDF a fin de mes. Tendrás acceso 24/7 a un Dashboard centralizado donde verás cada peso invertido y cada lead generado en vivo.
+              </p>
+              <ul className="space-y-2 text-xs font-mono text-carbon/80 border-t border-neutral-100 pt-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Sin reportes inflados ni vanidad</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Métricas CPL, CPA y ROAS exactas</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Feature 2 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
+                <Sparkles size={28} />
+              </div>
+              <h3 className="text-2xl font-black text-carbon mb-4">
+                Laboratorio de Creativos & Video UGC
+              </h3>
+              <p className="text-carbon/70 text-sm leading-relaxed mb-6 font-light">
+                Producimos variaciones continuas de anuncios en video corto para Reels/TikTok y carruseles estáticos. Probamos ángulos emocionales y racionales sin costo adicional.
+              </p>
+              <ul className="space-y-2 text-xs font-mono text-carbon/80 border-t border-neutral-100 pt-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Guiones persuasivos de Copywriting</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Formato vertical 9:16 nativo</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Feature 3 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-white rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-neutral-200/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-trebol/10 text-trebol flex items-center justify-center mb-8 border border-trebol/20">
+                <Users size={28} />
+              </div>
+              <h3 className="text-2xl font-black text-carbon mb-4">
+                Estrategas Senior Dedicados
+              </h3>
+              <p className="text-carbon/70 text-sm leading-relaxed mb-6 font-light">
+                Tu cuenta estará a cargo de un Media Buyer Senior con años de experiencia manejando presupuestos de alta escala B2B y B2C. Comunicación constante por Slack o WhatsApp.
+              </p>
+              <ul className="space-y-2 text-xs font-mono text-carbon/80 border-t border-neutral-100 pt-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Reuniones semanales de seguimiento</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                  <span>Alineación constante con tu equipo</span>
+                </li>
+              </ul>
+            </motion.div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── MÓDULO 3: PREGUNTAS FRECUENTES (FAQ ACORDEÓN) ─────────────────── */}
+      <section className="w-full bg-white py-28 px-6 md:px-12 border-t border-neutral-200/80 relative">
+        <div className="max-w-[1100px] mx-auto">
+          
+          <div className="text-center mb-16">
+            <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-2 rounded-full mb-4 inline-block border border-trebol/20">
+              Resolviendo tus Dudas
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-none mb-4">
+              Preguntas <span className="text-trebol">Frecuentes.</span>
+            </h2>
+            <p className="text-lg text-carbon/70 font-light max-w-xl mx-auto">
+              Respuestas claras a las inquietudes más comunes sobre la gestión de pauta y resultados comerciales.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqItems.map((item, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div 
+                  key={index} 
+                  className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
+                    isOpen ? 'border-trebol bg-[#f8fcf6] shadow-lg' : 'border-neutral-200 bg-white hover:border-neutral-300'
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFaq(index)}
+                    className="w-full p-6 md:p-8 flex items-center justify-between gap-6 text-left focus:outline-none"
+                  >
+                    <span className="text-lg md:text-xl font-bold text-carbon tracking-tight">
+                      {item.pregunta}
+                    </span>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      isOpen ? 'bg-trebol text-[#000000] rotate-180 font-bold' : 'bg-neutral-100 text-carbon'
+                    }`}>
+                      {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      >
+                        <div className="px-6 md:px-8 pb-8 pt-2 text-carbon/70 text-base md:text-lg font-light leading-relaxed border-t border-trebol/10">
+                          {item.respuesta}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── CONTACT CTA EDITORIAL ────────────────────── */}
+      <section className="w-full bg-hueso py-32 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto bg-white/60 backdrop-blur-2xl border border-white/80 rounded-[3rem] p-12 md:p-20 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
             <div>

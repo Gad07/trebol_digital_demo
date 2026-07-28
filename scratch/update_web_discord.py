@@ -1,4 +1,6 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
@@ -7,7 +9,7 @@ import {
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
   Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  MessageSquare, Hash, Volume2, Users, Bot, Mic, Headphones, Settings
 } from 'lucide-react';
 
 const techStack = [
@@ -49,13 +51,13 @@ const roadmapWeb = [
 const designModes = [
   { id: 'brutalism', label: '1. Neo-Brutalismo Industrial (Kraft Berlin)', metric: 'Impacto Visual Directo' },
   { id: 'luxury', label: '2. Luxury E-Commerce (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
-  { id: 'aurora-space', label: '3. Aurora Neón Espacial (Cosmic Nebula)', metric: 'UI Cósmica & Holográfica' },
+  { id: 'discord', label: '3. Discord Style UI (Community Hub)', metric: 'Interacción & Comunitario' },
   { id: 'swiss', label: '4. Editorial Swiss Grid (Foundation)', metric: 'Diseño Tipográfico Suizo' },
 ];
 
 export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
-  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Aurora Neón Espacial Mode 3
+  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Discord UI Mode 3
   const [sliderPos, setSliderPos] = useState(50);
 
   // Ref para el progreso de scroll progresivo de la barra continua
@@ -297,7 +299,7 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, AURORA NEÓN ESPACIAL, SWISS) ── */}
+      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, DISCORD UI, SWISS) ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
@@ -307,7 +309,7 @@ export default function DesarrolloWebPage() {
             Una <span className="text-trebol">Web dentro de Otra Web.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Aurora Neón Espacial y Tipografía Suiza) recortando en vivo con el deslizador.
+            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Discord Community App y Tipografía Suiza) recortando en vivo con el deslizador.
           </p>
         </div>
 
@@ -471,63 +473,108 @@ export default function DesarrolloWebPage() {
                 </div>
               )}
 
-              {/* STYLE 3: AURORA NEÓN ESPACIAL (COSMIC NEBULA / DISCORD NITRO STYLE) - Fondo Neón Cósmico, esferas de luz aurora, tarjetas de cristal holográficas */}
+              {/* STYLE 3: DISCORD UI COMMUNITY APP - Blurple (#5865F2), Server list, Channel bar, Voice Lounge */}
               {activeMode === 2 && (
-                <div className="w-full h-full bg-[#070414] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
+                <div className="w-full h-full bg-[#313338] text-neutral-200 flex overflow-hidden font-sans">
                   
-                  {/* Glowing Aurora Cosmic Light Orbs */}
-                  <div className="absolute top-0 right-0 w-[24rem] h-[24rem] bg-gradient-to-br from-fuchsia-500/30 via-purple-600/25 to-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-[22rem] h-[22rem] bg-gradient-to-tr from-cyan-400/25 via-blue-600/20 to-fuchsia-600/30 rounded-full blur-[100px] pointer-events-none" />
-
-                  {/* Header Bar */}
-                  <div className="flex justify-between items-center border-b border-purple-500/20 pb-4 relative z-10">
-                    <div className="flex items-center gap-2 font-black text-fuchsia-300 text-lg tracking-tight">
-                      <Sparkle size={20} className="text-fuchsia-400 animate-pulse" />
-                      COSMIC // AURORA NEBULA
+                  {/* Discord Leftmost Server List */}
+                  <div className="w-14 bg-[#1e1f22] flex flex-col items-center py-3 gap-3 shrink-0 border-r border-[#2b2d31]">
+                    <div className="w-10 h-10 rounded-2xl bg-[#5865F2] text-white flex items-center justify-center font-black text-sm shadow-md">
+                      🎮
                     </div>
-                    <div className="flex items-center gap-3 text-xs font-mono">
-                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3.5 py-1.5 rounded-full border border-fuchsia-500/30 font-bold shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                        🌌 Aurora Mesh Active
+                    <div className="w-10 h-10 rounded-full bg-[#2b2d31] hover:bg-[#5865F2] text-white flex items-center justify-center font-bold text-xs transition-all cursor-pointer">
+                      ☘️
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-[#2b2d31] hover:bg-[#23a55a] text-white flex items-center justify-center font-bold text-xs transition-all cursor-pointer">
+                      🚀
+                    </div>
+                  </div>
+
+                  {/* Discord Channels List Column */}
+                  <div className="w-48 bg-[#2b2d31] p-3 flex flex-col justify-between shrink-0 border-r border-[#1e1f22]">
+                    <div>
+                      <div className="font-bold text-xs text-white border-b border-[#1e1f22] pb-3 mb-3 flex items-center justify-between">
+                        <span>Trébol Community</span>
+                        <ChevronDown size={14} className="text-neutral-400" />
+                      </div>
+                      
+                      <div className="space-y-1 text-xs">
+                        <div className="bg-[#404249] text-white px-2.5 py-1.5 rounded flex items-center gap-2 font-medium cursor-pointer">
+                          <Hash size={14} className="text-neutral-400" />
+                          <span>welcome-hub</span>
+                        </div>
+                        <div className="text-neutral-400 hover:text-white px-2.5 py-1.5 rounded flex items-center gap-2 font-medium cursor-pointer">
+                          <Hash size={14} className="text-neutral-400" />
+                          <span>announcements</span>
+                        </div>
+                        <div className="text-neutral-400 hover:text-white px-2.5 py-1.5 rounded flex items-center gap-2 font-medium cursor-pointer">
+                          <Volume2 size={14} className="text-emerald-400" />
+                          <span>Voice Lounge 🔊</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Discord User Status Bar */}
+                    <div className="bg-[#232428] p-2 rounded-lg flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-[#5865F2] flex items-center justify-center text-[10px] font-bold text-white">
+                          U
+                        </div>
+                        <span className="font-bold text-white text-[11px]">DevUser</span>
+                      </div>
+                      <div className="flex gap-1 text-neutral-400">
+                        <Mic size={12} />
+                        <Headphones size={12} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Discord Main Chat / Hero Section */}
+                  <div className="flex-1 bg-[#313338] p-6 flex flex-col justify-between">
+                    <div className="border-b border-[#2b2d31] pb-3 flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2 font-bold text-white">
+                        <Hash size={16} className="text-neutral-400" />
+                        <span>welcome-hub</span>
+                      </div>
+                      <span className="bg-[#23a55a]/20 text-[#23a55a] px-3 py-1 rounded-full font-bold text-[10px]">
+                        ● 1,420 Online Members
                       </span>
-                      <button className="bg-gradient-to-r from-fuchsia-500 via-purple-600 to-cyan-400 text-white font-bold px-5 py-2 rounded-full text-xs hover:scale-105 transition-all shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-                        Explore Cosmos 🚀
-                      </button>
+                    </div>
+
+                    {/* Chat Hero Message Bubble */}
+                    <div className="my-auto space-y-4">
+                      <div className="flex items-start gap-3 bg-[#2b2d31] p-4 rounded-2xl border border-[#404249]">
+                        <div className="w-10 h-10 rounded-full bg-[#5865F2] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                          🤖
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 text-xs">
+                            <span className="font-bold text-white">TrébolBot</span>
+                            <span className="bg-[#5865F2] text-white text-[9px] px-1.5 py-0.5 rounded font-bold">BOT</span>
+                            <span className="text-[10px] text-neutral-400">Today at 10:42 AM</span>
+                          </div>
+                          <h4 className="text-lg font-black text-white">Imagine a place... where your web app thrives.</h4>
+                          <p className="text-xs text-neutral-300 font-light leading-relaxed">
+                            Construye comunidades vibrantes con la arquitectura ultra-fluida de Discord UI.
+                          </p>
+                          <div className="pt-2 flex gap-3">
+                            <button className="bg-[#5865F2] text-white font-bold px-4 py-2 rounded-md text-xs hover:bg-[#4752C4] transition-colors shadow">
+                              Open Discord App 🎧
+                            </button>
+                            <button className="bg-[#4e5058] text-white font-bold px-4 py-2 rounded-md text-xs hover:bg-[#6d6f78] transition-colors">
+                              Join Voice Channel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center border-t border-[#2b2d31] pt-2 text-[11px] text-neutral-400 font-mono">
+                      <span>STYLE: DISCORD UI COMMUNITY</span>
+                      <span className="text-[#5865F2] font-bold">BLURPLE #5865F2</span>
                     </div>
                   </div>
 
-                  {/* Hero Holographic Content */}
-                  <div className="my-auto space-y-5 max-w-xl relative z-10">
-                    <span className="bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 text-cyan-300 px-4 py-1.5 rounded-full font-mono text-xs font-bold border border-cyan-400/30 inline-block shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                      ✨ SPATIAL NEON ARCHITECTURE
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-white leading-[0.95] tracking-tight">
-                      Cosmic Aurora <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-300 to-cyan-300">Holographic Experience.</span>
-                    </h3>
-
-                    {/* Holographic Cards Grid */}
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">NEBULA SPEED</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">0.8s</span>
-                      </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold block">FPS RATE</span>
-                        <span className="text-lg md:text-2xl font-black text-cyan-300 font-mono">120 FPS</span>
-                      </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">LIGHTHOUSE</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">99/100</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t border-purple-500/20 pt-3 text-xs font-mono text-purple-300/80 relative z-10">
-                    <span>STYLE: AURORA NEÓN ESPACIAL (COSMIC DISCORD STYLE)</span>
-                    <span className="text-fuchsia-400 font-bold">HOLOGRAPHIC MESH</span>
-                  </div>
                 </div>
               )}
 
@@ -771,3 +818,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")

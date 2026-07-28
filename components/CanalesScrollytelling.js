@@ -13,14 +13,97 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// ── ISOTIPO VECTORIAL TRÉBOL DIGITAL (LUMINOSO Y REALISTA) ─────────────────────
+function TrebolLogoSVG({ className = "w-10 h-10" }) {
+  return (
+    <div className={`grid grid-cols-2 gap-1 items-center justify-center shrink-0 ${className}`}>
+      <span className="w-full h-full rounded-full bg-white/90 shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
+      <span className="w-full h-full rounded-full bg-[#2ecc71] shadow-[0_0_14px_rgba(46,204,113,0.9)]" />
+      <span className="w-full h-full rounded-full bg-[#2ecc71] shadow-[0_0_14px_rgba(46,204,113,0.9)]" />
+      <span className="w-full h-full rounded-full bg-white/90 shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
+    </div>
+  );
+}
+
+// ── MÓDULO HYPER-REALISTA DE TRIPLE CÁMARA TRASERA IPHONE PRO ──────
+function TripleCameraModule() {
+  return (
+    <div 
+      className="w-[132px] h-[137px] bg-[#222328]/90 backdrop-blur-2xl rounded-[2.2rem] border-2 border-white/20 p-2.5 shadow-[10px_20px_40px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.3)] relative grid grid-cols-2 gap-2 items-center"
+      style={{ transform: 'translateZ(16px)', transformStyle: 'preserve-3d' }}
+    >
+      {/* Bisel de cristal superior con destello */}
+      <div className="absolute inset-0 rounded-[2.2rem] border border-white/10 pointer-events-none" />
+
+      {/* Lente 1 (Top-Left): Wide Camera Pro (Cilindro Biselado con Capas de Zafiro) */}
+      <div 
+        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
+        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
+      >
+        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
+          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#0a1226] to-[#141d33] border border-neutral-700 flex items-center justify-center relative">
+            <div className="w-4 h-4 rounded-full bg-[#030714] border border-cyan-400/80 shadow-[0_0_14px_rgba(6,182,212,0.9)] flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_7px_rgba(103,232,249,1)]" />
+            </div>
+            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
+          </div>
+        </div>
+      </div>
+
+      {/* Flash TrueTone & LiDAR Sensor */}
+      <div className="flex flex-col justify-between h-full py-1 items-center" style={{ transform: 'translateZ(6px)' }}>
+        {/* Flash TrueTone con Difusor Dorado */}
+        <div className="w-5.5 h-5.5 rounded-full bg-gradient-to-br from-amber-100 via-amber-200 to-amber-400 border border-amber-400/90 shadow-[0_0_16px_rgba(251,191,36,0.9)] flex items-center justify-center">
+          <div className="w-2.5 h-2.5 rounded-full bg-white/90 blur-[0.3px]" />
+        </div>
+        {/* Sensor LiDAR de Cristal Negro */}
+        <div className="w-4.5 h-4.5 rounded-full bg-[#050507] border border-neutral-700 shadow-inner flex items-center justify-center">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#020204]" />
+        </div>
+      </div>
+
+      {/* Lente 2 (Bottom-Left): Ultra Wide Camera Pro */}
+      <div 
+        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
+        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
+      >
+        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
+          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#190a28] to-[#261238] border border-neutral-700 flex items-center justify-center relative">
+            <div className="w-4 h-4 rounded-full bg-[#0c0316] border border-purple-400/80 shadow-[0_0_14px_rgba(168,85,247,0.9)] flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-indigo-300 shadow-[0_0_7px_rgba(165,180,252,1)]" />
+            </div>
+            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
+          </div>
+        </div>
+      </div>
+
+      {/* Lente 3 (Right Center): Telephoto Camera Pro */}
+      <div 
+        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
+        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
+      >
+        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
+          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#0a1b28] to-[#12283b] border border-neutral-700 flex items-center justify-center relative">
+            <div className="w-4 h-4 rounded-full bg-[#031118] border border-blue-400/80 shadow-[0_0_14px_rgba(59,130,246,0.9)] flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-blue-300 shadow-[0_0_7px_rgba(147,197,253,1)]" />
+            </div>
+            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 // ── CONTENIDO 1: GOOGLE ADS ────────────────
 function GoogleAdsContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
       <img
         src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
         alt="Google Search Ads"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-center"
       />
     </div>
   );
@@ -29,11 +112,11 @@ function GoogleAdsContent() {
 // ── CONTENIDO 2: META ADS ────────────────────
 function MetaAdsContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
       <img
         src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80"
         alt="Meta Ads Reels"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-center"
       />
     </div>
   );
@@ -42,11 +125,11 @@ function MetaAdsContent() {
 // ── CONTENIDO 3: TIKTOK ADS ─────────────────────
 function TikTokAdsContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
       <img
         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
         alt="TikTok Ads"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-center"
       />
     </div>
   );
@@ -55,61 +138,139 @@ function TikTokAdsContent() {
 // ── CONTENIDO 4: DASHBOARD FINAL ────────────────────
 function DashboardFinalContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
       <img
         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
         alt="Trébol Dashboard Final"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover object-left-top"
       />
     </div>
   );
 }
 
-// ── MOCKUP DE TELÉFONO (SVG) ─────────────────────
+// ── MOCKUP DE TELÉFONO 3D HYPER-REALISTA IPHONE 15 PRO ─────────────────────
 function PhoneFrame({ children }) {
   return (
-    <div className="relative w-full h-full">
-      <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-900 p-[10px] shadow-2xl">
-        <div className="w-full h-full rounded-[2.2rem] bg-black overflow-hidden relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90px] h-[22px] bg-black rounded-b-2xl z-50 flex items-center justify-center gap-2">
-            <div className="w-[45px] h-[4px] bg-neutral-800 rounded-full" />
-            <div className="w-[6px] h-[6px] bg-neutral-700 rounded-full" />
+    <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
+      
+      {/* ── CARA FRONTAL: PANTALLA IPHONE PRO ────────────────────────── */}
+      <div 
+        className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-950 p-[8px] border-[4px] border-[#383a3f] shadow-[0_35px_80px_-15px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.2)]"
+        style={{ backfaceVisibility: 'hidden', transform: 'translateZ(6px)' }}
+      >
+        <div className="w-full h-full rounded-[2.1rem] bg-black overflow-hidden relative border border-neutral-900">
+          
+          {/* Dynamic Island */}
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[95px] h-[24px] bg-black rounded-full z-50 flex items-center justify-between px-3 border border-neutral-800/80 shadow-md">
+            <div className="w-3 h-3 rounded-full bg-[#0a0a0d] border border-neutral-700 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-blue-950 border border-cyan-500/60 shadow-[0_0_4px_rgba(0,242,254,0.5)]" />
+            </div>
+            <div className="w-7 h-[3px] bg-neutral-800 rounded-full" />
+            <div className="w-2 h-2 rounded-full bg-[#0d0d10] border border-neutral-800" />
           </div>
-          <div className="w-full h-full relative">
+
+          {/* Contenido de Pantalla */}
+          <div className="w-full h-full relative overflow-hidden">
             {children}
           </div>
+
+          {/* Reflejo Cristalino de Pantalla */}
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
         </div>
       </div>
-      <div className="absolute right-[-2px] top-[90px] w-[3px] h-[50px] bg-neutral-600 rounded-r-md" />
-      <div className="absolute right-[-2px] top-[150px] w-[3px] h-[30px] bg-neutral-600 rounded-r-md" />
-      <div className="absolute left-[-2px] top-[100px] w-[3px] h-[35px] bg-neutral-600 rounded-l-md" />
-      <div className="absolute left-[-2px] top-[145px] w-[3px] h-[35px] bg-neutral-600 rounded-l-md" />
-      <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none bg-gradient-to-tr from-white/5 via-transparent to-transparent z-40" />
+
+      {/* ── CARA TRASERA: CRISTAL MATE TITANIO CON CÁMARAS PRO Y LOGO TRÉBOL ────────────────────────── */}
+      <div 
+        className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-[#24252a] via-[#1a1b1f] to-[#101114] p-6 border-[4px] border-[#383a3f] flex flex-col justify-between overflow-hidden shadow-[0_35px_80px_-15px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.2)]"
+        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(6px)', transformStyle: 'preserve-3d' }}
+      >
+        {/* Módulo de Triple Cámara Trasera Pro en 3D */}
+        <TripleCameraModule />
+
+        {/* Isotipo Trébol Digital Luminous Icon */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translateZ(6px)' }}>
+          <TrebolLogoSVG className="w-12 h-12" />
+        </div>
+
+        {/* Reflejo Cristalino sobre el Cristal Trasero Mate */}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
+      </div>
+
+      {/* Botones Metálicos Laterales de Titanio */}
+      <div className="absolute right-[-4px] top-[95px] w-[4px] h-[50px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-r-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
+      <div className="absolute right-[-4px] top-[155px] w-[4px] h-[30px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-r-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
+      <div className="absolute left-[-4px] top-[105px] w-[4px] h-[35px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-l-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
+      <div className="absolute left-[-4px] top-[150px] w-[4px] h-[35px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-l-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
     </div>
   );
 }
 
-// ── MOCKUP DE LAPTOP (SVG) ─────────────────────
+// ── MOCKUP DE LAPTOP MACBOOK PRO 3D ELEGANTE ─────────────────────
 function LaptopFrame({ children }) {
   return (
-    <div className="relative w-full h-full flex flex-col">
-      <div className="w-full h-full bg-neutral-950 rounded-t-xl p-2 border-t-2 border-x-2 border-neutral-800 shadow-2xl flex flex-col">
-        <div className="w-full h-6 bg-neutral-900 rounded-t-md flex items-center px-3 mb-1.5 gap-2 py-1 shrink-0">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-          <div className="flex items-center gap-1.5 bg-neutral-950 px-3 py-1 rounded text-[10px] font-mono text-neutral-400 ml-2">
+    <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
+      
+      {/* ── PARED DE GROSOR DE BASE ALUMINIO 3D ─────────────── */}
+      <div 
+        className="absolute inset-0 rounded-xl bg-gradient-to-r from-neutral-600 via-neutral-800 to-neutral-950 border-2 border-neutral-500 shadow-[0_35px_80px_-10px_rgba(0,0,0,0.95)]"
+        style={{ transform: 'translateZ(0px)' }}
+      />
+
+      {/* ── CARA FRONTAL: PANTALLA Y BARRA DE NAVEGACIÓN ────────────────────────── */}
+      <div 
+        className="absolute inset-0 w-full h-full flex flex-col rounded-xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-950"
+        style={{ backfaceVisibility: 'hidden', transform: 'translateZ(8px)' }}
+      >
+        {/* Barra de Encabezado MacBook Pro con Cámara Web */}
+        <div className="w-full h-7 bg-neutral-900 border-b border-neutral-800/90 flex items-center justify-between px-3 shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+          </div>
+
+          {/* Barra de Dirección URL con Cámara Web Integrada */}
+          <div className="flex items-center gap-2 bg-neutral-950 px-4 py-1 rounded-md border border-neutral-800 text-[11px] font-mono text-neutral-300 shadow-inner">
+            <div className="w-2 h-2 rounded-full bg-[#0a0a0e] border border-neutral-700 flex items-center justify-center">
+              <div className="w-0.5 h-0.5 rounded-full bg-blue-400" />
+            </div>
             <Globe size={12} className="text-[#2ecc71]" />
             <span>treboldigital.mx/dashboard</span>
           </div>
+
+          <div className="w-12" />
         </div>
-        <div className="w-full flex-1 rounded bg-neutral-900 relative overflow-hidden">
+
+        {/* Contenedor Principal de Pantalla */}
+        <div className="w-full flex-1 relative bg-neutral-950 overflow-hidden">
           {children}
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/5 via-transparent to-transparent z-40" />
         </div>
-        <div className="w-[108%] -ml-[4%] h-4 bg-gradient-to-b from-neutral-500 to-neutral-700 rounded-b-lg mt-1 flex justify-center items-center shadow-lg shrink-0">
-          <div className="w-16 h-1 bg-neutral-800 rounded-full" />
+
+        {/* Base de Aluminio de Laptop con Ranura Frontal */}
+        <div className="w-full h-3.5 bg-gradient-to-b from-neutral-800 via-neutral-850 to-neutral-900 border-t border-neutral-700/60 flex justify-center items-center shrink-0">
+          <div className="w-16 h-1 bg-neutral-700/80 rounded-full" />
         </div>
       </div>
+
+      {/* ── CARA TRASERA: TAPA DE ALUMINIO Y LOGO TRÉBOL ILUMINADO ────────────────────────── */}
+      <div 
+        className="absolute inset-0 w-full h-full rounded-xl bg-gradient-to-br from-neutral-800 via-neutral-900 to-[#121215] border border-neutral-700/90 shadow-2xl p-6 flex flex-col justify-between items-center overflow-hidden"
+        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(8px)', transformStyle: 'preserve-3d' }}
+      >
+        <div className="w-20 h-1 bg-neutral-700/60 rounded-full" />
+
+        {/* Isotipo Trébol Digital Iluminado en la Tapa de Aluminio de la Mac */}
+        <div className="my-auto" style={{ transform: 'translateZ(6px)' }}>
+          <TrebolLogoSVG className="w-16 h-16" />
+        </div>
+
+        <div className="w-24 h-1.5 bg-neutral-700/80 rounded-full" />
+
+        {/* Reflejo Cristalino sobre el Aluminio del reverso */}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
+      </div>
+
     </div>
   );
 }
@@ -279,11 +440,12 @@ export default function CanalesScrollytelling() {
 
     // ==========================================
     // TRANSICIÓN 1: Izquierda → Derecha (Google → Meta)
+    // Giro 360° en 3D con bordes curvados perfectos
     // ==========================================
     tl.to(floatingDeviceRef.current, {
       x: posR.x, 
       y: posR.y,
-      rotateY: '+=360',
+      rotateY: 360,
       duration: 1.5, 
       ease: 'power2.inOut',
     }, 0)
@@ -298,7 +460,7 @@ export default function CanalesScrollytelling() {
     tl.to(floatingDeviceRef.current, {
       x: posL.x, 
       y: posL.y,
-      rotateY: '+=360',
+      rotateY: 720,
       duration: 1.5, 
       ease: 'power2.inOut',
     }, 1.8)
@@ -308,14 +470,14 @@ export default function CanalesScrollytelling() {
     .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
 
     // ==========================================
-    // TRANSICIÓN 3: Izquierda → Derecha Final (TikTok → Dashboard)
+    // TRANSICIÓN 3: Izquierda → Derecha Final (TikTok → Dashboard Laptop)
     // ==========================================
     tl.to(floatingDeviceRef.current, {
       x: posF.x, 
       y: posF.y, 
       width: posF.width, 
       height: posF.height,
-      rotateY: '+=360',
+      rotateY: 1080,
       borderRadius: '0.75rem',
       duration: 1.8, 
       ease: 'power3.inOut',
@@ -332,7 +494,7 @@ export default function CanalesScrollytelling() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1000px' }}>
+    <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
       
       {/* Background Glow Dinámico de la Marca */}
       <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
@@ -398,17 +560,28 @@ export default function CanalesScrollytelling() {
         </div>
       </div>
 
-      {/* DISPOSITIVO FLOTANTE ANIMADO */}
+      {/* DISPOSITIVO FLOTANTE ANIMADO CON VOLUMEN Y PROFUNDIDAD REALISTA EN 3D */}
       <div className="absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
         <div
           ref={floatingDeviceRef}
-          className="absolute top-0 left-0 will-change-transform overflow-hidden bg-neutral-900 border border-neutral-800/80 shadow-2xl"
+          className="absolute top-0 left-0 will-change-transform overflow-visible"
+          style={{ transformStyle: 'preserve-3d' }}
         >
           {/* Pantalla Negra Overlay para la transición */}
-          <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0" />
+          <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0 rounded-[2.5rem]" />
 
-          {/* Contenido dinámico renderizado */}
-          <PhoneFrame><GoogleAdsContent /></PhoneFrame>
+          {/* Contenido con Mockup 3D */}
+          {activeIndex < 3 ? (
+            <PhoneFrame>
+              {activeIndex === 0 && <GoogleAdsContent />}
+              {activeIndex === 1 && <MetaAdsContent />}
+              {activeIndex === 2 && <TikTokAdsContent />}
+            </PhoneFrame>
+          ) : (
+            <LaptopFrame>
+              <DashboardFinalContent />
+            </LaptopFrame>
+          )}
         </div>
       </div>
 

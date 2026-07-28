@@ -1,4 +1,6 @@
-'use client';
+import os
+
+code = ''''use client';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
@@ -6,8 +8,7 @@ import {
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
-  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle
 } from 'lucide-react';
 
 const techStack = [
@@ -47,15 +48,15 @@ const roadmapWeb = [
 ];
 
 const designModes = [
-  { id: 'brutalism', label: '1. Neo-Brutalismo Industrial (Kraft Berlin)', metric: 'Impacto Visual Directo' },
-  { id: 'luxury', label: '2. Luxury E-Commerce (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
-  { id: 'aurora-space', label: '3. Aurora Neón Espacial (Cosmic Nebula)', metric: 'UI Cósmica & Holográfica' },
-  { id: 'swiss', label: '4. Editorial Swiss Grid (Foundation)', metric: 'Diseño Tipográfico Suizo' },
+  { id: 'b2b', label: '1. Portal B2B Enterprise (Nexus Tech)', metric: '+280% Conversión de Leads' },
+  { id: 'ecommerce', label: '2. E-Commerce & Luxury (Aura Paris)', metric: '+3.4x Tasa de Finalización' },
+  { id: 'saas', label: '3. Dashboard AI App (Vortex AI)', metric: '99/100 Google Lighthouse' },
+  { id: 'institutional', label: '4. Portal Salud (Valo Health)', metric: 'Acceso Universal & SSL A+' },
 ];
 
 export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
-  const [activeMode, setActiveMode] = useState(2); // Defaulting directly to Aurora Neón Espacial Mode 3
+  const [activeMode, setActiveMode] = useState(0);
   const [sliderPos, setSliderPos] = useState(50);
 
   // Ref para el progreso de scroll progresivo de la barra continua
@@ -297,21 +298,21 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS CON 4 ESTILOS (BRUTALISMO, LUXURY, AURORA NEÓN ESPACIAL, SWISS) ── */}
+      {/* ── SECCIÓN ÚNICA 3: MOCKUPS DE WEBS COMPLETAS CON IDENTIDAD Y ESTILO 100% ÚNICO POR INDUSTRIA ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-trebol bg-trebol/10 px-4 py-1.5 rounded-full mb-4 inline-block border border-trebol/20">
-            Showcase de Estilos de Diseño Vanguardistas
+            Showcase de Marcas & Arquitecturas Web Reales
           </span>
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
             Una <span className="text-trebol">Web dentro de Otra Web.</span>
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Explora 4 corrientes de diseño web (Neo-Brutalismo, E-Commerce de Lujo, Aurora Neón Espacial y Tipografía Suiza) recortando en vivo con el deslizador.
+            Selecciona una industria y desliza la barra central para recortar entre la plantilla antigua en código y la web a medida con identidad propia.
           </p>
         </div>
 
-        {/* Modalidad Selector Tabs */}
+        {/* Modalidad Selector Tabs - 4 TIPOS DE PROYECTO WEB CON IDENTIDAD PROPIA */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
           {designModes.map((m, idx) => (
             <button
@@ -329,7 +330,7 @@ export default function DesarrolloWebPage() {
           ))}
         </div>
 
-        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
+        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON DOS WEBS REALES RENDERIZADAS EN CÓDIGO NATIVO */}
         <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
           
           {/* Header Bar Browser MacOS */}
@@ -338,73 +339,74 @@ export default function DesarrolloWebPage() {
               <span className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-sm" />
               <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
               <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
-              <span className="text-xs font-mono text-neutral-400 ml-2">design-system-renderer — style: {designModes[activeMode].id}</span>
+              <span className="text-xs font-mono text-neutral-400 ml-2">live-web-renderer — brand: {designModes[activeMode].id}</span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono text-trebol font-bold bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/30">
-                ◄ Desliza la barra para recortar el diseño ►
+                ◄ Desliza la barra para comparar el código ►
               </span>
             </div>
           </div>
 
-          {/* VIEWPORT INTERACTIVO CON MOCKUPS WEBS 100% ÚNICAS EN ESTILO Y CORRIENTE VISUAL */}
+          {/* VIEWPORT INTERACTIVO CON MOCKUPS WEBS 100% ÚNICAS EN ESTILO Y MARCA */}
           <div className="relative w-full h-[540px] md:h-[620px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
             
-            {/* 1. LADO DERECHO: EL NUEVO ESTILO DE DISEÑO EN CÓDIGO NATIVO */}
+            {/* 1. LADO DERECHO: LA NUEVA WEB A MEDIDA CON SU PROPIA IDENTIDAD VISUAL DE MARCA */}
             <div className="absolute inset-0 w-full h-full overflow-hidden font-sans">
 
-              {/* STYLE 1: NEO-BRUTALISMO INDUSTRIAL (KRAFT BERLIN) */}
+              {/* BRAND 1: NEXUS TECH B2B (Cyberpunk Fintech Style - Azul Eléctrico & Negro Profundo) */}
               {activeMode === 0 && (
-                <div className="w-full h-full bg-[#FFFDF0] text-[#000000] p-6 md:p-10 flex flex-col justify-between font-mono border-4 border-black">
-                  <div className="flex justify-between items-center border-b-4 border-black pb-4">
-                    <div className="flex items-center gap-2 font-black text-black text-lg bg-[#FFE500] px-3 py-1 border-2 border-black shadow-[3px_3px_0px_#000]">
-                      ⚡ KRAFT_INDUSTRIAL.DE
+                <div className="w-full h-full bg-[#050b14] text-sky-100 p-6 md:p-10 flex flex-col justify-between">
+                  <div className="flex justify-between items-center border-b border-sky-900/50 pb-4">
+                    <div className="flex items-center gap-2 font-mono font-bold text-sky-400 tracking-widest text-sm">
+                      <span className="w-3 h-3 rounded-full bg-sky-400 animate-ping" />
+                      NEXUS // ENTERPRISE
                     </div>
-                    <div className="flex items-center gap-3 text-xs font-bold">
-                      <span className="bg-[#7000FF] text-white px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000]">BUILD: 2026.04</span>
-                      <button className="bg-black text-white px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#FFE500] hover:bg-[#FFE500] hover:text-black transition-all">
-                        GET SPEC SHEET ↗
+                    <div className="flex items-center gap-4 text-xs font-mono text-sky-300">
+                      <span className="bg-sky-500/10 px-3 py-1 rounded border border-sky-500/30 text-sky-400">● API v4.2 Connected</span>
+                      <button className="bg-sky-400 text-slate-950 font-bold px-4 py-1.5 rounded hover:bg-white transition-colors">
+                        Launch Terminal ⚡
                       </button>
                     </div>
                   </div>
 
-                  <div className="my-auto space-y-4 font-sans">
-                    <div className="inline-block bg-[#FFE500] text-black font-mono font-bold text-xs px-3 py-1 border-2 border-black shadow-[3px_3px_0px_#000]">
-                      /// RAW NEO-BRUTALIST ARCHITECTURE
-                    </div>
-                    <h3 className="text-3xl md:text-5xl font-black text-black leading-none uppercase tracking-tight">
-                      HEAVY INDUSTRIAL <br />
-                      <span className="bg-[#7000FF] text-white px-2">ENGINEERING.</span>
+                  <div className="my-auto space-y-5">
+                    <span className="text-[10px] font-mono text-sky-400 uppercase tracking-widest bg-sky-950 px-3 py-1 rounded border border-sky-800 inline-block">
+                      Global Supply Chain Intelligence
+                    </span>
+                    <h3 className="text-3xl md:text-5xl font-black text-white leading-tight font-sans tracking-tight">
+                      Next-Gen Enterprise <br />
+                      <span className="text-sky-400">Logistics Network.</span>
                     </h3>
-                    <p className="text-xs md:text-sm font-mono text-black font-bold max-w-lg leading-relaxed">
-                      Zero useless decoration. Pure structural efficiency with high-contrast UI feedback and raw performance.
+                    <p className="text-xs md:text-sm text-sky-200/80 max-w-lg leading-relaxed font-light">
+                      Real-time telemetry and automated route optimization across 140 global distribution nodes.
                     </p>
 
-                    <div className="grid grid-cols-3 gap-3 font-mono pt-2">
-                      <div className="bg-white p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-neutral-500">SPEED</span>
-                        <span className="text-base font-black text-black">1.1 SEC</span>
+                    <div className="grid grid-cols-3 gap-3 pt-2">
+                      <div className="bg-sky-950/60 p-3.5 rounded-xl border border-sky-800/60 font-mono">
+                        <span className="text-[10px] text-sky-400 block">THROUGHPUT</span>
+                        <span className="text-sm font-bold text-white">4.2 TB/s</span>
                       </div>
-                      <div className="bg-[#FFE500] p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-black">LIGHTHOUSE</span>
-                        <span className="text-base font-black text-black">99/100</span>
+                      <div className="bg-sky-950/60 p-3.5 rounded-xl border border-sky-800/60 font-mono">
+                        <span className="text-[10px] text-sky-400 block">LATENCY</span>
+                        <span className="text-sm font-bold text-sky-300">12ms Edge</span>
                       </div>
-                      <div className="bg-[#7000FF] text-white p-3 border-3 border-black shadow-[4px_4px_0px_#000]">
-                        <span className="text-[10px] font-bold block text-white/80">CONVERSION</span>
-                        <span className="text-base font-black text-white">+280%</span>
+                      <div className="bg-sky-950/60 p-3.5 rounded-xl border border-sky-800/60 font-mono">
+                        <span className="text-[10px] text-sky-400 block">UPTIME</span>
+                        <span className="text-sm font-bold text-white">99.999%</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center border-t-4 border-black pt-3 text-xs font-mono font-bold">
-                    <span>STYLE: NEO-BRUTALISM // HARD SHADOWS</span>
-                    <span>BERLIN / TOKYO ARCHITECTURE</span>
+                  <div className="flex justify-between items-center border-t border-sky-900/50 pt-3 text-xs font-mono text-sky-400/80">
+                    <span>Identity: Nexus Tech B2B Architecture</span>
+                    <span>Status: Fully Operational</span>
                   </div>
                 </div>
               )}
 
-              {/* STYLE 2: LUXURY E-COMMERCE (AURA PARIS) - User's Favorite! */}
+              {/* BRAND 2: AURA LUXURY FASHION (High-Fashion Editorial Style - Blanco Pulcro & Terracota) */}
               {activeMode === 1 && (
                 <div className="w-full h-full bg-[#FAF8F5] text-[#2C2523] p-6 md:p-10 flex flex-col justify-between font-serif">
                   <div className="flex justify-between items-center border-b border-[#E5DFD9] pb-4 font-sans">
@@ -471,109 +473,101 @@ export default function DesarrolloWebPage() {
                 </div>
               )}
 
-              {/* STYLE 3: AURORA NEÓN ESPACIAL (COSMIC NEBULA / DISCORD NITRO STYLE) - Fondo Neón Cósmico, esferas de luz aurora, tarjetas de cristal holográficas */}
+              {/* BRAND 3: VORTEX AI SAAS APP (Cyber Neon Style - Púrpura Neón & Magenta) */}
               {activeMode === 2 && (
-                <div className="w-full h-full bg-[#070414] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans relative overflow-hidden">
-                  
-                  {/* Glowing Aurora Cosmic Light Orbs */}
-                  <div className="absolute top-0 right-0 w-[24rem] h-[24rem] bg-gradient-to-br from-fuchsia-500/30 via-purple-600/25 to-indigo-500/20 rounded-full blur-[100px] pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-[22rem] h-[22rem] bg-gradient-to-tr from-cyan-400/25 via-blue-600/20 to-fuchsia-600/30 rounded-full blur-[100px] pointer-events-none" />
-
-                  {/* Header Bar */}
-                  <div className="flex justify-between items-center border-b border-purple-500/20 pb-4 relative z-10">
-                    <div className="flex items-center gap-2 font-black text-fuchsia-300 text-lg tracking-tight">
-                      <Sparkle size={20} className="text-fuchsia-400 animate-pulse" />
-                      COSMIC // AURORA NEBULA
+                <div className="w-full h-full bg-[#0d0714] text-purple-100 p-6 md:p-10 flex flex-col justify-between font-sans">
+                  <div className="flex justify-between items-center border-b border-purple-900/50 pb-4">
+                    <div className="flex items-center gap-2 font-mono font-bold text-fuchsia-400 text-sm">
+                      <Sparkle size={16} className="text-fuchsia-400 animate-spin" />
+                      VORTEX AI ENGINE
                     </div>
                     <div className="flex items-center gap-3 text-xs font-mono">
-                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3.5 py-1.5 rounded-full border border-fuchsia-500/30 font-bold shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                        🌌 Aurora Mesh Active
-                      </span>
-                      <button className="bg-gradient-to-r from-fuchsia-500 via-purple-600 to-cyan-400 text-white font-bold px-5 py-2 rounded-full text-xs hover:scale-105 transition-all shadow-[0_0_25px_rgba(217,70,239,0.5)]">
-                        Explore Cosmos 🚀
+                      <span className="bg-fuchsia-500/10 text-fuchsia-300 px-3 py-1 rounded-full border border-fuchsia-500/30">Node 1,024 Active</span>
+                      <button className="bg-gradient-to-r from-fuchsia-500 to-purple-600 text-white font-bold px-4 py-1.5 rounded-full text-xs shadow-lg">
+                        Deploy Model 🚀
                       </button>
                     </div>
                   </div>
 
-                  {/* Hero Holographic Content */}
-                  <div className="my-auto space-y-5 max-w-xl relative z-10">
-                    <span className="bg-gradient-to-r from-fuchsia-500/20 to-cyan-500/20 text-cyan-300 px-4 py-1.5 rounded-full font-mono text-xs font-bold border border-cyan-400/30 inline-block shadow-[0_0_20px_rgba(56,189,248,0.2)]">
-                      ✨ SPATIAL NEON ARCHITECTURE
+                  <div className="my-auto space-y-5">
+                    <span className="text-[10px] font-mono text-fuchsia-400 uppercase tracking-widest bg-purple-950 px-3 py-1 rounded-full border border-purple-800 inline-block">
+                      Neural Inference Dashboard
                     </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-white leading-[0.95] tracking-tight">
-                      Cosmic Aurora <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-300 to-cyan-300">Holographic Experience.</span>
+                    <h3 className="text-3xl md:text-5xl font-black text-white leading-tight">
+                      Automated Machine <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400">Learning Pipeline.</span>
                     </h3>
 
-                    {/* Holographic Cards Grid */}
-                    <div className="grid grid-cols-3 gap-3 pt-2">
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">NEBULA SPEED</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">0.8s</span>
+                    <div className="grid grid-cols-3 gap-3 font-mono">
+                      <div className="bg-purple-950/40 p-3.5 rounded-2xl border border-purple-800/40">
+                        <span className="text-[10px] text-fuchsia-400 block">LATENCY</span>
+                        <span className="text-lg font-black text-white">4.2ms</span>
                       </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold block">FPS RATE</span>
-                        <span className="text-lg md:text-2xl font-black text-cyan-300 font-mono">120 FPS</span>
+                      <div className="bg-purple-950/40 p-3.5 rounded-2xl border border-purple-800/40">
+                        <span className="text-[10px] text-fuchsia-400 block">ACCURACY</span>
+                        <span className="text-lg font-black text-fuchsia-300">99.84%</span>
                       </div>
-
-                      <div className="bg-purple-950/40 backdrop-blur-2xl p-4 rounded-2xl border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] space-y-1">
-                        <span className="text-[10px] font-mono text-fuchsia-400 font-bold block">LIGHTHOUSE</span>
-                        <span className="text-lg md:text-2xl font-black text-white font-mono">99/100</span>
+                      <div className="bg-purple-950/40 p-3.5 rounded-2xl border border-purple-800/40">
+                        <span className="text-[10px] text-fuchsia-400 block">REQUESTS</span>
+                        <span className="text-lg font-black text-white">84.2K/m</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center border-t border-purple-500/20 pt-3 text-xs font-mono text-purple-300/80 relative z-10">
-                    <span>STYLE: AURORA NEÓN ESPACIAL (COSMIC DISCORD STYLE)</span>
-                    <span className="text-fuchsia-400 font-bold">HOLOGRAPHIC MESH</span>
+                  <div className="flex justify-between items-center border-t border-purple-900/50 pt-3 text-xs font-mono text-purple-400">
+                    <span>Identity: Vortex AI Cyber UI</span>
+                    <span>GPU Acceleration: Enabled</span>
                   </div>
                 </div>
               )}
 
-              {/* STYLE 4: SWISS EDITORIAL GRID (FOUNDATION ARCHITECTURE) */}
+              {/* BRAND 4: VALO HEALTHCARE (Clean Clinical Style - Turquesa Médico & Menta) */}
               {activeMode === 3 && (
-                <div className="w-full h-full bg-[#FAFAFA] text-[#111111] p-6 md:p-10 flex flex-col justify-between font-sans">
-                  <div className="flex justify-between items-center border-b border-neutral-300 pb-4">
-                    <span className="font-black tracking-tighter text-lg uppercase text-black">FOUNDATION / DESIGN</span>
-                    <div className="flex items-center gap-6 text-xs font-mono text-neutral-600">
-                      <span>VOL. 2026</span>
-                      <span className="font-bold text-black">SWISS GRID ARCHITECTURE</span>
+                <div className="w-full h-full bg-[#F0FDFA] text-[#0F766E] p-6 md:p-10 flex flex-col justify-between font-sans">
+                  <div className="flex justify-between items-center border-b border-teal-200 pb-4">
+                    <div className="flex items-center gap-2 font-bold text-teal-900 text-lg">
+                      <div className="w-7 h-7 rounded-lg bg-teal-600 text-white flex items-center justify-center font-black text-xs">+</div>
+                      VALO HEALTH & CLINIC
+                    </div>
+                    <div className="flex items-center gap-3 text-xs font-medium">
+                      <span className="bg-teal-100 text-teal-800 px-3 py-1 rounded-full font-bold">● 24/7 Virtual Care</span>
+                      <button className="bg-teal-700 text-white font-bold px-5 py-2 rounded-full text-xs hover:bg-teal-800 shadow">
+                        Book Appointment 🗓️
+                      </button>
                     </div>
                   </div>
 
-                  <div className="my-auto space-y-5">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl md:text-3xl font-black font-mono text-neutral-400">01 /</span>
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest bg-neutral-200 text-black px-3 py-1 rounded">
-                        INTERNATIONAL TYPOGRAPHIC STYLE
-                      </span>
-                    </div>
-
-                    <h3 className="text-3xl md:text-5xl font-black text-black leading-[0.9] tracking-tighter uppercase">
-                      Swiss Precision <br />
-                      <span className="text-neutral-500 font-light italic">Layout System.</span>
+                  <div className="my-auto space-y-4">
+                    <span className="text-xs font-bold text-teal-700 uppercase tracking-widest bg-teal-100 px-3 py-1 rounded-full inline-block">
+                      Patient Portal & Telemedicine
+                    </span>
+                    <h3 className="text-3xl md:text-5xl font-black text-teal-950 leading-tight">
+                      Empowering Next-Gen <br />
+                      <span className="text-teal-600">Clinical Excellence.</span>
                     </h3>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 border-t border-b border-neutral-300 py-4 font-mono text-xs">
-                      <div>
-                        <span className="text-[10px] text-neutral-500 block uppercase">GRID COLUMNS</span>
-                        <strong className="text-black font-bold">12-Column Fixed</strong>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-2">
+                      <div className="bg-white p-3.5 rounded-2xl border border-teal-200 shadow-sm space-y-1">
+                        <span className="text-xs font-bold text-teal-950 block">Dr. Sarah Jenkins</span>
+                        <span className="text-[10px] text-teal-600 block">Cardiology Specialist</span>
+                        <span className="text-[10px] font-bold text-teal-700 block">Next Available: Today 14:00</span>
                       </div>
-                      <div>
-                        <span className="text-[10px] text-neutral-500 block uppercase">TYPOGRAPHY</span>
-                        <strong className="text-black font-bold">Helvetica Neue / Inter</strong>
+                      <div className="bg-white p-3.5 rounded-2xl border border-teal-200 shadow-sm space-y-1">
+                        <span className="text-xs font-bold text-teal-950 block">Teleconsultation</span>
+                        <span className="text-[10px] text-teal-600 block">HD Video & Encrypted</span>
+                        <span className="text-[10px] font-bold text-teal-700 block">Instant Access</span>
                       </div>
-                      <div className="hidden md:block">
-                        <span className="text-[10px] text-neutral-500 block uppercase">CONTRAST</span>
-                        <strong className="text-black font-bold">AAA Certified</strong>
+                      <div className="hidden md:block bg-white p-3.5 rounded-2xl border border-teal-200 shadow-sm space-y-1">
+                        <span className="text-xs font-bold text-teal-950 block">Lab Results</span>
+                        <span className="text-[10px] text-teal-600 block">Automated Portal</span>
+                        <span className="text-[10px] font-bold text-teal-700 block">SOC2 Compliant</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center pt-3 text-xs font-mono text-neutral-500">
-                    <span>STYLE: SWISS EDITORIAL GRID</span>
-                    <span className="text-black font-bold">ZÜRICH DESIGN SCHOOL</span>
+                  <div className="flex justify-between items-center border-t border-teal-200 pt-3 text-xs text-teal-700">
+                    <span>Identity: Valo Health Clinical Architecture</span>
+                    <span className="font-bold">WCAG AAA Accessibility Certified</span>
                   </div>
                 </div>
               )}
@@ -704,7 +698,7 @@ export default function DesarrolloWebPage() {
 
           {/* Footer Bar */}
           <div className="w-full flex items-center justify-between border-t border-white/10 pt-4 mt-6 text-xs text-neutral-400 font-mono">
-            <span>4 Corrientes de Diseño Web Renderizadas 100% en Código Nativo</span>
+            <span>4 Marcas Reales con Estilo & Estética Única Renderizadas 100% en Código</span>
             <span className="text-trebol font-bold">⚡ Desliza para recortar</span>
           </div>
 
@@ -771,3 +765,9 @@ export default function DesarrolloWebPage() {
     </main>
   );
 }
+'''
+
+with open(r'c:\Users\gadiel.palma\Downloads\trebol digital\trebol-digital-web\app\soluciones\desarrollo-web\page.js', 'w', encoding='utf-8') as f:
+    f.write(code)
+
+print("SUCCESS")
