@@ -15,6 +15,7 @@ import { SwissMockup } from '../../../components/desarrollo-web/mockups/SwissMoc
 import { BrutalistMockup } from '../../../components/desarrollo-web/mockups/BrutalistMockup';
 import { LuxuryMockup } from '../../../components/desarrollo-web/mockups/LuxuryMockup';
 import { SpeedometerGauge, LighthouseGauge, ConversionGauge } from '../../../components/desarrollo-web/PerformanceGauges';
+import Contact from '@/components/Contact';
 
 const capabilitiesList = [
   { name: 'Renderizado Ultrarrápido & SEO Impecable', role: 'Next.js 16 SSR/SSG', desc: 'Desarrollamos páginas de carga instantánea optimizadas para posicionar en los primeros lugares de Google.', icon: Globe },
@@ -126,7 +127,7 @@ export default function DesarrolloWebPage() {
             className="absolute -top-10 md:-top-12 lg:right-[14%] right-0 z-20"
           >
             <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
-              Arquitectura Next.js 16 & React 19
+              Te llevamos al siguiente nivel tecnológico
             </div>
           </motion.div>
 
@@ -423,30 +424,8 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── Contact CTA Editorial ────────────────────── */}
-      <section className="w-full bg-hueso pb-32 px-6 md:px-12">
-        <div className="max-w-[1400px] mx-auto bg-white/60 backdrop-blur-2xl border border-white/80 rounded-[3rem] p-12 md:p-20 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
-            <div>
-              <h2 className="text-5xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.9] mb-6">
-                Construyamos tu <br />
-                <span className="text-trebol">sitio web.</span>
-              </h2>
-              <p className="text-2xl text-carbon/70 font-light max-w-xl leading-relaxed">
-                En 30 minutos cotizamos la arquitectura ideal para las necesidades de tu empresa.
-              </p>
-            </div>
-
-            <Link
-              href="/agenda"
-              className="inline-flex items-center gap-2 bg-carbon text-hueso font-bold px-10 py-6 rounded-full hover:bg-trebol transition-colors duration-500 text-xl shrink-0 shadow-xl"
-            >
-              Solicitar propuesta web
-              <ArrowUpRight size={22} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ── Contact CTA (mismo estilo que Home) ────────── */}
+      <Contact />
     </main>
   );
 }

@@ -8,6 +8,7 @@ import {
   Users, Bot, CheckCircle2, TrendingUp, Sparkles, Plus, Minus
 } from 'lucide-react';
 import CanalesScrollytelling from '@/components/CanalesScrollytelling';
+import Contact from '@/components/Contact';
 
 const roadmapSteps = [
   {
@@ -379,30 +380,8 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* ── CONTACT CTA EDITORIAL ────────────────────── */}
-      <section className="w-full bg-hueso py-32 px-6 md:px-12">
-        <div className="max-w-[1400px] mx-auto bg-white/60 backdrop-blur-2xl border border-white/80 rounded-[3rem] p-12 md:p-20 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
-            <div>
-              <h2 className="text-5xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.9] mb-6">
-                Construyamos tu <br />
-                <span className="text-trebol">estrategia digital.</span>
-              </h2>
-              <p className="text-2xl text-carbon/70 font-light max-w-xl leading-relaxed">
-                Agenda una sesión estratégica de 30 minutos sin costo. Analizaremos tu presencia digital y definiremos la ruta exacta.
-              </p>
-            </div>
-
-            <Link
-              href="/agenda"
-              className="inline-flex items-center gap-2 bg-carbon text-hueso font-bold px-10 py-6 rounded-full hover:bg-trebol transition-colors duration-500 text-xl shrink-0 shadow-xl"
-            >
-              Agendar diagnóstico
-              <ArrowUpRight size={22} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ── Contact CTA (mismo estilo que Home) ────────── */}
+      <Contact />
     </main>
   );
 }

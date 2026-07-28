@@ -14,6 +14,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-roboto)', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
       }
     },
   },

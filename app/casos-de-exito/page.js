@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Quote, Building2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import Contact from '@/components/Contact';
 
 const categorias = ['Todos', 'Marketing Estratégico', 'IA Aplicada', 'Desarrollo Organizacional', 'Desarrollo Web'];
 
@@ -87,6 +88,7 @@ const casos = [
 
 export default function CasosPage() {
   const [activeCategory, setActiveCategory] = useState('Todos');
+  const [activeTestimonio, setActiveTestimonio] = useState(0);
 
   const casosFiltrados = activeCategory === 'Todos'
     ? casos
@@ -190,24 +192,12 @@ export default function CasosPage() {
                       alt={caso.empresa}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-6 left-6 bg-carbon/90 backdrop-blur-md text-trebol text-xs font-black px-4 py-2 rounded-full shadow-lg">
-                      {caso.categoria}
-                    </div>
-                    <div className="absolute bottom-6 left-6 bg-trebol text-white font-black text-sm px-5 py-2.5 rounded-full shadow-lg flex items-center gap-2">
-                      <Sparkles size={16} />
-                      <span>{caso.statHero}</span>
-                    </div>
                   </div>
 
                   {/* Content Side */}
                   <div className={`md:col-span-7 space-y-6 ${
                     isEven ? 'md:order-last' : 'md:order-first'
                   }`}>
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-trebol">
-                      <Building2 size={16} />
-                      <span>{caso.empresa} — {caso.lugar}</span>
-                    </div>
-
                     <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tight leading-[0.9]">
                       {caso.empresa}
                     </h2>
@@ -251,68 +241,78 @@ export default function CasosPage() {
         </div>
       </section>
 
-      {/* ── CLIENT TESTIMONIAL QUOTES CON FOTOGRAFÍAS DE CLIENTES ────── */}
-      <section className="w-full bg-[#EEF7E6] text-carbon py-32 px-6 md:px-12 rounded-[3.5rem] max-w-[1500px] mx-auto mb-32 shadow-xl border border-trebol/20">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="text-center mb-20">
-            <span className="text-xs font-bold uppercase tracking-widest text-trebol bg-white px-4 py-1.5 rounded-full mb-4 inline-block shadow-sm">
-              Testimonios Directos
-            </span>
-            <h2 className="text-5xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.85]">
-              Lo que dicen nuestros clientes.
-            </h2>
+      {/* ── TESTIMONIALS CARRUSEL ──────────────────────── */}
+      <section className="w-full bg-hueso py-24 px-6 md:px-12">
+        <div className="max-w-[1100px] mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.85] mb-16">
+            Lo que dicen nuestros <span className="text-trebol">clientes.</span>
+          </h2>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setActiveTestimonio(activeTestimonio === 0 ? casos.length - 1 : activeTestimonio - 1)}
+              className="w-12 h-12 rounded-full flex items-center justify-center text-carbon hover:text-trebol transition-colors shrink-0"
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            <div className="flex-1">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTestimonio}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg flex h-[350px]"
+                >
+                  <div className="relative w-2/5 shrink-0 overflow-hidden">
+                    <img
+                      src={casos[activeTestimonio].clienteImg}
+                      alt={casos[activeTestimonio].cliente}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white to-transparent" />
+                  </div>
+                  <div className="flex-1 p-10 md:p-14 text-left relative flex flex-col justify-center">
+                    <Quote size={100} className="absolute -top-4 -left-2 text-trebol/10 pointer-events-none" />
+                    <p className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed italic mb-8 relative z-10">
+                      &ldquo;{casos[activeTestimonio].quote}&rdquo;
+                    </p>
+                    <div className="pt-4 border-t border-gray-100 relative z-10">
+                      <p className="text-base font-bold text-carbon mb-0.5">{casos[activeTestimonio].cliente}</p>
+                      <p className="text-xs text-trebol font-semibold">{casos[activeTestimonio].empresa}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <button
+              onClick={() => setActiveTestimonio(activeTestimonio === casos.length - 1 ? 0 : activeTestimonio + 1)}
+              className="w-12 h-12 rounded-full flex items-center justify-center text-carbon hover:text-trebol transition-colors shrink-0"
+            >
+              <ChevronRight size={28} />
+            </button>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {casos.slice(0, 3).map((c) => (
-              <div key={c.cliente} className="bg-white border border-trebol/20 p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between shadow-lg">
-                <div>
-                  <Quote size={36} className="text-trebol mb-6 opacity-70" />
-                  <p className="text-lg md:text-xl text-carbon/80 font-light leading-relaxed italic mb-8">
-                    &ldquo;{c.quote}&rdquo;
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-gray-100 flex items-center gap-4">
-                  <img
-                    src={c.clienteImg}
-                    alt={c.cliente}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-trebol shadow-md shrink-0"
-                  />
-                  <div>
-                    <p className="text-base font-bold text-carbon mb-0.5">{c.cliente}</p>
-                    <p className="text-xs text-trebol font-semibold">{c.empresa}</p>
-                  </div>
-                </div>
-              </div>
+          {/* Controles */}
+          <div className="flex items-center justify-center gap-3 mt-8">
+            {casos.slice(0, 4).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveTestimonio(idx)}
+                className={`h-2.5 rounded-full transition-all duration-500 ${
+                  activeTestimonio === idx ? 'w-10 bg-trebol' : 'w-2.5 bg-trebol/30 hover:bg-trebol/60'
+                }`}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Contact CTA Editorial ────────────────────── */}
-      <section className="w-full bg-hueso pb-32 px-6 md:px-12">
-        <div className="max-w-[1400px] mx-auto bg-white/60 backdrop-blur-2xl border border-white/80 rounded-[3rem] p-12 md:p-20 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
-            <div>
-              <h2 className="text-5xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.9] mb-6">
-                Tu caso de éxito <br />
-                <span className="text-trebol">empieza hoy.</span>
-              </h2>
-              <p className="text-2xl text-carbon/70 font-light max-w-xl leading-relaxed">
-                Agenda un diagnóstico gratuito de 30 minutos y construyamos los siguientes resultados para tu empresa.
-              </p>
-            </div>
-
-            <Link
-              href="/agenda"
-              className="inline-flex items-center gap-2 bg-carbon text-hueso font-bold px-10 py-6 rounded-full hover:bg-trebol transition-colors duration-500 text-xl shrink-0 shadow-xl"
-            >
-              Agendar diagnóstico
-              <ArrowUpRight size={22} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ── Contact ──────────────────────────────────── */}
+      <Contact />
     </main>
   );
 }
