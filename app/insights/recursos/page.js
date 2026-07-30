@@ -13,7 +13,7 @@ const recursos = [
     titulo: 'Calendario Editorial Mensual',
     desc: 'Organiza todo tu contenido del mes en un sistema simple y efectivo. Incluye columnas para canal, formato, tema, copy y estado.',
     tags: ['Marketing', 'Contenido', 'Redes'],
-    color: '#5C9E31',
+    color: '#5C9E43',
     bg: 'bg-[#EEF7E6]',
   },
   {
@@ -57,7 +57,7 @@ const recursos = [
     titulo: 'Reporte de Métricas Mensual',
     desc: 'Dashboard pre-armado para reportar tus KPIs de marketing digital de forma clara y profesional a tu equipo o clientes.',
     tags: ['Analytics', 'Reportes'],
-    color: '#5C9E31',
+    color: '#5C9E43',
     bg: 'bg-[#EEF7E6]',
   },
   {
@@ -91,7 +91,7 @@ export default function RecursosPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#EEF7E6] text-[#5C9E31] text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-[#5C9E31]/20"
+            className="inline-flex items-center gap-2 bg-[#EEF7E6] text-[#5C9E43] text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-[#5C9E43]/20"
           >
             <Download size={14} />
             Recursos Descargables Gratuitos
@@ -104,7 +104,7 @@ export default function RecursosPage() {
             className="text-5xl md:text-7xl lg:text-[7rem] font-black text-carbon leading-[0.9] tracking-tighter mb-8"
           >
             Herramientas listas <br />
-            <span className="text-[#5C9E31]">para usar en tu negocio.</span>
+            <span className="text-[#5C9E43]">para usar en tu negocio.</span>
           </motion.h1>
 
           <motion.p
@@ -121,7 +121,7 @@ export default function RecursosPage() {
       {/* Alert toast for download simulator */}
       {downloadedItem && (
         <div className="fixed bottom-8 right-8 z-50 bg-carbon text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10">
-          <Sparkles size={18} className="text-[#5C9E31]" />
+          <Sparkles size={18} className="text-[#5C9E43]" />
           <span className="text-sm font-semibold">¡Descarga iniciada: {downloadedItem}!</span>
         </div>
       )}
@@ -138,7 +138,7 @@ export default function RecursosPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.08 }}
-                className="group bg-white/70 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-[#5C9E31]/40 transition-all duration-500 flex flex-col justify-between"
+                className="group bg-white/70 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-[#5C9E43]/40 transition-all duration-500 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -156,7 +156,7 @@ export default function RecursosPage() {
                     {rec.tipo} — {rec.descargas}
                   </span>
 
-                  <h3 className="text-2xl font-black text-carbon mb-3 group-hover:text-[#5C9E31] transition-colors leading-tight">
+                  <h3 className="text-2xl font-black text-carbon mb-3 group-hover:text-[#5C9E43] transition-colors leading-tight">
                     {rec.titulo}
                   </h3>
 
@@ -175,7 +175,7 @@ export default function RecursosPage() {
 
                 <button
                   onClick={() => handleDownload(rec)}
-                  className="inline-flex items-center justify-center gap-2 bg-carbon hover:bg-[#5C9E31] text-hueso font-bold px-6 py-3.5 rounded-2xl transition-all duration-300 text-sm shadow-md"
+                  className="inline-flex items-center justify-center gap-2 bg-carbon hover:bg-[#5C9E43] text-hueso font-bold px-6 py-3.5 rounded-2xl transition-all duration-300 text-sm shadow-md"
                 >
                   <Download size={16} />
                   Descargar recurso gratis
@@ -192,7 +192,7 @@ export default function RecursosPage() {
           <div>
             <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-4">
               ¿Buscas acompañamiento <br />
-              <span className="text-[#5C9E31]">personalizado?</span>
+              <span className="text-[#5C9E43]">personalizado?</span>
             </h2>
             <p className="text-xl text-hueso/70 font-light max-w-lg">
               Los recursos son el punto de partida. En un diagnóstico de 30 min construimos tu plan a medida.
@@ -200,7 +200,7 @@ export default function RecursosPage() {
           </div>
           <Link
             href="/agenda"
-            className="inline-flex items-center gap-2 bg-[#5C9E31] text-white font-bold px-10 py-5 rounded-full hover:bg-white hover:text-carbon transition-all duration-500 text-lg shrink-0"
+            className="inline-flex items-center gap-2 bg-[#5C9E43] text-white font-bold px-10 py-5 rounded-full hover:bg-white hover:text-carbon transition-all duration-500 text-lg shrink-0"
           >
             Agendar diagnóstico
             <ArrowUpRight size={20} />

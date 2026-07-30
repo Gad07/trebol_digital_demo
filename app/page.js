@@ -1,5 +1,4 @@
 import { Hero, Services, Process, WhyUs, Contact } from '../components/DynamicSections';
-import FloatingNav from '../components/FloatingNav';
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
         <WhyUs />
         <Contact />
       </main>
-      <FloatingNav current="v1" />
     </>
   );
 }

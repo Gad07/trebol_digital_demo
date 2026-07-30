@@ -253,7 +253,7 @@ export default function DesarrolloOrgPage() {
                   <div className="w-full h-1.5 bg-neutral-200 rounded-full overflow-hidden">
                     <motion.div
                       className="h-full rounded-full"
-                      style={{ backgroundColor: saludScore >= 80 ? '#5C9E31' : saludScore >= 50 ? '#d97706' : '#ef4444' }}
+                      style={{ backgroundColor: saludScore >= 80 ? '#5C9E43' : saludScore >= 50 ? '#d97706' : '#ef4444' }}
                       initial={{ width: 0 }}
                       animate={{ width: `${saludScore}%` }}
                       transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -322,7 +322,7 @@ export default function DesarrolloOrgPage() {
                   <motion.div 
                     initial={{ backgroundColor: '#2D2D2D', color: '#ffffff', borderColor: '#F5F5F5' }}
                     whileInView={{ 
-                      backgroundColor: '#5C9E31', 
+                      backgroundColor: '#5C9E43', 
                       color: '#ffffff',
                       borderColor: '#F5F5F5',
                     }}
@@ -345,7 +345,7 @@ export default function DesarrolloOrgPage() {
                   whileInView={{ 
                     opacity: 1,
                     backgroundColor: '#f2f8ed', 
-                    borderColor: '#5C9E31',
+                    borderColor: '#5C9E43',
                     boxShadow: '0 15px 40px rgba(92,158,49,0.14)',
                   }}
                   viewport={{ margin: "-22% 0px -22% 0px", amount: 0.6 }}

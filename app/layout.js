@@ -145,7 +145,7 @@ export default function RootLayout({ children }) {
             viewBox="0 0 900 900"
             style={{ filter: 'blur(80px)', animation: 'drift1 25s ease-in-out infinite alternate' }}
           >
-            <circle cx="450" cy="450" r="400" fill="#5C9E31" fillOpacity="0.05" />
+            <circle cx="450" cy="450" r="400" fill="#5C9E43" fillOpacity="0.05" />
           </svg>
           {/* Verde Trébol — massive blob bottom-right */}
           <svg
@@ -153,7 +153,7 @@ export default function RootLayout({ children }) {
             viewBox="0 0 800 800"
             style={{ filter: 'blur(80px)', animation: 'drift2 30s ease-in-out infinite alternate' }}
           >
-            <circle cx="400" cy="400" r="350" fill="#5C9E31" fillOpacity="0.05" />
+            <circle cx="400" cy="400" r="350" fill="#5C9E43" fillOpacity="0.05" />
           </svg>
         </div>
 

@@ -115,11 +115,11 @@ export const WEB_STYLES = [
     colors: {
       bg: '#0D0E12',
       text: '#ECEEF2',
-      accent: '#5C9E31',
+      accent: '#5C9E43',
       cardBg: '#16181D',
       border: 'rgba(255, 255, 255, 0.1)',
     },
-    palette: ['#0D0E12', '#16181D', '#5C9E31', '#94A3B8', '#1E232D'],
+    palette: ['#0D0E12', '#16181D', '#5C9E43', '#94A3B8', '#1E232D'],
     typography: 'Geist / Inter + Code Mono',
     bestFor: 'Empresas B2B SaaS, herramientas para desarrolladores, paneles de análisis y plataformas cloud.',
     highlights: [

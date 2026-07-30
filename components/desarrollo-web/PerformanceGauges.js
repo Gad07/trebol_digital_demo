@@ -9,7 +9,7 @@ export function SpeedometerGauge({ isBefore }) {
   // Progress Arc Length: Total semi-circle arc length = 245px
   // Slow (5.8s) = 50px (Red fill), Fast (1.1s) = 228px (Green fill)
   const strokeDashArrayTarget = isBefore ? '50 245' : '228 245';
-  const strokeColor = isBefore ? '#DC2626' : '#5C9E31';
+  const strokeColor = isBefore ? '#DC2626' : '#5C9E43';
 
   return (
     <div className="flex flex-col items-center text-center space-y-4 font-sans select-none">
@@ -54,7 +54,7 @@ export function SpeedometerGauge({ isBefore }) {
 
           {/* Outer Clean End Labels */}
           <text x="14" y="110" fill="#DC2626" fontSize="9" fontWeight="bold" fontFamily="monospace">5.8s (Lento)</text>
-          <text x="134" y="110" fill="#5C9E31" fontSize="9" fontWeight="bold" fontFamily="monospace">1.1s (Rápido)</text>
+          <text x="134" y="110" fill="#5C9E43" fontSize="9" fontWeight="bold" fontFamily="monospace">1.1s (Rápido)</text>
 
           {/* Animated Needle with SVG Native Radial Arc Sweep */}
           <motion.g
@@ -107,7 +107,7 @@ export function SpeedometerGauge({ isBefore }) {
 export function LighthouseGauge({ isBefore }) {
   const score = isBefore ? 42 : 99;
   const strokeDashoffset = 238.76 - (238.76 * score) / 100;
-  const strokeColor = isBefore ? '#DC2626' : '#5C9E31';
+  const strokeColor = isBefore ? '#DC2626' : '#5C9E43';
 
   return (
     <div className="flex flex-col items-center text-center space-y-4 font-sans select-none">

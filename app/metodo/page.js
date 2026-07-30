@@ -9,7 +9,7 @@ const fases = [
     number: '01',
     title: 'Conocer.',
     subtitle: 'Diagnóstico & Entendimiento',
-    color: '#5C9E31',
+    color: '#5C9E43',
     bg: 'bg-trebol/10',
     border: 'border-trebol/30',
     description: 'Analizamos tu negocio, tu mercado y tus clientes. Entendemos tus objetivos reales antes de proponer cualquier solución.',

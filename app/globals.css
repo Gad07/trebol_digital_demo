@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-trebol: #5C9E31;
-  --color-carbon: #2D2D2D;
+  --color-trebol: #5C9E43;
+  --color-trebol-claro: #8DC63F;
+  --color-carbon: #2D2E2D;
+  --color-gris-claro: #BFBFBF;
   --color-hueso: #F5F5F5;
   --color-gris: #666666;
   --font-sans: var(--font-roboto), sans-serif;
 }
 
 :root {
-  --color-verde: #5C9E31;
-  --color-verde-hover: #4a7d27;
-  --color-carbon: #2D2D2D;
+  --color-verde: #5C9E43;
+  --color-verde-hover: #8DC63F;
+  --color-carbon: #2D2E2D;
+  --color-gris-claro: #BFBFBF;
   --color-gris: #666666;
   --color-hueso: #F5F5F5;
   --color-blanco: #FFFFFF;
@@ -31,6 +34,9 @@ body {
   color: var(--color-carbon);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 100%;
+  overflow-x: clip;
+  /* Evita que el desbordamiento rompa position: sticky en móviles */
 }
 
 /* Glass panel utility */

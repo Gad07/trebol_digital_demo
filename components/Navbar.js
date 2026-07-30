@@ -18,6 +18,47 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 
+
+// ── ISOTIPO VECTORIAL TRÉBOL DIGITAL OFICIAL ──
+function TrebolLogoSVG({ className = "w-6 h-6" }) {
+  return (
+    <svg
+      viewBox="0 0 500 500"
+      className={`${className} shrink-0`}
+    >
+      <g transform="translate(250, 250)">
+        {/* Pin Superior Izquierdo (-135°) */}
+        <g transform="rotate(-135)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
+        </g>
+
+        {/* Pin Superior Derecho (-45°) */}
+        <g transform="rotate(-45)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+
+        {/* Pin Inferior Izquierdo (135°) */}
+        <g transform="rotate(135)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+
+        {/* Pin Inferior Derecho (45°) */}
+        <g transform="rotate(45)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+      </g>
+    </svg>
+  );
+}
+
 const solucionesItems = [
   {
     title: 'Marketing Estratégico',
@@ -109,7 +150,7 @@ export default function Navbar() {
   if (isV2orV3) return null;
 
   return (
-    <motion.header 
+    <motion.header
       ref={dropdownRef}
       initial={false}
       animate={{
@@ -120,67 +161,58 @@ export default function Navbar() {
       transition={{ type: 'spring', stiffness: 260, damping: 25 }}
       className="fixed left-0 right-0 z-50 flex justify-center w-full"
     >
-      <motion.div 
+      <motion.div
         layout
         transition={{ type: 'spring', stiffness: 260, damping: 25 }}
-        className={`w-full flex items-center justify-between transition-colors duration-500 ${
-          scrolled
-            ? 'max-w-[1200px] bg-white/90 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-full py-3 px-6 md:px-10'
-            : 'max-w-full bg-white/40 backdrop-blur-md border-b border-white/50 rounded-none py-4 px-6 md:px-12'
-        }`}
+        className={`w-full flex items-center justify-between transition-colors duration-500 ${scrolled
+          ? 'max-w-[1200px] bg-white/90 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-full py-3 px-6 md:px-10'
+          : 'max-w-full bg-white/40 backdrop-blur-md border-b border-white/50 rounded-none py-4 px-6 md:px-12'
+          }`}
       >
-        
+
         {/* BRAND LOGO */}
         <Link href="/" className="flex items-center gap-3 group" aria-label="Trébol Digital">
-          <div className="grid grid-cols-2 gap-1 w-5 h-5 items-center justify-center shrink-0 group-hover:rotate-180 transition-transform duration-700 ease-in-out">
-            <span className="w-2 h-2 rounded-full bg-[#1C1D1F]"></span>
-            <span className="w-2 h-2 rounded-full bg-[#5C9E31]"></span>
-            <span className="w-2 h-2 rounded-full bg-[#5C9E31]"></span>
-            <span className="w-2 h-2 rounded-full bg-[#1C1D1F]"></span>
-          </div>
+          <TrebolLogoSVG className="w-10 h-10 group-hover:rotate-180 transition-transform duration-700 ease-in-out" />
           <div className="flex flex-col">
-            <span className="text-base font-black tracking-tight text-[#1C1D1F] leading-none group-hover:text-[#5C9E31] transition-colors">
+            <span className="text-[15px] font-black tracking-tight text-[#2D2E2D] leading-none group-hover:text-[#8DC63F] transition-colors">
               Trébol Digital
             </span>
-            <span className="text-[8px] font-bold text-gray-400 tracking-widest uppercase mt-0.5">
-              AGENCIA DIGITAL
+            <span className="text-[6.5px] font-bold text-gray-400 tracking-[0.03em] uppercase mt-1">
+              Tenemos la suerte de encontrarnos
             </span>
           </div>
         </Link>
 
         {/* DESKTOP LINKS */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-          
+
           <Link
             href="/"
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
-              pathname === '/' 
-                ? 'bg-[#1C1D1F] text-white shadow-sm' 
-                : 'text-[#1C1D1F]/80 hover:text-[#5C9E31] hover:bg-white/60'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname === '/'
+              ? 'bg-[#2D2E2D] text-white shadow-sm'
+              : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+              }`}
           >
             Inicio
           </Link>
 
           {/* Soluciones Dropdown */}
-          <div 
+          <div
             className="relative"
             onMouseEnter={() => setActiveDropdown('soluciones')}
           >
             <button
               onClick={() => setActiveDropdown(activeDropdown === 'soluciones' ? null : 'soluciones')}
-              className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
-                pathname?.startsWith('/soluciones') || activeDropdown === 'soluciones'
-                  ? 'bg-[#5C9E31]/10 text-[#5C9E31]'
-                  : 'text-[#1C1D1F]/80 hover:text-[#5C9E31] hover:bg-white/60'
-              }`}
+              className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname?.startsWith('/soluciones') || activeDropdown === 'soluciones'
+                ? 'bg-[#5C9E43]/10 text-[#5C9E43]'
+                : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+                }`}
             >
               Soluciones
               <ChevronDown
                 size={13}
-                className={`transition-transform duration-300 ${
-                  activeDropdown === 'soluciones' ? 'rotate-180 text-[#5C9E31]' : 'text-gray-400'
-                }`}
+                className={`transition-transform duration-300 ${activeDropdown === 'soluciones' ? 'rotate-180 text-[#5C9E43]' : 'text-gray-400'
+                  }`}
               />
             </button>
 
@@ -198,7 +230,7 @@ export default function Navbar() {
                     <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                       Nuestras Soluciones
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-[#5C9E31] animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#5C9E43] animate-pulse" />
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -211,11 +243,11 @@ export default function Navbar() {
                           onClick={() => setActiveDropdown(null)}
                           className="flex items-start gap-3.5 p-2.5 rounded-2xl hover:bg-[#EEF7E6] transition-all duration-300 group/item hover:translate-x-1"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#EEF7E6] flex items-center justify-center shrink-0 group-hover/item:bg-[#5C9E31] transition-colors shadow-sm">
-                            <IconComp size={18} className="text-[#5C9E31] group-hover/item:text-white transition-colors" />
+                          <div className="w-9 h-9 rounded-xl bg-[#EEF7E6] flex items-center justify-center shrink-0 group-hover/item:bg-[#5C9E43] transition-colors shadow-sm">
+                            <IconComp size={18} className="text-[#5C9E43] group-hover/item:text-white transition-colors" />
                           </div>
                           <div>
-                            <h4 className="text-xs font-bold text-[#1C1D1F] group-hover/item:text-[#5C9E31] transition-colors">
+                            <h4 className="text-xs font-bold text-[#2D2E2D] group-hover/item:text-[#5C9E43] transition-colors">
                               {item.title}
                             </h4>
                             <p className="text-[11px] text-gray-500 leading-tight mt-0.5 font-light">
@@ -233,45 +265,41 @@ export default function Navbar() {
 
           <Link
             href="/metodo"
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
-              pathname === '/metodo'
-                ? 'bg-[#1C1D1F] text-white shadow-sm'
-                : 'text-[#1C1D1F]/80 hover:text-[#5C9E31] hover:bg-white/60'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname === '/metodo'
+              ? 'bg-[#2D2E2D] text-white shadow-sm'
+              : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+              }`}
           >
             Método
           </Link>
 
           <Link
             href="/casos-de-exito"
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
-              pathname === '/casos-de-exito'
-                ? 'bg-[#1C1D1F] text-white shadow-sm'
-                : 'text-[#1C1D1F]/80 hover:text-[#5C9E31] hover:bg-white/60'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname === '/casos-de-exito'
+              ? 'bg-[#2D2E2D] text-white shadow-sm'
+              : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+              }`}
           >
             Casos de éxito
           </Link>
 
           {/* Insights Dropdown */}
-          <div 
+          <div
             className="relative"
             onMouseEnter={() => setActiveDropdown('insights')}
           >
             <button
               onClick={() => setActiveDropdown(activeDropdown === 'insights' ? null : 'insights')}
-              className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${
-                pathname?.startsWith('/insights') || activeDropdown === 'insights'
-                  ? 'bg-[#5C9E31]/10 text-[#5C9E31]'
-                  : 'text-[#1C1D1F]/80 hover:text-[#5C9E31] hover:bg-white/60'
-              }`}
+              className={`flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname?.startsWith('/insights') || activeDropdown === 'insights'
+                ? 'bg-[#5C9E43]/10 text-[#5C9E43]'
+                : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+                }`}
             >
               Insights
               <ChevronDown
                 size={13}
-                className={`transition-transform duration-300 ${
-                  activeDropdown === 'insights' ? 'rotate-180 text-[#5C9E31]' : 'text-gray-400'
-                }`}
+                className={`transition-transform duration-300 ${activeDropdown === 'insights' ? 'rotate-180 text-[#5C9E43]' : 'text-gray-400'
+                  }`}
               />
             </button>
 
@@ -289,7 +317,7 @@ export default function Navbar() {
                     <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                       Recursos & Conocimiento
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-[#5C9E31] animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#5C9E43] animate-pulse" />
                   </div>
 
                   <div className="flex flex-col gap-1">
@@ -302,11 +330,11 @@ export default function Navbar() {
                           onClick={() => setActiveDropdown(null)}
                           className="flex items-start gap-3.5 p-2.5 rounded-2xl hover:bg-[#EEF7E6] transition-all duration-300 group/item hover:translate-x-1"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#EEF7E6] flex items-center justify-center shrink-0 group-hover/item:bg-[#5C9E31] transition-colors shadow-sm">
-                            <IconComp size={18} className="text-[#5C9E31] group-hover/item:text-white transition-colors" />
+                          <div className="w-9 h-9 rounded-xl bg-[#EEF7E6] flex items-center justify-center shrink-0 group-hover/item:bg-[#5C9E43] transition-colors shadow-sm">
+                            <IconComp size={18} className="text-[#5C9E43] group-hover/item:text-white transition-colors" />
                           </div>
                           <div>
-                            <h4 className="text-xs font-bold text-[#1C1D1F] group-hover/item:text-[#5C9E31] transition-colors">
+                            <h4 className="text-xs font-bold text-[#2D2E2D] group-hover/item:text-[#5C9E43] transition-colors">
                               {item.title}
                             </h4>
                             <p className="text-[11px] text-gray-500 leading-tight mt-0.5 font-light">
@@ -328,7 +356,7 @@ export default function Navbar() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-1.5 bg-[#5C9E31] hover:bg-[#1C1D1F] text-white font-bold text-xs px-5 py-2 rounded-full shadow-md hover:shadow-xl transition-all duration-300"
+              className="inline-flex items-center gap-1.5 bg-[#5C9E43] hover:bg-[#2D2E2D] text-white font-bold text-xs px-5 py-2 rounded-full shadow-md hover:shadow-xl transition-all duration-300"
             >
               <span>Diagnóstico Gratuito</span>
               <ArrowUpRight size={14} />
@@ -339,7 +367,7 @@ export default function Navbar() {
         {/* MOBILE HAMBURGER BUTTON */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="p-2 text-[#1C1D1F] hover:bg-gray-100/60 rounded-full lg:hidden transition-colors"
+          className="p-2 text-[#2D2E2D] hover:bg-gray-100/60 rounded-full lg:hidden transition-colors"
           aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -367,13 +395,11 @@ export default function Navbar() {
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                   <div className="flex items-center gap-3">
-                    <div className="grid grid-cols-2 gap-1 w-5 h-5">
-                      <span className="w-2 h-2 rounded-full bg-[#1C1D1F]"></span>
-                      <span className="w-2 h-2 rounded-full bg-[#5C9E31]"></span>
-                      <span className="w-2 h-2 rounded-full bg-[#5C9E31]"></span>
-                      <span className="w-2 h-2 rounded-full bg-[#1C1D1F]"></span>
+                    <TrebolLogoSVG className="w-9 h-9" />
+                    <div className="flex flex-col">
+                      <span className="text-sm font-black text-[#2D2E2D] leading-none">Trébol Digital</span>
+                      <span className="text-[5.5px] font-bold text-gray-400 uppercase mt-1 tracking-[0.03em]">Tenemos la suerte de encontrarnos</span>
                     </div>
-                    <span className="font-black text-[#1C1D1F]">Trébol Digital</span>
                   </div>
                   <button
                     onClick={() => setMenuOpen(false)}
@@ -387,7 +413,7 @@ export default function Navbar() {
                   <Link
                     href="/"
                     onClick={() => setMenuOpen(false)}
-                    className="px-4 py-3 text-base font-bold text-[#1C1D1F] hover:bg-gray-50 rounded-2xl"
+                    className="px-4 py-3 text-base font-bold text-[#2D2E2D] hover:bg-gray-50 rounded-2xl"
                   >
                     Inicio
                   </Link>
@@ -395,12 +421,12 @@ export default function Navbar() {
                   <div className="flex flex-col">
                     <button
                       onClick={() => setMobileAccordion(mobileAccordion === 'soluciones' ? null : 'soluciones')}
-                      className="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-[#1C1D1F] hover:bg-gray-50 rounded-2xl"
+                      className="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-[#2D2E2D] hover:bg-gray-50 rounded-2xl"
                     >
                       Soluciones
                       <ChevronDown
                         size={18}
-                        className={`transition-transform ${mobileAccordion === 'soluciones' ? 'rotate-180 text-[#5C9E31]' : 'text-gray-400'}`}
+                        className={`transition-transform ${mobileAccordion === 'soluciones' ? 'rotate-180 text-[#5C9E43]' : 'text-gray-400'}`}
                       />
                     </button>
                     {mobileAccordion === 'soluciones' && (
@@ -412,9 +438,9 @@ export default function Navbar() {
                             onClick={() => setMenuOpen(false)}
                             className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white transition-colors"
                           >
-                            <item.icon size={18} className="text-[#5C9E31] mt-0.5 shrink-0" />
+                            <item.icon size={18} className="text-[#5C9E43] mt-0.5 shrink-0" />
                             <div>
-                              <p className="text-sm font-bold text-[#1C1D1F]">{item.title}</p>
+                              <p className="text-sm font-bold text-[#2D2E2D]">{item.title}</p>
                               <p className="text-xs text-gray-500 leading-tight">{item.desc}</p>
                             </div>
                           </Link>
@@ -426,7 +452,7 @@ export default function Navbar() {
                   <Link
                     href="/metodo"
                     onClick={() => setMenuOpen(false)}
-                    className="px-4 py-3 text-base font-bold text-[#1C1D1F] hover:bg-gray-50 rounded-2xl"
+                    className="px-4 py-3 text-base font-bold text-[#2D2E2D] hover:bg-gray-50 rounded-2xl"
                   >
                     Método
                   </Link>
@@ -434,7 +460,7 @@ export default function Navbar() {
                   <Link
                     href="/casos-de-exito"
                     onClick={() => setMenuOpen(false)}
-                    className="px-4 py-3 text-base font-bold text-[#1C1D1F] hover:bg-gray-50 rounded-2xl"
+                    className="px-4 py-3 text-base font-bold text-[#2D2E2D] hover:bg-gray-50 rounded-2xl"
                   >
                     Casos de éxito
                   </Link>
@@ -442,12 +468,12 @@ export default function Navbar() {
                   <div className="flex flex-col">
                     <button
                       onClick={() => setMobileAccordion(mobileAccordion === 'insights' ? null : 'insights')}
-                      className="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-[#1C1D1F] hover:bg-gray-50 rounded-2xl"
+                      className="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-[#2D2E2D] hover:bg-gray-50 rounded-2xl"
                     >
                       Insights
                       <ChevronDown
                         size={18}
-                        className={`transition-transform ${mobileAccordion === 'insights' ? 'rotate-180 text-[#5C9E31]' : 'text-gray-400'}`}
+                        className={`transition-transform ${mobileAccordion === 'insights' ? 'rotate-180 text-[#5C9E43]' : 'text-gray-400'}`}
                       />
                     </button>
                     {mobileAccordion === 'insights' && (
@@ -459,9 +485,9 @@ export default function Navbar() {
                             onClick={() => setMenuOpen(false)}
                             className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-white transition-colors"
                           >
-                            <item.icon size={18} className="text-[#5C9E31] mt-0.5 shrink-0" />
+                            <item.icon size={18} className="text-[#5C9E43] mt-0.5 shrink-0" />
                             <div>
-                              <p className="text-sm font-bold text-[#1C1D1F]">{item.title}</p>
+                              <p className="text-sm font-bold text-[#2D2E2D]">{item.title}</p>
                               <p className="text-xs text-gray-500 leading-tight">{item.desc}</p>
                             </div>
                           </Link>
@@ -476,7 +502,7 @@ export default function Navbar() {
                 <Link
                   href="/agenda"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full py-3.5 bg-[#5C9E31] text-white font-bold rounded-2xl text-center shadow-lg shadow-[#5C9E31]/20 flex items-center justify-center gap-2 text-sm"
+                  className="w-full py-3.5 bg-[#5C9E43] text-white font-bold rounded-2xl text-center shadow-lg shadow-[#5C9E43]/20 flex items-center justify-center gap-2 text-sm"
                 >
                   Diagnóstico Gratuito
                 </Link>

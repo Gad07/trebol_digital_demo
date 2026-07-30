@@ -241,7 +241,7 @@ export default function DesarrolloWebPage() {
                   <motion.div 
                     initial={{ backgroundColor: '#2D2D2D', color: '#ffffff', borderColor: '#F5F5F5' }}
                     whileInView={{ 
-                      backgroundColor: '#5C9E31', 
+                      backgroundColor: '#5C9E43', 
                       color: '#ffffff',
                       borderColor: '#F5F5F5',
                     }}
@@ -264,7 +264,7 @@ export default function DesarrolloWebPage() {
                   whileInView={{ 
                     opacity: 1,
                     backgroundColor: '#f2f8ed', 
-                    borderColor: '#5C9E31',
+                    borderColor: '#5C9E43',
                     boxShadow: '0 15px 40px rgba(92,158,49,0.14)',
                   }}
                   viewport={{ margin: "-22% 0px -22% 0px", amount: 0.6 }}

@@ -516,24 +516,24 @@ export default function IAPage() {
               <svg className="w-full h-full absolute inset-0 pointer-events-none z-0 overflow-visible">
                 <path 
                   d={lines.line1} 
-                  stroke={activeStep >= 2 ? "#5C9E31" : "#94a3b8"} 
+                  stroke={activeStep >= 2 ? "#5C9E43" : "#94a3b8"} 
                   strokeWidth={activeStep >= 2 ? "3.5" : "2"} 
                   strokeDasharray={activeStep === 1 ? "6 6" : "none"}
                   fill="none"
                 />
                 <path 
                   d={lines.line2} 
-                  stroke={activeStep >= 3 ? "#5C9E31" : "#94a3b8"} 
+                  stroke={activeStep >= 3 ? "#5C9E43" : "#94a3b8"} 
                   strokeWidth={activeStep >= 3 ? "3.5" : "2"} 
                   fill="none"
                 />
                 <path 
                   d={lines.lineTrue} 
-                  stroke={activeStep >= 4 ? "#5C9E31" : "#94a3b8"} 
+                  stroke={activeStep >= 4 ? "#5C9E43" : "#94a3b8"} 
                   strokeWidth={activeStep >= 4 ? "3.5" : "2"} 
                   fill="none" 
                 />
-                <text x={lines.trueLabel.x} y={lines.trueLabel.y} fill={activeStep >= 4 ? "#5C9E31" : "#64748b"} fontSize="12" fontFamily="monospace" fontWeight="bold">true</text>
+                <text x={lines.trueLabel.x} y={lines.trueLabel.y} fill={activeStep >= 4 ? "#5C9E43" : "#64748b"} fontSize="12" fontFamily="monospace" fontWeight="bold">true</text>
 
                 <path 
                   d={lines.lineFalse1} 
@@ -707,7 +707,7 @@ export default function IAPage() {
                   <motion.div 
                     initial={{ backgroundColor: '#2D2D2D', color: '#ffffff', borderColor: '#F5F5F5' }}
                     whileInView={{ 
-                      backgroundColor: '#5C9E31', 
+                      backgroundColor: '#5C9E43', 
                       color: '#ffffff',
                       borderColor: '#F5F5F5',
                     }}
@@ -730,7 +730,7 @@ export default function IAPage() {
                   whileInView={{ 
                     opacity: 1,
                     backgroundColor: '#f2f8ed', 
-                    borderColor: '#5C9E31',
+                    borderColor: '#5C9E43',
                     boxShadow: '0 15px 40px rgba(92,158,49,0.14)',
                   }}
                   viewport={{ margin: "-22% 0px -22% 0px", amount: 0.6 }}

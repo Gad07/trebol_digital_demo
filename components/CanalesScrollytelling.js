@@ -1,11 +1,11 @@
-﻿'use client';
+'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { 
+import {
   ArrowUpRight, Globe, CheckCircle2
 } from 'lucide-react';
 
@@ -13,85 +13,309 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// ── TEXTURA DE TITANIO MATE CEPILLADO CON RUIDO VECTORIAL ─────────────────────
+const titaniumTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.52 0 0 0 0 0.50 0 0 0 0 0.47 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
+
+// ── TEXTURA DE VIDRIO ESMERILADO SATINADO DE ALTA GAMA ─────────────────────
+const satinFrostedGlassTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='satinNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.98' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23satinNoise)'/%3E%3C/svg%3E")`;
+
 // ── ISOTIPO VECTORIAL TRÉBOL DIGITAL (LUMINOSO Y REALISTA) ─────────────────────
 function TrebolLogoSVG({ className = "w-10 h-10" }) {
   return (
-    <div className={`grid grid-cols-2 gap-1 items-center justify-center shrink-0 ${className}`}>
-      <span className="w-full h-full rounded-full bg-white/90 shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
-      <span className="w-full h-full rounded-full bg-[#2ecc71] shadow-[0_0_14px_rgba(46,204,113,0.9)]" />
-      <span className="w-full h-full rounded-full bg-[#2ecc71] shadow-[0_0_14px_rgba(46,204,113,0.9)]" />
-      <span className="w-full h-full rounded-full bg-white/90 shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
-    </div>
+    <svg
+      viewBox="0 0 500 500"
+      className={`${className} shrink-0`}
+      style={{ transformStyle: 'preserve-3d', transform: 'translateZ(2px)' }}
+    >
+      <g transform="translate(250, 250)">
+        {/* Pin Superior Izquierdo (-135°) */}
+        <g transform="rotate(-135)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
+        </g>
+
+        {/* Pin Superior Derecho (-45°) */}
+        <g transform="rotate(-45)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+
+        {/* Pin Inferior Izquierdo (135°) */}
+        <g transform="rotate(135)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+
+        {/* Pin Inferior Derecho (45°) */}
+        <g transform="rotate(45)">
+          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
+          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+        </g>
+      </g>
+    </svg>
   );
 }
 
 // ── MÓDULO HYPER-REALISTA DE TRIPLE CÁMARA TRASERA IPHONE PRO ──────
 function TripleCameraModule() {
   return (
-    <div 
-      className="w-[132px] h-[137px] bg-[#222328]/90 backdrop-blur-2xl rounded-[2.2rem] border-2 border-white/20 p-2.5 shadow-[10px_20px_40px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.3)] relative grid grid-cols-2 gap-2 items-center"
-      style={{ transform: 'translateZ(16px)', transformStyle: 'preserve-3d' }}
+    <div
+      className="w-[130px] h-[130px] rounded-[2.2rem] absolute top-[20px] left-[20px]"
+      style={{
+        transform: 'translateZ(2px)',
+        transformStyle: 'preserve-3d'
+      }}
     >
-      {/* Bisel de cristal superior con destello */}
-      <div className="absolute inset-0 rounded-[2.2rem] border border-white/10 pointer-events-none" />
+      {/* ── APILAMIENTO 3D PARA EL VOLUMEN DE LA BASE DE CRISTAL DE CÁMARAS ── */}
+      {[...Array(12)].map((_, i) => (
+        <div
+          key={`bump-${i}`}
+          className="absolute inset-0 rounded-[2.2rem]"
+          style={{
+            transform: `translateZ(${i * 0.5}px)`,
+            background: 'linear-gradient(135deg, rgba(70, 70, 69, 0.9) 0%, rgba(68, 65, 60, 0.95) 100%)',
+            border: '0.5px solid rgba(255, 255, 255, 0.35)',
+            boxShadow: i === 0 ? '5px 10px 30px rgba(0, 0, 0, 0.8)' : 'none'
+          }}
+        />
+      ))}
 
-      {/* Lente 1 (Top-Left): Wide Camera Pro (Cilindro Biselado con Capas de Zafiro) */}
-      <div 
-        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
-        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
+      {/* ── CARA FRONTAL DEL MÓDULO (Donde se asientan los lentes) ── */}
+      <div
+        className="absolute inset-0 rounded-[2.2rem] shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.25)]"
+        style={{
+          transform: 'translateZ(6px)',
+          transformStyle: 'preserve-3d',
+          backgroundClip: 'padding-box, border-box',
+          backgroundOrigin: 'padding-box, border-box',
+          backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.85) 100%), linear-gradient(135deg, #3a3834 0%, #1e1d1b 50%, #0d0c0b 100%)`,
+          border: '1.5px solid rgba(255,255,255,0.08)'
+        }}
       >
-        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
-          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#0a1226] to-[#141d33] border border-neutral-700 flex items-center justify-center relative">
-            <div className="w-4 h-4 rounded-full bg-[#030714] border border-cyan-400/80 shadow-[0_0_14px_rgba(6,182,212,0.9)] flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-300 shadow-[0_0_7px_rgba(103,232,249,1)]" />
+        {/* Reflejo brillante diagonal */}
+        <div className="absolute inset-0 rounded-[2.2rem] pointer-events-none overflow-hidden z-10" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.01) 45%, rgba(0,0,0,0.4) 100%)' }}>
+          <div className="absolute top-[-30%] left-[-30%] w-[160%] h-[160%] bg-gradient-to-tr from-transparent via-white/12 to-transparent rotate-45 translate-x-[-10%] translate-y-[-10%] mix-blend-overlay" />
+        </div>
+
+        {/* Textura de Titanio de la base */}
+        <div className="absolute inset-0 pointer-events-none rounded-[2.2rem]" style={{ backgroundImage: titaniumTexture, mixBlendMode: 'overlay', opacity: 0.18 }} />
+
+        {/* ── LENTE 1 (Top-Left): CÁMARA PRINCIPAL ── */}
+        <div className="w-[42px] h-[42px] rounded-full absolute top-[16px] left-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+          {/* Cilindro exterior del bisel metálico (HUECO) */}
+          {/* Cilindro exterior del bisel metálico (HUECO) */}
+          {[...Array(32)].map((_, i) => (
+            <div key={`l1-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
+          ))}
+
+          {/* Cara frontal del anillo (Metal) */}
+          <div
+            className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
+            style={{
+              transform: 'translateZ(16px)',
+              transformStyle: 'preserve-3d',
+              background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
+            }}
+          >
+            {/* Hueco interno del bisel */}
+            <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
+
+              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
+              {[...Array(12)].map((_, i) => (
+                <div key={`l1-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
+              ))}
+
+              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
+
+                {/* Elemento de Apertura Interior (Más hundido todavía) */}
+                <div
+                  className="w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
+                  style={{
+                    transform: 'translateZ(-8px)',
+                    transformStyle: 'preserve-3d',
+                    background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
+                    border: '1px solid rgba(255,255,255,0.03)'
+                  }}
+                >
+                  {/* Sensor con reflejo azul */}
+                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                    <div className="absolute w-[2.5px] h-[2.5px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '2px', left: '2px' }} />
+                  </div>
+                </div>
+
+                {/* Contenedor 2D para reflejos superficiales del cristal */}
+                <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
+                  {/* Reflejo curvado del domo */}
+                  <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
+
+                  {/* Brillo principal - Softbox de estudio */}
+                  <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
+
+                  {/* Destello secundario */}
+                  <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
+
+                  {/* Recubrimiento óptico sutil */}
+                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
+                </div>
+              </div>
             </div>
-            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
+          </div>
+        </div>
+
+        {/* ── LENTE 2 (Bottom-Left): CÁMARA ULTRA GRAN ANGULAR ── */}
+        <div className="w-[42px] h-[42px] rounded-full absolute bottom-[16px] left-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+          {/* Cilindro exterior del bisel metálico (HUECO) */}
+          {/* Cilindro exterior del bisel metálico (HUECO) */}
+          {[...Array(32)].map((_, i) => (
+            <div key={`l2-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
+          ))}
+
+          {/* Cara frontal del anillo (Metal) */}
+          <div
+            className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
+            style={{
+              transform: 'translateZ(16px)',
+              transformStyle: 'preserve-3d',
+              background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
+            }}
+          >
+            {/* Hueco interno del bisel */}
+            <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
+
+              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
+              {[...Array(12)].map((_, i) => (
+                <div key={`l2-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
+              ))}
+
+              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
+
+                {/* Elemento de Apertura Interior (Más hundido todavía) */}
+                <div
+                  className="w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
+                  style={{
+                    transform: 'translateZ(-8px)',
+                    transformStyle: 'preserve-3d',
+                    background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
+                    border: '1px solid rgba(255,255,255,0.03)'
+                  }}
+                >
+                  {/* Sensor con reflejo azul */}
+                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                    <div className="absolute w-[2.5px] h-[2.5px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '2px', left: '2px' }} />
+                  </div>
+                </div>
+
+                {/* Contenedor 2D para reflejos superficiales del cristal */}
+                <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
+                  {/* Reflejo curvado del domo */}
+                  <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
+
+                  {/* Brillo principal - Softbox de estudio */}
+                  <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
+
+                  {/* Destello secundario */}
+                  <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
+
+                  {/* Recubrimiento óptico sutil */}
+                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── LENTE 3 (Middle-Right): CÁMARA TELEFOTO ── */}
+        <div className="w-[42px] h-[42px] rounded-full absolute top-[44px] right-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+          {/* Cilindro exterior del bisel metálico (HUECO) */}
+          {[...Array(32)].map((_, i) => (
+            <div key={`l3-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
+          ))}
+
+          {/* Cara frontal del anillo (Metal) */}
+          <div
+            className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
+            style={{
+              transform: 'translateZ(16px)',
+              transformStyle: 'preserve-3d',
+              background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
+            }}
+          >
+            {/* Hueco interno del bisel */}
+            <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
+
+              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
+              {[...Array(12)].map((_, i) => (
+                <div key={`l3-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
+              ))}
+
+              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
+
+                {/* Elemento de Apertura Interior (Más hundido todavía, más pequeño para telefoto) */}
+                <div
+                  className="w-[13px] h-[13px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
+                  style={{
+                    transform: 'translateZ(-8px)',
+                    transformStyle: 'preserve-3d',
+                    background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
+                    border: '1px solid rgba(255,255,255,0.03)'
+                  }}
+                >
+                  {/* Sensor telefoto con reflejo azul */}
+                  <div className="w-[6px] h-[6px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                    <div className="absolute w-[2px] h-[2px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '1.5px', left: '1.5px' }} />
+                  </div>
+                </div>
+
+                {/* Contenedor 2D para reflejos superficiales del cristal */}
+                <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
+                  {/* Reflejo curvado del domo */}
+                  <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
+
+                  {/* Brillo principal - Softbox de estudio */}
+                  <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
+
+                  {/* Destello secundario */}
+                  <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
+
+                  {/* Recubrimiento óptico sutil */}
+                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        {/* ── FLASH BLANCO PREMIUM (Top-Right) ── */}
+        <div
+          className="w-[24px] h-[24px] rounded-full absolute top-[19px] right-[25px] bg-gradient-to-br from-[#1b1a18] via-[#2f2d2a] to-[#121110] border border-[#a39b8f]/20 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] flex items-center justify-center"
+          style={{ transform: 'translateZ(1px)' }}
+        >
+          {/* Anillo de metal plateado con padding intermedio */}
+          <div className="w-[20px] h-[20px] rounded-full p-[2px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85)] flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #f0f0f0 0%, #ffffff 50%, #d4d4d4 100%)' }}>
+            {/* Difusor concéntrico (Lente Fresnel) */}
+            <div className="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center shadow-[inset_0_0_3px_rgba(0,0,0,0.15)]" style={{ backgroundImage: `radial-gradient(circle, transparent 20%, rgba(0,0,0,0.03) 21%, transparent 35%, rgba(0,0,0,0.03) 36%, transparent 50%, rgba(0,0,0,0.03) 51%, transparent 65%, rgba(0,0,0,0.03) 66%, transparent 100%)`, backgroundColor: '#fdfdfd' }}>
+
+              {/* Núcleo LED blanco perlado */}
+              <div className="w-[8px] h-[8px] rounded-full bg-[#ffffff] shadow-[0_0_4px_rgba(255,255,255,1),inset_0_1px_1px_rgba(0,0,0,0.05)] flex items-center justify-center">
+                <div className="w-[3px] h-[3px] rounded-full bg-[#f8f9fa] blur-[0.5px]" />
+              </div>
+
+              {/* Brillos especulares de cristal templado */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-white/70 pointer-events-none" />
+              <div className="absolute top-[1.5px] left-[2.5px] w-[10px] h-[3px] bg-gradient-to-b from-white/90 to-transparent rounded-full blur-[0.3px] -rotate-45" />
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Flash TrueTone & LiDAR Sensor */}
-      <div className="flex flex-col justify-between h-full py-1 items-center" style={{ transform: 'translateZ(6px)' }}>
-        {/* Flash TrueTone con Difusor Dorado */}
-        <div className="w-5.5 h-5.5 rounded-full bg-gradient-to-br from-amber-100 via-amber-200 to-amber-400 border border-amber-400/90 shadow-[0_0_16px_rgba(251,191,36,0.9)] flex items-center justify-center">
-          <div className="w-2.5 h-2.5 rounded-full bg-white/90 blur-[0.3px]" />
-        </div>
-        {/* Sensor LiDAR de Cristal Negro */}
-        <div className="w-4.5 h-4.5 rounded-full bg-[#050507] border border-neutral-700 shadow-inner flex items-center justify-center">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#020204]" />
-        </div>
-      </div>
-
-      {/* Lente 2 (Bottom-Left): Ultra Wide Camera Pro */}
-      <div 
-        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
-        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
-      >
-        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
-          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#190a28] to-[#261238] border border-neutral-700 flex items-center justify-center relative">
-            <div className="w-4 h-4 rounded-full bg-[#0c0316] border border-purple-400/80 shadow-[0_0_14px_rgba(168,85,247,0.9)] flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-300 shadow-[0_0_7px_rgba(165,180,252,1)]" />
-            </div>
-            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
-          </div>
-        </div>
-      </div>
-
-      {/* Lente 3 (Right Center): Telephoto Camera Pro */}
-      <div 
-        className="w-11 h-11 rounded-full bg-gradient-to-br from-[#52545c] via-[#2c2d33] to-[#151619] p-[2.5px] shadow-[5px_10px_20px_rgba(0,0,0,0.95)] flex items-center justify-center relative border border-white/25"
-        style={{ transform: 'translateZ(10px)', transformStyle: 'preserve-3d' }}
-      >
-        <div className="w-full h-full rounded-full bg-[#090a0e] border border-neutral-600/80 p-0.5 flex items-center justify-center relative shadow-inner">
-          <div className="w-full h-full rounded-full bg-gradient-to-tr from-neutral-950 via-[#0a1b28] to-[#12283b] border border-neutral-700 flex items-center justify-center relative">
-            <div className="w-4 h-4 rounded-full bg-[#031118] border border-blue-400/80 shadow-[0_0_14px_rgba(59,130,246,0.9)] flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-300 shadow-[0_0_7px_rgba(147,197,253,1)]" />
-            </div>
-            <div className="absolute top-1 left-1.5 w-2.5 h-1 bg-white/80 rounded-full blur-[0.2px] -rotate-45" />
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }
@@ -149,17 +373,52 @@ function DashboardFinalContent() {
 }
 
 // ── MOCKUP DE TELÉFONO 3D HYPER-REALISTA IPHONE 15 PRO ─────────────────────
-function PhoneFrame({ children }) {
+function PhoneFrame({ children, backLightRef }) {
   return (
     <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
-      
-      {/* ── CARA FRONTAL: PANTALLA IPHONE PRO ────────────────────────── */}
-      <div 
-        className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-950 p-[8px] border-[4px] border-[#383a3f] shadow-[0_35px_80px_-15px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.2)]"
-        style={{ backfaceVisibility: 'hidden', transform: 'translateZ(6px)' }}
+
+      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Apilamiento 3D ultra-denso para volumen sólido) ── */}
+      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Optimizado a 8 capas para alto rendimiento de scroll) ── */}
+      {[...Array(8)].map((_, i) => {
+        const z = -6 + (i * 1.5); // Espaciado de alto rendimiento cada 1.5px (mismo volumen, 3 veces menos carga)
+        return (
+          <div
+            key={i}
+            className="absolute inset-0 rounded-[2.5rem] border-[4px] border-transparent"
+            style={{
+              transform: `translateZ(${z}px)`,
+              pointerEvents: 'none',
+              backgroundClip: 'padding-box, border-box',
+              backgroundOrigin: 'padding-box, border-box',
+              backgroundImage: `linear-gradient(#151619, #151619), linear-gradient(to right, #201e1b 0%, #7e7668 12%, #e5dac9 24%, #b4aa98 36%, #4b4841 55%, #cfc4b2 75%, #2a2825 88%, #6a6254 100%)`,
+            }}
+          />
+        );
+      })}
+
+      {/* ── CARA FRONTAL: PANTALLA IPHONE PRO (Con bordes de titanio cepillado) ────────────────────────── */}
+      <div
+        className="absolute inset-0 rounded-[2.5rem] p-[8px] border-[4px] border-transparent shadow-[0_35px_80px_-15px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.2)]"
+        style={{
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(6px)',
+          backgroundClip: 'padding-box, border-box',
+          backgroundOrigin: 'padding-box, border-box',
+          backgroundImage: `linear-gradient(#151619, #151619), linear-gradient(var(--light-angle, 180deg), #d2c8b7 0%, #eee3d0 15%, #9b9281 40%, #504c43 70%, #7e7565 85%, #282622 100%)`,
+        }}
       >
+        {/* Textura de Titanio Cepillado en Frontal */}
+        <div
+          className="absolute inset-0 pointer-events-none rounded-[2.5rem] z-30"
+          style={{
+            backgroundImage: titaniumTexture,
+            mixBlendMode: 'overlay',
+            opacity: 0.55
+          }}
+        />
+
         <div className="w-full h-full rounded-[2.1rem] bg-black overflow-hidden relative border border-neutral-900">
-          
+
           {/* Dynamic Island */}
           <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[95px] h-[24px] bg-black rounded-full z-50 flex items-center justify-between px-3 border border-neutral-800/80 shadow-md">
             <div className="w-3 h-3 rounded-full bg-[#0a0a0d] border border-neutral-700 flex items-center justify-center">
@@ -175,32 +434,122 @@ function PhoneFrame({ children }) {
           </div>
 
           {/* Reflejo Cristalino de Pantalla */}
-          <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
+          <div
+            className="absolute inset-0 pointer-events-none z-40"
+            style={{
+              background: 'linear-gradient(var(--screen-light-angle, 45deg), rgba(255,255,255,var(--light-opacity, 0.15)) 0%, rgba(255,255,255,0) 65%, rgba(0,0,0,0.2) 100%)',
+              mixBlendMode: 'overlay'
+            }}
+          />
         </div>
       </div>
 
-      {/* ── CARA TRASERA: CRISTAL MATE TITANIO CON CÁMARAS PRO Y LOGO TRÉBOL ────────────────────────── */}
-      <div 
-        className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-[#24252a] via-[#1a1b1f] to-[#101114] p-6 border-[4px] border-[#383a3f] flex flex-col justify-between overflow-hidden shadow-[0_35px_80px_-15px_rgba(0,0,0,0.95),inset_0_1px_2px_rgba(255,255,255,0.2)]"
-        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(6px)', transformStyle: 'preserve-3d' }}
+      {/* ── CARA TRASERA: VIDRIO ESMERILADO SATINADO CON CÁMARAS PRO Y LOGO TRÉBOL ────────────────────────── */}
+      <div
+        className="absolute inset-0 rounded-[2.5rem] p-6 border-[3.5px] border-transparent flex flex-col justify-between shadow-[inset_0_0_25px_rgba(0,0,0,0.95),_inset_0_1px_2px_rgba(255,255,255,0.18),_0_25px_60px_-15px_rgba(0,0,0,0.95)]"
+        style={{
+          backfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg) translateZ(6.1px)',
+          transformStyle: 'preserve-3d',
+          backgroundClip: 'padding-box, padding-box, border-box',
+          backgroundOrigin: 'padding-box, padding-box, border-box',
+          backgroundColor: '#0a0a0a', // Color base Negro Titanio Puro (Space Black)
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), ${titaniumTexture}, ${satinFrostedGlassTexture}`
+        }}
       >
+        {/* Borde de Refracción de Cristal Pulido (Glass Bezel Edge Glint) */}
+        <div
+          className="absolute inset-[1px] rounded-[2.5rem] pointer-events-none z-30 border border-white/20 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.45),inset_0_-1px_1px_rgba(0,0,0,0.4)]"
+          style={{
+            transform: 'translateZ(1px)'
+          }}
+        />
+
+        {/* Base de pendiente de cristal 3D (Simula la transición curvada hacia la tapa del módulo en vidrio moldeado) */}
+        <div
+          className="w-[144px] h-[144px] rounded-[2.8rem] absolute top-[13px] left-[13px] bg-gradient-to-br from-white/10 via-neutral-800/10 to-black/85 shadow-[inset_-1px_-1px_3px_rgba(255,255,255,0.2),_3px_6px_20px_rgba(0,0,0,0.65)] blur-[1px] pointer-events-none"
+          style={{
+            transform: 'translateZ(1px)', // ajustado levemente para z-index correcto
+            border: '1.5px solid rgba(255,255,255,0.06)'
+          }}
+        />
+
         {/* Módulo de Triple Cámara Trasera Pro en 3D */}
         <TripleCameraModule />
 
-        {/* Isotipo Trébol Digital Luminous Icon */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ transform: 'translateZ(6px)' }}>
-          <TrebolLogoSVG className="w-12 h-12" />
+        {/* Isotipo Trébol Digital Premium Polished Metallic Inlay (Integrado/grabado bajo el cristal) */}
+        <div
+          className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none z-10"
+          style={{
+            transform: 'translateZ(1.5px)',
+            transformStyle: 'preserve-3d',
+            filter: 'drop-shadow(0.5px 0.5px 0px rgba(255,255,255,0.25)) drop-shadow(-0.5px -0.5px 0px rgba(0,0,0,0.55))'
+          }}
+        >
+          <TrebolLogoSVG className="w-20 h-20" />
         </div>
 
-        {/* Reflejo Cristalino sobre el Cristal Trasero Mate */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
+        {/* Contenedor 2D para reflejos y dynamic lighting que cubren la tapa completa y el logotipo */}
+        <div className="absolute inset-0 rounded-[2.5rem] pointer-events-none overflow-hidden z-20" style={{ transform: 'translateZ(2.5px)' }}>
+          {/* Iluminación Dinámica Realista en la Tapa (Satin Specular Light) */}
+          <div
+            ref={backLightRef}
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(115deg, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0.2) 38%, rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.38) 50%, rgba(255, 255, 255, 0) 56%, rgba(255, 255, 255, 0.15) 62%, rgba(255, 255, 255, 0) 85%)',
+              mixBlendMode: 'screen',
+              opacity: 0.95
+            }}
+          />
+          {/* Reflejo de Vidrio Templado Brillante (Glossy Glass Glaze) */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.65) 100%)',
+              mixBlendMode: 'overlay',
+              opacity: 0.9
+            }}
+          />
+        </div>
+
+        {/* Grabado de la Marca en la parte inferior - Nítido, Blanco y sin desenfoques en 3D */}
+        <div
+          className="absolute bottom-8 left-0 right-0 flex flex-col items-center justify-center select-none text-[9.5px] font-bold tracking-[0.25em] font-sans text-center uppercase z-20"
+          style={{
+            transform: 'translateZ(1px)',
+            color: '#ffffff',
+            WebkitFontSmoothing: 'antialiased',
+            backfaceVisibility: 'hidden',
+            filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.95))'
+          }}
+        >
+          <span className="font-extrabold text-white">Trébol Digital</span>
+          <span className="text-[6.8px] font-medium mt-2 tracking-[0.18em] text-white/90 normal-case">Tenemos la suerte de encontrarnos</span>
+        </div>
       </div>
 
-      {/* Botones Metálicos Laterales de Titanio */}
-      <div className="absolute right-[-4px] top-[95px] w-[4px] h-[50px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-r-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
-      <div className="absolute right-[-4px] top-[155px] w-[4px] h-[30px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-r-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
-      <div className="absolute left-[-4px] top-[105px] w-[4px] h-[35px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-l-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
-      <div className="absolute left-[-4px] top-[150px] w-[4px] h-[35px] bg-gradient-to-b from-neutral-400 via-neutral-600 to-neutral-900 rounded-l-md shadow-lg" style={{ transform: 'translateZ(3px)' }} />
+      {/* ── BOTONES METÁLICOS LATERALES DE TITANIO EN 3D ── */}
+
+      {/* Botón de Encendido / Lock (Derecha) */}
+      <div className="absolute right-[-5px] top-[140px] w-[5px] h-[65px] rounded-r-[3px]" style={{ transform: 'translateZ(2px)', transformStyle: 'preserve-3d' }}>
+        <div className="absolute inset-0 bg-[#201e1c] rounded-r-[3px]" style={{ transform: 'translateZ(-1px)' }} />
+        <div className="absolute inset-0 bg-[#423f39] rounded-r-[3px]" style={{ transform: 'translateZ(0px)' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#eee3d0] via-[#8c8475] to-[#252320] rounded-r-[3px] border-r border-[#eedfc9]/60 shadow-md" style={{ transform: 'translateZ(2px)' }} />
+      </div>
+
+      {/* Botón de Acción (Izquierda) */}
+      <div className="absolute left-[-5px] top-[85px] w-[5px] h-[16px] rounded-l-[3px]" style={{ transform: 'translateZ(2px)', transformStyle: 'preserve-3d' }}>
+        <div className="absolute inset-0 bg-[#201e1c] rounded-l-[3px]" style={{ transform: 'translateZ(-1px)' }} />
+        <div className="absolute inset-0 bg-[#423f39] rounded-l-[3px]" style={{ transform: 'translateZ(0px)' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#eee3d0] via-[#8c8475] to-[#252320] rounded-l-[3px] border-l border-[#eedfc9]/60 shadow-md" style={{ transform: 'translateZ(2px)' }} />
+      </div>
+
+      {/* Botón Volume      {/* Botón Volumen - (Izquierda) */}
+      <div className="absolute left-[-5px] top-[165px] w-[5px] h-[40px] rounded-l-[3px]" style={{ transform: 'translateZ(2px)', transformStyle: 'preserve-3d' }}>
+        <div className="absolute inset-0 bg-[#201e1c] rounded-l-[3px]" style={{ transform: 'translateZ(-1px)' }} />
+        <div className="absolute inset-0 bg-[#423f39] rounded-l-[3px]" style={{ transform: 'translateZ(0px)' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#eee3d0] via-[#8c8475] to-[#252320] rounded-l-[3px] border-l border-[#eedfc9]/60 shadow-md" style={{ transform: 'translateZ(2px)' }} />
+      </div>
     </div>
   );
 }
@@ -209,16 +558,28 @@ function PhoneFrame({ children }) {
 function LaptopFrame({ children }) {
   return (
     <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
-      
-      {/* ── PARED DE GROSOR DE BASE ALUMINIO 3D ─────────────── */}
-      <div 
-        className="absolute inset-0 rounded-xl bg-gradient-to-r from-neutral-600 via-neutral-800 to-neutral-950 border-2 border-neutral-500 shadow-[0_35px_80px_-10px_rgba(0,0,0,0.95)]"
-        style={{ transform: 'translateZ(0px)' }}
-      />
+
+      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Optimizado a 10 capas para alto rendimiento de scroll) ── */}
+      {[...Array(10)].map((_, i) => {
+        const z = -8 + (i * 1.6); // Espaciado de alto rendimiento de 1.6px
+        return (
+          <div
+            key={i}
+            className="absolute inset-0 rounded-xl border-[2.5px] border-transparent"
+            style={{
+              transform: `translateZ(${z}px)`,
+              pointerEvents: 'none',
+              backgroundClip: 'padding-box, border-box',
+              backgroundOrigin: 'padding-box, border-box',
+              backgroundImage: `linear-gradient(#BFBFBF, #BFBFBF), linear-gradient(to right, #7f7f7f 0%, #a6a6a6 25%, #BFBFBF 50%, #8c8c8c 75%, #595959 100%)`,
+            }}
+          />
+        );
+      })}
 
       {/* ── CARA FRONTAL: PANTALLA Y BARRA DE NAVEGACIÓN ────────────────────────── */}
-      <div 
-        className="absolute inset-0 w-full h-full flex flex-col rounded-xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-950"
+      <div
+        className="absolute inset-0 w-full h-full flex flex-col rounded-xl overflow-hidden border border-[#BFBFBF]/90 shadow-2xl bg-neutral-950"
         style={{ backfaceVisibility: 'hidden', transform: 'translateZ(8px)' }}
       >
         {/* Barra de Encabezado MacBook Pro con Cámara Web */}
@@ -231,7 +592,7 @@ function LaptopFrame({ children }) {
 
           {/* Barra de Dirección URL con Cámara Web Integrada */}
           <div className="flex items-center gap-2 bg-neutral-950 px-4 py-1 rounded-md border border-neutral-800 text-[11px] font-mono text-neutral-300 shadow-inner">
-            <div className="w-2 h-2 rounded-full bg-[#0a0a0e] border border-neutral-700 flex items-center justify-center">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0e] border border-neutral-700 flex items-center justify-center">
               <div className="w-0.5 h-0.5 rounded-full bg-blue-400" />
             </div>
             <Globe size={12} className="text-[#2ecc71]" />
@@ -247,25 +608,25 @@ function LaptopFrame({ children }) {
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/5 via-transparent to-transparent z-40" />
         </div>
 
-        {/* Base de Aluminio de Laptop con Ranura Frontal */}
-        <div className="w-full h-3.5 bg-gradient-to-b from-neutral-800 via-neutral-850 to-neutral-900 border-t border-neutral-700/60 flex justify-center items-center shrink-0">
-          <div className="w-16 h-1 bg-neutral-700/80 rounded-full" />
+        {/* Base de Aluminio de Laptop con Ranura Frontal (Gris Claro) */}
+        <div className="w-full h-3.5 bg-gradient-to-b from-[#BFBFBF] via-[#dcdcdc] to-[#a6a6a6] border-t border-[#dcdcdc] flex justify-center items-center shrink-0">
+          <div className="w-16 h-1 bg-[#8c8c8c] rounded-full" />
         </div>
       </div>
 
       {/* ── CARA TRASERA: TAPA DE ALUMINIO Y LOGO TRÉBOL ILUMINADO ────────────────────────── */}
-      <div 
-        className="absolute inset-0 w-full h-full rounded-xl bg-gradient-to-br from-neutral-800 via-neutral-900 to-[#121215] border border-neutral-700/90 shadow-2xl p-6 flex flex-col justify-between items-center overflow-hidden"
+      <div
+        className="absolute inset-0 w-full h-full rounded-xl bg-gradient-to-br from-[#BFBFBF] via-[#d9d9d9] to-[#7f7f7f] border border-[#BFBFBF]/95 shadow-2xl p-6 flex flex-col justify-between items-center overflow-hidden"
         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(8px)', transformStyle: 'preserve-3d' }}
       >
-        <div className="w-20 h-1 bg-neutral-700/60 rounded-full" />
+        <div className="w-20 h-1 bg-[#8c8c8c]/50 rounded-full" />
 
         {/* Isotipo Trébol Digital Iluminado en la Tapa de Aluminio de la Mac */}
         <div className="my-auto" style={{ transform: 'translateZ(6px)' }}>
           <TrebolLogoSVG className="w-16 h-16" />
         </div>
 
-        <div className="w-24 h-1.5 bg-neutral-700/80 rounded-full" />
+        <div className="w-24 h-1.5 bg-[#8c8c8c]/60 rounded-full" />
 
         {/* Reflejo Cristalino sobre el Aluminio del reverso */}
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent z-40" />
@@ -276,10 +637,10 @@ function LaptopFrame({ children }) {
 }
 
 const canalesDinamicos = [
-  { 
-    id: 'google', 
-    nombre: 'Google Search Ads', 
-    subtitulo: 'Red de Búsqueda Activa con Alta Intención Comercial', 
+  {
+    id: 'google',
+    nombre: 'Google Search Ads',
+    subtitulo: 'Red de Búsqueda Activa con Alta Intención Comercial',
     descripcion: 'Capturamos prospectos calificados en el momento preciso en que buscan tus servicios B2B. Estrategia de palabras clave transaccionales con landings optimizadas para conversión directa.',
     beneficios: [
       'Pujas inteligentes en tiempo real para optimizar CPC ($14 MXN)',
@@ -290,12 +651,12 @@ const canalesDinamicos = [
     buttonClass: 'bg-[#F4B400] text-black hover:bg-white',
     iconClass: 'text-[#F4B400]',
     glowBg: 'from-amber-500/40 via-blue-600/20 to-red-500/20',
-    align: 'right' 
+    align: 'right'
   },
-  { 
-    id: 'meta', 
-    nombre: 'Meta Ads (Reels)', 
-    subtitulo: 'Segmentación Hiperprecisa en Instagram & Facebook', 
+  {
+    id: 'meta',
+    nombre: 'Meta Ads (Reels)',
+    subtitulo: 'Segmentación Hiperprecisa en Instagram & Facebook',
     descripcion: 'Generamos descubrimiento acelerado y retención de marca mediante contenido dinámico en Reels y Stories. Impactamos directamente a tomadores de decisión y perfiles AB/C+.',
     beneficios: [
       'Segmentación psicográfica de tomadores de decisión',
@@ -306,12 +667,12 @@ const canalesDinamicos = [
     buttonClass: 'bg-[#0081FB] text-white hover:bg-white hover:text-black',
     iconClass: 'text-[#0081FB]',
     glowBg: 'from-blue-600/40 via-indigo-600/30 to-purple-600/35',
-    align: 'left' 
+    align: 'left'
   },
-  { 
-    id: 'tiktok', 
-    nombre: 'TikTok Ads', 
-    subtitulo: 'Spark Ads & Contenido Viral UGC de Alto Impacto', 
+  {
+    id: 'tiktok',
+    nombre: 'TikTok Ads',
+    subtitulo: 'Spark Ads & Contenido Viral UGC de Alto Impacto',
     descripcion: 'Transformamos la atención masiva en resultados comerciales medibles. Aprovechamos las tendencias nativas de la plataforma para captar nuevas audiencias con un costo por mil impresiones óptimo.',
     beneficios: [
       'Formatos virales de video nativo UGC con 5.1% CTR',
@@ -322,12 +683,12 @@ const canalesDinamicos = [
     buttonClass: 'bg-[#00F2FE] text-black hover:bg-white',
     iconClass: 'text-[#00F2FE]',
     glowBg: 'from-cyan-500/40 via-purple-900/20 to-pink-500/40',
-    align: 'right' 
+    align: 'right'
   },
-  { 
-    id: 'seo', 
-    nombre: 'Caso de Éxito Final', 
-    subtitulo: 'Ecosistema de Captación Multicanal Unificado', 
+  {
+    id: 'seo',
+    nombre: 'Caso de Éxito Final',
+    subtitulo: 'Ecosistema de Captación Multicanal Unificado',
     descripcion: 'Sincronizamos la atracción de Google, el alcance de Meta y la viralidad de TikTok en un centro de control estratégico. Máximo rendimiento de pauta publicitaria y crecimiento comercial sostenible.',
     beneficios: [
       'Dashboard centralizado con métricas unificadas en tiempo real',
@@ -338,15 +699,18 @@ const canalesDinamicos = [
     buttonClass: 'bg-[#2ecc71] text-black hover:bg-white',
     iconClass: 'text-[#2ecc71]',
     glowBg: 'from-emerald-500/40 to-[#2ecc71]/40',
-    align: 'left' 
+    align: 'left'
   },
 ];
+
+
 
 export default function CanalesScrollytelling() {
   const containerRef = useRef(null);
   const floatingDeviceRef = useRef(null);
   const blackScreenRef = useRef(null);
-  
+  const backLightRef = useRef(null);
+
   const posLeftRef = useRef(null);
   const posRightRef = useRef(null);
   const posFinalRef = useRef(null);
@@ -362,28 +726,31 @@ export default function CanalesScrollytelling() {
   useGSAP(() => {
     if (!containerRef.current || !floatingDeviceRef.current || !posLeftRef.current || !posRightRef.current || !posFinalRef.current) return;
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    
-    const getCoords = (rect) => ({
-      x: rect.left - containerRect.left,
-      y: rect.top - containerRect.top,
-      width: rect.width,
-      height: rect.height,
-    });
+    const getCoords = (rect) => {
+      if (!containerRef.current) return { x: 0, y: 0, width: 0, height: 0 };
+      const cRect = containerRef.current.getBoundingClientRect();
+      return {
+        x: rect.left - cRect.left,
+        y: rect.top - cRect.top,
+        width: rect.width,
+        height: rect.height,
+      };
+    };
 
-    const posL = getCoords(posLeftRef.current.getBoundingClientRect());
-    const posR = getCoords(posRightRef.current.getBoundingClientRect());
-    const posF = getCoords(posFinalRef.current.getBoundingClientRect());
-
-    // Estado Inicial: Izquierda (Google) — Teléfono vertical
+    // Estado Inicial: Izquierda (Google) — Teléfono vertical (Valores dinámicos basados en funciones)
     gsap.set(floatingDeviceRef.current, {
-      x: posL.x, 
-      y: posL.y, 
-      width: posL.width, 
-      height: posL.height,
-      borderRadius: '2.5rem', 
+      x: () => getCoords(posLeftRef.current.getBoundingClientRect()).x,
+      y: () => getCoords(posLeftRef.current.getBoundingClientRect()).y,
+      width: () => getCoords(posLeftRef.current.getBoundingClientRect()).width,
+      height: () => getCoords(posLeftRef.current.getBoundingClientRect()).height,
+      borderRadius: '2.5rem',
       transformOrigin: 'center center',
       transformStyle: 'preserve-3d',
+      '--light-angle': '180deg',
+      '--screen-light-angle': '45deg',
+      '--back-light-angle': '135deg',
+      '--light-opacity': 0.15,
+      '--shine-offset': '-50%'
     });
 
     if (blackScreenRef.current) {
@@ -419,6 +786,7 @@ export default function CanalesScrollytelling() {
         end: '+=500%',
         scrub: 1.2,
         pin: true,
+        invalidateOnRefresh: true, // Fuerza a GSAP a recalcular las funciones de posición al cambiar el tamaño de ventana
         onToggle: (self) => {
           if (self.isActive) hideHeader();
           else showHeader();
@@ -443,59 +811,84 @@ export default function CanalesScrollytelling() {
     // Giro 360° en 3D con bordes curvados perfectos
     // ==========================================
     tl.to(floatingDeviceRef.current, {
-      x: posR.x, 
-      y: posR.y,
+      x: () => getCoords(posRightRef.current.getBoundingClientRect()).x,
+      y: () => getCoords(posRightRef.current.getBoundingClientRect()).y,
       rotateY: 360,
-      duration: 1.5, 
+      duration: 1.5,
+      force3D: true,
       ease: 'power2.inOut',
     }, 0)
-    .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 0.35)
-    .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 0.95)
-    .to(infoRef0.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.2)
-    .to(infoRef1.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.7);
+      .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 0.35)
+      .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 0.95)
+      .to(infoRef0.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.2)
+      .to(infoRef1.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.7);
 
     // ==========================================
     // TRANSICIÓN 2: Derecha → Izquierda (Meta → TikTok)
     // ==========================================
     tl.to(floatingDeviceRef.current, {
-      x: posL.x, 
-      y: posL.y,
+      x: () => getCoords(posLeftRef.current.getBoundingClientRect()).x,
+      y: () => getCoords(posLeftRef.current.getBoundingClientRect()).y,
       rotateY: 720,
-      duration: 1.5, 
+      duration: 1.5,
+      force3D: true,
       ease: 'power2.inOut',
     }, 1.8)
-    .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 2.15)
-    .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 2.75)
-    .to(infoRef1.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 2.0)
-    .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
+      .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 2.15)
+      .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 2.75)
+      .to(infoRef1.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 2.0)
+      .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
 
     // ==========================================
     // TRANSICIÓN 3: Izquierda → Derecha Final (TikTok → Dashboard Laptop)
     // ==========================================
     tl.to(floatingDeviceRef.current, {
-      x: posF.x, 
-      y: posF.y, 
-      width: posF.width, 
-      height: posF.height,
+      x: () => getCoords(posFinalRef.current.getBoundingClientRect()).x,
+      y: () => getCoords(posFinalRef.current.getBoundingClientRect()).y,
+      width: () => getCoords(posFinalRef.current.getBoundingClientRect()).width,
+      height: () => getCoords(posFinalRef.current.getBoundingClientRect()).height,
       rotateY: 1080,
       borderRadius: '0.75rem',
-      duration: 1.8, 
+      duration: 1.8,
+      force3D: true,
       ease: 'power3.inOut',
     }, 3.6)
-    .to(blackScreenRef.current, { opacity: 1, duration: 0.30 }, 4.0)
-    .to(blackScreenRef.current, { opacity: 0, duration: 0.30 }, 4.8)
-    .to(infoRef2.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 3.8)
-    .to(infoRef3.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 4.3);
+      .to(blackScreenRef.current, { opacity: 1, duration: 0.30 }, 4.0)
+      .to(blackScreenRef.current, { opacity: 0, duration: 0.30 }, 4.8)
+      .to(infoRef2.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 3.8)
+      .to(infoRef3.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 4.3);
 
-    return () => {
-      showHeader();
+    // ── MOUSE MOVE ONLY FOR BACK COVER LIGHTING (TAPA) ──
+    const onMouseMove = (e) => {
+      if (!floatingDeviceRef.current || !backLightRef.current) return;
+      const rect = floatingDeviceRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const pctX = (x / rect.width) * 100;
+
+      backLightRef.current.style.background = `
+        linear-gradient(115deg, 
+          rgba(255, 255, 255, 0) ${pctX - 35}%, 
+          rgba(255, 255, 255, 0.2) ${pctX - 12}%, 
+          rgba(255, 255, 255, 0) ${pctX - 6}%, 
+          rgba(255, 255, 255, 0.38) ${pctX}%, 
+          rgba(255, 255, 255, 0) ${pctX + 6}%, 
+          rgba(255, 255, 255, 0.15) ${pctX + 12}%, 
+          rgba(255, 255, 255, 0) ${pctX + 35}%
+        )
+      `;
     };
 
+    window.addEventListener('mousemove', onMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      showHeader();
+    };
   }, { scope: containerRef });
 
   return (
     <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
-      
+
       {/* Background Glow Dinámico de la Marca */}
       <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
         <div className={`w-[50rem] h-[50rem] rounded-full blur-[180px] bg-gradient-to-tr ${current.glowBg} transition-all duration-1000 opacity-40`} />
@@ -508,9 +901,8 @@ export default function CanalesScrollytelling() {
           return (
             <div
               key={canal.id}
-              className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${
-                canal.align === 'right' ? 'right-8 md:right-16 text-right' : 'left-8 md:left-16 text-left'
-              }`}
+              className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${canal.align === 'right' ? 'right-8 md:right-16 text-right' : 'left-8 md:left-16 text-left'
+                }`}
             >
               <div ref={refMap[idx]} className="will-change-transform">
                 <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-none mb-3 drop-shadow-md ${canal.titleClass}`}>
@@ -548,40 +940,63 @@ export default function CanalesScrollytelling() {
       {/* ANCLAS INVISIBLES (IZQUIERDA Y DERECHA) */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
         <div className="max-w-[1400px] w-full flex justify-between items-center h-full px-8 md:px-16">
-          <div ref={posLeftRef} className="w-[300px] h-[580px] opacity-0 shrink-0" />
-          <div ref={posRightRef} className="w-[300px] h-[580px] opacity-0 shrink-0" />
+          <div ref={posLeftRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
+          <div ref={posRightRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
         </div>
       </div>
 
       {/* Derecha Final: Laptop Target */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
         <div className="max-w-[1400px] w-full flex justify-end items-center h-full px-8 md:px-16">
-          <div ref={posFinalRef} className="w-[580px] h-[380px] opacity-0 shrink-0" />
+          <div ref={posFinalRef} className="w-[90vw] max-w-[580px] h-[60vw] max-h-[380px] opacity-0 shrink-0" />
         </div>
       </div>
 
       {/* DISPOSITIVO FLOTANTE ANIMADO CON VOLUMEN Y PROFUNDIDAD REALISTA EN 3D */}
-      <div className="absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
+      <div className="hidden md:block absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
         <div
           ref={floatingDeviceRef}
-          className="absolute top-0 left-0 will-change-transform overflow-visible"
-          style={{ transformStyle: 'preserve-3d' }}
+          className="absolute top-0 left-0 overflow-visible"
+          style={{
+            transformStyle: 'preserve-3d',
+            willChange: 'transform, width, height, border-radius'
+          }}
         >
           {/* Pantalla Negra Overlay para la transición */}
           <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0 rounded-[2.5rem]" />
 
-          {/* Contenido con Mockup 3D */}
-          {activeIndex < 3 ? (
-            <PhoneFrame>
+          {/* Contenido con Mockup 3D optimizado (Ambos marcos persisten en el DOM para evitar desmontaje) */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: activeIndex < 3 ? 1 : 0,
+              display: activeIndex < 3 ? 'block' : 'none',
+              pointerEvents: activeIndex < 3 ? 'auto' : 'none',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <PhoneFrame backLightRef={backLightRef}>
               {activeIndex === 0 && <GoogleAdsContent />}
               {activeIndex === 1 && <MetaAdsContent />}
               {activeIndex === 2 && <TikTokAdsContent />}
             </PhoneFrame>
-          ) : (
+          </div>
+
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: activeIndex >= 3 ? 1 : 0,
+              display: activeIndex >= 3 ? 'block' : 'none',
+              pointerEvents: activeIndex >= 3 ? 'auto' : 'none',
+              transformStyle: 'preserve-3d'
+            }}
+          >
             <LaptopFrame>
               <DashboardFinalContent />
             </LaptopFrame>
-          )}
+          </div>
         </div>
       </div>
 

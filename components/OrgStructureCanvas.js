@@ -265,7 +265,7 @@ export default function OrgStructureCanvas() {
                   <ConnectionLines
                     connections={STRUCTURED_CONNECTIONS}
                     positions={STRUCTURED_POSITIONS}
-                    color="#5C9E31"
+                    color="#5C9E43"
                     dashed={false}
                     size={canvasSize}
                   />

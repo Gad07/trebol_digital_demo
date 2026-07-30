@@ -32,7 +32,7 @@ const talleres = [
     cupos: 'Quedan 3 lugares',
     desc: 'Aprende a estructurar tu marca, crear contenido que vende y lanzar campañas de Google Ads rentables.',
     temas: ['Buyer Persona & Propuesta de Valor', 'Calendario Editorial & Copywriting', 'SEO Local Google Maps', 'Google Ads Básico'],
-    color: '#5C9E31',
+    color: '#5C9E43',
     bg: 'bg-[#EEF7E6]',
   },
   {
@@ -112,7 +112,7 @@ export default function TalleresPage() {
                   <span className="text-xs font-semibold text-gray-500 flex items-center gap-1">
                     <MapPin size={13} /> {taller.modalidad}
                   </span>
-                  <span className="text-xs font-bold text-[#5C9E31] bg-[#EEF7E6] px-3 py-1 rounded-full">
+                  <span className="text-xs font-bold text-[#5C9E43] bg-[#EEF7E6] px-3 py-1 rounded-full">
                     🔥 {taller.cupos}
                   </span>
                 </div>

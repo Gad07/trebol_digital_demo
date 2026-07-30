@@ -45,27 +45,27 @@ export default function Services() {
   const currentService = services[activeStep];
 
   return (
-    <section 
-      id="servicios" 
-      ref={containerRef} 
+    <section
+      id="servicios"
+      ref={containerRef}
       className="relative w-full h-[300vh] bg-hueso"
     >
       {/* Pinned Viewport Container: Locks fixed on screen from top-0 for 300vh scroll distance */}
       <div className="sticky top-0 w-full h-screen flex items-center px-6 md:px-12 z-20">
         <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
-          
+
           {/* Columna Izquierda: Bloqueada al Centro de la Pantalla */}
           <div className="md:col-span-5 relative z-10">
             <div className="p-10 md:p-14 bg-trebol border border-white/30 rounded-3xl shadow-[0_20px_50px_rgba(92,158,49,0.35)] overflow-hidden relative">
               {/* Ambient Breathing Light */}
-              <motion.div 
+              <motion.div
                 animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.7, 0.3] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-32 -right-32 w-80 h-80 bg-white/30 blur-[80px] rounded-full pointer-events-none" 
+                className="absolute -top-32 -right-32 w-80 h-80 bg-white/30 blur-[80px] rounded-full pointer-events-none"
               />
 
               <h2 className="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8 relative z-10">
-                Nuestras <br/> Soluciones.
+                Nuestras <br /> Soluciones.
               </h2>
 
               <p className="text-lg md:text-xl text-white/90 font-light max-w-sm leading-relaxed relative z-10 mb-8">
@@ -78,9 +78,8 @@ export default function Services() {
                   <button
                     key={idx}
                     onClick={() => setActiveStep(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-500 ${
-                      activeStep === idx ? 'w-12 bg-white' : 'w-4 bg-white/40'
-                    }`}
+                    className={`h-2.5 rounded-full transition-all duration-500 ${activeStep === idx ? 'w-12 bg-white' : 'w-4 bg-white/40'
+                      }`}
                   />
                 ))}
               </div>
