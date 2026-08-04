@@ -7,7 +7,7 @@ import {
   ArrowUpRight, Target, Zap, BarChart3,
   Users, Bot, CheckCircle2, TrendingUp, Sparkles, Plus, Minus
 } from 'lucide-react';
-import CanalesScrollytelling from '@/components/CanalesScrollytelling';
+
 import Contact from '@/components/Contact';
 
 const roadmapSteps = [
@@ -138,8 +138,6 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* ── MATRIZ DE CANALES DE CONVERSIÓN (APPLE SCROLLYTELLING) ───── */}
-      <CanalesScrollytelling />
 
       {/* ── SECCIÓN 4 PASOS: RUTA ESTRATÉGICA DE CAPTACIÓN (CLEAN WHITE EDITORIAL) ─────── */}
       <section className="w-full bg-white text-carbon py-28 px-6 md:px-12 relative z-10 border-t border-neutral-200">

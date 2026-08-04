@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import {
-  ArrowUpRight, Globe, CheckCircle2
+  ArrowUpRight, Globe, CheckCircle2, Share2, Bot, GraduationCap, Sparkles
 } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
@@ -320,54 +320,211 @@ function TripleCameraModule() {
   );
 }
 
-// ── CONTENIDO 1: GOOGLE ADS ────────────────
-function GoogleAdsContent() {
+// ── CONTENIDO 1: REDES SOCIALES ────────────────
+function RedesSocialesContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
-      <img
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-        alt="Google Search Ads"
-        className="w-full h-full object-cover object-center"
-      />
-    </div>
-  );
-}
-
-// ── CONTENIDO 2: META ADS ────────────────────
-function MetaAdsContent() {
-  return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
       <img
         src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80"
-        alt="Meta Ads Reels"
-        className="w-full h-full object-cover object-center"
+        alt="Gestión de Redes Sociales"
+        className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay pointer-events-none"
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-neutral-950/90 to-neutral-950 pointer-events-none" />
+
+      {/* Header bar */}
+      <div className="relative z-10 flex items-center justify-between border-b border-blue-500/20 pb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full bg-blue-600/30 border border-blue-400/50 flex items-center justify-center text-blue-400">
+            <Share2 size={14} />
+          </div>
+          <div>
+            <div className="text-[11px] font-bold text-white tracking-tight">Redes & Contenido</div>
+            <div className="text-[9px] text-blue-300/80">Coordinación & Pauta</div>
+          </div>
+        </div>
+        <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[9px] font-mono border border-blue-500/30">EN VIVO</span>
+      </div>
+
+      {/* Card central con stats */}
+      <div className="relative z-10 space-y-2.5 my-auto">
+        <div className="bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-xl">
+          <div className="text-[10px] uppercase font-mono tracking-wider text-blue-400 mb-1">Impacto de Comunidad</div>
+          <div className="text-xl font-black text-white">+142,800 <span className="text-xs font-normal text-emerald-400">↑ 340%</span></div>
+          <p className="text-[10px] text-neutral-300 mt-1">Interacciones, Reels (9:16) y Pauta segmentada activa.</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-blue-950/40 p-2.5 rounded-xl border border-blue-500/20">
+            <div className="text-[9px] text-neutral-400">Pauta Meta</div>
+            <div className="text-xs font-bold text-white">4.8× ROAS</div>
+          </div>
+          <div className="bg-indigo-950/40 p-2.5 rounded-xl border border-indigo-500/20">
+            <div className="text-[9px] text-neutral-400">TikTok UGC</div>
+            <div className="text-xs font-bold text-white">5.1% CTR</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer bar */}
+      <div className="relative z-10 bg-blue-600/20 rounded-xl p-2 border border-blue-500/30 flex items-center justify-between text-[10px] text-blue-200">
+        <span>✓ Calendario Publicado</span>
+        <span className="font-mono font-bold">100% Coordinado</span>
+      </div>
     </div>
   );
 }
 
-// ── CONTENIDO 3: TIKTOK ADS ─────────────────────
-function TikTokAdsContent() {
+// ── CONTENIDO 2: WEB OPTIMIZADA ────────────────────
+function WebOptimContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
       <img
-        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"
-        alt="TikTok Ads"
-        className="w-full h-full object-cover object-center"
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+        alt="Gestión y Optimización Web"
+        className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay pointer-events-none"
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-amber-950/70 via-neutral-950/90 to-neutral-950 pointer-events-none" />
+
+      {/* Header bar */}
+      <div className="relative z-10 flex items-center justify-between border-b border-amber-500/20 pb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full bg-amber-500/30 border border-amber-400/50 flex items-center justify-center text-amber-400">
+            <Globe size={14} />
+          </div>
+          <div>
+            <div className="text-[11px] font-bold text-white tracking-tight">Página Web Activa</div>
+            <div className="text-[9px] text-amber-300/80">Gestión & SEO</div>
+          </div>
+        </div>
+        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono border border-emerald-500/30">100 / 100</span>
+      </div>
+
+      {/* Card central */}
+      <div className="relative z-10 space-y-2.5 my-auto">
+        <div className="bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-xl">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[10px] uppercase font-mono text-amber-400">Velocidad Editorial</span>
+            <span className="text-[10px] text-emerald-400 font-bold">0.8 Segundos</span>
+          </div>
+          <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden mb-2">
+            <div className="bg-gradient-to-r from-amber-400 to-emerald-400 h-full w-[98%]" />
+          </div>
+          <p className="text-[10px] text-neutral-300">Actualizaciones continuas, diseño responsivo y optimización de conversión.</p>
+        </div>
+
+        <div className="bg-amber-950/30 p-2.5 rounded-xl border border-amber-500/20 flex items-center justify-between">
+          <span className="text-[10px] text-neutral-300">Posicionamiento SEO</span>
+          <span className="text-xs font-bold text-amber-300">Top 3 Google</span>
+        </div>
+      </div>
+
+      {/* Footer bar */}
+      <div className="relative z-10 bg-amber-500/20 rounded-xl p-2 border border-amber-500/30 flex items-center justify-between text-[10px] text-amber-200">
+        <span>✓ Mantenimiento Activo</span>
+        <span className="font-mono font-bold">Sin Interrupciones</span>
+      </div>
     </div>
   );
 }
 
-// ── CONTENIDO 4: DASHBOARD FINAL ────────────────────
-function DashboardFinalContent() {
+// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL ─────────────────────
+function IAContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center">
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/80 via-purple-950/80 to-neutral-950 pointer-events-none" />
+
+      {/* Header bar */}
+      <div className="relative z-10 flex items-center justify-between border-b border-cyan-500/20 pb-3">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full bg-cyan-500/30 border border-cyan-400/50 flex items-center justify-center text-cyan-300">
+            <Bot size={14} />
+          </div>
+          <div>
+            <div className="text-[11px] font-bold text-white tracking-tight">Agente IA Trébol</div>
+            <div className="text-[9px] text-cyan-300/80">IA en tu Operación</div>
+          </div>
+        </div>
+        <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-mono border border-cyan-500/30">ACTIVO 24/7</span>
+      </div>
+
+      {/* Interface Chat Mockup */}
+      <div className="relative z-10 space-y-2 my-auto">
+        <div className="bg-neutral-900/90 p-3 rounded-2xl border border-cyan-500/30 text-[10px]">
+          <div className="text-cyan-400 font-bold mb-1 flex items-center gap-1">
+            <Sparkles size={10} /> Agente Comercial IA
+          </div>
+          <p className="text-neutral-200">"He filtrado 24 nuevos prospectos y agendado 5 citas clasificadas directamente en tu CRM."</p>
+        </div>
+
+        <div className="bg-cyan-950/50 p-2.5 rounded-xl border border-cyan-500/20 text-[10px]">
+          <div className="text-neutral-400 text-[9px]">Automatización operativa</div>
+          <div className="text-white font-bold mt-0.5">Ahorro estimado: 35 hrs / semana</div>
+        </div>
+      </div>
+
+      {/* Footer bar */}
+      <div className="relative z-10 bg-cyan-500/20 rounded-xl p-2 border border-cyan-500/30 flex items-center justify-between text-[10px] text-cyan-200">
+        <span>✓ Integrado a tu Negocio</span>
+        <span className="font-mono font-bold">Modelos 100% a Medida</span>
+      </div>
+    </div>
+  );
+}
+
+// ── CONTENIDO 4: CAPACITACIÓN & ACOMPAÑAMIENTO ────────────────────
+function CapacitacionContent() {
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-6 flex flex-col justify-between select-none">
       <img
         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
-        alt="Trébol Dashboard Final"
-        className="w-full h-full object-cover object-left-top"
+        alt="Programa de Capacitación Trébol"
+        className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-overlay pointer-events-none"
       />
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/80 via-neutral-950/90 to-neutral-950 pointer-events-none" />
+
+      {/* Header bar */}
+      <div className="relative z-10 flex items-center justify-between border-b border-emerald-500/20 pb-3">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-400">
+            <GraduationCap size={16} />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-white tracking-tight">Capacitación & Transferencia Técnica</div>
+            <div className="text-[10px] text-emerald-300/80">Empoderamos a tu equipo en todas las herramientas</div>
+          </div>
+        </div>
+        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono border border-emerald-500/30">100% Autonomía</span>
+      </div>
+
+      {/* Content grid */}
+      <div className="relative z-10 grid grid-cols-3 gap-3 my-auto">
+        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
+          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 1</div>
+          <div className="text-xs font-bold text-white">Redes Sociales</div>
+          <div className="text-[9px] text-neutral-400 mt-0.5">Coordinación & Pauta</div>
+          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
+        </div>
+
+        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
+          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 2</div>
+          <div className="text-xs font-bold text-white">Gestión Web</div>
+          <div className="text-[9px] text-neutral-400 mt-0.5">Actualizaciones & SEO</div>
+          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
+        </div>
+
+        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
+          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 3</div>
+          <div className="text-xs font-bold text-white">Dominio de IA</div>
+          <div className="text-[9px] text-neutral-400 mt-0.5">Uso práctico operativo</div>
+          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
+        </div>
+      </div>
+
+      {/* Footer bar */}
+      <div className="relative z-10 bg-emerald-500/20 rounded-xl p-2.5 border border-emerald-500/30 flex items-center justify-between text-[11px] text-emerald-200">
+        <span>✓ Acompañamiento continuo y soporte de dudas</span>
+        <span className="font-mono font-bold text-xs">Tu equipo domina la tecnología</span>
+      </div>
     </div>
   );
 }
@@ -377,14 +534,13 @@ function PhoneFrame({ children, backLightRef }) {
   return (
     <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
 
-      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Apilamiento 3D ultra-denso para volumen sólido) ── */}
-      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Optimizado a 8 capas para alto rendimiento de scroll) ── */}
-      {[...Array(8)].map((_, i) => {
-        const z = -6 + (i * 1.5); // Espaciado de alto rendimiento cada 1.5px (mismo volumen, 3 veces menos carga)
+      {/* ── CAPAS INTERMEDIAS DEL CHASIS (Optimizado a 3 capas ligeras GPU) ── */}
+      {[...Array(3)].map((_, i) => {
+        const z = -6 + (i * 4);
         return (
           <div
             key={i}
-            className="absolute inset-0 rounded-[2.5rem] border-[4px] border-transparent"
+            className="absolute inset-0 rounded-[2.5rem] border-[4px] border-transparent will-change-transform"
             style={{
               transform: `translateZ(${z}px)`,
               pointerEvents: 'none',
@@ -638,46 +794,46 @@ function LaptopFrame({ children }) {
 
 const canalesDinamicos = [
   {
-    id: 'google',
-    nombre: 'Google Search Ads',
-    subtitulo: 'Red de Búsqueda Activa con Alta Intención Comercial',
-    descripcion: 'Capturamos prospectos calificados en el momento preciso en que buscan tus servicios B2B. Estrategia de palabras clave transaccionales con landings optimizadas para conversión directa.',
+    id: 'redes-sociales',
+    nombre: 'Gestión de Redes Sociales',
+    subtitulo: 'Te llevamos y coordinamos tus redes sociales',
+    descripcion: 'Diseñamos, creamos y coordinamos la presencia estratégica de tu marca en plataformas digitales. Publicaciones continuas, producción visual de alto impacto y pauta optimizada para conectar con tu audiencia.',
     beneficios: [
-      'Pujas inteligentes en tiempo real para optimizar CPC ($14 MXN)',
-      'Tasa de conversión directa con prospectos de alta intención',
-      'Atribución transparente y ROI medible desde el primer día'
-    ],
-    titleClass: 'text-[#F4B400]',
-    buttonClass: 'bg-[#F4B400] text-black hover:bg-white',
-    iconClass: 'text-[#F4B400]',
-    glowBg: 'from-amber-500/40 via-blue-600/20 to-red-500/20',
-    align: 'right'
-  },
-  {
-    id: 'meta',
-    nombre: 'Meta Ads (Reels)',
-    subtitulo: 'Segmentación Hiperprecisa en Instagram & Facebook',
-    descripcion: 'Generamos descubrimiento acelerado y retención de marca mediante contenido dinámico en Reels y Stories. Impactamos directamente a tomadores de decisión y perfiles AB/C+.',
-    beneficios: [
-      'Segmentación psicográfica de tomadores de decisión',
-      'Formatos inmersivos de video corto en Reels (9:16)',
-      'Generación continua de leads calificados con CPL de $98 MXN'
+      'Coordinación editorial y publicación de contenido continuo',
+      'Producción de video vertical (Reels/TikTok) y carruseles',
+      'Gestión de comunidad, respuesta a prospectos y pauta segmentada'
     ],
     titleClass: 'text-[#0081FB]',
     buttonClass: 'bg-[#0081FB] text-white hover:bg-white hover:text-black',
     iconClass: 'text-[#0081FB]',
     glowBg: 'from-blue-600/40 via-indigo-600/30 to-purple-600/35',
+    align: 'right'
+  },
+  {
+    id: 'web',
+    nombre: 'Gestión & Optimización Web',
+    subtitulo: 'Manejamos, actualizamos y optimizamos tu página web',
+    descripcion: 'Mantenemos tu sitio web como una herramienta comercial activa y veloz. Actualización constante de contenidos, arquitectura responsiva de nivel editorial y optimización SEO continua.',
+    beneficios: [
+      'Velocidad de carga ultrarrápida & UX de nivel editorial',
+      'Mantenimiento técnico, seguridad y actualizaciones sin pausas',
+      'Optimización de tasa de conversión (CRO) y SEO en buscadores'
+    ],
+    titleClass: 'text-[#F4B400]',
+    buttonClass: 'bg-[#F4B400] text-black hover:bg-white',
+    iconClass: 'text-[#F4B400]',
+    glowBg: 'from-amber-500/40 via-emerald-600/20 to-lime-500/20',
     align: 'left'
   },
   {
-    id: 'tiktok',
-    nombre: 'TikTok Ads',
-    subtitulo: 'Spark Ads & Contenido Viral UGC de Alto Impacto',
-    descripcion: 'Transformamos la atención masiva en resultados comerciales medibles. Aprovechamos las tendencias nativas de la plataforma para captar nuevas audiencias con un costo por mil impresiones óptimo.',
+    id: 'ia',
+    nombre: 'Inteligencia Artificial Aplicada',
+    subtitulo: 'Involucramos IA en tu negocio',
+    descripcion: 'Integramos herramientas y agentes de Inteligencia Artificial en tus procesos operativos para automatizar tareas repetitivas, calificar prospectos y potenciar la productividad de tu empresa.',
     beneficios: [
-      'Formatos virales de video nativo UGC con 5.1% CTR',
-      'Costo por vista (CPV) altamente eficiente de $0.04',
-      'Conexión auténtica y rápida adopción de marca'
+      'Agentes inteligentes y chatbots integrados a tu CRM',
+      'Automatización de prospección y filtro de leads 24/7',
+      'Modelos de IA generativa para acelerar tu operación diaria'
     ],
     titleClass: 'text-[#00F2FE]',
     buttonClass: 'bg-[#00F2FE] text-black hover:bg-white',
@@ -686,19 +842,19 @@ const canalesDinamicos = [
     align: 'right'
   },
   {
-    id: 'seo',
-    nombre: 'Caso de Éxito Final',
-    subtitulo: 'Ecosistema de Captación Multicanal Unificado',
-    descripcion: 'Sincronizamos la atracción de Google, el alcance de Meta y la viralidad de TikTok en un centro de control estratégico. Máximo rendimiento de pauta publicitaria y crecimiento comercial sostenible.',
+    id: 'capacitacion',
+    nombre: 'Capacitación & Acompañamiento',
+    subtitulo: 'Y al final te capacitamos en todo esto',
+    descripcion: 'Formamos y preparamos a tu equipo de trabajo para que dominen las herramientas digitales implementadas, garantizando autonomía total y crecimiento sostenible.',
     beneficios: [
-      'Dashboard centralizado con métricas unificadas en tiempo real',
-      'Retorno acumulado promedio de 4.8× sobre inversión publicitaria',
-      'Sistema automatizado de captación y cierre de clientes'
+      'Talleres prácticos personalizados para tu equipo comercial y operativo',
+      'Documentación técnica, manuales y guías paso a paso',
+      'Acompañamiento continuo y evolución digital de tu organización'
     ],
-    titleClass: 'text-[#2ecc71]',
-    buttonClass: 'bg-[#2ecc71] text-black hover:bg-white',
-    iconClass: 'text-[#2ecc71]',
-    glowBg: 'from-emerald-500/40 to-[#2ecc71]/40',
+    titleClass: 'text-[#84C638]',
+    buttonClass: 'bg-[#84C638] text-black hover:bg-white',
+    iconClass: 'text-[#84C638]',
+    glowBg: 'from-emerald-500/40 to-[#84C638]/40',
     align: 'left'
   },
 ];
@@ -784,8 +940,10 @@ export default function CanalesScrollytelling() {
         trigger: containerRef.current,
         start: 'top top',
         end: '+=500%',
-        scrub: 1.2,
+        scrub: 0.5,
         pin: true,
+        pinSpacing: true,
+        refreshPriority: 1,
         invalidateOnRefresh: true, // Fuerza a GSAP a recalcular las funciones de posición al cambiar el tamaño de ventana
         onToggle: (self) => {
           if (self.isActive) hideHeader();
@@ -887,119 +1045,127 @@ export default function CanalesScrollytelling() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
+    <div id="canales-scrollytelling-wrapper" className="w-full relative">
+      <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
 
-      {/* Background Glow Dinámico de la Marca */}
-      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-        <div className={`w-[50rem] h-[50rem] rounded-full blur-[180px] bg-gradient-to-tr ${current.glowBg} transition-all duration-1000 opacity-40`} />
-      </div>
+        {/* Background Glow Dinámico de la Marca */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+          <div className={`w-[50rem] h-[50rem] rounded-full blur-[180px] bg-gradient-to-tr ${current.glowBg} transition-all duration-1000 opacity-40`} />
+        </div>
 
-      {/* ── NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA ────── */}
-      <div className="absolute inset-0 z-10 pointer-events-none p-8 md:p-16 max-w-[1400px] mx-auto relative h-full">
-        {canalesDinamicos.map((canal, idx) => {
-          const refMap = [infoRef0, infoRef1, infoRef2, infoRef3];
-          return (
-            <div
-              key={canal.id}
-              className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${canal.align === 'right' ? 'right-8 md:right-16 text-right' : 'left-8 md:left-16 text-left'
-                }`}
-            >
-              <div ref={refMap[idx]} className="will-change-transform">
-                <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-none mb-3 drop-shadow-md ${canal.titleClass}`}>
-                  {canal.nombre}
-                </h2>
-                <p className="text-base md:text-lg text-white font-medium mb-3">
-                  {canal.subtitulo}
-                </p>
-                <p className="text-xs md:text-sm text-neutral-400 font-light leading-relaxed mb-5">
-                  {canal.descripcion}
-                </p>
+        {/* ── NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA ────── */}
+        <div className="absolute inset-0 z-10 pointer-events-none p-8 md:p-16 max-w-[1400px] mx-auto relative h-full">
+          {canalesDinamicos.map((canal, idx) => {
+            const refMap = [infoRef0, infoRef1, infoRef2, infoRef3];
+            return (
+              <div
+                key={canal.id}
+                className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${canal.align === 'right' ? 'right-8 md:right-16 text-right' : 'left-8 md:left-16 text-left'
+                  }`}
+              >
+                <div ref={refMap[idx]} className="will-change-transform">
+                  <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-none mb-3 drop-shadow-md ${canal.titleClass}`}>
+                    {canal.nombre}
+                  </h2>
+                  <p className="text-base md:text-lg text-white font-medium mb-3">
+                    {canal.subtitulo}
+                  </p>
+                  <p className="text-xs md:text-sm text-neutral-400 font-light leading-relaxed mb-5">
+                    {canal.descripcion}
+                  </p>
 
-                <ul className="space-y-2 mb-8 text-xs font-mono text-neutral-300">
-                  {canal.beneficios.map((b, i) => (
-                    <li key={i} className={`flex items-center gap-2 ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
-                      {canal.align !== 'right' && <CheckCircle2 size={13} className={`${canal.iconClass} shrink-0`} />}
-                      <span>{b}</span>
-                      {canal.align === 'right' && <CheckCircle2 size={13} className={`${canal.iconClass} shrink-0`} />}
-                    </li>
-                  ))}
-                </ul>
+                  <ul className="space-y-2 mb-8 text-xs font-mono text-neutral-300">
+                    {canal.beneficios.map((b, i) => (
+                      <li key={i} className={`flex items-center gap-2 ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
+                        {canal.align !== 'right' && <CheckCircle2 size={13} className={`${canal.iconClass} shrink-0`} />}
+                        <span>{b}</span>
+                        {canal.align === 'right' && <CheckCircle2 size={13} className={`${canal.iconClass} shrink-0`} />}
+                      </li>
+                    ))}
+                  </ul>
 
-                <div className={`flex ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
-                  <Link href="/agenda" className={`pointer-events-auto inline-flex items-center gap-2 font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-2xl shrink-0 ${canal.buttonClass}`}>
-                    Agendar Diagnóstico
-                    <ArrowUpRight size={18} />
-                  </Link>
+                  <div className={`flex ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
+                    <Link href="/agenda" className={`pointer-events-auto inline-flex items-center gap-2 font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-2xl shrink-0 ${canal.buttonClass}`}>
+                      Agendar Diagnóstico
+                      <ArrowUpRight size={18} />
+                    </Link>
+                  </div>
                 </div>
               </div>
+            );
+          })}
+        </div>
+
+        {/* ANCLAS INVISIBLES (IZQUIERDA Y DERECHA) */}
+        <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+          <div className="max-w-[1400px] w-full flex justify-between items-center h-full px-8 md:px-16">
+            <div ref={posLeftRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
+            <div ref={posRightRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
+          </div>
+        </div>
+
+        {/* Derecha Final: Laptop Target */}
+        <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+          <div className="max-w-[1400px] w-full flex justify-end items-center h-full px-8 md:px-16">
+            <div ref={posFinalRef} className="w-[90vw] max-w-[580px] h-[60vw] max-h-[380px] opacity-0 shrink-0" />
+          </div>
+        </div>
+
+        {/* DISPOSITIVO FLOTANTE ANIMADO CON VOLUMEN Y PROFUNDIDAD REALISTA EN 3D */}
+        <div className="hidden md:block absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
+          <div
+            ref={floatingDeviceRef}
+            className="absolute top-0 left-0 overflow-visible"
+            style={{
+              transformStyle: 'preserve-3d',
+              willChange: 'transform, width, height, border-radius'
+            }}
+          >
+            {/* Pantalla Negra Overlay para la transición */}
+            <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0 rounded-[2.5rem]" />
+
+            {/* Contenido con Mockup 3D optimizado (Ambos marcos persisten en el DOM para evitar desmontaje) */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: activeIndex < 3 ? 1 : 0,
+                display: activeIndex < 3 ? 'block' : 'none',
+                pointerEvents: activeIndex < 3 ? 'auto' : 'none',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <PhoneFrame backLightRef={backLightRef}>
+                <div style={{ position: 'absolute', inset: 0, opacity: activeIndex === 0 ? 1 : 0, pointerEvents: activeIndex === 0 ? 'auto' : 'none', transition: 'opacity 0.3s ease' }}>
+                  <RedesSocialesContent />
+                </div>
+                <div style={{ position: 'absolute', inset: 0, opacity: activeIndex === 1 ? 1 : 0, pointerEvents: activeIndex === 1 ? 'auto' : 'none', transition: 'opacity 0.3s ease' }}>
+                  <WebOptimContent />
+                </div>
+                <div style={{ position: 'absolute', inset: 0, opacity: activeIndex === 2 ? 1 : 0, pointerEvents: activeIndex === 2 ? 'auto' : 'none', transition: 'opacity 0.3s ease' }}>
+                  <IAContent />
+                </div>
+              </PhoneFrame>
             </div>
-          );
-        })}
-      </div>
 
-      {/* ANCLAS INVISIBLES (IZQUIERDA Y DERECHA) */}
-      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-        <div className="max-w-[1400px] w-full flex justify-between items-center h-full px-8 md:px-16">
-          <div ref={posLeftRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
-          <div ref={posRightRef} className="w-[220px] sm:w-[260px] md:w-[300px] h-[430px] sm:h-[500px] md:h-[580px] opacity-0 shrink-0" />
-        </div>
-      </div>
-
-      {/* Derecha Final: Laptop Target */}
-      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-        <div className="max-w-[1400px] w-full flex justify-end items-center h-full px-8 md:px-16">
-          <div ref={posFinalRef} className="w-[90vw] max-w-[580px] h-[60vw] max-h-[380px] opacity-0 shrink-0" />
-        </div>
-      </div>
-
-      {/* DISPOSITIVO FLOTANTE ANIMADO CON VOLUMEN Y PROFUNDIDAD REALISTA EN 3D */}
-      <div className="hidden md:block absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
-        <div
-          ref={floatingDeviceRef}
-          className="absolute top-0 left-0 overflow-visible"
-          style={{
-            transformStyle: 'preserve-3d',
-            willChange: 'transform, width, height, border-radius'
-          }}
-        >
-          {/* Pantalla Negra Overlay para la transición */}
-          <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0 rounded-[2.5rem]" />
-
-          {/* Contenido con Mockup 3D optimizado (Ambos marcos persisten en el DOM para evitar desmontaje) */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: activeIndex < 3 ? 1 : 0,
-              display: activeIndex < 3 ? 'block' : 'none',
-              pointerEvents: activeIndex < 3 ? 'auto' : 'none',
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <PhoneFrame backLightRef={backLightRef}>
-              {activeIndex === 0 && <GoogleAdsContent />}
-              {activeIndex === 1 && <MetaAdsContent />}
-              {activeIndex === 2 && <TikTokAdsContent />}
-            </PhoneFrame>
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: activeIndex >= 3 ? 1 : 0,
-              display: activeIndex >= 3 ? 'block' : 'none',
-              pointerEvents: activeIndex >= 3 ? 'auto' : 'none',
-              transformStyle: 'preserve-3d'
-            }}
-          >
-            <LaptopFrame>
-              <DashboardFinalContent />
-            </LaptopFrame>
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: activeIndex >= 3 ? 1 : 0,
+                display: activeIndex >= 3 ? 'block' : 'none',
+                pointerEvents: activeIndex >= 3 ? 'auto' : 'none',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <LaptopFrame>
+                <CapacitacionContent />
+              </LaptopFrame>
+            </div>
           </div>
         </div>
-      </div>
 
-    </section>
+      </section>
+    </div>
   );
 }

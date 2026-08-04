@@ -1,118 +1,142 @@
 "use client";
 
-import { useState, useRef } from 'react';
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-
-const services = [
-  {
-    id: "01",
-    title: "Crecimiento Digital",
-    description: "Diseñamos estrategias para fortalecer la presencia digital de las empresas y convertirla en oportunidades comerciales. Desde diagnóstico y estrategia, hasta gestión de redes sociales y desarrollo web.",
-  },
-  {
-    id: "02",
-    title: "Inteligencia Artificial Aplicada",
-    description: "Ayudamos a las empresas a integrar herramientas de inteligencia artificial para mejorar su productividad sin perder el enfoque humano. Talleres, implementación y automatización.",
-  },
-  {
-    id: "03",
-    title: "Desarrollo Organizacional",
-    description: "Fortalecemos las capacidades de liderazgo y organización de los equipos para acompañar el crecimiento de la empresa. No solo implementamos tecnología, formamos personas.",
-  }
-];
+import { motion } from 'framer-motion';
+import { Target, Zap, Users, Sparkles, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Services() {
-  const containerRef = useRef(null);
-  const [activeStep, setActiveStep] = useState(0);
-
-  // Track scroll position inside this 300vh container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Dynamically update activeStep based on scroll progress (0 to 1)
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (latest < 0.33) {
-      if (activeStep !== 0) setActiveStep(0);
-    } else if (latest >= 0.33 && latest < 0.66) {
-      if (activeStep !== 1) setActiveStep(1);
-    } else if (latest >= 0.66) {
-      if (activeStep !== 2) setActiveStep(2);
-    }
-  });
-
-  const currentService = services[activeStep];
-
   return (
-    <section
-      id="servicios"
-      ref={containerRef}
-      className="relative w-full h-[300vh] bg-hueso"
-    >
-      {/* Pinned Viewport Container: Locks fixed on screen from top-0 for 300vh scroll distance */}
-      <div className="sticky top-0 w-full h-screen flex items-center px-6 md:px-12 z-20">
-        <div className="max-w-[1400px] w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
+    <section id="que-es-trebol" className="relative w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 border-b border-carbon/10 overflow-hidden">
+      {/* Luz Ambiental de fondo */}
+      <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-32 -right-32 w-[35rem] h-[35rem] bg-trebol/30 rounded-full blur-[140px]"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute -bottom-40 -left-40 w-[30rem] h-[30rem] bg-emerald-500/20 rounded-full blur-[120px]"
+        />
+      </div>
 
-          {/* Columna Izquierda: Bloqueada al Centro de la Pantalla */}
-          <div className="md:col-span-5 relative z-10">
-            <div className="p-10 md:p-14 bg-trebol border border-white/30 rounded-3xl shadow-[0_20px_50px_rgba(92,158,49,0.35)] overflow-hidden relative">
-              {/* Ambient Breathing Light */}
-              <motion.div
-                animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.7, 0.3] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-32 -right-32 w-80 h-80 bg-white/30 blur-[80px] rounded-full pointer-events-none"
-              />
+      <div className="max-w-[1400px] w-full mx-auto relative z-10">
 
-              <h2 className="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8 relative z-10">
-                Nuestras <br /> Soluciones.
-              </h2>
+        {/* Encabezado Principal */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16 md:mb-20">
+          <div className="lg:col-span-7">
+            <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.92]">
+              ¿Qué es <br />
+              <span className="text-trebol">Trébol Digital?</span>
+            </h2>
+          </div>
 
-              <p className="text-lg md:text-xl text-white/90 font-light max-w-sm leading-relaxed relative z-10 mb-8">
-                Un modelo integral diseñado para empresas que buscan evolucionar a través de la tecnología y el talento humano.
-              </p>
+          <div className="lg:col-span-5">
+            <p className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed">
+              Somos una firma de <span className="font-semibold text-carbon">aceleración tecnológica y humana</span>. Ayudamos a las empresas a evolucionar su presencia digital, sus ventas y su operación interna.
+            </p>
+          </div>
+        </div>
 
-              {/* Step Progress Capsules */}
-              <div className="flex items-center gap-3 relative z-10">
-                {services.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveStep(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-500 ${activeStep === idx ? 'w-12 bg-white' : 'w-4 bg-white/40'
-                      }`}
-                  />
-                ))}
+        {/* Grid de 3 Pilares Fundamentales de Trébol */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+
+          {/* Pilar 1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol mb-8 group-hover:bg-trebol group-hover:text-white transition-all duration-300">
+                <Target size={28} />
               </div>
+              <h3 className="text-2xl font-bold text-carbon tracking-tight mb-4">
+                Estrategia & Tecnología Nativa
+              </h3>
+              <p className="text-carbon/70 text-base leading-relaxed font-light mb-6">
+                Unimos diseño web de calidad editorial, estrategias de marketing hipersegmentadas y modelos de Inteligencia Artificial ajustados a tu industria.
+              </p>
             </div>
-          </div>
+            <ul className="space-y-2 text-xs font-mono text-carbon/80 pt-6 border-t border-neutral-100">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                <span>Desarrollo nativo & SEO</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                <span>Pauta de alta conversión</span>
+              </li>
+            </ul>
+          </motion.div>
 
-          {/* Columna Derecha: El elemento actual reemplaza al anterior limpiamente */}
-          <div className="md:col-span-7 relative h-[380px] md:h-[450px] flex items-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentService.id}
-                initial={{ opacity: 0, y: 50, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -50, scale: 0.97 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full flex flex-col justify-center border-t-2 border-trebol/30 pt-8"
-              >
-                <span className="text-8xl md:text-9xl font-black text-trebol leading-none mb-4 block">
-                  {currentService.id}.
-                </span>
+          {/* Pilar 2 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol mb-8 group-hover:bg-trebol group-hover:text-white transition-all duration-300">
+                <Zap size={28} />
+              </div>
+              <h3 className="text-2xl font-bold text-carbon tracking-tight mb-4">
+                Sistemas Comerciales Escalables
+              </h3>
+              <p className="text-carbon/70 text-base leading-relaxed font-light mb-6">
+                No creamos simples vitrinas estáticas. Diseñamos ecosistemas digitales orientados a la conversión de clientes y retorno directo de inversión.
+              </p>
+            </div>
+            <ul className="space-y-2 text-xs font-mono text-carbon/80 pt-6 border-t border-neutral-100">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                <span>Automatización con IA & CRM</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                <span>Filtro anti-leads basura</span>
+              </li>
+            </ul>
+          </motion.div>
 
-                <h3 className="text-3xl md:text-5xl font-extrabold text-carbon tracking-tight mb-6">
-                  {currentService.title}
-                </h3>
-
-                <p className="text-xl md:text-2xl text-carbon/80 font-light leading-relaxed max-w-2xl">
-                  {currentService.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          {/* Pilar 3 */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="p-8 md:p-10 rounded-3xl bg-trebol text-white shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-all duration-300">
+                <Users size={28} />
+              </div>
+              <h3 className="text-2xl font-bold text-white tracking-tight mb-4">
+                Capacitación & Autonomía Humana
+              </h3>
+              <p className="text-white/90 text-base leading-relaxed font-light mb-6">
+                No generamos dependencia. Formamos y capacitamos a tu equipo para que tomen el control autónomo de todas las herramientas implementadas.
+              </p>
+            </div>
+            <ul className="space-y-2 text-xs font-mono text-white/90 pt-6 border-t border-white/20 relative z-10">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-white shrink-0" />
+                <span>Talleres prácticos a medida</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={14} className="text-white shrink-0" />
+                <span>Transferencia técnica completa</span>
+              </li>
+            </ul>
+          </motion.div>
 
         </div>
+
       </div>
     </section>
   );
