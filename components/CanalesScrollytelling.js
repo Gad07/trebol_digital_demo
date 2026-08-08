@@ -6,7 +6,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import {
-  ArrowUpRight, Globe, CheckCircle2, Share2, Bot, GraduationCap, Sparkles
+  ArrowUpRight, Globe, CheckCircle2, Share2, Bot, GraduationCap, Sparkles,
+  Heart, MessageCircle, Play, Send, Zap, ShieldCheck, FileText, Check, Star, Video,
+  Lock, RotateCw, Calendar, TrendingUp, BarChart3, Users, Volume2, VolumeX
 } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
@@ -320,213 +322,299 @@ function TripleCameraModule() {
   );
 }
 
-// ── CONTENIDO 1: REDES SOCIALES ────────────────
+// ── REPRODUCTOR DE VIDEO SINCRONIZADO CON LA POSICIÓN DEL DISPOSITIVO ─────────
+function YouTubeVideo({ videoId, title, scaleClass = "w-[120%] h-[100%]", isActive = false }) {
+  const iframeRef = useRef(null);
+
+  const enableAudioAndDisableCaptions = () => {
+    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
+    try {
+      // Activa audio
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'unMute', args: [] }),
+        '*'
+      );
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'setVolume', args: [100] }),
+        '*'
+      );
+      // Desactiva módulo de subtítulos de YouTube
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }),
+        '*'
+      );
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: 'unloadModule', args: ['cc'] }),
+        '*'
+      );
+    } catch (e) {
+      console.log('Enable audio & disable captions error:', e);
+    }
+  };
+
+  useEffect(() => {
+    // Desbloqueo de audio dinámico ante interacción del usuario
+    const handleUserInteraction = () => {
+      if (isActive) {
+        enableAudioAndDisableCaptions();
+      }
+    };
+
+    window.addEventListener('scroll', handleUserInteraction, { passive: true });
+    window.addEventListener('click', handleUserInteraction, { passive: true });
+    window.addEventListener('pointerdown', handleUserInteraction, { passive: true });
+    window.addEventListener('touchstart', handleUserInteraction, { passive: true });
+    window.addEventListener('wheel', handleUserInteraction, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleUserInteraction);
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('pointerdown', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
+      window.removeEventListener('wheel', handleUserInteraction);
+    };
+  }, [isActive]);
+
+  useEffect(() => {
+    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
+    try {
+      if (isActive) {
+        // Reinicia a segundo 0 y reproduce EXACTAMENTE cuando el marco se coloca en pantalla
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }),
+          '*'
+        );
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+          '*'
+        );
+        enableAudioAndDisableCaptions();
+      } else {
+        // Silencia, pausa y reinicia a 0:00 inmediatamente al salir del foco/scroll
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'mute', args: [] }),
+          '*'
+        );
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+          '*'
+        );
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }),
+          '*'
+        );
+      }
+    } catch (e) {
+      console.log('YouTube iframe control error:', e);
+    }
+  }, [isActive]);
+
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-black select-none pointer-events-none">
+      <iframe
+        ref={iframeRef}
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${scaleClass} pointer-events-none border-0 block`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1&rel=0&playsinline=1&enablejsapi=1&modestbranding=1&cc_load_policy=0&cc_lang_pref=off&iv_load_policy=3&fs=0&disablekb=1`}
+        title={title}
+        allow="autoplay; encrypted-media; audio"
+      />
+    </div>
+  );
+}
+
+// ── REPRODUCTOR DE IMAGEN A PANTALLA COMPLETA ─────────────────────────────
+function FullImage({ src, alt, fit = "cover" }) {
+  return (
+    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center select-none">
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full ${fit === 'contain' ? 'object-contain p-4' : 'object-cover'} object-center block`}
+      />
+    </div>
+  );
+}
+
+// ── CONTENIDO 1: REDES SOCIALES (1. IMAGEN DE VECTEEZY) ────────────────────
 function RedesSocialesContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
-      <img
-        src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80"
-        alt="Gestión de Redes Sociales"
-        className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay pointer-events-none"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-neutral-950/90 to-neutral-950 pointer-events-none" />
-
-      {/* Header bar */}
-      <div className="relative z-10 flex items-center justify-between border-b border-blue-500/20 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-blue-600/30 border border-blue-400/50 flex items-center justify-center text-blue-400">
-            <Share2 size={14} />
-          </div>
-          <div>
-            <div className="text-[11px] font-bold text-white tracking-tight">Redes & Contenido</div>
-            <div className="text-[9px] text-blue-300/80">Coordinación & Pauta</div>
-          </div>
-        </div>
-        <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[9px] font-mono border border-blue-500/30">EN VIVO</span>
-      </div>
-
-      {/* Card central con stats */}
-      <div className="relative z-10 space-y-2.5 my-auto">
-        <div className="bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-xl">
-          <div className="text-[10px] uppercase font-mono tracking-wider text-blue-400 mb-1">Impacto de Comunidad</div>
-          <div className="text-xl font-black text-white">+142,800 <span className="text-xs font-normal text-emerald-400">↑ 340%</span></div>
-          <p className="text-[10px] text-neutral-300 mt-1">Interacciones, Reels (9:16) y Pauta segmentada activa.</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2">
-          <div className="bg-blue-950/40 p-2.5 rounded-xl border border-blue-500/20">
-            <div className="text-[9px] text-neutral-400">Pauta Meta</div>
-            <div className="text-xs font-bold text-white">4.8× ROAS</div>
-          </div>
-          <div className="bg-indigo-950/40 p-2.5 rounded-xl border border-indigo-500/20">
-            <div className="text-[9px] text-neutral-400">TikTok UGC</div>
-            <div className="text-xs font-bold text-white">5.1% CTR</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer bar */}
-      <div className="relative z-10 bg-blue-600/20 rounded-xl p-2 border border-blue-500/30 flex items-center justify-between text-[10px] text-blue-200">
-        <span>✓ Calendario Publicado</span>
-        <span className="font-mono font-bold">100% Coordinado</span>
-      </div>
-    </div>
+    <FullImage
+      src="https://static.vecteezy.com/system/resources/thumbnails/024/834/856/small_2x/3d-illustration-icon-of-blue-smartphone-and-social-media-free-png.png"
+      alt="Coordinación de Redes Sociales 3D Icon"
+      fit="contain"
+    />
   );
 }
 
-// ── CONTENIDO 2: WEB OPTIMIZADA ────────────────────
-function WebOptimContent() {
+// ── CONTENIDO 2: GESTIÓN & OPTIMIZACIÓN WEB (2. VIDEO YOUTUBE SHORTS VERTICAL) ──
+function WebOptimContent({ isActive }) {
+  return <YouTubeVideo videoId="CzQ1f09Br2w" title="Gestión y Optimización Web Video" scaleClass="w-[115%] h-[100%]" isActive={isActive} />;
+}
+
+// ── PANTALLA INTERACTIVA DE ASESORÍA IA CON MASCOTA/BOT TRÉBOL ───────────────
+function IAAdvisorScreen() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const advisorSteps = [
+    {
+      stepLabel: "1. Asesoría 1 a 1",
+      title: "Diagnóstico & Mapa de Ruta IA",
+      botDialogue: "¡Hola! Soy tu Asesor Trébol IA. Analizamos tu negocio de la mano para identificar exactamente dónde aplicar Inteligencia Artificial con el mayor impacto.",
+      items: [
+        "Auditoría personalizada de tu proceso comercial",
+        "Detección de cuellos de botella operativos",
+        "Diseño de estrategia de IA a tu medida"
+      ],
+      icon: Sparkles,
+      tag: "Asesoramiento Guiado"
+    },
+    {
+      stepLabel: "2. Tipos de IA",
+      title: "Selección del Tipo de IA Indicado",
+      botDialogue: "Implantamos la tecnología exacta que necesita tu empresa: Agentes 24/7, IA Generativa o IA Analítica.",
+      items: [
+        "🤖 Agentes Autónomos 24/7 (WhatsApp y Web)",
+        "🧠 IA Generativa (Documentos y Cotizaciones)",
+        "📊 IA Analítica (Scoring de Leads y Métricas)"
+      ],
+      icon: Bot,
+      tag: "Tipos de IA"
+    },
+    {
+      stepLabel: "3. Automatización",
+      title: "¿Qué Automatizamos en tu Negocio?",
+      botDialogue: "Liberamos a tu equipo de tareas repetitivas para que se enfoquen en vender y hacer crecer la empresa.",
+      items: [
+        "Atención y filtro instantáneo de leads 24/7",
+        "Generación y envío automático de cotizaciones",
+        "Sincronización directa con tu CRM"
+      ],
+      icon: Zap,
+      tag: "Casos de Uso"
+    },
+    {
+      stepLabel: "4. Acompañamiento",
+      title: "Acompañamiento Guiado de la Mano",
+      botDialogue: "No te dejamos solo con la tecnología. Capacitamos a tu personal y optimizamos todo de la mano hasta lograr resultados.",
+      items: [
+        "Capacitación 100% práctica a tu equipo",
+        "Supervisión y soporte continuo 24/7",
+        "Medición de retorno de inversión (ROI)"
+      ],
+      icon: CheckCircle2,
+      tag: "Paso a Paso"
+    }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % advisorSteps.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [advisorSteps.length]);
+
+  const currentStep = advisorSteps[activeTab];
+
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
-      <img
-        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-        alt="Gestión y Optimización Web"
-        className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay pointer-events-none"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-950/70 via-neutral-950/90 to-neutral-950 pointer-events-none" />
+    <div className="w-full h-full bg-[#070b14] text-white p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden select-none font-sans">
+      {/* Resplandor Neón Cian Animado */}
+      <div className="absolute top-[-25%] left-[-25%] w-[150%] h-[150%] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/25 via-blue-600/15 to-transparent pointer-events-none blur-3xl animate-pulse" />
 
-      {/* Header bar */}
-      <div className="relative z-10 flex items-center justify-between border-b border-amber-500/20 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-amber-500/30 border border-amber-400/50 flex items-center justify-center text-amber-400">
-            <Globe size={14} />
+      {/* Header: Mascot Bot Trébol */}
+      <div className="relative z-10 flex items-center justify-between border-b border-cyan-500/20 pb-2.5">
+        <div className="flex items-center gap-2.5">
+          {/* Avatar 3D Mascot Bot */}
+          <div className="relative">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 p-[2px] shadow-[0_0_18px_rgba(0,242,254,0.6)]">
+              <div className="w-full h-full bg-[#0a101f] rounded-[14px] flex items-center justify-center">
+                <Bot className="w-5 h-5 text-cyan-300 animate-bounce" />
+              </div>
+            </div>
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#070b14] shadow-[0_0_6px_#34d399]" />
           </div>
+
           <div>
-            <div className="text-[11px] font-bold text-white tracking-tight">Página Web Activa</div>
-            <div className="text-[9px] text-amber-300/80">Gestión & SEO</div>
+            <div className="flex items-center gap-1.5">
+              <h4 className="text-xs font-extrabold text-white tracking-wide">Trébol IA Bot</h4>
+              <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase tracking-wider">
+                Asesor en Vivo
+              </span>
+            </div>
+            <p className="text-[10px] text-cyan-200/70 font-medium">Guiándote de la mano paso a paso</p>
           </div>
         </div>
-        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-mono border border-emerald-500/30">100 / 100</span>
+
+        <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse shrink-0" />
       </div>
 
-      {/* Card central */}
-      <div className="relative z-10 space-y-2.5 my-auto">
-        <div className="bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-xl">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] uppercase font-mono text-amber-400">Velocidad Editorial</span>
-            <span className="text-[10px] text-emerald-400 font-bold">0.8 Segundos</span>
+      {/* Globo de Diálogo de la Mascota Bot */}
+      <div className="relative z-10 my-2">
+        <div className="bg-gradient-to-r from-cyan-950/90 via-[#0e172a]/90 to-blue-950/90 border border-cyan-500/30 rounded-2xl p-3.5 shadow-2xl backdrop-blur-md relative">
+          <div className="flex items-start gap-2 mb-2">
+            <div className="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center shrink-0 mt-0.5">
+              <MessageCircle className="w-3.5 h-3.5 text-cyan-300" />
+            </div>
+            <p className="text-[11px] text-cyan-100 font-semibold italic leading-relaxed">
+              "{currentStep.botDialogue}"
+            </p>
           </div>
-          <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden mb-2">
-            <div className="bg-gradient-to-r from-amber-400 to-emerald-400 h-full w-[98%]" />
-          </div>
-          <p className="text-[10px] text-neutral-300">Actualizaciones continuas, diseño responsivo y optimización de conversión.</p>
-        </div>
 
-        <div className="bg-amber-950/30 p-2.5 rounded-xl border border-amber-500/20 flex items-center justify-between">
-          <span className="text-[10px] text-neutral-300">Posicionamiento SEO</span>
-          <span className="text-xs font-bold text-amber-300">Top 3 Google</span>
+          <div className="border-t border-cyan-500/20 pt-2.5 mt-2">
+            <div className="flex items-center justify-between mb-1.5">
+              <h3 className="text-xs font-extrabold text-white">
+                {currentStep.title}
+              </h3>
+              <span className="text-[9px] font-bold px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                {currentStep.tag}
+              </span>
+            </div>
+
+            <div className="space-y-1.5">
+              {currentStep.items.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-1.5 text-[10px] text-slate-200 font-medium">
+                  <CheckCircle2 className="w-3 h-3 text-cyan-400 shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Footer bar */}
-      <div className="relative z-10 bg-amber-500/20 rounded-xl p-2 border border-amber-500/30 flex items-center justify-between text-[10px] text-amber-200">
-        <span>✓ Mantenimiento Activo</span>
-        <span className="font-mono font-bold">Sin Interrupciones</span>
+      {/* Selector de Pestañas del Asesor */}
+      <div className="relative z-10 grid grid-cols-4 gap-1 bg-[#0b1324]/90 border border-cyan-500/20 rounded-xl p-1">
+        {advisorSteps.map((step, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActiveTab(idx)}
+            className={`py-1 px-0.5 rounded-lg text-[9px] font-bold transition-all duration-300 text-center truncate ${
+              activeTab === idx
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_10px_rgba(0,242,254,0.5)]'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            {idx === 0 ? '1. Asesoría' : idx === 1 ? '2. Tipos' : idx === 2 ? '3. Usos' : '4. Guiado'}
+          </button>
+        ))}
       </div>
     </div>
   );
 }
 
-// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL ─────────────────────
+// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL APLICADA (IMAGEN DE IA APLICADA) ──
 function IAContent() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-4 pt-10 flex flex-col justify-between select-none">
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/80 via-purple-950/80 to-neutral-950 pointer-events-none" />
-
-      {/* Header bar */}
-      <div className="relative z-10 flex items-center justify-between border-b border-cyan-500/20 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-cyan-500/30 border border-cyan-400/50 flex items-center justify-center text-cyan-300">
-            <Bot size={14} />
-          </div>
-          <div>
-            <div className="text-[11px] font-bold text-white tracking-tight">Agente IA Trébol</div>
-            <div className="text-[9px] text-cyan-300/80">IA en tu Operación</div>
-          </div>
-        </div>
-        <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-mono border border-cyan-500/30">ACTIVO 24/7</span>
-      </div>
-
-      {/* Interface Chat Mockup */}
-      <div className="relative z-10 space-y-2 my-auto">
-        <div className="bg-neutral-900/90 p-3 rounded-2xl border border-cyan-500/30 text-[10px]">
-          <div className="text-cyan-400 font-bold mb-1 flex items-center gap-1">
-            <Sparkles size={10} /> Agente Comercial IA
-          </div>
-          <p className="text-neutral-200">"He filtrado 24 nuevos prospectos y agendado 5 citas clasificadas directamente en tu CRM."</p>
-        </div>
-
-        <div className="bg-cyan-950/50 p-2.5 rounded-xl border border-cyan-500/20 text-[10px]">
-          <div className="text-neutral-400 text-[9px]">Automatización operativa</div>
-          <div className="text-white font-bold mt-0.5">Ahorro estimado: 35 hrs / semana</div>
-        </div>
-      </div>
-
-      {/* Footer bar */}
-      <div className="relative z-10 bg-cyan-500/20 rounded-xl p-2 border border-cyan-500/30 flex items-center justify-between text-[10px] text-cyan-200">
-        <span>✓ Integrado a tu Negocio</span>
-        <span className="font-mono font-bold">Modelos 100% a Medida</span>
-      </div>
-    </div>
+    <FullImage
+      src="https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1000&auto=format&fit=crop"
+      alt="Inteligencia Artificial Aplicada 3D Graphic"
+      fit="cover"
+    />
   );
 }
 
-// ── CONTENIDO 4: CAPACITACIÓN & ACOMPAÑAMIENTO ────────────────────
-function CapacitacionContent() {
-  return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 p-6 flex flex-col justify-between select-none">
-      <img
-        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"
-        alt="Programa de Capacitación Trébol"
-        className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-overlay pointer-events-none"
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/80 via-neutral-950/90 to-neutral-950 pointer-events-none" />
-
-      {/* Header bar */}
-      <div className="relative z-10 flex items-center justify-between border-b border-emerald-500/20 pb-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-emerald-400">
-            <GraduationCap size={16} />
-          </div>
-          <div>
-            <div className="text-xs font-bold text-white tracking-tight">Capacitación & Transferencia Técnica</div>
-            <div className="text-[10px] text-emerald-300/80">Empoderamos a tu equipo en todas las herramientas</div>
-          </div>
-        </div>
-        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono border border-emerald-500/30">100% Autonomía</span>
-      </div>
-
-      {/* Content grid */}
-      <div className="relative z-10 grid grid-cols-3 gap-3 my-auto">
-        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
-          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 1</div>
-          <div className="text-xs font-bold text-white">Redes Sociales</div>
-          <div className="text-[9px] text-neutral-400 mt-0.5">Coordinación & Pauta</div>
-          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
-        </div>
-
-        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
-          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 2</div>
-          <div className="text-xs font-bold text-white">Gestión Web</div>
-          <div className="text-[9px] text-neutral-400 mt-0.5">Actualizaciones & SEO</div>
-          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
-        </div>
-
-        <div className="bg-neutral-900/80 p-3 rounded-xl border border-white/10">
-          <div className="text-emerald-400 text-[10px] font-bold mb-0.5">Módulo 3</div>
-          <div className="text-xs font-bold text-white">Dominio de IA</div>
-          <div className="text-[9px] text-neutral-400 mt-0.5">Uso práctico operativo</div>
-          <div className="mt-2 text-[9px] text-emerald-400 font-mono">Completado ✓</div>
-        </div>
-      </div>
-
-      {/* Footer bar */}
-      <div className="relative z-10 bg-emerald-500/20 rounded-xl p-2.5 border border-emerald-500/30 flex items-center justify-between text-[11px] text-emerald-200">
-        <span>✓ Acompañamiento continuo y soporte de dudas</span>
-        <span className="font-mono font-bold text-xs">Tu equipo domina la tecnología</span>
-      </div>
-    </div>
-  );
+// ── CONTENIDO 4: CAPACITACIÓN & ACOMPAÑAMIENTO (4. VIDEO YOUTUBE EN LAPTOP) ────
+function CapacitacionContent({ isActive }) {
+  return <YouTubeVideo videoId="Ctd6BTuZmjA" title="Capacitación y Acompañamiento Video" scaleClass="w-[110%] h-[100%]" isActive={isActive} />;
 }
 
 // ── MOCKUP DE TELÉFONO 3D HYPER-REALISTA IPHONE 15 PRO ─────────────────────
@@ -672,7 +760,7 @@ function PhoneFrame({ children, backLightRef }) {
         <div
           className="absolute bottom-8 left-0 right-0 flex flex-col items-center justify-center select-none text-[9.5px] font-bold tracking-[0.25em] font-sans text-center uppercase z-20"
           style={{
-            transform: 'translateZ(1px)',
+            transform: 'translateZ(1px) scaleX(-1)',
             color: '#ffffff',
             WebkitFontSmoothing: 'antialiased',
             backfaceVisibility: 'hidden',
@@ -806,7 +894,7 @@ const canalesDinamicos = [
     titleClass: 'text-[#0081FB]',
     buttonClass: 'bg-[#0081FB] text-white hover:bg-white hover:text-black',
     iconClass: 'text-[#0081FB]',
-    glowBg: 'from-blue-600/40 via-indigo-600/30 to-purple-600/35',
+    glowBg: 'from-[#0081FB]/40 via-blue-500/30 to-sky-400/35',
     align: 'right'
   },
   {
@@ -822,23 +910,23 @@ const canalesDinamicos = [
     titleClass: 'text-[#F4B400]',
     buttonClass: 'bg-[#F4B400] text-black hover:bg-white',
     iconClass: 'text-[#F4B400]',
-    glowBg: 'from-amber-500/40 via-emerald-600/20 to-lime-500/20',
+    glowBg: 'from-[#F4B400]/40 via-amber-500/35 to-yellow-400/30',
     align: 'left'
   },
   {
     id: 'ia',
     nombre: 'Inteligencia Artificial Aplicada',
-    subtitulo: 'Involucramos IA en tu negocio',
-    descripcion: 'Integramos herramientas y agentes de Inteligencia Artificial en tus procesos operativos para automatizar tareas repetitivas, calificar prospectos y potenciar la productividad de tu empresa.',
+    subtitulo: 'Asesoría estratégica y acompañamiento guiado por nuestro Bot IA',
+    descripcion: 'Te llevamos de la mano para diagnosticar tu negocio e identificar las mejores oportunidades de IA. Seleccionamos el tipo de IA indicado (agentes, generativa o analítica) y automatizamos tus procesos operativos.',
     beneficios: [
-      'Agentes inteligentes y chatbots integrados a tu CRM',
-      'Automatización de prospección y filtro de leads 24/7',
-      'Modelos de IA generativa para acelerar tu operación diaria'
+      'Asesoramiento 1 a 1: diagnóstico de procesos e integración de IA a medida',
+      'Selección de Tipos de IA: Agentes 24/7, IA Generativa y Analítica Predictiva',
+      'Automatización guiada de la mano: prospección, cotizaciones y CRM'
     ],
     titleClass: 'text-[#00F2FE]',
     buttonClass: 'bg-[#00F2FE] text-black hover:bg-white',
     iconClass: 'text-[#00F2FE]',
-    glowBg: 'from-cyan-500/40 via-purple-900/20 to-pink-500/40',
+    glowBg: 'from-[#00F2FE]/40 via-cyan-500/35 to-sky-400/30',
     align: 'right'
   },
   {
@@ -854,7 +942,7 @@ const canalesDinamicos = [
     titleClass: 'text-[#84C638]',
     buttonClass: 'bg-[#84C638] text-black hover:bg-white',
     iconClass: 'text-[#84C638]',
-    glowBg: 'from-emerald-500/40 to-[#84C638]/40',
+    glowBg: 'from-[#84C638]/40 via-emerald-500/35 to-lime-400/30',
     align: 'left'
   },
 ];
@@ -877,7 +965,7 @@ export default function CanalesScrollytelling() {
   const infoRef3 = useRef(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const current = canalesDinamicos[activeIndex];
+  const current = canalesDinamicos[activeIndex] || canalesDinamicos[0];
 
   useGSAP(() => {
     if (!containerRef.current || !floatingDeviceRef.current || !posLeftRef.current || !posRightRef.current || !posFinalRef.current) return;
@@ -947,19 +1035,32 @@ export default function CanalesScrollytelling() {
         invalidateOnRefresh: true, // Fuerza a GSAP a recalcular las funciones de posición al cambiar el tamaño de ventana
         onToggle: (self) => {
           if (self.isActive) hideHeader();
-          else showHeader();
+          else {
+            showHeader();
+            setActiveIndex(-1);
+          }
         },
         onEnter: hideHeader,
-        onLeave: showHeader,
-        onEnterBack: hideHeader,
-        onLeaveBack: showHeader,
+        onLeave: () => {
+          showHeader();
+          setActiveIndex(-1);
+        },
+        onLeaveBack: () => {
+          showHeader();
+          setActiveIndex(-1);
+        },
         onUpdate: (self) => {
-          if (self.isActive) hideHeader();
+          if (!self.isActive) {
+            setActiveIndex(-1);
+            return;
+          }
+          hideHeader();
           const p = self.progress;
           if (p < 0.25) setActiveIndex(0);
           else if (p < 0.50) setActiveIndex(1);
           else if (p < 0.75) setActiveIndex(2);
-          else setActiveIndex(3);
+          else if (p < 1.0) setActiveIndex(3);
+          else setActiveIndex(-1);
         },
       },
     });
@@ -976,8 +1077,6 @@ export default function CanalesScrollytelling() {
       force3D: true,
       ease: 'power2.inOut',
     }, 0)
-      .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 0.35)
-      .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 0.95)
       .to(infoRef0.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.2)
       .to(infoRef1.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.7);
 
@@ -992,8 +1091,6 @@ export default function CanalesScrollytelling() {
       force3D: true,
       ease: 'power2.inOut',
     }, 1.8)
-      .to(blackScreenRef.current, { opacity: 1, duration: 0.25 }, 2.15)
-      .to(blackScreenRef.current, { opacity: 0, duration: 0.25 }, 2.75)
       .to(infoRef1.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 2.0)
       .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
 
@@ -1011,8 +1108,6 @@ export default function CanalesScrollytelling() {
       force3D: true,
       ease: 'power3.inOut',
     }, 3.6)
-      .to(blackScreenRef.current, { opacity: 1, duration: 0.30 }, 4.0)
-      .to(blackScreenRef.current, { opacity: 0, duration: 0.30 }, 4.8)
       .to(infoRef2.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 3.8)
       .to(infoRef3.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 4.3);
 
@@ -1024,16 +1119,16 @@ export default function CanalesScrollytelling() {
       const pctX = (x / rect.width) * 100;
 
       backLightRef.current.style.background = `
-        linear-gradient(115deg, 
-          rgba(255, 255, 255, 0) ${pctX - 35}%, 
-          rgba(255, 255, 255, 0.2) ${pctX - 12}%, 
-          rgba(255, 255, 255, 0) ${pctX - 6}%, 
-          rgba(255, 255, 255, 0.38) ${pctX}%, 
-          rgba(255, 255, 255, 0) ${pctX + 6}%, 
-          rgba(255, 255, 255, 0.15) ${pctX + 12}%, 
-          rgba(255, 255, 255, 0) ${pctX + 35}%
-        )
-      `;
+              linear-gradient(115deg,
+              rgba(255, 255, 255, 0) ${pctX - 35}%,
+              rgba(255, 255, 255, 0.2) ${pctX - 12}%,
+              rgba(255, 255, 255, 0) ${pctX - 6}%,
+              rgba(255, 255, 255, 0.38) ${pctX}%,
+              rgba(255, 255, 255, 0) ${pctX + 6}%,
+              rgba(255, 255, 255, 0.15) ${pctX + 12}%,
+              rgba(255, 255, 255, 0) ${pctX + 35}%
+              )
+              `;
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -1046,7 +1141,7 @@ export default function CanalesScrollytelling() {
 
   return (
     <div id="canales-scrollytelling-wrapper" className="w-full relative">
-      <section ref={containerRef} className="relative h-screen w-full bg-[#0a0a0c] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
+      <section ref={containerRef} className="relative h-screen min-h-[600px] w-full bg-[#24252a] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
 
         {/* Background Glow Dinámico de la Marca */}
         <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
@@ -1054,27 +1149,27 @@ export default function CanalesScrollytelling() {
         </div>
 
         {/* ── NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA ────── */}
-        <div className="absolute inset-0 z-10 pointer-events-none p-8 md:p-16 max-w-[1400px] mx-auto relative h-full">
+        <div className="absolute inset-0 z-10 pointer-events-none p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1400px] mx-auto relative h-full">
           {canalesDinamicos.map((canal, idx) => {
             const refMap = [infoRef0, infoRef1, infoRef2, infoRef3];
             return (
               <div
                 key={canal.id}
-                className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${canal.align === 'right' ? 'right-8 md:right-16 text-right' : 'left-8 md:left-16 text-left'
+                className={`absolute top-1/2 -translate-y-1/2 max-w-xl ${canal.align === 'right' ? 'right-4 sm:right-8 md:right-16 text-right' : 'left-4 sm:left-8 md:left-16 text-left'
                   }`}
               >
                 <div ref={refMap[idx]} className="will-change-transform">
-                  <h2 className={`text-4xl md:text-6xl font-black tracking-tighter leading-none mb-3 drop-shadow-md ${canal.titleClass}`}>
+                  <h2 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none mb-2 md:mb-3 drop-shadow-md ${canal.titleClass}`}>
                     {canal.nombre}
                   </h2>
-                  <p className="text-base md:text-lg text-white font-medium mb-3">
+                  <p className="text-sm sm:text-base md:text-lg text-white font-medium mb-2 md:mb-3">
                     {canal.subtitulo}
                   </p>
-                  <p className="text-xs md:text-sm text-neutral-400 font-light leading-relaxed mb-5">
+                  <p className="text-xs md:text-sm text-neutral-300 font-light leading-relaxed mb-3 md:mb-4 lg:mb-5">
                     {canal.descripcion}
                   </p>
 
-                  <ul className="space-y-2 mb-8 text-xs font-mono text-neutral-300">
+                  <ul className="space-y-1.5 md:space-y-2 mb-4 md:mb-6 lg:mb-8 text-xs font-mono text-neutral-300">
                     {canal.beneficios.map((b, i) => (
                       <li key={i} className={`flex items-center gap-2 ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
                         {canal.align !== 'right' && <CheckCircle2 size={13} className={`${canal.iconClass} shrink-0`} />}
@@ -1085,7 +1180,7 @@ export default function CanalesScrollytelling() {
                   </ul>
 
                   <div className={`flex ${canal.align === 'right' ? 'justify-end' : 'justify-start'}`}>
-                    <Link href="/agenda" className={`pointer-events-auto inline-flex items-center gap-2 font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-2xl shrink-0 ${canal.buttonClass}`}>
+                    <Link href="/agenda" className={`pointer-events-auto inline-flex items-center gap-2 font-bold px-6 md:px-8 py-3 md:py-4 rounded-full transition-all duration-300 shadow-2xl shrink-0 ${canal.buttonClass}`}>
                       Agendar Diagnóstico
                       <ArrowUpRight size={18} />
                     </Link>
@@ -1140,7 +1235,7 @@ export default function CanalesScrollytelling() {
                   <RedesSocialesContent />
                 </div>
                 <div style={{ position: 'absolute', inset: 0, opacity: activeIndex === 1 ? 1 : 0, pointerEvents: activeIndex === 1 ? 'auto' : 'none', transition: 'opacity 0.3s ease' }}>
-                  <WebOptimContent />
+                  <WebOptimContent isActive={activeIndex === 1} />
                 </div>
                 <div style={{ position: 'absolute', inset: 0, opacity: activeIndex === 2 ? 1 : 0, pointerEvents: activeIndex === 2 ? 'auto' : 'none', transition: 'opacity 0.3s ease' }}>
                   <IAContent />
@@ -1159,7 +1254,7 @@ export default function CanalesScrollytelling() {
               }}
             >
               <LaptopFrame>
-                <CapacitacionContent />
+                <CapacitacionContent isActive={activeIndex >= 3} />
               </LaptopFrame>
             </div>
           </div>

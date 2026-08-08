@@ -1,15 +1,6 @@
 'use client';
-
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight, Cpu, Layers, BarChart3, Users } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const steps = [
   {
@@ -50,20 +41,12 @@ const steps = [
   },
 ];
 
-// Angulos base de las 4 hojas en SVG:
-// Leaf 0: -135deg (Top-Left)
-// Leaf 1: -45deg (Top-Right)
-// Leaf 2: 45deg (Bottom-Right)
-// Leaf 3: 135deg (Bottom-Left)
 const leafAngles = [-135, -45, 45, 135];
-
-// Rotación para cada paso para que la hoja activa SIEMPRE rote a 45deg (Derecho Inferior):
 const stepRotations = [180, 90, 0, -90];
-// Rotación para cada paso cuando reverse es true (hoja activa rota a -135deg / Izquierdo Superior apuntando a la tarjeta):
 const reverseStepRotations = [0, -90, -180, 90];
 
-function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse = false }) {
-  const currentRotation = (reverse ? reverseStepRotations : stepRotations)[activeStep];
+function RawHalfGiantTrebol({ stepIndex, reverse = false }) {
+  const currentRotation = (reverse ? reverseStepRotations : stepRotations)[stepIndex];
 
   return (
     <div className={`absolute top-1/2 -translate-y-1/2 w-[650px] h-[650px] sm:w-[800px] sm:h-[800px] md:w-[920px] md:h-[920px] lg:w-[1020px] lg:h-[1020px] flex items-center justify-center select-none overflow-visible pointer-events-auto z-10 ${reverse ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'
@@ -79,17 +62,15 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
         className="absolute inset-0 bg-trebol/35 rounded-full blur-[120px] pointer-events-none"
       />
 
-      {/* Trébol SVG Gigante Anclado */}
-      <motion.div
-        animate={{ rotate: currentRotation }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      {/* Trébol SVG Gigante Idéntico al del Home */}
+      <div
+        style={{ transform: `rotate(${currentRotation}deg)` }}
         className="relative w-full h-full flex items-center justify-center overflow-visible transform-gpu"
       >
         <svg viewBox="0 0 500 500" className="w-full h-full overflow-visible drop-shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
           <g transform="translate(250, 250)">
-
-            {stepsList.map((_, i) => {
-              const isActive = activeStep === i;
+            {steps.map((_, i) => {
+              const isActive = stepIndex === i;
               const leafAngle = leafAngles[i];
               const textRotation = -(leafAngle + currentRotation);
 
@@ -97,8 +78,6 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                 <g
                   key={i}
                   transform={`rotate(${leafAngle})`}
-                  onClick={() => setActiveStep(i)}
-                  className="cursor-pointer group"
                 >
                   {/* Pétalo de la Hoja */}
                   <path
@@ -120,15 +99,12 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                     className="transition-colors duration-500"
                   />
 
-                  {/* ÚNICAMENTE la hoja activa muestra el número */}
+                  {/* Número activo únicamente en la hoja de la fase */}
                   {isActive && (
-                    <motion.text
+                    <text
                       x="0"
                       y="-130"
-                      initial={{ opacity: 0, scale: 0.6 }}
-                      animate={{ opacity: 1, scale: 1, rotate: textRotation }}
-                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                      transformOrigin="0 -140"
+                      transform={`rotate(${textRotation} 0 -140)`}
                       textAnchor="middle"
                       fill="#FFFFFF"
                       fontSize="28"
@@ -136,131 +112,56 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                       fontFamily="monospace"
                     >
                       0{i + 1}
-                    </motion.text>
+                    </text>
                   )}
                 </g>
               );
             })}
-
           </g>
         </svg>
-      </motion.div>
+      </div>
     </div>
   );
 }
 
-export default function Process({ customSteps, title = "Metodología", titleGreen = "Dinámica.", sectionId = "proceso", reverse = false }) {
-  const containerRef = useRef(null);
-  const [activeStep, setActiveStep] = useState(0);
-  const stepsList = customSteps || steps;
-
-  useGSAP(() => {
-    if (!containerRef.current) return;
-
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 150);
-
-    const hideHeader = () => {
-      const header = document.querySelector('header');
-      if (header) {
-        header.style.setProperty('transform', 'translateY(-180%)', 'important');
-        header.style.setProperty('opacity', '0', 'important');
-        header.style.setProperty('pointer-events', 'none', 'important');
-        header.style.setProperty('transition', 'transform 0.4s ease, opacity 0.4s ease', 'important');
-      }
-    };
-
-    const showHeader = () => {
-      const header = document.querySelector('header');
-      if (header) {
-        header.style.setProperty('transform', 'translateY(0)', 'important');
-        header.style.setProperty('opacity', '1', 'important');
-        header.style.setProperty('pointer-events', 'auto', 'important');
-      }
-    };
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: '+=350%',
-        pin: true,
-        pinSpacing: true,
-        refreshPriority: -1,
-        scrub: 0.5,
-        invalidateOnRefresh: true,
-        onToggle: (self) => {
-          if (self.isActive) hideHeader();
-          else showHeader();
-        },
-        onEnter: hideHeader,
-        onLeave: showHeader,
-        onEnterBack: hideHeader,
-        onLeaveBack: showHeader,
-        onUpdate: (self) => {
-          if (self.isActive) hideHeader();
-          const p = self.progress;
-          if (p < 0.25) setActiveStep(0);
-          else if (p < 0.50) setActiveStep(1);
-          else if (p < 0.75) setActiveStep(2);
-          else setActiveStep(3);
-        }
-      }
-    });
-
-    return () => {
-      clearTimeout(timer);
-      tl.kill();
-      showHeader();
-    };
-  }, { scope: containerRef });
-
-  const currentStep = stepsList[activeStep];
-  const StepIcon = currentStep.icon;
-
+export default function FourStepStaticProcess() {
   return (
-    <div id={`${sectionId}-section-wrapper`} className="w-full relative">
-      <section
-        id={sectionId}
-        ref={containerRef}
-        className="relative w-full h-screen min-h-[550px] bg-white text-carbon border-b border-carbon/10 select-none overflow-hidden flex flex-col justify-center"
-      >
-        {/* Luces Ambientales sobre Fondo Blanco */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute top-1/3 w-[40rem] h-[40rem] bg-trebol/20 rounded-full blur-[140px] ${reverse ? 'right-1/4' : 'left-1/4'
-              }`}
-          />
-        </div>
+    <div className="w-full bg-white text-carbon select-none">
 
-        {/* Trébol Gigante Anclado en la Mitad del Borde */}
-        <HalfGiantTrebol activeStep={activeStep} setActiveStep={setActiveStep} stepsList={stepsList} reverse={reverse} />
+      {/* 4 SECCIONES ESTÁTICAS CON EL TRÉBOL GIGANTE SIN MARCO (TAL CUAL EL HOME PROCESS.JS) */}
+      {steps.map((step, idx) => {
+        const StepIcon = step.icon;
+        const isReverse = idx % 2 === 1; // Fases 2 y 4 en reverse (Trébol a la derecha)
 
-        {/* Contenido Principal */}
-        <div className={`w-full max-w-[1400px] mx-auto flex flex-col justify-center relative z-20 py-4 sm:py-6 md:py-8 ${reverse
-            ? 'px-4 sm:px-8 md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
-            : 'px-4 sm:px-8 md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
-          }`}>
-
-          {/* Encabezado del Título */}
-          <div className="w-full mb-2 sm:mb-3 md:mb-4 shrink-0">
-            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight text-carbon">
-              {title} <span className="text-trebol">{titleGreen}</span>
-            </h2>
-          </div>
-
-          {/* Tarjeta con Detalles del Paso Actual */}
-          <div className="w-full relative min-h-0 flex items-center">
-            <AnimatePresence mode="wait">
+        return (
+          <section
+            key={step.number}
+            id={`fase-${step.number}`}
+            className="relative w-full min-h-[75vh] py-10 sm:py-16 md:py-20 bg-white text-carbon border-b border-carbon/10 select-none overflow-hidden flex items-center justify-center"
+          >
+            {/* Luces Ambientales de Fondo */}
+            <div className="absolute inset-0 pointer-events-none z-0">
               <motion.div
-                key={currentStep.number}
-                initial={{ opacity: 0, y: 25, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -25, scale: 0.98 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                className={`absolute top-1/3 w-[40rem] h-[40rem] bg-trebol/20 rounded-full blur-[140px] ${isReverse ? 'right-1/4' : 'left-1/4'
+                  }`}
+              />
+            </div>
+
+            {/* TRÉBOL SVG GIGANTE SIN MARCO ANCLADO AL BORDE DE PANTALLA */}
+            <RawHalfGiantTrebol stepIndex={idx} reverse={isReverse} />
+
+            {/* CONTENIDO PRINCIPAL EN TARJETA DEL HOME PROCESS.JS */}
+            <div className={`w-full max-w-[1400px] mx-auto px-4 sm:px-8 relative z-20 ${isReverse
+              ? 'md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
+              : 'md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
+              }`}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full p-4 sm:p-5 md:p-6 lg:p-8 rounded-[2rem] bg-hueso/90 backdrop-blur-xl border border-neutral-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)] relative overflow-hidden"
               >
                 {/* Resplandor decorativo de esquina */}
@@ -269,14 +170,14 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 <div className="flex items-center justify-between mb-2.5 sm:mb-3 md:mb-4 border-b border-neutral-200 pb-2.5 sm:pb-3 md:pb-4">
                   <div className="flex items-center gap-2.5 sm:gap-3 md:gap-4">
                     <span className="text-2xl sm:text-3xl md:text-5xl font-black text-trebol font-mono leading-none">
-                      {currentStep.number}.
+                      {step.number}.
                     </span>
                     <div>
                       <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-carbon">
-                        {currentStep.title}
+                        {step.title}
                       </h3>
                       <div className="text-[11px] sm:text-xs md:text-sm text-trebol font-mono font-semibold mt-0.5">
-                        {currentStep.tagline}
+                        {step.tagline}
                       </div>
                     </div>
                   </div>
@@ -287,8 +188,8 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 </div>
 
                 {/* Descripción del Paso */}
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-carbon/80 font-light leading-relaxed mb-3 sm:mb-4 md:mb-5">
-                  {currentStep.description}
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-carbon/80 font-light leading-relaxed mb-3 sm:mb-4 md:mb-5 font-sans">
+                  {step.description}
                 </p>
 
                 {/* Tecnologías & Entregables */}
@@ -297,7 +198,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                     Tecnología & Entregables Clave:
                   </div>
                   <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                    {currentStep.tecnologias.map((tech, i) => (
+                    {step.tecnologias.map((tech, i) => (
                       <span
                         key={i}
                         className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white border border-neutral-200 text-[10px] sm:text-xs text-carbon font-mono flex items-center gap-1 shadow-sm"
@@ -313,17 +214,17 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 <div className="mt-3 sm:mt-4 md:mt-5 pt-2.5 sm:pt-3 md:pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] sm:text-xs font-mono text-carbon/60">
                   <span>Resultado de Etapa</span>
                   <span className="text-trebol font-bold flex items-center gap-1.5">
-                    {currentStep.metrica}
+                    {step.metrica}
                     <ArrowRight size={13} />
                   </span>
                 </div>
 
               </motion.div>
-            </AnimatePresence>
-          </div>
+            </div>
+          </section>
+        );
+      })}
 
-        </div>
-      </section>
     </div>
   );
 }

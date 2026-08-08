@@ -2,81 +2,94 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
+import Process from '@/components/Process';
 import { 
-  ArrowUpRight, CheckCircle2, Activity, Check
+  ArrowUpRight, CheckCircle2, Activity, Check, UserPlus, GitMerge, Rocket, Sparkles, Layers, Users, Cpu, BarChart3
 } from 'lucide-react';
 import OrgStructureCanvas from '@/components/OrgStructureCanvas';
 import Contact from '@/components/Contact';
 
 const raciItems = [
   {
-    decision: 'Aprobación de Estrategia Anual & Presupuesto',
-    r: 'Dirección General',
-    a: 'Consejo / Fundadores',
-    c: 'Gerencias de Área',
+    decision: 'Alineación de Metas de Ventas & Captación Marketing',
+    r: 'Dirección Comercial & Marketing',
+    a: 'Dirección General',
+    c: 'Equipo de IT / Sistemas',
     i: 'Toda la Empresa',
   },
   {
-    decision: 'Lanzamiento de Nuevos Productos o Servicios',
-    r: 'Equipo de Producto & Marketing',
+    decision: 'Implementación de Plataformas & CRM para Ventas',
+    r: 'Equipo de IT & Sistemas',
     a: 'Director Comercial',
-    c: 'Atención al Cliente & Operaciones',
-    i: 'Fuerza de Ventas',
+    c: 'Equipo de Marketing & Ventas',
+    i: 'Operaciones',
   },
   {
-    decision: 'Contratación & Evaluación de Desempeño',
-    r: 'Líder Directo & RRHH',
-    a: 'Gerente del Área',
-    c: 'Equipo de Trabajo',
+    decision: 'Automatización de Embudos & Calificación de Leads',
+    r: 'Marketing & IT',
+    a: 'Gerente de Ventas',
+    c: 'Fuerza Comercial',
     i: 'Dirección General',
   },
   {
-    decision: 'Expansión de Personal & Nuevas Plazas',
-    r: 'Gerencia Solicitante & RRHH',
-    a: 'Director de Finanzas & DG',
-    c: 'Equipo Operativo',
+    decision: 'Medición de KPIs Comerciales & Dashboard BI',
+    r: 'Equipo de IT / Analítica',
+    a: 'Dirección Comercial & Marketing',
+    c: 'Líderes de Área',
     i: 'Toda la Organización',
   }
 ];
 
 const sintomas = [
-  { id: 1, texto: 'Sientes que creciste pero los procesos se quedaron obsoletos.', peso: 20 },
-  { id: 2, texto: 'Existe confusión frecuente sobre quién debe tomar cada decisión.', peso: 20 },
-  { id: 3, texto: 'Los proyectos sufren retrasos por falta de coordinación entre áreas.', peso: 20 },
-  { id: 4, texto: 'Hay alta rotación de personal o desmotivación en el equipo.', peso: 20 },
-  { id: 5, texto: 'Quieres delegar más pero sientes que perderás el control.', peso: 20 },
+  { id: 1, texto: 'Falta de alineación entre las campañas de Marketing y las metas de Ventas.', peso: 20 },
+  { id: 2, texto: 'El equipo de IT no cuenta con prioridad clara para respaldar procesos comerciales.', peso: 20 },
+  { id: 3, texto: 'Fricción en el traspaso de prospectos desde Marketing hacia los ejecutivos de Ventas.', peso: 20 },
+  { id: 4, texto: 'Sistemas tecnológicos y CRM desactualizados que alentan el cierre de ventas.', peso: 20 },
+  { id: 5, texto: 'Métricas dispersas sin una visión unificada entre Ventas, Marketing e IT.', peso: 20 },
 ];
 
 const consejos = {
-  alto: 'Sigue así. Te ayudamos a mantener la claridad con una revisión trimestral de roles.',
-  medio: 'Agenda una sesión de diagnóstico gratuita. Identificaremos las 3 fricciones más urgentes.',
-  bajo: 'Tu empresa necesita una reestructura urgente. Podemos revertirlo en 8 semanas.',
+  alto: 'Excelente alineación. Te ayudamos a mantener el ritmo con revisiones trimestrales de KPIs.',
+  medio: 'Agenda un diagnóstico gratuito. Identificaremos las 3 principales fricciones entre Mkt, Sales e IT.',
+  bajo: 'Tus áreas comerciales e IT necesitan alineación urgente. Podemos sincronizarlas en 8 semanas.',
 };
 
-const roadmapOrg = [
+const roadmapOrgSteps = [
   { 
-    paso: '01', 
-    titulo: 'Diagnóstico & Salud Organizacional', 
-    desc: 'Evaluamos la estructura actual, detectamos fricciones en la toma de decisiones y medimos la claridad de roles con los mandos medios.',
-    entregable: 'Reporte de Diagnóstico Operativo & Fricción',
+    number: '01', 
+    title: 'Diagnóstico & Salud', 
+    tagline: 'Alineación Ventas, Mkt & IT',
+    description: 'Auditamos la interacción entre tus equipos comerciales, campañas de captación y herramientas de IT para detectar cuellos de botella.',
+    tecnologias: ['Reporte de Fricción Comercial', 'Auditoría de Sistemas IT', 'Análisis de Embudo Mkt-Sales'],
+    icon: Users,
+    metrica: 'Diagnóstico 100% Personalizado'
   },
   { 
-    paso: '02', 
-    titulo: 'Rediseño de Estructura & Matriz RACI', 
-    desc: 'Clarificamos líneas de mando, eliminamos duplicidad de funciones y definimos la matriz RACI para cada decisión estratégica del negocio.',
-    entregable: 'Organigrama Funcional & Manual RACI',
+    number: '02', 
+    title: 'Matriz RACI & Roles', 
+    tagline: 'Definición de Responsabilidades',
+    description: 'Definimos roles precisos para cada etapa de la jornada del cliente, eliminando silencios y duplicidad entre Ventas, Marketing e IT.',
+    tecnologias: ['Manual RACI Interdepartamental', 'Mapa de Procesos', 'Organigrama Funcional'],
+    icon: Layers,
+    metrica: 'Manual RACI Completo'
   },
   { 
-    paso: '03', 
-    titulo: 'Alineación de OKRs & SLAs Internos', 
-    desc: 'Establecemos Objetivos y Resultados Clave (OKRs) para cada departamento y Acuerdos de Nivel de Servicio (SLAs) entre áreas.',
-    entregable: 'Tablero de Control de OKRs & SLAs',
+    number: '03', 
+    title: 'Alineación CRM & IT', 
+    tagline: 'Sincronización de Herramientas',
+    description: 'Sincronizamos tus plataformas tecnológicas para que IT proporcione las herramientas óptimas que potencien a Marketing y Ventas.',
+    tecnologias: ['Integración de CRM Nativo', 'Flujos Automatizados', 'Tableros de Prospección'],
+    icon: Cpu,
+    metrica: 'Integración Tecnológica Activa'
   },
   { 
-    paso: '04', 
-    titulo: 'Formación de Liderazgo & Acompañamiento', 
-    desc: 'Capacitamos a los gerentes en delegación efectiva, comunicación transparente y cultura de rendición de cuentas (accountability).',
-    entregable: 'Taller de Liderazgo & Mentoring Directivo',
+    number: '04', 
+    title: 'KPIs & Capacitación', 
+    tagline: 'Medición Unificada & Autonomía',
+    description: 'Formamos a los líderes de cada área en cultura de colaboración y configuramos tableros unificados de control de ingresos.',
+    tecnologias: ['Dashboard de KPIs Unificados', 'Mentoring Directivo', 'Talleres de Liderazgo'],
+    icon: BarChart3,
+    metrica: 'Autonomía & Crecimiento Medible'
   },
 ];
 
@@ -86,13 +99,6 @@ export default function DesarrolloOrgPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Ref para el scroll progresivo de la barra continua de Roadmap
-  const roadmapRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: roadmapRef,
-    offset: ["start 65%", "end 75%"]
-  });
 
   const toggleSintoma = (id) => {
     setCheckedSintomas((prev) =>
@@ -146,7 +152,7 @@ export default function DesarrolloOrgPage() {
             className="absolute -top-10 md:-top-12 lg:right-[12%] right-0 z-20"
           >
             <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
-              Estructura & Cultura Organizacional
+              Alineación Estratégica: Ventas, Marketing & IT
             </div>
           </motion.div>
 
@@ -158,7 +164,7 @@ export default function DesarrolloOrgPage() {
             className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
           >
             Desarrollo Organizacional <br />
-            para Crecimiento <span className="text-trebol">Sostenible.</span>
+            para <span className="text-trebol">Ventas, Mkt & IT.</span>
           </motion.h1>
         </div>
 
@@ -289,149 +295,162 @@ export default function DesarrolloOrgPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 2: HOJA DE RUTA EN 4 PASOS ─────────────────── */}
-      <section ref={roadmapRef} className="w-full bg-hueso py-24 px-6 md:px-12 relative z-10 border-t border-carbon/10">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-              Hoja de Ruta en <span className="text-trebol">4 Pasos.</span>
-            </h2>
-            <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-              Un proceso estructurado de 4 fases para estructurar la cultura y roles de tu empresa con claridad absoluta.
-            </p>
-          </div>
+      {/* ── SECCIÓN 2: HOJA DE RUTA EN 4 PASOS CON ANIMACIÓN DEL TRÉBOL GIGANTE ── */}
+      <Process 
+        customSteps={roadmapOrgSteps}
+        title="Hoja de Ruta en"
+        titleGreen="4 Pasos."
+        sectionId="roadmap-org"
+      />
 
-          {/* CONTENEDOR TIMELINE CON LÍNEA CONTINUA ÚNICA */}
-          <div className="relative space-y-12">
-            
-            {/* LÍNEA VERTICAL CONTINUA */}
-            <div className="absolute left-8 md:left-10 top-12 bottom-12 w-1.5 bg-carbon/15 -translate-x-1/2 rounded-full overflow-hidden z-0 pointer-events-none">
-              <motion.div 
-                style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
-                className="w-full h-full bg-trebol rounded-full"
-              />
-            </div>
-
-            {roadmapOrg.map((r) => (
-              <div
-                key={r.paso}
-                className="flex items-start gap-6 md:gap-10 group relative z-10 opacity-100"
-              >
-                {/* COLUMNA 1: Círculos 100% Sólidos */}
-                <div className="w-16 md:w-20 shrink-0 flex justify-center pt-8">
-                  <motion.div 
-                    initial={{ backgroundColor: '#2D2D2D', color: '#ffffff', borderColor: '#F5F5F5' }}
-                    whileInView={{ 
-                      backgroundColor: '#5C9E43', 
-                      color: '#ffffff',
-                      borderColor: '#F5F5F5',
-                    }}
-                    viewport={{ once: true, margin: "-25% 0px -25% 0px" }}
-                    transition={{ duration: 0.4 }}
-                    className="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 text-white font-mono font-black text-xl md:text-2xl flex items-center justify-center shadow-md z-20 opacity-100 bg-[#2D2D2D]"
-                  >
-                    {r.paso}
-                  </motion.div>
-                </div>
-
-                {/* COLUMNA 2: Tarjeta con efecto foco al centro */}
-                <motion.div 
-                  initial={{ 
-                    opacity: 0.35,
-                    backgroundColor: '#ffffff', 
-                    borderColor: '#e5e5e5',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
-                  }}
-                  whileInView={{ 
-                    opacity: 1,
-                    backgroundColor: '#f2f8ed', 
-                    borderColor: '#5C9E43',
-                    boxShadow: '0 15px 40px rgba(92,158,49,0.14)',
-                  }}
-                  viewport={{ margin: "-22% 0px -22% 0px", amount: 0.6 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex-1 border-2 rounded-[2.5rem] p-8 md:p-12 transition-all duration-400 relative overflow-hidden"
-                >
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 relative z-10">
-                    <span className="text-xs font-mono font-bold uppercase tracking-widest bg-trebol/10 text-trebol px-4 py-1.5 rounded-full border border-trebol/30">
-                      Fase {r.paso}
-                    </span>
-                    
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold bg-white text-carbon/80 px-4 py-1.5 rounded-full border border-neutral-200 shadow-sm">
-                      <Check size={14} className="text-trebol shrink-0" />
-                      <span>Entregable: {r.entregable}</span>
-                    </div>
-                  </div>
-
-                  <h3 className="text-2xl md:text-4xl font-black text-carbon mb-4 tracking-tight">
-                    {r.titulo}
-                  </h3>
-
-                  <p className="text-lg md:text-xl text-carbon/75 font-light leading-relaxed">
-                    {r.desc}
-                  </p>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECCIÓN ÚNICA 3: TABLA INTERACTIVA MATRIZ RACI ───────────── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Matriz RACI en la Práctica.
+      {/* ── SECCIÓN ÚNICA 3: CREACIÓN VS ESTRUCTURACIÓN DE EQUIPOS ───────────── */}
+      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 md:py-32 relative z-10 border-t border-carbon/10">
+        <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
+          <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest bg-trebol/10 border border-trebol/20 px-4 py-1.5 rounded-full inline-block">
+            DOS ESCENARIOS, UNA SOLUCIÓN
+          </span>
+          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+            Creación desde Cero <br />
+            o <span className="text-trebol">Estructuración de Equipos.</span>
           </h2>
-          <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Definimos exactamente quién es Responsable (R), Aprobador (A), Consultado (C) e Informado (I).
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
+            Alineamos tu modelo organizativo a la etapa exacta de tus áreas de Ventas, Marketing e IT.
           </p>
         </div>
 
-        {/* Legend */}
-        <div className="flex flex-wrap gap-3 justify-center mb-12 text-xs font-mono">
-          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-trebol/10 text-trebol font-bold border border-trebol/20">[R] Responsable</span>
-          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-carbon text-white font-bold">[A] Aprobador</span>
-          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 text-carbon/60 font-bold border border-neutral-200">[C] Consultado</span>
-          <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-100 text-carbon/60 font-bold border border-neutral-200">[I] Informado</span>
-        </div>
+        {/* CONTENEDOR DE DOS TARJETAS DE ALTO IMPACTO (CREACIÓN VS ESTRUCTURACIÓN) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          {/* TARJETA 1: CREACIÓN DESDE CERO */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="p-8 md:p-12 rounded-[3rem] bg-white border border-neutral-200 shadow-xl relative overflow-hidden flex flex-col justify-between"
+          >
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <span className="px-4 py-1.5 rounded-full bg-trebol/10 border border-trebol/30 text-trebol font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                  <UserPlus size={14} />
+                  Si no tienes equipo
+                </span>
+                <span className="text-xs font-mono text-carbon/50 font-medium">Cimientos</span>
+              </div>
 
-        <div className="max-w-4xl mx-auto space-y-3">
-          {raciItems.map((item, idx) => (
-            <motion.div
-              key={item.decision}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.08 }}
-              className="bg-white rounded-2xl border border-trebol/20 hover:border-trebol/60 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-            >
-              <div className="px-6 md:px-10 py-5 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
-                <div className="md:w-56 shrink-0">
-                  <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block mb-0.5">Decisión</span>
-                  <h3 className="text-base md:text-lg font-bold text-carbon leading-tight">{item.decision}</h3>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
+                  Creación de Equipos
+                </h3>
+                <p className="text-sm text-carbon/60 font-light">
+                  Armamos la estructura inicial de Ventas, Mkt e IT.
+                </p>
+              </div>
+
+              <div className="space-y-4 font-sans text-sm md:text-base text-carbon/80">
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <strong className="text-carbon block font-bold">Definición de Perfiles & Roles:</strong>
+                    Identificamos el talento clave necesario para tus metas comerciales y tecnológicas.
+                  </div>
                 </div>
-                <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                  <div className="bg-trebol/5 rounded-xl px-4 py-3 border border-trebol/15">
-                    <span className="text-trebol font-black font-mono block text-[10px] uppercase tracking-wider mb-0.5">[R]</span>
-                    <span className="text-carbon font-semibold font-sans text-sm block">{item.r}</span>
+
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
                   </div>
-                  <div className="bg-carbon rounded-xl px-4 py-3">
-                    <span className="text-trebol font-black font-mono block text-[10px] uppercase tracking-wider mb-0.5">[A]</span>
-                    <span className="text-white font-semibold font-sans text-sm block">{item.a}</span>
+                  <div>
+                    <strong className="text-carbon block font-bold">Protocolos & Procesos Iniciales:</strong>
+                    Establecemos manuales de operación y reglas de comunicación interdepartamental.
                   </div>
-                  <div className="bg-neutral-50 rounded-xl px-4 py-3 border border-neutral-200">
-                    <span className="text-carbon/40 font-black font-mono block text-[10px] uppercase tracking-wider mb-0.5">[C]</span>
-                    <span className="text-carbon font-semibold font-sans text-sm block">{item.c}</span>
+                </div>
+
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
                   </div>
-                  <div className="bg-neutral-50 rounded-xl px-4 py-3 border border-neutral-200">
-                    <span className="text-carbon/40 font-black font-mono block text-[10px] uppercase tracking-wider mb-0.5">[I]</span>
-                    <span className="text-carbon font-semibold font-sans text-sm block">{item.i}</span>
+                  <div>
+                    <strong className="text-carbon block font-bold">Implementación Tecnológica (CRM & IT):</strong>
+                    Configuramos las herramientas base para que el nuevo equipo opere desde el día uno.
                   </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
+              <span className="font-bold">Resultado: Estructura sólida lista para operar</span>
+              <span className="font-bold bg-trebol/10 px-3.5 py-1 rounded-full text-trebol border border-trebol/20">0 ➔ 100 Operativo</span>
+            </div>
+          </motion.div>
+
+          {/* TARJETA 2: ESTRUCTURACIÓN DE EQUIPOS EXISTENTES */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="p-8 md:p-12 rounded-[3rem] bg-white border-2 border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden flex flex-col justify-between"
+          >
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <span className="px-4 py-1.5 rounded-full bg-carbon text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                  <GitMerge size={14} className="text-trebol" />
+                  Si ya tienes equipo
+                </span>
+                <span className="text-xs font-mono text-trebol font-extrabold">Alineación</span>
+              </div>
+
+              <div>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
+                  Estructuración & Escala
+                </h3>
+                <p className="text-sm text-carbon/60 font-light">
+                  Eliminamos fricciones entre Ventas, Mkt e IT.
+                </p>
+              </div>
+
+              <div className="space-y-4 font-sans text-sm md:text-base text-carbon/80">
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <strong className="text-carbon block font-bold">Diagnóstico de Fricción Interdepartamental:</strong>
+                    Detectamos cuellos de botella entre Mkt, Ventas e IT en el traspaso de clientes.
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <strong className="text-carbon block font-bold">Alineación de Responsabilidades:</strong>
+                    Clarificamos quién aprueba, ejecuta y supervisa cada decisión clave del negocio.
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-trebol/5 border border-trebol/20">
+                  <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Check size={15} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <strong className="text-carbon block font-bold">Métricas & KPIs Unificados:</strong>
+                    Conectamos la meta comercial de Ventas con el trabajo de Marketing e IT.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
+              <span className="font-bold">Resultado: Flujo continuo sin burocracia</span>
+              <span className="font-bold bg-trebol text-white px-3.5 py-1 rounded-full shadow-sm">Eficiencia +200%</span>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 

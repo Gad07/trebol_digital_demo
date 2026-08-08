@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
 import { 
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
-  Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check,
+  Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check, X,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
   Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
   Download, MessageSquare, Compass, Rocket
@@ -18,12 +18,12 @@ import { SpeedometerGauge, LighthouseGauge, ConversionGauge } from '../../../com
 import Contact from '@/components/Contact';
 
 const capabilitiesList = [
-  { name: 'Renderizado Ultrarrápido & SEO Impecable', role: 'Next.js 16 SSR/SSG', desc: 'Desarrollamos páginas de carga instantánea optimizadas para posicionar en los primeros lugares de Google.', icon: Globe },
-  { name: 'Componentes Dinámicos & UI de Alto Rendimiento', role: 'React 19 Interactive UI', desc: 'Creamos plataformas con interfaces dinámicas, animaciones fluidas y estados reactivos a la medida.', icon: Code2 },
-  { name: 'Carga en Milisegundos Sin Pesos Extra', role: 'Diseño Nativo Atomizado', desc: 'Código ligero sin plantillas pesadas ni plugins vulnerables que alentan la experiencia del usuario.', icon: Zap },
-  { name: 'Panel Autoadministrable Sin Depender de Código', role: 'Headless CMS (Sanity / Strapi)', desc: 'Integramos gestores intuitivos para que tu equipo edite contenidos, blogs y productos fácilmente.', icon: Database },
-  { name: 'Infraestructura Global con 99.99% Disponibilidad', role: 'Vercel Edge CDN Network', desc: 'Despliegue distribuido en servidores de borde capaces de soportar tráfico masivo sin caídas.', icon: Server },
-  { name: 'Pasarelas de Pago & Cobros Automatizados', role: 'Stripe & MercadoPago', desc: 'Integración segura de pagos digitales con tarjetas, Apple Pay, suscripciones y cobros locales.', icon: CreditCard },
+  { name: 'Renderizado Ultrarrápido & SEO Impecable', role: 'Carga Instantánea & SEO', desc: 'Desarrollamos páginas de carga instantánea optimizadas para posicionar en los primeros lugares de Google.', icon: Globe },
+  { name: 'Componentes Dinámicos & UI de Alto Rendimiento', role: 'Interfaces Dinámicas', desc: 'Creamos plataformas con interfaces dinámicas, animaciones fluidas y estados reactivos a la medida.', icon: Code2 },
+  { name: 'Carga en Milisegundos Sin Pesos Extra', role: 'Código Nativo Optimizado', desc: 'Código ligero sin plantillas pesadas ni plugins vulnerables que alentan la experiencia del usuario.', icon: Zap },
+  { name: 'Panel Autoadministrable Sin Depender de Código', role: 'Panel Autoadministrable', desc: 'Integramos gestores intuitivos para que tu equipo edite contenidos, blogs y productos fácilmente.', icon: Database },
+  { name: 'Infraestructura Global con 99.99% Disponibilidad', role: 'Infraestructura en la Nube', desc: 'Despliegue distribuido en servidores capaces de soportar tráfico masivo sin caídas.', icon: Server },
+  { name: 'Pasarelas de Pago & Cobros Automatizados', role: 'Pagos Digitales Integrados', desc: 'Integración segura de pagos digitales con tarjetas, suscripciones y cobros locales.', icon: CreditCard },
 ];
 
 const roadmapWeb = [
@@ -35,20 +35,20 @@ const roadmapWeb = [
   },
   { 
     paso: '02', 
-    titulo: 'Desarrollo Nativo Next.js & React 19', 
+    titulo: 'Desarrollo Nativo & Arquitectura Moderna', 
     desc: 'Programamos tu sitio con código nativo sin plantillas pesadas ni plugins vulnerables, garantizando rendimiento absoluto.',
     entregable: 'Código Fuente & Componentes Reutilizables',
   },
   { 
     paso: '03', 
     titulo: 'Optimización Core Web Vitals & SEO', 
-    desc: 'Auditamos tiempos de carga, estructuras de datos Schema.org, metadatos y accesibilidad para alcanzar 99/100 en Google Lighthouse.',
+    desc: 'Auditamos tiempos de carga, estructuras de datos, metadatos y accesibilidad para alcanzar máximas puntuaciones.',
     entregable: 'Reporte de Certificación Google Lighthouse',
   },
   { 
     paso: '04', 
     titulo: 'Integración CMS & Despliegue CDN', 
-    desc: 'Conectamos tu panel autoadministrable Sanity/Strapi y desplegamos la plataforma en infraestructura de borde Vercel Edge.',
+    desc: 'Conectamos tu panel autoadministrable intuitivo y desplegamos la plataforma en infraestructura global de alta velocidad.',
     entregable: 'Panel Autoadministrable & Capacitación',
   },
 ];
@@ -67,13 +67,6 @@ export default function DesarrolloWebPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // Ref para el progreso de scroll progresivo de la barra continua
-  const roadmapRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: roadmapRef,
-    offset: ["start 65%", "end 75%"]
-  });
 
   const renderModernMockup = (modeIndex) => {
     switch (modeIndex) {
@@ -127,7 +120,7 @@ export default function DesarrolloWebPage() {
             className="absolute -top-10 md:-top-12 lg:right-[14%] right-0 z-20"
           >
             <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
-              Te llevamos al siguiente nivel tecnológico
+              El activo comercial clave para hacer crecer tu empresa
             </div>
           </motion.div>
 
@@ -163,10 +156,10 @@ export default function DesarrolloWebPage() {
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-28 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Sitio Tradicional vs Trébol Next.js
+            Sitio Tradicional vs Plataforma Trébol Digital
           </h2>
           <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Compara la diferencia entre un sitio web genérico en WordPress y una plataforma optimizada en código nativo.
+            Tu web o app es la primera impresión de tu marca. Compara cómo una infraestructura moderna convierte más visitantes en clientes.
           </p>
         </div>
 
@@ -208,102 +201,216 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 2: HOJA DE RUTA EN 4 PASOS ─────────────────── */}
-      <section ref={roadmapRef} className="w-full bg-hueso py-24 px-6 md:px-12 relative z-10 border-t border-carbon/10">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-              Hoja de Ruta en <span className="text-trebol">4 Pasos.</span>
+      {/* ── SECCIÓN ÚNICA 2: DE WORDPRESS A UNA PLATAFORMA WEB A MEDIDA DEL USUARIO ─────────────────── */}
+      <section className="w-full bg-hueso py-24 md:py-32 px-6 md:px-12 relative z-10 border-t border-carbon/10">
+        <div className="max-w-[1400px] mx-auto space-y-16">
+          
+          {/* ENCABEZADO CON BADGE ELEGANTE Y TIPOGRAFÍA MONUMENTAL */}
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest bg-trebol/10 border border-trebol/20 px-4 py-1.5 rounded-full inline-block">
+              EVOLUCIÓN DIGITAL EMPRESARIAL
+            </span>
+            <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+              Por qué debes migrar <br />
+              <span className="text-trebol">de WordPress a una Web App a Medida</span>
             </h2>
-            <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-              Un proceso estructurado de 4 fases para crear tu plataforma web sin retrasos y con arquitectura de nivel enterprise.
+            <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
+              Tu empresa necesita una plataforma viva, ultrarrápida, segura y construida a la medida exacta de tus clientes.
             </p>
           </div>
 
-          {/* CONTENEDOR TIMELINE CON LÍNEA CONTINUA ÚNICA */}
-          <div className="relative space-y-12">
+          {/* TARJETAS COMPARATIVAS DE ALTO IMPACTO (DISENO BLANCO CON ICONOS LUCIDE) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            {/* LÍNEA VERTICAL CONTINUA */}
-            <div className="absolute left-8 md:left-10 top-12 bottom-12 w-1.5 bg-carbon/15 -translate-x-1/2 rounded-full overflow-hidden z-0 pointer-events-none">
-              <motion.div 
-                style={{ scaleY: scrollYProgress, transformOrigin: 'top' }}
-                className="w-full h-full bg-trebol rounded-full"
-              />
-            </div>
-
-            {roadmapWeb.map((r) => (
-              <div
-                key={r.paso}
-                className="flex items-start gap-6 md:gap-10 group relative z-10 opacity-100"
-              >
-                {/* COLUMNA 1: Círculos 100% Sólidos */}
-                <div className="w-16 md:w-20 shrink-0 flex justify-center pt-8">
-                  <motion.div 
-                    initial={{ backgroundColor: '#2D2D2D', color: '#ffffff', borderColor: '#F5F5F5' }}
-                    whileInView={{ 
-                      backgroundColor: '#5C9E43', 
-                      color: '#ffffff',
-                      borderColor: '#F5F5F5',
-                    }}
-                    viewport={{ once: true, margin: "-25% 0px -25% 0px" }}
-                    transition={{ duration: 0.4 }}
-                    className="w-14 h-14 md:w-16 md:h-16 rounded-full border-4 text-white font-mono font-black text-xl md:text-2xl flex items-center justify-center shadow-md z-20 opacity-100 bg-[#2D2D2D]"
-                  >
-                    {r.paso}
-                  </motion.div>
+            {/* TARJETA 1: SITIO TRADICIONAL EN WORDPRESS */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="p-8 md:p-12 rounded-[3rem] bg-white border border-rose-200 shadow-[0_10px_35px_rgba(244,63,94,0.06)] relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="space-y-8">
+                <div className="flex items-center justify-between">
+                  <span className="px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-rose-500" />
+                    Sitio Tradicional (WordPress)
+                  </span>
+                  <span className="text-xs font-mono text-carbon/50 font-medium">Tecnología Legada</span>
                 </div>
 
-                {/* COLUMNA 2: Tarjeta con efecto foco al centro */}
-                <motion.div 
-                  initial={{ 
-                    opacity: 0.35,
-                    backgroundColor: '#ffffff', 
-                    borderColor: '#e5e5e5',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
-                  }}
-                  whileInView={{ 
-                    opacity: 1,
-                    backgroundColor: '#f2f8ed', 
-                    borderColor: '#5C9E43',
-                    boxShadow: '0 15px 40px rgba(92,158,49,0.14)',
-                  }}
-                  viewport={{ margin: "-22% 0px -22% 0px", amount: 0.6 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex-1 border-2 rounded-[2.5rem] p-8 md:p-12 transition-all duration-400 relative overflow-hidden"
-                >
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 relative z-10">
-                    <span className="text-xs font-mono font-bold uppercase tracking-widest bg-trebol/10 text-trebol px-4 py-1.5 rounded-full border border-trebol/30">
-                      Fase {r.paso}
-                    </span>
-                    
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold bg-white text-carbon/80 px-4 py-1.5 rounded-full border border-neutral-200 shadow-sm">
-                      <Check size={14} className="text-trebol shrink-0" />
-                      <span>Entregable: {r.entregable}</span>
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
+                    Limitaciones que frenan a tu empresa
+                  </h3>
+                  <p className="text-sm text-carbon/60 font-light">
+                    Plantillas rígidas, código lento y alta fricción comercial.
+                  </p>
+                </div>
+
+                <div className="space-y-3.5 font-sans text-sm md:text-base text-carbon/80">
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
+                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                      <X size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Lentitud de plugins:</strong> Cargas de 4-8s que pierden el 50% de visitantes móviles.
                     </div>
                   </div>
 
-                  <h3 className="text-2xl md:text-4xl font-black text-carbon mb-4 tracking-tight">
-                    {r.titulo}
-                  </h3>
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
+                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                      <X size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Fallos y vulnerabilidades:</strong> Riesgo constante de hackeos y parches caídos.
+                    </div>
+                  </div>
 
-                  <p className="text-lg md:text-xl text-carbon/75 font-light leading-relaxed">
-                    {r.desc}
-                  </p>
-                </motion.div>
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
+                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                      <X size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Experiencia pasiva:</strong> Formularios estáticos sin respuesta inmediata al cliente.
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
+                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                      <X size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Plantillas rígidas:</strong> Imposible adaptarlas a los flujos reales de tu usuario.
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
+
+              <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-rose-600 flex items-center justify-between">
+                <span className="font-medium">Pérdida de prospectos</span>
+                <span className="font-bold bg-rose-100 px-3 py-1 rounded-full border border-rose-200">Speed Score: ~45/100</span>
+              </div>
+            </motion.div>
+
+            {/* TARJETA 2: PLATAFORMA WEB A MEDIDA DEL USUARIO (TRÉBOL DIGITAL) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="p-8 md:p-12 rounded-[3rem] bg-white border-2 border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden flex flex-col justify-between"
+            >
+              <div className="space-y-8">
+                <div className="flex items-center justify-between">
+                  <span className="px-4 py-1.5 rounded-full bg-trebol/10 border border-trebol/30 text-trebol font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
+                    Web App a Medida (Trébol Digital)
+                  </span>
+                  <span className="text-xs font-mono text-trebol font-extrabold">Alto Rendimiento</span>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
+                    Una plataforma viva para tu cliente
+                  </h3>
+                  <p className="text-sm text-carbon/60 font-light">
+                    Código nativo, ultra velocidad y máxima conversión.
+                  </p>
+                </div>
+
+                <div className="space-y-3.5 font-sans text-sm md:text-base text-carbon/80">
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
+                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                      <Check size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Carga ultrarrápida (&lt; 0.8s):</strong> Navegación instantánea y mejor SEO en Google.
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
+                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                      <Check size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Seguridad enterprise:</strong> Código privado y cerrado, sin plugins ni parches.
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
+                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                      <Check size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">UX 100% a medida:</strong> Diseñada para convertir visitas en ventas reales.
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
+                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                      <Check size={15} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <strong className="text-carbon font-bold">Ecosistema escalable:</strong> Conexión fluida a tu CRM y pasarelas de pago.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
+                <span className="font-bold">+300% conversión comercial</span>
+                <span className="font-bold bg-trebol text-white px-3.5 py-1 rounded-full shadow-sm">Speed Score: ~98/100</span>
+              </div>
+            </motion.div>
+
           </div>
+
+          {/* 3 PILARES DE VALOR RELEVANTES CON ICONOS LUCIDE */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+            <div className="p-8 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-sm space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol">
+                <Zap size={22} strokeWidth={2.2} />
+              </div>
+              <h4 className="text-xl font-bold text-carbon">Velocidad & SEO Superior</h4>
+              <p className="text-sm text-carbon/70 font-light leading-relaxed">
+                Código nativo que posiciona en los primeros lugares de Google con puntaje 98/100.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-sm space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol">
+                <Sparkles size={22} strokeWidth={2.2} />
+              </div>
+              <h4 className="text-xl font-bold text-carbon">Experiencia a Medida</h4>
+              <p className="text-sm text-carbon/70 font-light leading-relaxed">
+                Cada pantalla se construye para guiarlos a la compra o cotización inmediata.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-sm space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol">
+                <ShieldCheck size={22} strokeWidth={2.2} />
+              </div>
+              <h4 className="text-xl font-bold text-carbon">Cero Mantenimiento Molesto</h4>
+              <p className="text-sm text-carbon/70 font-light leading-relaxed">
+                Sin parches semanales ni riesgos de fallos por plugins descontinuados.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* ── SECCIÓN MOCKUPS COMPARATIVOS ADAPTABLES (POR TIPO DE PROYECTO: CORPORATIVA, LANDINGS, E-COMMERCE) ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Una <span className="text-trebol">Web dentro de Otra Web.</span>
+        <div className="text-center mb-16 space-y-4 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+            Te Llevamos al Siguiente Paso <br />
+            <span className="text-trebol">Tecnológico.</span>
           </h2>
-          <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Selecciona el tipo de proyecto web de tu interés y recorta con el deslizador para comparar un sitio viejo y obsoleto vs la plataforma nativa Trébol.
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
+            Tu sitio web es el activo comercial más importante de tu empresa. Usa el comparador interactivo para visualizar el salto tecnológico en tu industria.
           </p>
         </div>
 
@@ -393,12 +500,12 @@ export default function DesarrolloWebPage() {
 
       {/* ── SECCIÓN CAPACIDADES: LO QUE PODEMOS HACER POR TU EMPRESA ────────────────── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Capacidades & Soluciones <br className="hidden md:block" /> de <span className="text-trebol">Clase Mundial.</span>
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+            Por qué una Web Profesional es <br className="hidden md:block" /> el <span className="text-trebol">Motor de tu Empresa.</span>
           </h2>
-          <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Transformamos requerimientos técnicos y de negocio en soluciones digitales rentables de alta velocidad.
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
+            Tu sitio web es la vitrina comercial de tu marca las 24 horas del día. Una infraestructura moderna genera autoridad inmediata, posiciona tu negocio y convierte visitas en clientes reales.
           </p>
         </div>
 

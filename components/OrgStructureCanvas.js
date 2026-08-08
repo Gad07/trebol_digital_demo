@@ -2,52 +2,68 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Building2, Users, Target, BarChart3, UserCheck,
+  Building2, Users, Target, BarChart3,
   GitBranch, Layers
 } from 'lucide-react';
 
 const DEPARTMENTS = [
-  { id: 'ceo', label: 'Dirección General', level: 0, icon: Building2, desc: 'Visión & Estrategia' },
-  { id: 'finanzas', label: 'Finanzas', level: 1, icon: BarChart3, desc: 'Contraloría & Tesorería' },
-  { id: 'operaciones', label: 'Operaciones', level: 1, icon: GitBranch, desc: 'Producción & Logística' },
-  { id: 'marketing', label: 'Marketing', level: 2, icon: Target, desc: 'Captación & Marca' },
-  { id: 'ventas', label: 'Ventas', level: 2, icon: Users, desc: 'Cierre Comercial' },
-  { id: 'rrhh', label: 'RRHH', level: 2, icon: UserCheck, desc: 'Talento & Cultura' },
+  { id: 'ceo', label: 'Dirección General', level: 0, icon: Building2, desc: 'Estrategia & Visión' },
+  { id: 'marketing', label: 'Marketing & Growth', level: 1, icon: Target, desc: 'Captación de Demanda' },
+  { id: 'it', label: 'IT & Tecnología', level: 1, icon: Layers, desc: 'Infraestructura & Sistemas' },
+  { id: 'ventas', label: 'Ventas & Comercial', level: 2, icon: Users, desc: 'Cierre & Conversión' },
+  { id: 'bi', label: 'BI & Analítica', level: 2, icon: BarChart3, desc: 'Métricas de Rendimiento' },
+  { id: 'operaciones', label: 'Operaciones', level: 2, icon: GitBranch, desc: 'Entrega de Servicio' },
 ];
 
+// Posiciones caóticas bien distribuidas
 const CHAOS_POSITIONS = [
-  { x: 60, y: 12 },
-  { x: 8, y: 50 },
-  { x: 78, y: 42 },
-  { x: 25, y: 80 },
-  { x: 72, y: 76 },
-  { x: 15, y: 25 },
+  { x: 50, y: 16 },
+  { x: 18, y: 52 },
+  { x: 82, y: 38 },
+  { x: 26, y: 82 },
+  { x: 64, y: 82 },
+  { x: 86, y: 18 },
 ];
 
+// Posiciones alineadas jerárquicamente en árbol sin cruces de líneas
 const STRUCTURED_POSITIONS = [
-  { x: 50, y: 8 },
-  { x: 20, y: 35 },
-  { x: 80, y: 35 },
-  { x: 8, y: 72 },
-  { x: 50, y: 72 },
-  { x: 92, y: 72 },
+  { x: 50, y: 16 },  // 0: CEO (Arriba Centro)
+  { x: 30, y: 48 },  // 1: Marketing & Growth (Medio Izquierda)
+  { x: 70, y: 48 },  // 2: IT & Tecnología (Medio Derecha)
+  { x: 22, y: 82 },  // 3: Ventas & Comercial (Abajo Izquierda - debajo de Marketing)
+  { x: 62, y: 82 },  // 4: BI & Analítica (Abajo Medio Derecha - debajo de IT)
+  { x: 84, y: 82 },  // 5: Operaciones (Abajo Derecha - debajo de IT)
 ];
 
 const CHAOS_CONNECTIONS = [
-  [0, 1], [0, 2], [2, 3], [1, 4], [3, 5], [4, 5], [1, 3], [2, 5],
+  [0, 1], [0, 2], [2, 3], [1, 4], [3, 5], [4, 5], [1, 3], [2, 5], [0, 4]
 ];
 
+// Conexiones de árbol limpio (CERO CRUCES DE LÍNEAS)
 const STRUCTURED_CONNECTIONS = [
-  [0, 1], [0, 2], [1, 3], [1, 4], [2, 5],
+  [0, 1], // CEO (50%) -> Marketing (30%)
+  [0, 2], // CEO (50%) -> IT (70%)
+  [1, 3], // Marketing (30%) -> Ventas (22%)
+  [2, 4], // IT (70%) -> BI & Analítica (62%)
+  [2, 5], // IT (70%) -> Operaciones (84%)
 ];
 
 const RACI_LABELS = {
-  ceo:        { r: 'Dueño',   a: 'Consejo',         c: 'Staff',   i: 'Organización' },
-  finanzas:   { r: 'CFO',     a: 'Director General', c: 'Áreas',   i: 'CEO' },
-  operaciones: { r: 'COO',    a: 'Director General', c: 'Supply',  i: 'CEO' },
-  marketing:  { r: 'CMO',     a: 'Director Com.',    c: 'Agencia', i: 'Organización' },
-  ventas:     { r: 'Sales VP', a: 'Director Com.',   c: 'Marketing', i: 'CEO' },
-  rrhh:       { r: 'CHRO',    a: 'Dirección Gral.',  c: 'Gerentes', i: 'Toda la Empresa' },
+  ceo:         { r: 'Dirección General', a: 'Consejo',         c: 'Líderes de Área', i: 'Toda la Empresa' },
+  marketing:   { r: 'Líder Marketing',   a: 'Dir. Comercial',  c: 'Ventas & IT',     i: 'Fuerza Comercial' },
+  it:          { r: 'Líder IT',          a: 'Dirección Gral.', c: 'Ventas & Mkt',    i: 'Organización' },
+  ventas:      { r: 'Líder de Ventas',   a: 'Dir. Comercial',  c: 'Marketing & IT', i: 'Dirección' },
+  bi:          { r: 'Analista de Datos', a: 'Líder IT & Mkt',  c: 'Todas las Áreas', i: 'Dirección' },
+  operaciones: { r: 'Líder Operación',   a: 'Dirección Gral.', c: 'Ventas & IT',     i: 'Dirección' },
+};
+
+const CHAOS_LABELS = {
+  ceo: 'Sobrecarga de decisiones',
+  marketing: 'Desalineado de metas de ventas',
+  it: 'Sistemas sin prioridad comercial',
+  ventas: 'Falta de CRM y herramientas',
+  bi: 'Métricas dispersas y aisladas',
+  operaciones: 'Entregas con retraso por fricción'
 };
 
 function ConnectionLines({ connections, positions, color, dashed, size }) {
@@ -56,17 +72,22 @@ function ConnectionLines({ connections, positions, color, dashed, size }) {
       {connections.map(([i, j], idx) => {
         const fi = positions[i];
         const ti = positions[j];
-        const f = { x: (fi.x / 100) * size.w, y: (fi.y / 100) * size.h };
-        const t = { x: (ti.x / 100) * size.w, y: (ti.y / 100) * size.h };
-        const dx = Math.abs(t.x - f.x) * 0.4;
-        const d = `M ${f.x} ${f.y} C ${f.x + dx} ${f.y}, ${t.x - dx} ${t.y}, ${t.x} ${t.y}`;
+        
+        const fx = (fi.x / 100) * size.w;
+        const fy = (fi.y / 100) * size.h + (dashed ? 0 : 32); // Sale del borde inferior en structured
+        const tx = (ti.x / 100) * size.w;
+        const ty = (ti.y / 100) * size.h - (dashed ? 0 : 32); // Entra al borde superior en structured
+        
+        // Curvas Bézier suaves de arriba hacia abajo
+        const dy = Math.abs(ty - fy) * 0.5;
+        const d = `M ${fx} ${fy} C ${fx} ${fy + dy}, ${tx} ${ty - dy}, ${tx} ${ty}`;
 
         return (
           <path
             key={`conn-${idx}`}
             d={d}
             stroke={color}
-            strokeWidth={dashed ? 2 : 2.5}
+            strokeWidth={dashed ? 2 : 3}
             strokeDasharray={dashed ? '6 6' : 'none'}
             fill="none"
           />
@@ -78,40 +99,45 @@ function ConnectionLines({ connections, positions, color, dashed, size }) {
 
 function NodeCard({ dept, pos, isAfter, isHovered, onHover, onLeave, raci }) {
   const Icon = dept.icon;
-  const w = isAfter ? 180 : 150;
 
   return (
     <motion.div
       className="absolute"
       animate={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-      transition={{ type: 'spring', stiffness: 80, damping: 18, mass: 1 }}
-      style={{ width: w, transform: 'translate(-50%, -50%)' }}
+      transition={{ type: 'spring', stiffness: 90, damping: 20, mass: 1 }}
+      style={{ width: isAfter ? 240 : 210, transform: 'translate(-50%, -50%)' }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
     >
       <motion.div
         layout
         className={`
-          rounded-2xl border-2 cursor-default
+          rounded-[1.75rem] border-2 cursor-pointer transition-all duration-300 overflow-hidden shadow-lg
           ${isAfter
-            ? 'bg-carbon text-white border-trebol/40 shadow-xl'
-            : 'bg-white text-carbon border-rose-200 shadow-md hover:border-rose-400'}
-          ${isHovered ? (isAfter ? 'scale-110 border-trebol shadow-2xl' : 'scale-110 border-rose-500 shadow-xl') : ''}
+            ? 'bg-white text-carbon border-trebol/40 hover:border-trebol hover:shadow-[0_20px_50px_rgba(92,158,49,0.2)]'
+            : 'bg-white text-carbon border-rose-300 hover:border-rose-500 shadow-md'}
+          ${isHovered ? 'scale-105 ring-2 ring-trebol/30' : ''}
         `}
       >
-        <div className={`p-3 ${isAfter ? 'border-b border-white/10' : 'border-b border-neutral-100'}`}>
-          <div className="flex items-center gap-2">
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-              isAfter ? 'bg-trebol/20 text-trebol' : 'bg-rose-100 text-rose-500'
+        <div className="p-3.5 bg-white border-b border-neutral-100">
+          <div className="flex items-center gap-3">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
+              isAfter ? 'bg-trebol text-white' : 'bg-rose-500 text-white'
             }`}>
-              <Icon size={16} />
+              <Icon size={18} />
             </div>
-            <div className="min-w-0">
-              <p className={`text-xs font-bold truncate ${isAfter ? 'text-white' : 'text-carbon'}`}>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-carbon truncate tracking-tight">
                 {dept.label}
               </p>
-              {isAfter && (
-                <p className="text-[9px] text-neutral-400 truncate">{dept.desc}</p>
+              {isAfter ? (
+                <span className="text-[10px] font-mono font-semibold text-trebol bg-trebol/10 px-2 py-0.5 rounded-md inline-block mt-0.5 truncate max-w-full">
+                  {dept.desc}
+                </span>
+              ) : (
+                <span className="text-[9px] font-mono font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md inline-block mt-0.5 truncate max-w-full">
+                  ⚠ {CHAOS_LABELS[dept.id]}
+                </span>
               )}
             </div>
           </div>
@@ -123,14 +149,18 @@ function NodeCard({ dept, pos, isAfter, isHovered, onHover, onLeave, raci }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4 }}
-              className="px-3 py-2 space-y-1"
+              transition={{ duration: 0.3 }}
+              className="p-3 bg-neutral-50/90 border-t border-neutral-100 space-y-1.5"
             >
-              <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8px]">
-                <span className="text-trebol font-bold">[R] {raci.r}</span>
-                <span className="text-cyan-400 font-bold">[A] {raci.a}</span>
-                <span className="text-neutral-400">[C] {raci.c}</span>
-                <span className="text-neutral-400">[I] {raci.i}</span>
+              <div className="space-y-1 text-[10px] font-mono">
+                <div className="flex items-center justify-between bg-trebol/10 text-trebol px-2.5 py-1 rounded-lg border border-trebol/20">
+                  <span className="font-bold">[R] Responsable:</span>
+                  <span className="text-carbon font-semibold">{raci.r}</span>
+                </div>
+                <div className="flex items-center justify-between bg-neutral-100 text-carbon px-2.5 py-1 rounded-lg border border-neutral-200">
+                  <span className="text-carbon/80 font-bold">[A] Aprobador:</span>
+                  <span className="text-carbon font-semibold">{raci.a}</span>
+                </div>
               </div>
             </motion.div>
           )}
@@ -141,9 +171,9 @@ function NodeCard({ dept, pos, isAfter, isHovered, onHover, onLeave, raci }) {
 }
 
 export default function OrgStructureCanvas() {
-  const [mode, setMode] = useState('chaos');
+  const [mode, setMode] = useState('structured');
   const [hoveredNode, setHoveredNode] = useState(null);
-  const [canvasSize, setCanvasSize] = useState({ w: 600, h: 360 });
+  const [canvasSize, setCanvasSize] = useState({ w: 800, h: 500 });
   const canvasRef = useRef(null);
   const [transitionPhase, setTransitionPhase] = useState('idle');
 
@@ -174,20 +204,20 @@ export default function OrgStructureCanvas() {
     setTimeout(() => {
       setMode(newMode);
       setTransitionPhase('idle');
-    }, 300);
+    }, 250);
   };
 
   const showChaosLines = (mode === 'chaos' && transitionPhase === 'idle') || (mode === 'structured' && transitionPhase === 'fading');
   const showStructuredLines = (mode === 'structured' && transitionPhase === 'idle') || (mode === 'chaos' && transitionPhase === 'fading');
 
   return (
-    <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-28 relative z-10">
+    <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
           Estructura Organizacional <span className="text-trebol">en Vivo.</span>
         </h2>
         <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-          Visualiza cómo pasa tu empresa de una estructura caótica a un organigrama RACI optimizado con líneas claras de reporte.
+          Visualiza cómo pasa tu empresa de una estructura caótica a un organigrama RACI optimizado con líneas claras de reporte para Ventas, Marketing e IT.
         </p>
       </div>
 
@@ -197,7 +227,7 @@ export default function OrgStructureCanvas() {
           <button
             onClick={() => handleToggle('chaos')}
             className={`px-6 md:px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
-              !isAfter ? 'bg-rose-500/20 text-rose-600 border border-rose-500/40' : 'text-carbon/60 hover:text-carbon'
+              !isAfter ? 'bg-rose-500 text-white shadow-md' : 'text-carbon/60 hover:text-carbon'
             }`}
           >
             Sin Estructura
@@ -205,7 +235,7 @@ export default function OrgStructureCanvas() {
           <button
             onClick={() => handleToggle('structured')}
             className={`px-6 md:px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
-              isAfter ? 'bg-trebol text-white shadow-lg' : 'text-carbon/60 hover:text-carbon'
+              isAfter ? 'bg-trebol text-white shadow-md' : 'text-carbon/60 hover:text-carbon'
             }`}
           >
             Organigrama RACI
@@ -213,20 +243,24 @@ export default function OrgStructureCanvas() {
         </div>
       </div>
 
-      {/* Card */}
-      <div className="relative w-full rounded-[3rem] bg-white shadow-2xl overflow-hidden font-mono">
+      {/* Card Canvas Container */}
+      <div className="relative w-full rounded-[3rem] bg-white border border-neutral-200 shadow-2xl overflow-hidden font-mono">
+        
+        {/* Ambient Light Blob */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-trebol/10 rounded-full blur-[110px] pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-neutral-100">
+        <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-neutral-100 bg-neutral-50/80 backdrop-blur-sm relative z-10">
           <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${isAfter ? 'bg-trebol' : 'bg-rose-500'} shadow-sm`} />
+            <div className={`w-3.5 h-3.5 rounded-full ${isAfter ? 'bg-trebol' : 'bg-rose-500'} shadow-sm animate-pulse`} />
             <span className="text-xs text-neutral-500">
-              Estado: <strong className="text-carbon">{isAfter ? 'Organigrama RACI Optimizado' : 'Estructura Caótica / Sin Definir'}</strong>
+              Estado: <strong className="text-carbon">{isAfter ? 'Organigrama RACI Sincronizado (Ventas, Mkt & IT)' : 'Estructura Caótica / Desalineada'}</strong>
             </span>
           </div>
         </div>
 
         {/* Canvas body */}
-        <div ref={canvasRef} className="relative w-full" style={{ minHeight: 420 }}>
+        <div ref={canvasRef} className="relative w-full overflow-hidden" style={{ minHeight: 520 }}>
           {/* SVG overlay */}
           <svg
             className="absolute inset-0 pointer-events-none"
@@ -260,7 +294,7 @@ export default function OrgStructureCanvas() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
                 >
                   <ConnectionLines
                     connections={STRUCTURED_CONNECTIONS}
@@ -290,22 +324,21 @@ export default function OrgStructureCanvas() {
         </div>
 
         {/* Footer */}
-        <div className="flex flex-wrap items-center justify-between border-t border-neutral-100 px-6 md:px-10 py-3 text-[10px] text-neutral-400 gap-2">
+        <div className="flex flex-wrap items-center justify-between border-t border-neutral-100 px-6 md:px-10 py-3.5 text-xs text-neutral-500 bg-neutral-50/50 gap-2">
           <span className="flex items-center gap-2">
-            <Layers size={12} className="text-trebol" />
+            <Layers size={14} className="text-trebol" />
             {isAfter
-              ? 'Líneas verdes sólidas = Reporte directo'
-              : 'Líneas rojas punteadas = Fricción / Confusión de roles'}
+              ? 'Líneas verdes = Jerarquía y flujo directo de reporte'
+              : 'Líneas rojas punteadas = Fricción / Confusión entre áreas'}
           </span>
-          <span className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-trebol" />
-            <span>R=Responsable</span>
-            <span className="ml-1.5 w-2 h-2 rounded-full bg-cyan-400" />
-            <span>A=Aprobador</span>
+          <span className="flex items-center gap-2 font-mono text-[11px]">
+            <span className="text-trebol font-bold">[R] Responsable</span>
+            <span className="text-carbon font-bold">[A] Aprobador</span>
+            <span className="text-neutral-400">[C] Consultado</span>
+            <span className="text-neutral-400">[I] Informado</span>
           </span>
         </div>
       </div>
-
 
     </section>
   );
