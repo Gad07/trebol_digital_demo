@@ -2,8 +2,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll } from 'framer-motion';
-import { 
-  ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2, 
+import {
+  ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2,
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check, X,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
   Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
@@ -27,27 +27,27 @@ const capabilitiesList = [
 ];
 
 const roadmapWeb = [
-  { 
-    paso: '01', 
-    titulo: 'Arquitectura & Prototipado UX/UI', 
+  {
+    paso: '01',
+    titulo: 'Arquitectura & Prototipado UX/UI',
     desc: 'Diseñamos la estructura de navegación y prototipos interactivos en Figma centrados en la conversión de tus usuarios.',
     entregable: 'Prototipo Interactivo de Alta Fidelidad',
   },
-  { 
-    paso: '02', 
-    titulo: 'Desarrollo Nativo & Arquitectura Moderna', 
+  {
+    paso: '02',
+    titulo: 'Desarrollo Nativo & Arquitectura Moderna',
     desc: 'Programamos tu sitio con código nativo sin plantillas pesadas ni plugins vulnerables, garantizando rendimiento absoluto.',
     entregable: 'Código Fuente & Componentes Reutilizables',
   },
-  { 
-    paso: '03', 
-    titulo: 'Optimización Core Web Vitals & SEO', 
+  {
+    paso: '03',
+    titulo: 'Optimización Core Web Vitals & SEO',
     desc: 'Auditamos tiempos de carga, estructuras de datos, metadatos y accesibilidad para alcanzar máximas puntuaciones.',
     entregable: 'Reporte de Certificación Google Lighthouse',
   },
-  { 
-    paso: '04', 
-    titulo: 'Integración CMS & Despliegue CDN', 
+  {
+    paso: '04',
+    titulo: 'Integración CMS & Despliegue CDN',
     desc: 'Conectamos tu panel autoadministrable intuitivo y desplegamos la plataforma en infraestructura global de alta velocidad.',
     entregable: 'Panel Autoadministrable & Capacitación',
   },
@@ -85,20 +85,20 @@ export default function DesarrolloWebPage() {
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
       {/* ── HERO EXACTO ESTILO HOME CON BADGE FLOTANTE & LUZ AMBIENTAL ── */}
       <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-4 md:px-12 bg-hueso overflow-hidden">
-        
+
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.8, 0.6] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-trebol/20 rounded-full blur-[110px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             className="absolute top-20 right-0 w-[28rem] h-[28rem] bg-trebol/10 rounded-full blur-[90px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             className="absolute -bottom-20 left-1/3 w-[35rem] h-[35rem] bg-trebol/15 rounded-full blur-[120px]"
@@ -107,7 +107,7 @@ export default function DesarrolloWebPage() {
 
         {/* Headline Container with Floating Glass Badge */}
         <div className="relative w-full max-w-[1400px] mx-auto text-center flex justify-center mb-16 md:mb-20 z-10">
-          
+
           {/* Floating Glass Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: -6 }}
@@ -125,19 +125,19 @@ export default function DesarrolloWebPage() {
           </motion.div>
 
           {/* Massive Headline with Stagger Spring Animation */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
+            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
           >
-            Sitios Web Profesionales que <br />
-            Atraen y Convierten <span className="text-trebol">Clientes.</span>
+            Sitios Web Profesionales <br className="hidden md:block" />
+            que Atraen y Convierten <span className="text-trebol">Clientes.</span>
           </motion.h1>
         </div>
 
         {/* Panoramic Hero Image Banner - 100% CLEAN WITHOUT TEXT OVERLAYS */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 80, damping: 16, delay: 0.3 }}
@@ -152,64 +152,12 @@ export default function DesarrolloWebPage() {
         </motion.div>
       </section>
 
-      {/* ── SECCIÓN ÚNICA 1: COMPARADOR ANTES vs DESPUÉS (SLIDER DE RENDIMIENTO) ── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-28 relative z-10 border-t border-carbon/10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter">
-            Sitio Tradicional vs Plataforma Trébol Digital
-          </h2>
-          <p className="text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4">
-            Tu web o app es la primera impresión de tu marca. Compara cómo una infraestructura moderna convierte más visitantes en clientes.
-          </p>
-        </div>
+      {/* ── SECCIÓN COMPARATIVA: GRÁFICOS A LA IZQUIERDA Y ÚNICA CARD A LA DERECHA ── */}
+      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+        <div className="space-y-12">
 
-        {/* Toggle Switch */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-white p-2 rounded-full border border-neutral-200 shadow-md flex items-center gap-2">
-            <button
-              onClick={() => setIsBefore(true)}
-              className={`px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
-                isBefore ? 'bg-red-500/20 text-red-600 border border-red-500/40' : 'text-carbon/60 hover:text-carbon'
-              }`}
-            >
-              Sin Trébol Digital
-            </button>
-            <button
-              onClick={() => setIsBefore(false)}
-              className={`px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
-                !isBefore ? 'bg-trebol text-white shadow-lg' : 'text-carbon/60 hover:text-carbon'
-              }`}
-            >
-              Con Trébol Digital
-            </button>
-          </div>
-        </div>
-
-        {/* Comparison Display Panel with Speedometers & Animated Gauges (White Glassmorphism UI) */}
-        <div className="bg-white/70 backdrop-blur-2xl text-carbon border border-white/90 rounded-[3.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.06)] grid grid-cols-1 md:grid-cols-3 gap-8 items-center font-sans relative z-10">
-          <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200 pb-6 md:pb-0 md:pr-6">
-            <SpeedometerGauge isBefore={isBefore} />
-          </div>
-
-          <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200 py-6 md:py-0 md:px-6">
-            <LighthouseGauge isBefore={isBefore} />
-          </div>
-
-          <div className="flex justify-center pt-6 md:pt-0 md:pl-6">
-            <ConversionGauge isBefore={isBefore} />
-          </div>
-        </div>
-      </section>
-
-      {/* ── SECCIÓN ÚNICA 2: DE WORDPRESS A UNA PLATAFORMA WEB A MEDIDA DEL USUARIO ─────────────────── */}
-      <section className="w-full bg-hueso py-24 md:py-32 px-6 md:px-12 relative z-10 border-t border-carbon/10">
-        <div className="max-w-[1400px] mx-auto space-y-16">
-          
-          {/* ENCABEZADO CON BADGE ELEGANTE Y TIPOGRAFÍA MONUMENTAL */}
+          {/* ENCABEZADO CON TIPOGRAFÍA MONUMENTAL */}
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest bg-trebol/10 border border-trebol/20 px-4 py-1.5 rounded-full inline-block">
-              EVOLUCIÓN DIGITAL EMPRESARIAL
-            </span>
             <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
               Por qué debes migrar <br />
               <span className="text-trebol">de WordPress a una Web App a Medida</span>
@@ -219,89 +167,86 @@ export default function DesarrolloWebPage() {
             </p>
           </div>
 
-          {/* TARJETAS COMPARATIVAS DE ALTO IMPACTO (DISENO BLANCO CON ICONOS LUCIDE) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* TARJETA 1: SITIO TRADICIONAL EN WORDPRESS */}
+          {/* Toggle Switch de Estado */}
+          <div className="flex justify-center">
+            <div className="bg-white p-2 rounded-full border border-neutral-200 shadow-md flex items-center gap-2">
+              <button
+                onClick={() => setIsBefore(true)}
+                className={`px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
+                  isBefore ? 'bg-red-500/20 text-red-600 border border-red-500/40' : 'text-carbon/60 hover:text-carbon'
+                }`}
+              >
+                Sin Trébol Digital
+              </button>
+              <button
+                onClick={() => setIsBefore(false)}
+                className={`px-8 py-3 rounded-full font-bold text-sm transition-all cursor-pointer ${
+                  !isBefore ? 'bg-trebol text-white shadow-lg' : 'text-carbon/60 hover:text-carbon'
+                }`}
+              >
+                Con Trébol Digital
+              </button>
+            </div>
+          </div>
+
+          {/* GRID: IZQUIERDA = GRÁFICOS Y MEDIDORES | DERECHA = ÚNICA TARJETA */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+            {/* COLUMNA IZQUIERDA (GRÁFICOS & MEDIDORES DE RENDIMIENTO) */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="p-8 md:p-12 rounded-[3rem] bg-white border border-rose-200 shadow-[0_10px_35px_rgba(244,63,94,0.06)] relative overflow-hidden flex flex-col justify-between"
+              className="lg:col-span-6 bg-white/80 backdrop-blur-2xl text-carbon border border-white/90 rounded-[3rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col justify-between space-y-8"
             >
-              <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <span className="px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-rose-500" />
-                    Sitio Tradicional (WordPress)
+              <div>
+                <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-6">
+                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-trebol animate-pulse" />
+                    Telemetría & Core Web Vitals
                   </span>
-                  <span className="text-xs font-mono text-carbon/50 font-medium">Tecnología Legada</span>
+                  <span className="text-xs font-mono text-carbon/50">
+                    {isBefore ? 'WordPress Legado' : 'Next.js Nativo'}
+                  </span>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
-                    Limitaciones que frenan a tu empresa
-                  </h3>
-                  <p className="text-sm text-carbon/60 font-light">
-                    Plantillas rígidas, código lento y alta fricción comercial.
-                  </p>
-                </div>
-
-                <div className="space-y-3.5 font-sans text-sm md:text-base text-carbon/80">
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
-                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <X size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Lentitud de plugins:</strong> Cargas de 4-8s que pierden el 50% de visitantes móviles.
-                    </div>
+                {/* 3 Gauges de Rendimiento */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                  <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200/80 pb-4 md:pb-0 md:pr-4">
+                    <SpeedometerGauge isBefore={isBefore} />
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
-                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <X size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Fallos y vulnerabilidades:</strong> Riesgo constante de hackeos y parches caídos.
-                    </div>
+                  <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200/80 py-4 md:py-0 md:px-4">
+                    <LighthouseGauge isBefore={isBefore} />
                   </div>
 
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
-                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <X size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Experiencia pasiva:</strong> Formularios estáticos sin respuesta inmediata al cliente.
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-50/50 border border-rose-100">
-                    <div className="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <X size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Plantillas rígidas:</strong> Imposible adaptarlas a los flujos reales de tu usuario.
-                    </div>
+                  <div className="flex justify-center pt-4 md:pt-0 md:pl-4">
+                    <ConversionGauge isBefore={isBefore} />
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-rose-600 flex items-center justify-between">
-                <span className="font-medium">Pérdida de prospectos</span>
-                <span className="font-bold bg-rose-100 px-3 py-1 rounded-full border border-rose-200">Speed Score: ~45/100</span>
+              {/* Status Banner Inferior en la tarjeta de gráficos */}
+              <div className={`p-4 rounded-2xl border text-xs font-mono flex items-center justify-between transition-all duration-300 ${
+                isBefore 
+                  ? 'bg-rose-50 border-rose-200 text-rose-700' 
+                  : 'bg-trebol/10 border-trebol/30 text-carbon font-bold'
+              }`}>
+                <span>{isBefore ? '⚠️ Riesgo de fuga de prospectos' : '✓ 100% Optimizado en CDN Global'}</span>
+                <span className="font-bold">{isBefore ? 'Latencia: 4.8s' : 'Latencia: 0.6s'}</span>
               </div>
             </motion.div>
 
-            {/* TARJETA 2: PLATAFORMA WEB A MEDIDA DEL USUARIO (TRÉBOL DIGITAL) */}
+            {/* COLUMNA DERECHA (LA ÚNICA TARJETA: WEB APP A MEDIDA) */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="p-8 md:p-12 rounded-[3rem] bg-white border-2 border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden flex flex-col justify-between"
+              className="lg:col-span-6 p-8 md:p-10 rounded-[3rem] bg-white border-2 border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden flex flex-col justify-between"
             >
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <span className="px-4 py-1.5 rounded-full bg-trebol/10 border border-trebol/30 text-trebol font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
@@ -358,12 +303,11 @@ export default function DesarrolloWebPage() {
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
+              <div className="mt-6 pt-5 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
                 <span className="font-bold">+300% conversión comercial</span>
                 <span className="font-bold bg-trebol text-white px-3.5 py-1 rounded-full shadow-sm">Speed Score: ~98/100</span>
               </div>
             </motion.div>
-
           </div>
 
           {/* 3 PILARES DE VALOR RELEVANTES CON ICONOS LUCIDE */}
@@ -420,11 +364,10 @@ export default function DesarrolloWebPage() {
             <button
               key={m.id}
               onClick={() => setActiveMode(idx)}
-              className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${
-                activeMode === idx
+              className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${activeMode === idx
                   ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
                   : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
-              }`}
+                }`}
             >
               <span className="font-black leading-tight">{m.label}</span>
             </button>
@@ -433,7 +376,7 @@ export default function DesarrolloWebPage() {
 
         {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
         <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
-          
+
           {/* Header Bar Browser MacOS */}
           <div className="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-6">
             <div className="flex items-center gap-3">
@@ -454,7 +397,7 @@ export default function DesarrolloWebPage() {
 
           {/* VIEWPORT INTERACTIVO CON MOCKUPS ADAPTABLES SEGÚN EL TIPO DE PROYECTO */}
           <div className="relative w-full h-[580px] md:h-[650px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
-            
+
             {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
             <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
               <div className="w-full h-full min-w-[1000px] relative z-0">
@@ -463,7 +406,7 @@ export default function DesarrolloWebPage() {
             </div>
 
             {/* 2. LADO IZQUIERDO: EL SITIO VIEJO TRADICIONAL Y OBSOLETO ADAPTADO AL TIPO DE PROYECTO */}
-            <div 
+            <div
               className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
               style={{ width: `${sliderPos}%` }}
             >
@@ -483,7 +426,7 @@ export default function DesarrolloWebPage() {
             />
 
             {/* Vertical Handle Line */}
-            <div 
+            <div
               className="absolute top-0 bottom-0 w-1 bg-white pointer-events-none z-20 shadow-[0_0_20px_rgba(255,255,255,1)]"
               style={{ left: `${sliderPos}%` }}
             >

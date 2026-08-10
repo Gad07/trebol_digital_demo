@@ -133,7 +133,7 @@ export default function StaticTrebolProcess() {
   const [activeStep, setActiveStep] = useState(0);
 
   return (
-    <section className="w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 relative overflow-hidden border-t border-carbon/10 select-none">
+    <section className="w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 relative overflow-hidden select-none">
       <div className="max-w-[1400px] mx-auto">
         
         {/* Section Header */}

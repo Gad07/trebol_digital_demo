@@ -11,7 +11,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contacto" className="w-full bg-hueso py-32 px-6 md:px-12 relative overflow-hidden">
+    <section id="contacto" className="w-full bg-hueso pt-20 md:pt-28 pb-12 md:pb-16 px-6 md:px-12 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-24 items-start">
         
         {/* Massive Typography Left */}

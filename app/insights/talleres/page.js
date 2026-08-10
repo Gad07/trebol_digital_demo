@@ -123,9 +123,9 @@ export default function TalleresPage() {
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
+            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
           >
-            Aprende Haciendo. <br />
+            Aprende Haciendo. <br className="hidden md:block" />
             Aplica en tu <span className="text-trebol">Empresa.</span>
           </motion.h1>
 

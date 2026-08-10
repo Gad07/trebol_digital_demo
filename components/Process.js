@@ -220,11 +220,11 @@ export default function Process({ customSteps, title = "Metodología", titleGree
   const StepIcon = currentStep.icon;
 
   return (
-    <div id={`${sectionId}-section-wrapper`} className="w-full relative z-10">
+    <div id={`${sectionId}-section-wrapper`} className="w-full relative z-10 border-none outline-none">
       <section
         id={sectionId}
         ref={containerRef}
-        className="relative w-full h-screen min-h-[550px] bg-white text-carbon select-none overflow-visible flex flex-col justify-center z-20"
+        className="relative w-full h-screen min-h-[550px] bg-white text-carbon select-none overflow-visible flex flex-col justify-center z-20 border-none outline-none"
       >
         {/* Luces Ambientales sobre Fondo Blanco */}
         <div className="absolute inset-0 pointer-events-none z-0">

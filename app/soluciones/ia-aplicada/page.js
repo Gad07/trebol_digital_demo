@@ -134,15 +134,15 @@ export function TrebotSVG({ isSpeaking, size = 180 }) {
 const TUTORIAL_STEPS = [
   {
     targetId: 'hero',
-    title: '¡Bienvenido a IA Aplicada! 🤖',
-    speech: '¡Hola! Soy TREBOT. Te mostraré cómo acelerar tu empresa automatizando ventas, soporte y operaciones con arquitectura de Inteligencia Artificial.',
+    title: '¡Bienvenido a IA Aplicada!',
+    speech: 'Te mostraré cómo acelerar tu empresa automatizando ventas, soporte y operaciones con arquitectura de Inteligencia Artificial.',
     buttonText: 'Ver Arquitecturas DFD ➔',
     pos: 'left-1/2 -translate-x-1/2'
   },
   {
     targetId: 'soluciones',
     isDfdHub: true,
-    title: 'Diagramas de Flujo DFD estilo n8n 🤖',
+    title: 'Diagramas de Flujo DFD estilo n8n',
     speech: 'Selecciona cuál de los 4 flujos de Inteligencia Artificial deseas que te explique primero. Puedes explorar los que quieras en cualquier orden:',
     buttonText: 'Continuar a Transformación ➔',
     pos: 'right-6 md:right-12 translate-x-0'
@@ -152,15 +152,15 @@ const TUTORIAL_STEPS = [
     title: 'El cambio en tu empresa antes y después de la IA',
     speech: 'Primero observa la Operación Tradicional Sin Trébol: tiempos de espera de hasta 12 horas y carga manual propensa a errores. Ahora, ¡haz clic en el switch para activar Trébol IA!',
     speechSinTrebol: 'Primero observa la Operación Tradicional Sin Trébol: tiempos de espera de hasta 12 horas y carga manual propensa a errores. Ahora, ¡haz clic en el switch en la tarjeta para activar Trébol IA!',
-    speechConTrebol: '¡Excelente! Al activar Trébol IA, tu empresa responde en menos de 5 segundos las 24 horas, automatizando la captura y alcanzando un 98% de rendimiento operativo.',
+    speechConTrebol: 'Al activar Trébol IA, tu empresa responde en menos de 5 segundos las 24 horas, automatizando la captura y alcanzando un 98% de rendimiento operativo.',
     buttonText: 'Ver Metodología ➔',
     pos: 'left-1/2 -translate-x-1/2'
   },
   {
     targetId: 'metodologia',
-    title: 'Evolución de WordPress a Web App a Medida 🚀',
+    title: 'Evolución de WordPress a Web App a Medida',
     speech: 'Te guiamos en 4 pasos estructurados para evolucionar tu sitio de WordPress hacia una aplicación web moderna a medida, ultrarrápida y potenciada con Inteligencia Artificial.',
-    buttonText: '¡Finalizar Tour! 🎉',
+    buttonText: '¡Finalizar Tour!',
     pos: 'left-1/2 -translate-x-1/2'
   }
 ];
@@ -215,31 +215,31 @@ const pilarServices = [
     n8nNodes: [
       {
         type: 'TRIGGER',
-        icon: '⚡',
+        icon: '01',
         title: 'WhatsApp / Webhook Entrante',
         sub: 'Mensaje de prospecto 24/7'
       },
       {
         type: 'AI AGENT',
-        icon: '🧠',
+        icon: '02',
         title: 'OpenAI GPT-4o Intención',
         sub: 'Extracción de Lead Scoring'
       },
       {
         type: 'DATABASE',
-        icon: '🗄️',
+        icon: '03',
         title: 'Consulta Vector DB / CRM',
         sub: 'Verificación stock & precios'
       },
       {
         type: 'LOGIC IF',
-        icon: '🔀',
+        icon: '04',
         title: '¿Lead B2B Calificado?',
         sub: 'Filtro por presupuesto & urgencia'
       },
       {
         type: 'ACTION',
-        icon: '🚀',
+        icon: '05',
         title: 'Calendar & HubSpot Action',
         sub: 'Cita agendada + Alerta a Slack'
       }
@@ -255,31 +255,31 @@ const pilarServices = [
     n8nNodes: [
       {
         type: 'TRIGGER',
-        icon: '⚡',
+        icon: '01',
         title: 'IMAP / Email Trigger',
         sub: 'Factura o documento PDF'
       },
       {
         type: 'VISION AI',
-        icon: '👁️',
+        icon: '02',
         title: 'Llama 3 Vision OCR Agent',
         sub: 'Extracción folios, RFC & montos'
       },
       {
         type: 'VALIDATOR',
-        icon: '🛡️',
+        icon: '03',
         title: 'Validación Fiscal SAT API',
         sub: 'Verificación CFDI en vivo'
       },
       {
         type: 'ERP SYSTEM',
-        icon: '⚙️',
+        icon: '04',
         title: 'Carga Directa SAP / ERP',
         sub: 'Registro contable automático'
       },
       {
         type: 'NOTIFICATION',
-        icon: '📲',
+        icon: '05',
         title: 'Slack / Telegram Bot',
         sub: 'Confirmación & reporte a Finanzas'
       }
@@ -295,31 +295,31 @@ const pilarServices = [
     n8nNodes: [
       {
         type: 'TRIGGER',
-        icon: '⚡',
+        icon: '01',
         title: 'Cron Schedule Ingesta Batch',
         sub: 'Sincronización ERP & SQL'
       },
       {
         type: 'ETL CLEAN',
-        icon: '🧹',
+        icon: '02',
         title: 'Data Transformer Node',
         sub: 'Limpieza & Desduplicación'
       },
       {
         type: 'PREDICTIVE ML',
-        icon: '📊',
+        icon: '03',
         title: 'Modelado Predictivo Sales/Churn',
         sub: 'Cálculo de tendencias & volumen'
       },
       {
         type: 'DASHBOARD',
-        icon: '📈',
+        icon: '04',
         title: 'Generación Dashboard PDF',
         sub: 'Creación de reporte ejecutivo'
       },
       {
         type: 'DISPATCHER',
-        icon: '🔔',
+        icon: '05',
         title: 'Alerta WhatsApp al CEO',
         sub: 'Notificación de KPIs críticos'
       }
@@ -335,31 +335,31 @@ const pilarServices = [
     n8nNodes: [
       {
         type: 'TRIGGER',
-        icon: '⚡',
+        icon: '01',
         title: 'Omnichannel Webhook Ticket',
         sub: 'Zendesk / WhatsApp / Chat'
       },
       {
         type: 'VECTOR RAG',
-        icon: '🔍',
+        icon: '02',
         title: 'Pinecone Vector DB Search',
         sub: 'Búsqueda semántica en docs'
       },
       {
         type: 'LLM GENERATOR',
-        icon: '🧠',
+        icon: '03',
         title: 'Claude 3.5 Sonnet RAG Agent',
         sub: 'Sintetización solución precisa'
       },
       {
         type: 'CONFIDENCE IF',
-        icon: '⚖️',
+        icon: '04',
         title: '¿Confianza > 92%?',
         sub: 'Validación de certeza'
       },
       {
         type: 'AUTO-RESOLVE',
-        icon: '✅',
+        icon: '05',
         title: 'Respuesta & Cierre Autónomo',
         sub: '80% resolución en <2s'
       }
@@ -611,7 +611,6 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
       >
         <span className="w-4 h-4 rounded-full bg-emerald-400/60 animate-ping absolute -left-1" />
         <div className="px-2.5 py-1 rounded-full bg-emerald-500 text-slate-950 font-mono font-black text-[10px] shadow-[0_0_18px_rgba(34,197,94,0.95)] border border-white flex items-center gap-1">
-          <span className="text-xs">👆</span>
           <span>TREBOT CLICK</span>
         </div>
       </motion.div>
@@ -1111,6 +1110,7 @@ export default function IAAplicadaPage() {
 
   // Estado del Tutorial Guiado con Enfoque Spotlight
   const [showTutorial, setShowTutorial] = useState(false);
+  const [hideFloatingOnFooter, setHideFloatingOnFooter] = useState(false);
   const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedDfdIndex, setSelectedDfdIndex] = useState(null);
   const [selectedCaseIndex, setSelectedCaseIndex] = useState(null);
@@ -1118,6 +1118,24 @@ export default function IAAplicadaPage() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
   const currentAudioRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const footer = document.querySelector('footer');
+      if (footer) {
+        const rect = footer.getBoundingClientRect();
+        if (rect.top <= window.innerHeight - 50) {
+          setHideFloatingOnFooter(true);
+        } else {
+          setHideFloatingOnFooter(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Calculadora de ROI interactiva
   const [teamSize, setTeamSize] = useState(10);
@@ -1417,7 +1435,7 @@ export default function IAAplicadaPage() {
                     {selectedCaseIndex === null ? (
                       <div className="space-y-2">
                         <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
-                          🤖 TREBOT: Selecciona el caso que deseas evaluar:
+                          TREBOT: Selecciona el caso que deseas evaluar:
                         </span>
                         <div className="grid grid-cols-1 gap-2">
                           {CASE_EXPLANATIONS.map((c, idx) => (
@@ -1447,7 +1465,7 @@ export default function IAAplicadaPage() {
                           <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${
                             isTrebolActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
                           }`}>
-                            {isTrebolActive ? '⚡ Con Trébol IA' : '🔴 Operación Sin Trébol'}
+                            {isTrebolActive ? 'Con Trébol IA' : 'Operación Sin Trébol'}
                           </span>
                         </div>
 
@@ -1475,7 +1493,7 @@ export default function IAAplicadaPage() {
                     {selectedDfdIndex === null ? (
                       <div className="space-y-2.5">
                         <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
-                          🤖 TREBOT: ¿Qué flujo DFD deseas que te explique nodo por nodo o prefieres continuar?
+                          TREBOT: ¿Qué flujo DFD deseas que te explique nodo por nodo o prefieres continuar?
                         </span>
                         <div className="grid grid-cols-2 gap-2">
                           {[
@@ -1572,13 +1590,13 @@ export default function IAAplicadaPage() {
       </AnimatePresence>
 
       {/* BOTÓN FLOTANTE PERMANENTE PARA ABRIR EL TUTORIAL DE TREBOT */}
-      {!showTutorial && (
+      {!showTutorial && !hideFloatingOnFooter && (
         <button
           onClick={startTutorialManual}
           className="fixed bottom-6 right-6 z-30 px-5 py-3 rounded-full bg-white border border-trebol/40 shadow-xl text-carbon font-bold text-xs hover:border-trebol hover:bg-trebol hover:text-white transition-all duration-300 flex items-center gap-2.5 group"
         >
-          <div className="w-6 h-6 rounded-full bg-trebol/20 group-hover:bg-white text-trebol group-hover:text-trebol flex items-center justify-center font-bold">
-            🤖
+          <div className="w-6 h-6 rounded-full bg-trebol/20 group-hover:bg-white text-trebol group-hover:text-trebol flex items-center justify-center font-bold text-xs">
+            AI
           </div>
           <span>Iniciar Tour con TREBOT</span>
         </button>
@@ -1633,14 +1651,13 @@ export default function IAAplicadaPage() {
             </div>
           </motion.div>
 
-          {/* Massive Headline with Stagger Animation */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
+            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter mb-8"
           >
-            Inteligencia Artificial <br />
+            Inteligencia Artificial <br className="hidden md:block" />
             que Transforma tu Negocio <span className="text-trebol">HOY.</span>
           </motion.h1>
 
@@ -1663,7 +1680,7 @@ export default function IAAplicadaPage() {
               onClick={startTutorialManual}
               className="px-8 py-4 rounded-2xl bg-trebol text-white font-bold text-base hover:bg-carbon transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-2.5 cursor-pointer ring-4 ring-trebol/30"
             >
-              Iniciar Tour con TREBOT 🤖
+              Iniciar Tour con TREBOT
             </button>
 
             <a
@@ -1905,90 +1922,101 @@ export default function IAAplicadaPage() {
                   </div>
                 </div>
 
-                {/* ESTRUCTURA COMPARATIVA LADO A LADO: SIN TRÉBOL vs CON TRÉBOL IA */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch relative z-10">
+                {/* ESTRUCTURA DE 2 COLUMNAS: TARJETA ÚNICA DINÁMICA A LA IZQUIERDA Y GRÁFICOS A LA DERECHA */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch relative z-10">
 
-                  {/* ESTADO 1: SIN TRÉBOL (OPERACIÓN TRADICIONAL) */}
-                  <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-sm">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono font-black text-rose-600 bg-rose-100 px-2.5 py-1 rounded-full uppercase tracking-wider">
-                          Sin Trébol
-                        </span>
-                        <XCircle size={20} className="text-rose-600 shrink-0" />
-                      </div>
+                  {/* COLUMNA IZQUIERDA: TARJETA ÚNICA DINÁMICA CONMUTABLE (SIN TRÉBOL VS CON TRÉBOL IA) */}
+                  <div className="w-full flex flex-col justify-between">
+                  <AnimatePresence mode="wait">
+                    {!isTrebolActive ? (
+                      <motion.div
+                        key="sin-trebol"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        className="bg-rose-50/80 border-2 border-rose-200 rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-lg"
+                      >
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-mono font-black text-rose-600 bg-rose-100 px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                              Sin Trébol (Operación Tradicional)
+                            </span>
+                            <XCircle size={22} className="text-rose-600 shrink-0" />
+                          </div>
 
-                      <h4 className="text-xl md:text-2xl font-bold text-rose-950">
-                        {currentItem.antesTitle}
-                      </h4>
+                          <h4 className="text-2xl md:text-3xl font-black text-rose-950 tracking-tight">
+                            {currentItem.antesTitle}
+                          </h4>
 
-                      <p className="text-sm md:text-base text-rose-900/80 font-light leading-relaxed">
-                        {currentItem.antes}
-                      </p>
+                          <p className="text-base md:text-lg text-rose-900/80 font-light leading-relaxed">
+                            {currentItem.antes}
+                          </p>
 
-                      <ul className="space-y-2 pt-2 border-t border-rose-200/60">
-                        {currentItem.antesPuntos?.map((pt, i) => (
-                          <li
-                            key={i}
-                            className="flex items-center gap-2 text-xs text-rose-900 font-medium"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-                            <span>{pt}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                          <ul className="space-y-3 pt-4 border-t border-rose-200/80">
+                            {currentItem.antesPuntos?.map((pt, i) => (
+                              <li key={i} className="flex items-center gap-3 text-sm text-rose-900 font-medium">
+                                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                                <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                    <div className="pt-4 border-t border-rose-200/70 flex items-center justify-between">
-                      <span className="text-xs font-mono text-rose-800 font-bold">Métrica Actual:</span>
-                      <span className="text-sm font-black text-rose-700 font-mono bg-white px-3.5 py-1 rounded-xl border border-rose-200 shadow-sm">
-                        {currentItem.antesKpiLabel}: {currentItem.antesKpi}
-                      </span>
-                    </div>
-                  </div>
+                        <div className="pt-6 border-t border-rose-200/80 flex items-center justify-between font-mono">
+                          <span className="text-xs text-rose-800 font-bold">Métrica Actual:</span>
+                          <span className="text-sm font-black text-rose-700 bg-white px-4 py-1.5 rounded-xl border border-rose-200 shadow-sm">
+                            {currentItem.antesKpiLabel}: {currentItem.antesKpi}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="con-trebol"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        className="bg-emerald-50/90 border-2 border-trebol rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-xl relative overflow-hidden"
+                      >
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-trebol/10 rounded-bl-full pointer-events-none" />
 
-                  {/* ESTADO 2: CON TRÉBOL IA (TRANSFORMACIÓN DIGITAL) */}
-                  <div className="bg-emerald-50/90 border-2 border-trebol/60 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-lg relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-trebol/10 rounded-bl-full pointer-events-none" />
+                        <div className="space-y-4 relative z-10">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-mono font-black text-white bg-trebol px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-2">
+                              <Zap size={14} fill="currentColor" />
+                              Con Trébol IA (Alto Rendimiento)
+                            </span>
+                            <CheckCircle2 size={24} className="text-trebol shrink-0" />
+                          </div>
 
-                    <div className="space-y-4 relative z-10">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono font-black text-white bg-trebol px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5">
-                          <Zap size={12} fill="currentColor" />
-                          Con Trébol IA
-                        </span>
-                        <CheckCircle2 size={22} className="text-trebol shrink-0" />
-                      </div>
+                          <h4 className="text-2xl md:text-3xl font-black text-emerald-950 tracking-tight">
+                            {currentItem.despuesTitle}
+                          </h4>
 
-                      <h4 className="text-xl md:text-2xl font-bold text-emerald-950">
-                        {currentItem.despuesTitle}
-                      </h4>
+                          <p className="text-base md:text-lg text-emerald-900/90 font-light leading-relaxed">
+                            {currentItem.despues}
+                          </p>
 
-                      <p className="text-sm md:text-base text-emerald-900/90 font-light leading-relaxed">
-                        {currentItem.despues}
-                      </p>
+                          <ul className="space-y-3 pt-4 border-t border-emerald-200/80">
+                            {currentItem.despuesPuntos?.map((pt, i) => (
+                              <li key={i} className="flex items-center gap-3 text-sm text-emerald-950 font-semibold">
+                                <CheckCircle2 size={16} className="text-trebol shrink-0" />
+                                <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      <ul className="space-y-2 pt-2 border-t border-emerald-200/60">
-                        {currentItem.despuesPuntos?.map((pt, i) => (
-                          <li
-                            key={i}
-                            className="flex items-center gap-2 text-xs text-emerald-950 font-semibold"
-                          >
-                            <CheckCircle2 size={14} className="text-trebol shrink-0" />
-                            <span>{pt}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-4 border-t border-emerald-200/80 flex items-center justify-between relative z-10">
-                      <span className="text-xs font-mono text-emerald-900 font-bold">Rendimiento Inmediato:</span>
-                      <span className="text-base md:text-lg font-black text-trebol font-mono bg-white px-3.5 py-1 rounded-xl border border-trebol/30 shadow-sm">
-                        {currentItem.despuesKpi} ({currentItem.impacto})
-                      </span>
-                    </div>
-                  </div>
-
+                        <div className="pt-6 border-t border-emerald-200/80 flex items-center justify-between font-mono relative z-10">
+                          <span className="text-xs text-emerald-800 font-bold">Rendimiento Inmediato:</span>
+                          <span className="text-sm md:text-base font-black text-trebol bg-white px-4 py-1.5 rounded-xl border border-trebol/30 shadow-sm">
+                            {currentItem.despuesKpi} ({currentItem.impacto})
+                          </span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                   {/* COLUMNA DERECHA: GRÁFICOS VISUALES DINÁMICOS QUE REACCIONAN AL SWITCH */}
@@ -2140,6 +2168,8 @@ export default function IAAplicadaPage() {
                     </div>
 
                   </div>
+
+                </div>
 
               </motion.div>
             );

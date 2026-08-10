@@ -174,7 +174,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3 group" aria-label="Trébol Digital">
           <TrebolLogoSVG className="w-10 h-10 group-hover:rotate-180 transition-transform duration-700 ease-in-out" />
           <div className="flex flex-col">
-            <span className="text-[15px] font-black tracking-tight text-[#2D2E2D] leading-none group-hover:text-[#8DC63F] transition-colors">
+            <span className="text-[15px] font-black tracking-tight text-[#2D2E2D] leading-none group-hover:text-[#5C9E43] transition-colors">
               Trébol Digital
             </span>
             <span className="text-[6.5px] font-bold text-gray-400 tracking-[0.03em] uppercase mt-1">

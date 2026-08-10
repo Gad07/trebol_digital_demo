@@ -16,7 +16,7 @@
   --color-carbon: #2D2E2D;
   --color-gris-claro: #BFBFBF;
   --color-gris: #666666;
-  --color-hueso: #F5F5F5;
+  --color-hueso: #FFFFFF;
   --color-blanco: #FFFFFF;
 
   /* Glassmorphism Variables */
@@ -30,7 +30,7 @@ html {
 }
 
 body {
-  background-color: var(--color-hueso);
+  background-color: #FFFFFF;
   color: var(--color-carbon);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

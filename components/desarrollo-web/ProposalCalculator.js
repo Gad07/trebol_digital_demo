@@ -202,8 +202,9 @@ export function ProposalCalculator() {
               </button>
             </form>
           ) : (
-            <div className="bg-trebol/20 border border-trebol/40 p-6 rounded-2xl text-center space-y-3 animate-fadeIn">
-              <span className="text-4xl">🚀</span>
+              <div className="w-12 h-12 bg-trebol rounded-full flex items-center justify-center mx-auto text-white mb-2">
+                <CheckCircle2 size={24} />
+              </div>
               <h3 className="text-xl font-bold text-white">¡Cotización Enviada con Éxito!</h3>
               <p className="text-xs text-neutral-300 font-light leading-relaxed">
                 Hemos recibido las especificaciones de tu proyecto ({pagesCount} páginas, estilo {styleObj.name.split('.')[1]}). Un ingeniero de software te contactará a la brevedad.

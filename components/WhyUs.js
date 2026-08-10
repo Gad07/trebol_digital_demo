@@ -31,7 +31,7 @@ const reasons = [
 
 export default function WhyUs() {
   return (
-    <section id="nosotros" className="w-full py-28 md:py-36 bg-hueso relative overflow-hidden">
+    <section id="nosotros" className="w-full py-28 md:py-36 bg-white relative overflow-hidden">
       
       <div className="px-6 md:px-12 max-w-[1400px] mx-auto mb-16 md:mb-20">
         <motion.h2
@@ -55,7 +55,7 @@ export default function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="bg-white rounded-[2.5rem] p-8 md:p-12 border-2 border-trebol/40 hover:border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.08)] hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between h-full"
+              className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between h-full"
             >
               <div>
                 <div className="flex justify-between items-center mb-8">

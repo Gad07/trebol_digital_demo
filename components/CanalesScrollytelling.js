@@ -473,9 +473,9 @@ function IAAdvisorScreen() {
       title: "Selección del Tipo de IA Indicado",
       botDialogue: "Implantamos la tecnología exacta que necesita tu empresa: Agentes 24/7, IA Generativa o IA Analítica.",
       items: [
-        "🤖 Agentes Autónomos 24/7 (WhatsApp y Web)",
-        "🧠 IA Generativa (Documentos y Cotizaciones)",
-        "📊 IA Analítica (Scoring de Leads y Métricas)"
+        "Agentes Autónomos 24/7 (WhatsApp y Web)",
+        "IA Generativa (Documentos y Cotizaciones)",
+        "IA Analítica (Scoring de Leads y Métricas)"
       ],
       icon: Bot,
       tag: "Tipos de IA"

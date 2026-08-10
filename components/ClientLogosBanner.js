@@ -89,15 +89,7 @@ export default function ClientLogosBanner() {
   const duplicatedLogos = [...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
-    <section id="section-clientes" className="relative z-10 w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 overflow-visible">
-      {/* Luz Ambiental de Fondo */}
-      <div className="absolute top-0 right-0 w-full h-full pointer-events-none z-0">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-32 -right-32 w-[35rem] h-[35rem] bg-trebol/30 rounded-full blur-[140px]"
-        />
-      </div>
+    <section id="section-clientes" className="relative z-10 w-full bg-white text-carbon py-24 md:py-32 px-6 md:px-12 overflow-visible">
 
       <div className="max-w-[1400px] w-full mx-auto relative z-10 mb-16 md:mb-20">
         <motion.h2
@@ -113,10 +105,10 @@ export default function ClientLogosBanner() {
 
       {/* CINTA DESLIZANTE DE LOGOS MARQUEE */}
       <div className="relative w-full overflow-hidden py-6 z-10">
-        
+
         {/* Máscaras de degradado a los lados */}
-        <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-hueso to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-hueso to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
         <div className="flex w-max animate-marquee space-x-16 md:space-x-24 items-center">
           {duplicatedLogos.map((client, idx) => (

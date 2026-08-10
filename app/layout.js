@@ -79,6 +79,15 @@ export const metadata = {
   alternates: {
     canonical: SITE_URL,
   },
+  icons: {
+    icon: [
+      { url: '/icon.png?v=7', type: 'image/png' },
+      { url: '/favicon.ico?v=7', sizes: 'any' },
+      { url: '/favicon.svg?v=7', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/favicon.ico?v=7'],
+    apple: ['/apple-icon.png?v=7'],
+  },
 };
 
 const jsonLd = {
@@ -130,6 +139,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${roboto.variable} ${playfair.variable}`}>
       <head>
+        <link rel="icon" href="/icon.png?v=7" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.ico?v=7" />
+        <link rel="apple-touch-icon" href="/apple-icon.png?v=7" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

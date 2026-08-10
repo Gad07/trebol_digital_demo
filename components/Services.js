@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function Services() {
   return (
-    <section id="que-es-trebol" className="relative w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 border-b border-carbon/10 overflow-hidden">
+    <section id="que-es-trebol" className="relative w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 overflow-hidden">
       {/* Luz Ambiental de fondo */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
         <motion.div
