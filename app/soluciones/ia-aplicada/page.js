@@ -1641,7 +1641,7 @@ export default function IAAplicadaPage() {
             className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
           >
             Inteligencia Artificial <br />
-            con Enfoque <span className="text-trebol">Estratégico.</span>
+            que Transforma tu Negocio <span className="text-trebol">HOY.</span>
           </motion.h1>
 
           <motion.p
@@ -1659,19 +1659,19 @@ export default function IAAplicadaPage() {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap items-center justify-center gap-4"
           >
+            <button
+              onClick={startTutorialManual}
+              className="px-8 py-4 rounded-2xl bg-trebol text-white font-bold text-base hover:bg-carbon transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-2.5 cursor-pointer ring-4 ring-trebol/30"
+            >
+              Iniciar Tour con TREBOT 🤖
+            </button>
+
             <a
               href="/agenda"
-              className="px-8 py-4 rounded-2xl bg-trebol text-white font-bold text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="px-8 py-4 rounded-2xl bg-white border border-neutral-200 text-carbon font-semibold text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center gap-2"
             >
               Agendar Sesión Estratégica <ArrowUpRight size={18} />
             </a>
-
-            <button
-              onClick={startTutorialManual}
-              className="px-8 py-4 rounded-2xl bg-white border border-neutral-200 text-carbon font-semibold text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center gap-2"
-            >
-              Iniciar Tour Guiado con TREBOT 🤖
-            </button>
           </motion.div>
 
           {/* Badges de Confianza */}
@@ -1905,99 +1905,91 @@ export default function IAAplicadaPage() {
                   </div>
                 </div>
 
-                {/* ESTRUCTURA DINÁMICA DE 2 COLUMNAS (IZQUIERDA INFORMACIÓN / DERECHA GRÁFICOS) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch relative z-10">
+                {/* ESTRUCTURA COMPARATIVA LADO A LADO: SIN TRÉBOL vs CON TRÉBOL IA */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch relative z-10">
 
-                  {/* COLUMNA IZQUIERDA: INFORMACIÓN NARRATIVA DINÁMICA */}
-                  <AnimatePresence mode="wait">
-                    {!isTrebolActive ? (
-                      /* ESTADO 1: SIN TRÉBOL IA */
-                      <motion.div
-                        key="info-sin-trebol"
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                        transition={{ type: "spring", stiffness: 350, damping: 26 }}
-                        className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between"
-                      >
-                        <div className="space-y-4">
-                          <h4 className="text-xl md:text-2xl font-bold text-rose-950 flex items-center gap-2">
-                            <XCircle size={20} className="text-rose-600 shrink-0" />
-                            {currentItem.antesTitle}
-                          </h4>
+                  {/* ESTADO 1: SIN TRÉBOL (OPERACIÓN TRADICIONAL) */}
+                  <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-sm">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-mono font-black text-rose-600 bg-rose-100 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                          Sin Trébol
+                        </span>
+                        <XCircle size={20} className="text-rose-600 shrink-0" />
+                      </div>
 
-                          <p className="text-sm md:text-base text-rose-900/80 font-light leading-relaxed">
-                            {currentItem.antes}
-                          </p>
+                      <h4 className="text-xl md:text-2xl font-bold text-rose-950">
+                        {currentItem.antesTitle}
+                      </h4>
 
-                          <ul className="space-y-2 pt-2 border-t border-rose-200/60">
-                            {currentItem.antesPuntos?.map((pt, i) => (
-                              <motion.li
-                                key={i}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.08 }}
-                                className="flex items-center gap-2 text-xs text-rose-900 font-medium"
-                              >
-                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-                                <span>{pt}</span>
-                              </motion.li>
-                            ))}
-                          </ul>
-                        </div>
+                      <p className="text-sm md:text-base text-rose-900/80 font-light leading-relaxed">
+                        {currentItem.antes}
+                      </p>
 
-                        <div className="pt-4 border-t border-rose-200/70 flex items-center justify-between">
-                          <span className="text-xs font-mono text-rose-800 font-bold">Métrica Actual:</span>
-                          <span className="text-sm font-black text-rose-700 font-mono bg-white px-3.5 py-1 rounded-xl border border-rose-200 shadow-sm">
-                            {currentItem.antesKpiLabel}: {currentItem.antesKpi}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      /* ESTADO 2: CON TRÉBOL IA */
-                      <motion.div
-                        key="info-con-trebol"
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                        transition={{ type: "spring", stiffness: 350, damping: 26 }}
-                        className="bg-emerald-50/90 border-2 border-trebol/60 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-md"
-                      >
-                        <div className="space-y-4">
-                          <h4 className="text-xl md:text-2xl font-bold text-emerald-950 flex items-center gap-2">
-                            <CheckCircle2 size={20} className="text-trebol shrink-0" />
-                            {currentItem.despuesTitle}
-                          </h4>
+                      <ul className="space-y-2 pt-2 border-t border-rose-200/60">
+                        {currentItem.antesPuntos?.map((pt, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center gap-2 text-xs text-rose-900 font-medium"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                          <p className="text-sm md:text-base text-emerald-900/90 font-light leading-relaxed">
-                            {currentItem.despues}
-                          </p>
+                    <div className="pt-4 border-t border-rose-200/70 flex items-center justify-between">
+                      <span className="text-xs font-mono text-rose-800 font-bold">Métrica Actual:</span>
+                      <span className="text-sm font-black text-rose-700 font-mono bg-white px-3.5 py-1 rounded-xl border border-rose-200 shadow-sm">
+                        {currentItem.antesKpiLabel}: {currentItem.antesKpi}
+                      </span>
+                    </div>
+                  </div>
 
-                          <ul className="space-y-2 pt-2 border-t border-emerald-200/60">
-                            {currentItem.despuesPuntos?.map((pt, i) => (
-                              <motion.li
-                                key={i}
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.08 }}
-                                className="flex items-center gap-2 text-xs text-emerald-950 font-semibold"
-                              >
-                                <CheckCircle2 size={14} className="text-trebol shrink-0" />
-                                <span>{pt}</span>
-                              </motion.li>
-                            ))}
-                          </ul>
-                        </div>
+                  {/* ESTADO 2: CON TRÉBOL IA (TRANSFORMACIÓN DIGITAL) */}
+                  <div className="bg-emerald-50/90 border-2 border-trebol/60 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-lg relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-trebol/10 rounded-bl-full pointer-events-none" />
 
-                        <div className="pt-4 border-t border-emerald-200/80 flex items-center justify-between">
-                          <span className="text-xs font-mono text-emerald-900 font-bold">Rendimiento Inmediato:</span>
-                          <span className="text-lg font-black text-trebol font-mono bg-white px-3.5 py-1 rounded-xl border border-trebol/30 shadow-sm">
-                            {currentItem.despuesKpi} ({currentItem.impacto})
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    <div className="space-y-4 relative z-10">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-mono font-black text-white bg-trebol px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                          <Zap size={12} fill="currentColor" />
+                          Con Trébol IA
+                        </span>
+                        <CheckCircle2 size={22} className="text-trebol shrink-0" />
+                      </div>
+
+                      <h4 className="text-xl md:text-2xl font-bold text-emerald-950">
+                        {currentItem.despuesTitle}
+                      </h4>
+
+                      <p className="text-sm md:text-base text-emerald-900/90 font-light leading-relaxed">
+                        {currentItem.despues}
+                      </p>
+
+                      <ul className="space-y-2 pt-2 border-t border-emerald-200/60">
+                        {currentItem.despuesPuntos?.map((pt, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center gap-2 text-xs text-emerald-950 font-semibold"
+                          >
+                            <CheckCircle2 size={14} className="text-trebol shrink-0" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-4 border-t border-emerald-200/80 flex items-center justify-between relative z-10">
+                      <span className="text-xs font-mono text-emerald-900 font-bold">Rendimiento Inmediato:</span>
+                      <span className="text-base md:text-lg font-black text-trebol font-mono bg-white px-3.5 py-1 rounded-xl border border-trebol/30 shadow-sm">
+                        {currentItem.despuesKpi} ({currentItem.impacto})
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
 
                   {/* COLUMNA DERECHA: GRÁFICOS VISUALES DINÁMICOS QUE REACCIONAN AL SWITCH */}
                   <div className="bg-white/80 backdrop-blur-md border border-neutral-200/80 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-sm">
@@ -2148,8 +2140,6 @@ export default function IAAplicadaPage() {
                     </div>
 
                   </div>
-
-                </div>
 
               </motion.div>
             );

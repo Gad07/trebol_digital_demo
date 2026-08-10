@@ -20,16 +20,16 @@ const SITE_URL = "https://treboldigital.com";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Trébol Digital | Estrategia, IA y Crecimiento Empresarial",
+    default: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
     template: "%s | Trébol Digital",
   },
   description:
-    "Consultoría integral de estrategia digital, inteligencia artificial aplicada y desarrollo organizacional para empresas en crecimiento. Capacitación, asesoría y acompañamiento con resultados reales.",
+    "Trébol Digital transforma negocios y emprendimientos en marcas visibles que atraen clientes. Estrategia digital integral, inteligencia artificial y desarrollo organizacional para empresas en desarrollo.",
   keywords: [
-    "consultoría digital",
+    "estrategia digital",
     "inteligencia artificial",
     "marketing digital",
-    "estrategia digital",
+    "desarrollo web",
     "capacitación IA",
     "desarrollo organizacional",
     "PYMEs",
@@ -46,23 +46,23 @@ export const metadata = {
     locale: "es_MX",
     url: SITE_URL,
     siteName: "Trébol Digital",
-    title: "Trébol Digital | Estrategia, IA y Crecimiento Empresarial",
+    title: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
     description:
-      "Consultoría integral de estrategia digital, inteligencia artificial aplicada y desarrollo organizacional para empresas en crecimiento.",
+      "Trébol Digital transforma negocios y emprendimientos en marcas visibles que atraen clientes.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Trébol Digital - Consultoría Digital e IA",
+        alt: "Trébol Digital - Estrategia Digital, IA y Desarrollo Organizacional",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trébol Digital | Estrategia, IA y Crecimiento Empresarial",
+    title: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
     description:
-      "Consultoría integral de estrategia digital, inteligencia artificial aplicada y desarrollo organizacional para empresas en crecimiento.",
+      "Trébol Digital transforma negocios y emprendimientos en marcas visibles que atraen clientes.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -86,11 +86,11 @@ const jsonLd = {
   "@type": "LocalBusiness",
   name: "Trébol Digital",
   description:
-    "Empresa de estrategia digital, capacitación en IA y comunicación integral para empresas en crecimiento.",
+    "Empresa de estrategia digital integral, inteligencia artificial y desarrollo organizacional para empresas en desarrollo.",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/og-image.png`,
-  telephone: "+52-461-123-4567",
+  telephone: "+52-55-6492-9081",
   email: "hola@treboldigital.com",
   address: {
     "@type": "PostalAddress",

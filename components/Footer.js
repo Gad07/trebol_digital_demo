@@ -21,8 +21,16 @@ export default function Footer() {
             TENEMOS LA SUERTE DE ENCONTRARNOS
           </p>
           <p className="text-sm leading-relaxed text-gray-600 max-w-sm">
-            Consultoría estratégica en marketing, inteligencia artificial y desarrollo organizacional para impulsar el crecimiento real de tu negocio.
+            Trébol Digital transforma negocios y emprendimientos en marcas visibles que atraen clientes.
           </p>
+          <a
+            href="https://wa.me/525564929081"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold text-[#5C9E43] hover:underline flex items-center gap-1.5 mt-1"
+          >
+            💬 WhatsApp: 55 6492 9081
+          </a>
         </div>
 
         {/* Soluciones Col */}

@@ -43,8 +43,11 @@ export default function Contact() {
              transition={{ delay: 0.3 }}
              className="flex flex-col gap-4 text-carbon font-medium text-lg"
           >
-            <p className="hover:text-trebol transition-colors cursor-pointer">hola@treboldigital.com</p>
-            <p className="hover:text-trebol transition-colors cursor-pointer">+52 (461) 123-4567</p>
+            <a href="mailto:hola@treboldigital.com" className="hover:text-trebol transition-colors cursor-pointer">hola@treboldigital.com</a>
+            <a href="https://wa.me/525564929081" target="_blank" rel="noopener noreferrer" className="hover:text-trebol transition-colors cursor-pointer flex items-center gap-2">
+              <span>+52 55 6492 9081</span>
+              <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full font-mono">WhatsApp</span>
+            </a>
           </motion.div>
         </div>
 

@@ -1,5 +1,6 @@
 'use client';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, ArrowRight, Cpu, Layers, BarChart3, Users } from 'lucide-react';
 
 const steps = [
@@ -10,7 +11,7 @@ const steps = [
     description: 'Analizamos a fondo tu empresa, mercado y clientes en una sesión estratégica. Evaluamos tu arquitectura digital actual e identificamos las oportunidades comerciales de mayor impacto.',
     tecnologias: ['Auditoría SEO & UX Editorial', 'Análisis B2B de Competencia', 'Diagnóstico de Prospección'],
     icon: Users,
-    metrica: 'Diagnóstico 100% Personalizado'
+    metrica: 'Diagnóstico 100% Personalizado',
   },
   {
     number: '02',
@@ -19,7 +20,7 @@ const steps = [
     description: 'Trazamos tu hoja de ruta personalizada. Diseñamos la arquitectura de tu página web de alto rendimiento, la estrategia de contenidos en redes y el embudo de captación optimizado.',
     tecnologias: ['Wireframing & UI/UX Editorial', 'Estrategia de Pauta Multicanal', 'Arquitectura de Conversión (CRO)'],
     icon: Layers,
-    metrica: 'Plan Integrado Priorizado'
+    metrica: 'Plan Integrado Priorizado',
   },
   {
     number: '03',
@@ -28,7 +29,7 @@ const steps = [
     description: 'Trabajamos lado a lado. Desarrollamos tu sitio web en código nativo ultrarrápido, coordinamos tus redes sociales con pauta activa e integramos agentes de Inteligencia Artificial.',
     tecnologias: ['Desarrollo Nativo Next.js', 'Contenido Reels 9:16 & Pauta Meta/TikTok', 'Agentes & Chatbots de IA'],
     icon: Cpu,
-    metrica: 'Despliegue & Operación En Vivo'
+    metrica: 'Despliegue & Operación En Vivo',
   },
   {
     number: '04',
@@ -37,69 +38,56 @@ const steps = [
     description: 'Medimos los resultados con datos reales. Ajustamos la pauta diariamente para maximizar el ROAS y capacitamos a tu equipo para que dominen todas las herramientas con autonomía total.',
     tecnologias: ['Dashboards en Tiempo Real', 'Optimización Diaria de ROAS', 'Talleres & Transferencia Técnica'],
     icon: BarChart3,
-    metrica: 'Autonomía Total & Escalado'
+    metrica: 'Autonomía Total & Escalado',
   },
 ];
 
 const leafAngles = [-135, -45, 45, 135];
 const stepRotations = [180, 90, 0, -90];
-const reverseStepRotations = [0, -90, -180, 90];
 
-function RawHalfGiantTrebol({ stepIndex, reverse = false }) {
-  const currentRotation = (reverse ? reverseStepRotations : stepRotations)[stepIndex];
+function TrebolSVG({ activeIndex }) {
+  const rotation = stepRotations[activeIndex];
 
   return (
-    <div className={`absolute top-1/2 -translate-y-1/2 w-[650px] h-[650px] sm:w-[800px] sm:h-[800px] md:w-[920px] md:h-[920px] lg:w-[1020px] lg:h-[1020px] flex items-center justify-center select-none overflow-visible pointer-events-auto z-10 ${reverse ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'
-      }`}>
-
-      {/* Resplandor Verde Ambiental */}
+    <div className="relative w-[520px] h-[520px] flex items-center justify-center select-none shrink-0">
+      {/* Ambient glow */}
       <motion.div
-        animate={{
-          scale: [1, 1.12, 1],
-          opacity: [0.35, 0.65, 0.35]
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 bg-trebol/35 rounded-full blur-[120px] pointer-events-none"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.55, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute inset-0 bg-trebol/25 rounded-full blur-[100px] pointer-events-none"
       />
 
-      {/* Trébol SVG Gigante Idéntico al del Home */}
-      <div
-        style={{ transform: `rotate(${currentRotation}deg)` }}
-        className="relative w-full h-full flex items-center justify-center overflow-visible transform-gpu"
+      <motion.div
+        animate={{ rotate: rotation }}
+        transition={{ type: 'spring', stiffness: 60, damping: 18 }}
+        className="relative w-full h-full"
       >
-        <svg viewBox="0 0 500 500" className="w-full h-full overflow-visible drop-shadow-[0_25px_60px_rgba(0,0,0,0.12)]">
+        <svg viewBox="0 0 500 500" className="w-full h-full drop-shadow-[0_20px_50px_rgba(0,0,0,0.10)]">
           <g transform="translate(250, 250)">
             {steps.map((_, i) => {
-              const isActive = stepIndex === i;
+              const isActive = activeIndex === i;
               const leafAngle = leafAngles[i];
-              const textRotation = -(leafAngle + currentRotation);
-
+              const textRotation = -(leafAngle + rotation);
               return (
-                <g
-                  key={i}
-                  transform={`rotate(${leafAngle})`}
-                >
-                  {/* Pétalo de la Hoja */}
-                  <path
+                <g key={i} transform={`rotate(${leafAngle})`}>
+                  <motion.path
                     d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z"
-                    fill={isActive ? "#84C638" : "#cbd2dc"}
-                    stroke={isActive ? "#84C638" : "#cbd2dc"}
+                    animate={{
+                      fill: isActive ? '#84C638' : '#cbd2dc',
+                      stroke: isActive ? '#84C638' : '#cbd2dc',
+                    }}
+                    transition={{ duration: 0.5 }}
                     strokeWidth="18"
                     strokeLinejoin="round"
-                    className="transition-colors duration-500"
                   />
-
-                  {/* Círculos en la Cabeza de la Hoja */}
                   <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                  <circle
+                  <motion.circle
                     cx="0"
                     cy="-140"
                     r="37"
-                    fill={isActive ? "#84C638" : "#d1d5db"}
-                    className="transition-colors duration-500"
+                    animate={{ fill: isActive ? '#84C638' : '#d1d5db' }}
+                    transition={{ duration: 0.5 }}
                   />
-
-                  {/* Número activo únicamente en la hoja de la fase */}
                   {isActive && (
                     <text
                       x="0"
@@ -119,99 +107,131 @@ function RawHalfGiantTrebol({ stepIndex, reverse = false }) {
             })}
           </g>
         </svg>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 export default function FourStepStaticProcess() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Auto-cycle every 4s
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(() => setActive((a) => (a + 1) % steps.length), 4000);
+    return () => clearTimeout(t);
+  }, [active, paused]);
+
+  const step = steps[active];
+  const StepIcon = step.icon;
+
   return (
-    <div className="w-full bg-white text-carbon select-none">
+    <section className="relative w-full bg-white text-carbon border-t border-carbon/10 overflow-hidden py-20 md:py-28">
 
-      {/* 4 SECCIONES ESTÁTICAS CON EL TRÉBOL GIGANTE SIN MARCO (TAL CUAL EL HOME PROCESS.JS) */}
-      {steps.map((step, idx) => {
-        const StepIcon = step.icon;
-        const isReverse = idx % 2 === 1; // Fases 2 y 4 en reverse (Trébol a la derecha)
+      {/* Ambient bg glow */}
+      <motion.div
+        animate={{ opacity: [0.1, 0.22, 0.1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-trebol/15 rounded-full blur-[140px] pointer-events-none"
+      />
 
-        return (
-          <section
-            key={step.number}
-            id={`fase-${step.number}`}
-            className="relative w-full min-h-[75vh] py-10 sm:py-16 md:py-20 bg-white text-carbon border-b border-carbon/10 select-none overflow-hidden flex items-center justify-center"
-          >
-            {/* Luces Ambientales de Fondo */}
-            <div className="absolute inset-0 pointer-events-none z-0">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                className={`absolute top-1/3 w-[40rem] h-[40rem] bg-trebol/20 rounded-full blur-[140px] ${isReverse ? 'right-1/4' : 'left-1/4'
-                  }`}
-              />
-            </div>
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12">
 
-            {/* TRÉBOL SVG GIGANTE SIN MARCO ANCLADO AL BORDE DE PANTALLA */}
-            <RawHalfGiantTrebol stepIndex={idx} reverse={isReverse} />
+        {/* Section header */}
+        <div className="mb-14 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+          <div>
+            <span className="text-[11px] font-mono text-trebol font-black uppercase tracking-[0.2em] block mb-3">
+              ✦ Metodología Trébol
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.92]">
+              Cómo <span className="text-trebol">trabajamos.</span>
+            </h2>
+          </div>
 
-            {/* CONTENIDO PRINCIPAL EN TARJETA DEL HOME PROCESS.JS */}
-            <div className={`w-full max-w-[1400px] mx-auto px-4 sm:px-8 relative z-20 ${isReverse
-              ? 'md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
-              : 'md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
-              }`}>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full p-4 sm:p-5 md:p-6 lg:p-8 rounded-[2rem] bg-hueso/90 backdrop-blur-xl border border-neutral-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)] relative overflow-hidden"
+          {/* Step tabs */}
+          <div className="flex gap-2">
+            {steps.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => { setActive(i); setPaused(true); }}
+                className={`px-4 py-2 rounded-full text-xs font-mono font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer ${
+                  active === i
+                    ? 'bg-trebol text-white shadow-md'
+                    : 'bg-carbon/5 text-carbon/50 hover:bg-carbon/10'
+                }`}
               >
-                {/* Resplandor decorativo de esquina */}
-                <div className="absolute top-0 right-0 w-36 h-36 bg-trebol/10 rounded-full blur-3xl pointer-events-none" />
+                {s.number}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                <div className="flex items-center justify-between mb-2.5 sm:mb-3 md:mb-4 border-b border-neutral-200 pb-2.5 sm:pb-3 md:pb-4">
-                  <div className="flex items-center gap-2.5 sm:gap-3 md:gap-4">
-                    <span className="text-2xl sm:text-3xl md:text-5xl font-black text-trebol font-mono leading-none">
+        {/* Main content: Trebol + Card */}
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+
+          {/* Left — Trébol SVG */}
+          <div
+            className="shrink-0 cursor-pointer"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+          >
+            <TrebolSVG activeIndex={active} />
+          </div>
+
+          {/* Right — Step content card */}
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full p-6 md:p-10 rounded-[2rem] bg-hueso/90 backdrop-blur-xl border border-neutral-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)] relative overflow-hidden"
+              >
+                {/* Corner glow */}
+                <div className="absolute top-0 right-0 w-40 h-40 bg-trebol/10 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Header row */}
+                <div className="flex items-center justify-between mb-5 border-b border-neutral-200 pb-5">
+                  <div className="flex items-center gap-4">
+                    <span className="text-4xl md:text-5xl font-black text-trebol font-mono leading-none">
                       {step.number}.
                     </span>
                     <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-carbon">
-                        {step.title}
-                      </h3>
-                      <div className="text-[11px] sm:text-xs md:text-sm text-trebol font-mono font-semibold mt-0.5">
-                        {step.tagline}
-                      </div>
+                      <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon">{step.title}</h3>
+                      <p className="text-xs text-trebol font-mono font-semibold mt-0.5">{step.tagline}</p>
                     </div>
                   </div>
-
-                  <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0 hidden sm:flex">
-                    <StepIcon size={22} />
+                  <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0">
+                    <StepIcon size={24} />
                   </div>
                 </div>
 
-                {/* Descripción del Paso */}
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-carbon/80 font-light leading-relaxed mb-3 sm:mb-4 md:mb-5 font-sans">
+                {/* Description */}
+                <p className="text-base md:text-lg text-carbon/80 font-light leading-relaxed mb-6">
                   {step.description}
                 </p>
 
-                {/* Tecnologías & Entregables */}
-                <div className="space-y-1.5 sm:space-y-2">
-                  <div className="text-[10px] sm:text-[11px] uppercase tracking-wider font-mono text-carbon/60">
-                    Tecnología & Entregables Clave:
-                  </div>
-                  <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                    {step.tecnologias.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white border border-neutral-200 text-[10px] sm:text-xs text-carbon font-mono flex items-center gap-1 shadow-sm"
-                      >
-                        <CheckCircle2 size={12} className="text-trebol" />
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                {/* Tags */}
+                <div className="mb-2 text-[10px] uppercase tracking-wider font-mono text-carbon/50 mb-2">
+                  Tecnología & Entregables Clave:
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {step.tecnologias.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 rounded-full bg-white border border-neutral-200 text-xs text-carbon font-mono flex items-center gap-1.5 shadow-sm"
+                    >
+                      <CheckCircle2 size={12} className="text-trebol" />
+                      {tech}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Pie con resultado de etapa */}
-                <div className="mt-3 sm:mt-4 md:mt-5 pt-2.5 sm:pt-3 md:pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] sm:text-xs font-mono text-carbon/60">
+                {/* Footer */}
+                <div className="mt-6 pt-4 border-t border-neutral-200 flex items-center justify-between text-xs font-mono text-carbon/50">
                   <span>Resultado de Etapa</span>
                   <span className="text-trebol font-bold flex items-center gap-1.5">
                     {step.metrica}
@@ -219,12 +239,37 @@ export default function FourStepStaticProcess() {
                   </span>
                 </div>
 
+                {/* Progress bar */}
+                <div className="mt-4 h-0.5 bg-carbon/10 rounded-full overflow-hidden">
+                  <motion.div
+                    key={active}
+                    className="h-full bg-trebol rounded-full"
+                    initial={{ width: '0%' }}
+                    animate={{ width: paused ? `${((active + 1) / 4) * 100}%` : '100%' }}
+                    transition={{ duration: paused ? 0.3 : 4, ease: 'linear' }}
+                  />
+                </div>
               </motion.div>
-            </div>
-          </section>
-        );
-      })}
+            </AnimatePresence>
 
-    </div>
+            {/* Navigation arrows */}
+            <div className="flex items-center gap-3 mt-5 justify-end">
+              <button
+                onClick={() => { setActive((a) => (a - 1 + 4) % 4); setPaused(true); }}
+                className="w-10 h-10 rounded-full border border-carbon/20 flex items-center justify-center hover:border-trebol hover:text-trebol transition-all cursor-pointer text-carbon/50"
+              >
+                ←
+              </button>
+              <button
+                onClick={() => { setActive((a) => (a + 1) % 4); setPaused(true); }}
+                className="w-10 h-10 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-trebol transition-all cursor-pointer"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

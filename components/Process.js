@@ -66,7 +66,7 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
   const currentRotation = (reverse ? reverseStepRotations : stepRotations)[activeStep];
 
   return (
-    <div className={`absolute top-1/2 -translate-y-1/2 w-[650px] h-[650px] sm:w-[800px] sm:h-[800px] md:w-[920px] md:h-[920px] lg:w-[1020px] lg:h-[1020px] flex items-center justify-center select-none overflow-visible pointer-events-auto z-10 ${reverse ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'
+    <div className={`absolute top-1/2 -translate-y-1/2 w-[650px] h-[650px] sm:w-[800px] sm:h-[800px] md:w-[920px] md:h-[920px] lg:w-[1020px] lg:h-[1020px] flex items-center justify-center select-none overflow-visible pointer-events-auto z-50 ${reverse ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'
       }`}>
 
       {/* Resplandor Verde Ambiental */}
@@ -220,11 +220,11 @@ export default function Process({ customSteps, title = "Metodología", titleGree
   const StepIcon = currentStep.icon;
 
   return (
-    <div id={`${sectionId}-section-wrapper`} className="w-full relative">
+    <div id={`${sectionId}-section-wrapper`} className="w-full relative z-10">
       <section
         id={sectionId}
         ref={containerRef}
-        className="relative w-full h-screen min-h-[550px] bg-white text-carbon border-b border-carbon/10 select-none overflow-hidden flex flex-col justify-center"
+        className="relative w-full h-screen min-h-[550px] bg-white text-carbon select-none overflow-visible flex flex-col justify-center z-20"
       >
         {/* Luces Ambientales sobre Fondo Blanco */}
         <div className="absolute inset-0 pointer-events-none z-0">
@@ -241,8 +241,8 @@ export default function Process({ customSteps, title = "Metodología", titleGree
 
         {/* Contenido Principal */}
         <div className={`w-full max-w-[1400px] mx-auto flex flex-col justify-center relative z-20 py-4 sm:py-6 md:py-8 ${reverse
-            ? 'px-4 sm:px-8 md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
-            : 'px-4 sm:px-8 md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
+          ? 'px-4 sm:px-8 md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
+          : 'px-4 sm:px-8 md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
           }`}>
 
           {/* Encabezado del Título */}

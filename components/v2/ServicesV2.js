@@ -4,7 +4,7 @@ import { Sparkles, BarChart3, Code2, Presentation } from 'lucide-react';
 
 const services = [
   {
-    title: 'Consultoría Estratégica',
+    title: 'Estrategia Digital Integral',
     desc: 'Auditoría digital profunda y trazado de ruta accionable. Te decimos exactamente dónde estás perdiendo dinero y cómo recuperarlo.',
     icon: <Presentation size={32} strokeWidth={1} />,
   },

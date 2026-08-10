@@ -131,8 +131,8 @@ export default function DesarrolloWebPage() {
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
             className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
           >
-            Ingeniería Web de <br />
-            Alto <span className="text-trebol">Rendimiento.</span>
+            Sitios Web Profesionales que <br />
+            Atraen y Convierten <span className="text-trebol">Clientes.</span>
           </motion.h1>
         </div>
 
@@ -456,19 +456,18 @@ export default function DesarrolloWebPage() {
           <div className="relative w-full h-[580px] md:h-[650px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
             
             {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
-            <div className="absolute inset-0 w-full h-full overflow-hidden font-sans">
-              {renderModernMockup(activeMode)}
+            <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
+              <div className="w-full h-full min-w-[1000px] relative z-0">
+                {renderModernMockup(activeMode)}
+              </div>
             </div>
 
             {/* 2. LADO IZQUIERDO: EL SITIO VIEJO TRADICIONAL Y OBSOLETO ADAPTADO AL TIPO DE PROYECTO */}
             <div 
-              className="absolute top-0 left-0 bottom-0 overflow-hidden z-10 border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
+              className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
               style={{ width: `${sliderPos}%` }}
             >
-              <div 
-                className="w-full h-full"
-                style={{ width: '1200px', maxWidth: 'none' }}
-              >
+              <div className="w-full h-full min-w-[1000px] relative z-10">
                 <BadOldWebMockup type={projectTypes[activeMode].id} styleName={projectTypes[activeMode].label} />
               </div>
             </div>
@@ -488,6 +487,9 @@ export default function DesarrolloWebPage() {
               className="absolute top-0 bottom-0 w-1 bg-white pointer-events-none z-20 shadow-[0_0_20px_rgba(255,255,255,1)]"
               style={{ left: `${sliderPos}%` }}
             >
+              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-carbon/95 text-white text-[11px] font-mono font-bold px-4 py-2 rounded-full shadow-2xl border-2 border-trebol flex items-center gap-2 z-40 pointer-events-none">
+                <span>↔ Mueve la barra para comparar antes y después</span>
+              </div>
               <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white text-carbon font-bold flex items-center justify-center shadow-2xl border-2 border-trebol">
                 <MoveHorizontal size={20} className="text-carbon" />
               </div>
@@ -528,6 +530,37 @@ export default function DesarrolloWebPage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* ── BANNER CTA ESPECÍFICO WEB ────────── */}
+      <section className="w-full bg-carbon relative z-10">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            {/* Left — headline */}
+            <div className="flex flex-col gap-6 max-w-2xl">
+
+              <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.92]">
+                ¿Listo para transformar<br />
+                tu <span className="text-trebol">presencia</span> en línea?
+              </h3>
+              <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed max-w-lg">
+                Analizamos tu sitio actual y te decimos exactamente qué necesita — sin compromiso.
+              </p>
+            </div>
+
+            {/* Right — CTA */}
+            <div className="flex flex-col gap-3 shrink-0">
+              <a
+                href="/agenda"
+                className="group inline-flex items-center gap-3 px-10 py-5 bg-trebol text-white font-bold text-base rounded-full hover:bg-white hover:text-carbon transition-all duration-300 shadow-sm cursor-pointer whitespace-nowrap"
+              >
+                Agenda tu diagnóstico gratuito
+                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+
+            </div>
+          </div>
         </div>
       </section>
 

@@ -163,8 +163,8 @@ export default function DesarrolloOrgPage() {
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
             className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
           >
-            Desarrollo Organizacional <br />
-            para <span className="text-trebol">Ventas, Mkt & IT.</span>
+            Estructura tu Empresa <br />
+            para <span className="text-trebol">Crecer sin Caos.</span>
           </motion.h1>
         </div>
 
