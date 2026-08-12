@@ -46,11 +46,11 @@ function AnimatedProcessDFD() {
       <div className="flex items-center justify-between border-b border-white/10 pb-4 relative z-10">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-trebol" />
-          <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider">
+          <span className="text-xs md:text-sm font-mono font-bold text-trebol uppercase tracking-wider">
             PROCESO INTEGRADO TRÉBOL DIGITAL
           </span>
         </div>
-        <div className="text-xs font-mono text-neutral-400 hidden sm:flex items-center gap-3">
+        <div className="text-xs md:text-sm font-mono text-neutral-300 hidden sm:flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-trebol">
             <span className="w-2 h-2 rounded-full bg-trebol" />
             Flujo Activo
@@ -79,13 +79,13 @@ function AnimatedProcessDFD() {
               <button
                 key={item.step}
                 onClick={() => setActiveStep(idx)}
-                className={`p-4 rounded-2xl text-left transition-all duration-300 border flex flex-col justify-between h-40 cursor-pointer relative overflow-hidden ${isActive
+                className={`p-4 rounded-2xl text-left transition-all duration-300 border flex flex-col justify-between h-44 cursor-pointer relative overflow-hidden ${isActive
                   ? 'bg-[#242724] border-2 border-trebol text-white'
                   : 'bg-[#181a18] border border-white/10 hover:border-white/25 text-neutral-300'
                   }`}
               >
                 <div className="flex items-center justify-between w-full relative z-10">
-                  <span className={`text-[11px] font-mono font-bold ${isActive ? 'text-trebol' : 'text-neutral-400'}`}>
+                  <span className={`text-xs font-mono font-bold ${isActive ? 'text-trebol' : 'text-neutral-400'}`}>
                     ETAPA {item.step}
                   </span>
                   <div className={`p-1.5 rounded-lg ${isActive ? 'bg-trebol text-white' : 'bg-white/5 text-neutral-400'}`}>
@@ -97,7 +97,7 @@ function AnimatedProcessDFD() {
                   <h3 className={`text-xs md:text-sm font-bold leading-tight font-sans ${isActive ? 'text-white' : 'text-neutral-200'}`}>
                     {item.name}
                   </h3>
-                  <p className="text-[11px] text-neutral-400 leading-snug font-sans">
+                  <p className="text-xs text-neutral-300 leading-snug font-sans">
                     {item.desc}
                   </p>
                 </div>
@@ -125,22 +125,22 @@ function AnimatedProcessDFD() {
             <Zap size={20} />
           </div>
           <div>
-            <span className="text-[11px] font-mono font-bold text-trebol uppercase tracking-wider block">
+            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
               Monitoreo Activo: Etapa {stages[activeStep].step} — {stages[activeStep].name}
             </span>
-            <p className="text-xs md:text-sm text-neutral-200 font-semibold">
+            <p className="text-sm md:text-base text-neutral-100 font-semibold">
               {stages[activeStep].detail}
             </p>
           </div>
         </div>
 
         <div className="text-right shrink-0">
-          <span className="text-[11px] font-mono text-neutral-400 block">Tasa de Pérdida de Leads:</span>
-          <span className="text-xs font-mono font-bold text-trebol">0% (Proceso Integrado)</span>
+          <span className="text-xs md:text-sm font-mono text-neutral-300 block">Tasa de Pérdida de Leads:</span>
+          <span className="text-sm md:text-base font-mono font-bold text-trebol">0% (Proceso Integrado)</span>
         </div>
       </div>
 
-      <div className="pt-1 text-center font-mono text-xs text-neutral-400">
+      <div className="pt-2 text-center font-mono text-sm md:text-base text-neutral-200 font-medium">
         De punta a punta: El prospecto pasa de la red social al CRM y al cierre sin perder el rastro.
       </div>
     </div>
@@ -443,11 +443,12 @@ export default function MarketingEstrategicoPage() {
       <section id="embudo" className="w-full max-w-[1300px] mx-auto px-6 md:px-12 py-16 relative z-10 border-t border-carbon/10">
         <div className="space-y-8">
 
-          <div className="text-center max-w-4xl mx-auto space-y-2">
+          <div className="text-center max-w-6xl mx-auto space-y-2">
             <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-              No necesitas publicar más. Necesitas <span className="text-trebol">conectar tu marketing con ventas.</span>
+              No necesitas publicar más.<br /><span className="text-trebol">Necesitas conectar tu marketing con ventas.</span>
             </h2>
-            <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed max-w-xl mx-auto font-sans">
+            <br />
+            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed max-w-2xl mx-auto font-sans">
               Muchas empresas invierten en publicidad o redes, pero pierden oportunidades porque cada parte funciona de forma aislada. Trébol conecta todo el proceso.
             </p>
           </div>
@@ -466,7 +467,7 @@ export default function MarketingEstrategicoPage() {
             <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
               Operación delegada o <span className="text-trebol">capacitación interna.</span>
             </h2>
-            <p className="text-sm md:text-base text-carbon/70 font-light max-w-xl mx-auto font-sans">
+            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium max-w-2xl mx-auto font-sans">
               Te brindamos la flexibilidad que tu empresa necesita según la madurez de tu equipo actual.
             </p>
           </div>
@@ -482,12 +483,12 @@ export default function MarketingEstrategicoPage() {
                 <h3 className="text-2xl font-black text-carbon">
                   Implementación y Gestión Delegada
                 </h3>
-                <p className="text-carbon/70 text-sm md:text-base font-light leading-relaxed font-sans">
+                <p className="text-carbon/80 text-base md:text-lg font-normal leading-relaxed font-sans">
                   Trabajamos temporalmente tu marketing para diseñar, implementar y optimizar la infraestructura necesaria. Generamos un Modelo de Implementación de Marketing Completo.
                 </p>
                 <ul className="space-y-2.5 pt-3 border-t border-neutral-100">
                   {["Diseño de embudo y landing pages", "Configuración de pauta en Google y Meta", "Puesta a punto de CRM y WhatsApp", "Generación de Modelo Completo"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-xs md:text-sm font-semibold text-carbon font-sans">
+                    <li key={i} className="flex items-center gap-3 text-sm md:text-base font-semibold text-carbon font-sans">
                       <CheckCircle2 size={16} className="text-trebol shrink-0" />
                       <span>{item}</span>
                     </li>
@@ -514,12 +515,12 @@ export default function MarketingEstrategicoPage() {
                 <h3 className="text-2xl font-black text-carbon">
                   Capacitación y Transferencia Interna
                 </h3>
-                <p className="text-carbon/70 text-sm md:text-base font-light leading-relaxed font-sans">
+                <p className="text-carbon/80 text-base md:text-lg font-normal leading-relaxed font-sans">
                   Podemos capacitar a tu equipo para trabajar con estrategia, procesos, herramientas y métricas claras que puedan continuar operando internamente.
                 </p>
                 <ul className="space-y-2.5 pt-3 border-t border-neutral-100">
                   {["Entrenamiento en herramientas y CRM", "Protocolos de atención en WhatsApp", "Medición autónoma de KPIs y CPL", "Transferencia total de capacidades"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-xs md:text-sm font-semibold text-carbon font-sans">
+                    <li key={i} className="flex items-center gap-3 text-sm md:text-base font-semibold text-carbon font-sans">
                       <CheckCircle2 size={16} className="text-trebol shrink-0" />
                       <span>{item}</span>
                     </li>
@@ -557,7 +558,7 @@ export default function MarketingEstrategicoPage() {
             <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.12]">
               Creamos tu <span className="text-trebol">ecosistema comercial completo.</span>
             </h2>
-            <p className="text-xs md:text-sm text-white/70 font-light font-sans">
+            <p className="text-base md:text-lg text-white/80 font-normal font-sans">
               Haz clic sobre cada etapa para explorar las acciones concretas del sistema.
             </p>
           </div>
@@ -583,7 +584,7 @@ export default function MarketingEstrategicoPage() {
                         <span className={`font-mono text-xs font-bold px-2.5 py-1 rounded-lg ${isActive ? 'bg-white/20 text-white' : 'bg-white/5 text-neutral-400'}`}>
                           {etapa.num}
                         </span>
-                        <span className="text-xs md:text-sm font-bold font-sans">
+                        <span className="text-sm md:text-base font-bold font-sans">
                           {etapa.titulo}
                         </span>
                       </div>
@@ -620,27 +621,27 @@ export default function MarketingEstrategicoPage() {
                       </span>
                     </div>
 
-                    <p className="text-xs md:text-sm text-white/80 font-light leading-relaxed font-sans">
+                    <p className="text-base md:text-lg text-white/90 font-normal leading-relaxed font-sans">
                       {ecosistemaEtapas[activeStage].subtitulo}
                     </p>
 
-                    <div className="space-y-2 pt-1">
-                      <span className="text-[11px] font-mono font-bold text-white/50 uppercase tracking-wider block">
+                    <div className="space-y-3 pt-2">
+                      <span className="text-xs font-mono font-bold text-white/60 uppercase tracking-wider block">
                         Acciones Clave del Sistema:
                       </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
                         {ecosistemaEtapas[activeStage].items.map((item, i) => (
-                          <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-3 flex items-start gap-2.5">
-                            <CheckCircle2 size={15} className="text-trebol shrink-0 mt-0.5" />
-                            <span className="text-xs font-semibold text-white/90 font-sans leading-snug">{item}</span>
+                          <div key={i} className="flex items-start gap-2.5">
+                            <CheckCircle2 size={18} className="text-trebol shrink-0 mt-0.5" />
+                            <span className="text-sm md:text-base font-medium text-white/90 font-sans leading-snug">{item}</span>
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-white/10 text-[11px] font-mono text-trebol flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-trebol" />
+                  <div className="pt-4 border-t border-white/10 text-sm md:text-base lg:text-lg font-medium text-trebol flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-trebol shrink-0" />
                     <span>Tu marketing dejará de ser publicaciones aisladas y funcionará como un sistema.</span>
                   </div>
                 </motion.div>
@@ -661,23 +662,9 @@ export default function MarketingEstrategicoPage() {
               <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
                 Gestión de redes sociales <span className="text-trebol">con estrategia comercial.</span>
               </h2>
-              <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed font-sans">
+              <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed font-sans">
                 No gestionamos redes para perseguir tendencias o memes sin métricas de guía. Construimos una operación de contenidos alineada con los objetivos comerciales de tu negocio.
               </p>
-
-              {/* Steps Flow Grid */}
-              <div className="space-y-2 pt-1">
-                <span className="text-[11px] font-mono font-bold text-carbon/60 uppercase tracking-widest block">
-                  OPERACIÓN DE CONTENIDO EN 7 PASOS
-                </span>
-                <div className="flex flex-wrap gap-1.5 text-xs font-mono font-bold">
-                  {["Estrategia", "Cronograma", "Parrillas", "Producción", "Publicación", "Medición", "Optimización"].map((step, idx) => (
-                    <span key={idx} className="bg-white text-carbon border border-neutral-200 px-3 py-1 rounded-xl shadow-sm">
-                      {idx + 1}. {step}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {/* FOTO / SECCIÓN GRÁFICA DE IMPACTO */}
@@ -692,6 +679,34 @@ export default function MarketingEstrategicoPage() {
             </div>
           </div>
 
+          {/* Steps Flow Line (Abajo de todo en 1 sola línea horizontal) */}
+          <div className="space-y-3 pt-6 border-t border-carbon/10">
+            <span className="text-xs font-mono font-bold text-carbon/60 uppercase tracking-widest block text-center lg:text-left">
+              OPERACIÓN DE CONTENIDO EN 7 PASOS
+            </span>
+            <div className="flex flex-wrap lg:flex-nowrap items-center justify-between gap-2 text-xs md:text-sm font-sans font-semibold overflow-x-auto pb-2">
+              {[
+                "Estrategia",
+                "Cronograma",
+                "Parrillas",
+                "Producción",
+                "Publicación",
+                "Medición",
+                "Optimización"
+              ].map((step, idx) => (
+                <div key={idx} className="flex items-center gap-2 shrink-0">
+                  <span className="bg-white text-carbon border border-neutral-200/90 px-3.5 py-2 rounded-xl shadow-sm flex items-center gap-1.5 font-bold">
+                    <span className="text-trebol font-mono font-bold">{idx + 1}.</span> {step}
+                  </span>
+                  <ArrowRight size={16} className="text-trebol shrink-0" />
+                </div>
+              ))}
+              <span className="bg-trebol text-white px-5 py-2 rounded-xl shadow-md font-bold shrink-0">
+                Ventas
+              </span>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -703,7 +718,7 @@ export default function MarketingEstrategicoPage() {
             <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
               Lo que ocurre después del clic también es <span className="text-trebol">marketing.</span>
             </h2>
-            <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed font-sans">
+            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed font-sans">
               Centralizamos y organizamos las oportunidades para facilitar su asignación y seguimiento.
             </p>
           </div>
@@ -715,7 +730,7 @@ export default function MarketingEstrategicoPage() {
                 <MessageSquare size={24} />
               </div>
               <h3 className="text-xl font-bold text-carbon">WhatsApp Business</h3>
-              <p className="text-carbon/70 text-xs md:text-sm leading-relaxed font-sans">
+              <p className="text-carbon/80 text-sm md:text-base leading-relaxed font-sans font-normal">
                 Configuramos perfiles, mensajes, respuestas rápidas y flujos de atención para garantizar respuestas en &lt;5 minutos.
               </p>
             </div>
@@ -725,7 +740,7 @@ export default function MarketingEstrategicoPage() {
                 <Users size={24} />
               </div>
               <h3 className="text-xl font-bold text-carbon">Proceso Comercial</h3>
-              <p className="text-carbon/70 text-xs md:text-sm leading-relaxed font-sans">
+              <p className="text-carbon/80 text-sm md:text-base leading-relaxed font-sans font-normal">
                 Diseñamos criterios de atención, tiempos de respuesta, seguimiento, guiones y manejo estructurado de objeciones.
               </p>
             </div>
@@ -735,7 +750,7 @@ export default function MarketingEstrategicoPage() {
                 <Zap size={24} />
               </div>
               <h3 className="text-xl font-bold text-carbon">Automatización</h3>
-              <p className="text-carbon/70 text-xs md:text-sm leading-relaxed font-sans">
+              <p className="text-carbon/80 text-sm md:text-base leading-relaxed font-sans font-normal">
                 Cuando el proceso lo permite, conectamos herramientas para reducir tareas manuales y mejorar tiempos de respuesta.
               </p>
             </div>
@@ -759,7 +774,7 @@ export default function MarketingEstrategicoPage() {
               href="/soluciones/desarrollo-web"
               className="px-7 py-3.5 rounded-2xl bg-carbon text-white font-bold text-xs md:text-sm hover:bg-trebol transition-colors flex items-center gap-2 cursor-pointer shadow-md shrink-0"
             >
-              Conoce nuestras soluciones digitales <ArrowRight size={16} />
+              Conoce más <ArrowRight size={16} />
             </a>
           </div>
 
@@ -780,7 +795,7 @@ export default function MarketingEstrategicoPage() {
 
                   <div className="space-y-2 relative z-10">
                     <h3 className="text-lg font-black text-carbon font-sans">{activo.title}</h3>
-                    <p className="text-xs text-carbon/75 leading-relaxed font-sans font-light max-w-[85%]">{activo.desc}</p>
+                    <p className="text-sm text-carbon/80 leading-relaxed font-sans font-normal max-w-[90%]">{activo.desc}</p>
                   </div>
                 </div>
               );
@@ -805,13 +820,13 @@ export default function MarketingEstrategicoPage() {
             <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.12]">
               Experiencia de marca <span className="text-trebol">consistente.</span>
             </h2>
-            <p className="text-xs md:text-sm text-white/90 font-light leading-relaxed font-sans">
+            <p className="text-sm md:text-base text-white/90 font-normal leading-relaxed font-sans">
               Alineamos tu presencia digital para construir una experiencia profesional uniforme desde el primer contacto en redes hasta la conversación comercial final.
             </p>
 
             <div className="flex flex-wrap gap-2 pt-1">
               {["Web", "Redes", "WhatsApp", "Presentaciones", "Catálogos", "Publicidad", "Comunicación comercial"].map((pill, i) => (
-                <span key={i} className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-mono font-bold text-white">
+                <span key={i} className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs md:text-sm font-mono font-bold text-white">
                   {pill}
                 </span>
               ))}
@@ -828,7 +843,7 @@ export default function MarketingEstrategicoPage() {
             <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
               Método Trébol: <span className="text-trebol">Diseño, implementación y capacitación.</span>
             </h2>
-            <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed font-sans">
+            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed max-w-2xl mx-auto font-sans">
               Nuestro objetivo es dejar procesos, herramientas y capacidades que permanezcan en tu empresa.
             </p>
           </div>
@@ -904,12 +919,12 @@ export default function MarketingEstrategicoPage() {
                       {paso.title}
                     </h3>
 
-                    <p className="text-xs md:text-sm text-carbon/75 leading-relaxed font-sans font-light max-w-[88%]">
+                    <p className="text-sm md:text-base text-carbon/80 leading-relaxed font-sans font-normal max-w-[90%]">
                       {paso.desc}
                     </p>
                   </div>
 
-                  <div className="pt-2 flex items-center gap-2 text-[11px] font-mono text-carbon/60 relative z-10">
+                  <div className="pt-2 flex items-center gap-2 text-xs font-mono text-carbon/70 relative z-10">
                     <CheckCircle2 size={13} className="text-trebol shrink-0" />
                     <span>{paso.hito}</span>
                   </div>
@@ -921,7 +936,7 @@ export default function MarketingEstrategicoPage() {
           {/* Microcopy Promesa */}
           <div className="bg-trebol text-white p-5 rounded-2xl text-center max-w-xl mx-auto shadow-lg space-y-1">
             <span className="text-xs font-mono font-bold text-white/90 uppercase tracking-wider block">OBJETIVO DE AUTONOMÍA</span>
-            <p className="text-xs md:text-sm font-sans text-white font-semibold">
+            <p className="text-sm md:text-base font-sans text-white font-semibold">
               Al finalizar el proceso, tu empresa contará con una operación de marketing funcional, autónoma y medible.
             </p>
           </div>
@@ -963,7 +978,7 @@ export default function MarketingEstrategicoPage() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="px-5 pb-5 text-carbon/70 text-xs md:text-sm leading-relaxed border-t border-neutral-100 pt-3 font-sans"
+                      className="px-5 pb-5 text-carbon/80 text-sm md:text-base leading-relaxed border-t border-neutral-100 pt-3 font-sans"
                     >
                       {faq.a}
                     </motion.div>
@@ -984,7 +999,7 @@ export default function MarketingEstrategicoPage() {
             ¿Qué sucede con tus prospectos <span className="text-trebol">después del primer contacto?</span>
           </h2>
 
-          <p className="text-white/80 text-sm md:text-base font-light max-w-xl mx-auto leading-relaxed font-sans">
+          <p className="text-white/90 text-base md:text-lg font-normal max-w-xl mx-auto leading-relaxed font-sans">
             Revisemos juntos tu proceso actual de marketing, captación y seguimiento e identifiquemos dónde existen oportunidades de mejora.
           </p>
 
@@ -997,7 +1012,7 @@ export default function MarketingEstrategicoPage() {
               <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
 
-            <span className="text-xs font-mono text-white/60">
+            <span className="text-xs md:text-sm font-mono text-white/70">
               30 minutos · Sin costo · Para empresas y equipos que buscan mejorar su proceso comercial-digital
             </span>
           </div>

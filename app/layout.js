@@ -81,12 +81,12 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon.png?v=7', type: 'image/png' },
-      { url: '/favicon.ico?v=7', sizes: 'any' },
-      { url: '/favicon.svg?v=7', type: 'image/svg+xml' },
+      { url: '/images/TREBOL_01.png?v=8', type: 'image/png' },
+      { url: '/icon.png?v=8', type: 'image/png' },
+      { url: '/favicon.ico?v=8', sizes: 'any' },
     ],
-    shortcut: ['/favicon.ico?v=7'],
-    apple: ['/apple-icon.png?v=7'],
+    shortcut: ['/images/TREBOL_01.png?v=8'],
+    apple: ['/images/TREBOL_01.png?v=8'],
   },
 };
 
