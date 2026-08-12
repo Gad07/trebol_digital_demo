@@ -21,44 +21,15 @@ const titaniumTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xm
 // ── TEXTURA DE VIDRIO ESMERILADO SATINADO DE ALTA GAMA ─────────────────────
 const satinFrostedGlassTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='satinNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.98' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23satinNoise)'/%3E%3C/svg%3E")`;
 
-// ── ISOTIPO VECTORIAL TRÉBOL DIGITAL (LUMINOSO Y REALISTA) ─────────────────────
-function TrebolLogoSVG({ className = "w-10 h-10" }) {
+// ── ISOTIPO OFICIAL TRÉBOL DIGITAL (PNG) ─────────────────────
+function TrebolLogoSVG({ className = "w-10 h-10", variant = "color" }) {
   return (
-    <svg
-      viewBox="0 0 500 500"
-      className={`${className} shrink-0`}
+    <img
+      src={variant === "white" ? "/images/TREBOL_BLANCO.png" : "/images/TREBOL_01.png"}
+      alt="Trébol Digital"
+      className={`${className} shrink-0 object-contain`}
       style={{ transformStyle: 'preserve-3d', transform: 'translateZ(2px)' }}
-    >
-      <g transform="translate(250, 250)">
-        {/* Pin Superior Izquierdo (-135°) */}
-        <g transform="rotate(-135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
-        </g>
-
-        {/* Pin Superior Derecho (-45°) */}
-        <g transform="rotate(-45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-
-        {/* Pin Inferior Izquierdo (135°) */}
-        <g transform="rotate(135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-
-        {/* Pin Inferior Derecho (45°) */}
-        <g transform="rotate(45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-      </g>
-    </svg>
+    />
   );
 }
 
@@ -760,10 +731,9 @@ function PhoneFrame({ children, backLightRef }) {
         <div
           className="absolute bottom-8 left-0 right-0 flex flex-col items-center justify-center select-none text-[9.5px] font-bold tracking-[0.25em] font-sans text-center uppercase z-20"
           style={{
-            transform: 'translateZ(1px) scaleX(-1)',
+            transform: 'rotateY(180deg) translateZ(1px)',
             color: '#ffffff',
             WebkitFontSmoothing: 'antialiased',
-            backfaceVisibility: 'hidden',
             filter: 'drop-shadow(0px 1px 1px rgba(0,0,0,0.95))'
           }}
         >

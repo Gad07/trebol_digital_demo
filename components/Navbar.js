@@ -19,43 +19,14 @@ import {
 } from 'lucide-react';
 
 
-// ── ISOTIPO VECTORIAL TRÉBOL DIGITAL OFICIAL ──
-function TrebolLogoSVG({ className = "w-6 h-6" }) {
+// ── ISOTIPO OFICIAL TRÉBOL DIGITAL (PNG) ──
+function TrebolLogoSVG({ className = "w-6 h-6", variant = "color" }) {
   return (
-    <svg
-      viewBox="0 0 500 500"
-      className={`${className} shrink-0`}
-    >
-      <g transform="translate(250, 250)">
-        {/* Pin Superior Izquierdo (-135°) */}
-        <g transform="rotate(-135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
-        </g>
-
-        {/* Pin Superior Derecho (-45°) */}
-        <g transform="rotate(-45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-
-        {/* Pin Inferior Izquierdo (135°) */}
-        <g transform="rotate(135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-
-        {/* Pin Inferior Derecho (45°) */}
-        <g transform="rotate(45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-          <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-        </g>
-      </g>
-    </svg>
+    <img
+      src={variant === "white" ? "/images/TREBOL_BLANCO.png" : "/images/TREBOL_01.png"}
+      alt="Trébol Digital"
+      className={`${className} shrink-0 object-contain`}
+    />
   );
 }
 

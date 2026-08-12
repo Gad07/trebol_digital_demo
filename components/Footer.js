@@ -17,39 +17,13 @@ function WhatsAppIconSVG({ className = "w-5 h-5" }) {
 }
 
 // ── ISOTIPO VECTORIAL TRÉBOL DIGITAL OFICIAL (ANILLOS VERDES Y CENTROS BLANCOS) ──
-function TrebolLogoSVG({ className = "w-12 h-12" }) {
+function TrebolLogoSVG({ className = "w-12 h-12", variant = "white" }) {
   return (
-    <svg viewBox="0 0 500 500" className={`${className} shrink-0`}>
-      <g transform="translate(250, 250)">
-        {/* Pin Superior Izquierdo (-135°) */}
-        <g transform="rotate(-135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#84C638" />
-          <circle cx="0" cy="-140" r="30" fill="#FFFFFF" />
-        </g>
-
-        {/* Pin Superior Derecho (-45°) */}
-        <g transform="rotate(-45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#84C638" />
-          <circle cx="0" cy="-140" r="30" fill="#FFFFFF" />
-        </g>
-
-        {/* Pin Inferior Izquierdo (135°) */}
-        <g transform="rotate(135)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#84C638" />
-          <circle cx="0" cy="-140" r="30" fill="#FFFFFF" />
-        </g>
-
-        {/* Pin Inferior Derecho (45°) */}
-        <g transform="rotate(45)">
-          <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="30" strokeLinejoin="round" />
-          <circle cx="0" cy="-140" r="48" fill="#84C638" />
-          <circle cx="0" cy="-140" r="30" fill="#FFFFFF" />
-        </g>
-      </g>
-    </svg>
+    <img
+      src={variant === "white" ? "/images/TREBOL_BLANCO.png" : "/images/TREBOL_01.png"}
+      alt="Trébol Digital"
+      className={`${className} shrink-0 object-contain`}
+    />
   );
 }
 

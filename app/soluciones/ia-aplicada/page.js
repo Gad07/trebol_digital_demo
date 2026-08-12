@@ -158,12 +158,9 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, 
               <g id="i17c"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
                 <g id="i23" transform="matrix(1,0,0,1,540,658.447)">
                   <path fill="url(#i4)" d="M183.653,-72.253C183.653,-40.577,180.71,-11.573,175.246,14.631C174.697,17.302,174.114,19.946,173.5,22.559C148.536,129.807,80.281,187.878,0,187.878C-80.281,187.878,-148.536,129.807,-173.5,22.559C-174.114,19.946,-174.697,17.302,-175.246,14.631C-180.71,-11.573,-183.653,-40.577,-183.653,-72.253C-183.653,-142.718,-109.957,-187.878,0,-187.878C109.957,-187.878,183.653,-142.718,183.653,-72.253Z" />
-                  {/* CHEST LOGO - Trébol Digital 4-petal */}
-                  <g transform="translate(0, -10) scale(0.26)" id="trebol-chest-logo">
-                    <g transform="rotate(-135)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#2B2D2E" /></g>
-                    <g transform="rotate(-45)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
-                    <g transform="rotate(135)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
-                    <g transform="rotate(45)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
+                  {/* CHEST LOGO - Isotipo Trébol Digital Oficial PNG */}
+                  <g transform="translate(0, -10) scale(0.7)" id="trebol-chest-logo">
+                    <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
                   </g>
                 </g>
                 <g id="i24body" transform="matrix(1,0,0,1,540,703.476)"><path fill="url(#i5)" d="M175.246,-30.398C174.697,-27.727,174.114,-25.083,173.5,-22.47C152.089,-15.034,119.941,-5.046,88.515,0.265C88.515,0.265,88.515,20.924,88.515,20.924C88.515,20.924,85.829,21.538,85.829,21.538C85.441,21.626,46.472,30.398,0,30.398C-46.472,30.398,-85.441,21.626,-85.829,21.538C-85.829,21.538,-88.515,20.924,-88.515,20.924C-88.515,20.924,-88.515,0.265,-88.515,0.265C-119.941,-5.046,-152.089,-15.034,-173.5,-22.47C-174.114,-25.083,-174.697,-27.727,-175.246,-30.398C-153.651,-22.747,-118.422,-11.496,-84.517,-6.078C-84.517,-6.078,-81.608,-5.614,-81.608,-5.614C-81.608,-5.614,-81.608,15.372,-81.608,15.372C-72.126,17.302,-38.724,23.491,0,23.491C38.763,23.491,72.134,17.306,81.608,15.372C81.608,15.372,81.608,-5.614,81.608,-5.614C81.608,-5.614,84.517,-6.078,84.517,-6.078C118.422,-11.496,153.651,-22.747,175.246,-30.398Z" /></g>
@@ -377,28 +374,9 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, 
                 />
               )}
 
-              {/* EMBLEMA 4 PÉTALOS TRÉBOL DIGITAL (IDÉNTICO AL BOT 1) EN EL PECHO DEL BOT 3 */}
-              <g transform="translate(115, 154) scale(0.06)">
-                <g transform="rotate(-135)">
-                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                  <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
-                </g>
-                <g transform="rotate(-45)">
-                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-                </g>
-                <g transform="rotate(135)">
-                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-                </g>
-                <g transform="rotate(45)">
-                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-                </g>
+              {/* EMBLEMA TRÉBOL DIGITAL PNG EN EL PECHO DEL BOT 3 */}
+              <g transform="translate(115, 154) scale(0.2)">
+                <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
               </g>
             </motion.g>
           </svg>
@@ -450,28 +428,9 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, 
             <path d="M 64 148 C 64 132 166 132 166 148 C 172 195 156 238 115 240 C 74 238 58 195 64 148 Z" fill="url(#b-white)" />
             <path d="M 72 148 C 72 135 158 135 158 148 C 163 190 148 230 115 232 C 82 230 67 190 72 148 Z" fill="url(#b-white-subtle)" />
 
-            {/* EMBLEMA E ISOTIPO ORIGINAL DE BOT 1 */}
-            <g transform="translate(115, 172) scale(0.065)">
-              <g transform="rotate(-135)">
-                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
-              </g>
-              <g transform="rotate(-45)">
-                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-              </g>
-              <g transform="rotate(135)">
-                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-              </g>
-              <g transform="rotate(45)">
-                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-              </g>
+            {/* EMBLEMA TRÉBOL DIGITAL PNG EN EL PECHO DEL BOT 1 */}
+            <g transform="translate(115, 172) scale(0.2)">
+              <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
             </g>
             <text x="115" y="197" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="700" letterSpacing="2.5" fontFamily="system-ui, sans-serif">
               TREBOT
