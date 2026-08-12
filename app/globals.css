@@ -4,17 +4,18 @@
   --color-trebol: #5C9E43;
   --color-trebol-claro: #8DC63F;
   --color-carbon: #2D2E2D;
-  --color-gris-claro: #BFBFBF;
+  --color-gris-claro: #C0BFBF;
   --color-hueso: #F5F5F5;
   --color-gris: #666666;
-  --font-sans: var(--font-roboto), sans-serif;
+  --font-sans: var(--font-manrope), Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-manrope), Helvetica, Arial, sans-serif;
 }
 
 :root {
   --color-verde: #5C9E43;
   --color-verde-hover: #8DC63F;
   --color-carbon: #2D2E2D;
-  --color-gris-claro: #BFBFBF;
+  --color-gris-claro: #C0BFBF;
   --color-gris: #666666;
   --color-hueso: #FFFFFF;
   --color-blanco: #FFFFFF;

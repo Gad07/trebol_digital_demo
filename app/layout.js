@@ -1,4 +1,4 @@
-import { Roboto, Playfair_Display } from "next/font/google";
+import { Roboto, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -9,9 +9,9 @@ const roboto = Roboto({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -137,7 +137,7 @@ import Footer from "../components/Footer";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className={`${roboto.variable} ${playfair.variable}`}>
+    <html lang="es" className={`${roboto.variable} ${manrope.variable}`}>
       <head>
         <link rel="icon" href="/icon.png?v=7" type="image/png" />
         <link rel="shortcut icon" href="/favicon.ico?v=7" />
@@ -147,7 +147,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${roboto.className} antialiased`}>
+      <body className={`${manrope.className} antialiased`}>
 
         {/* ═══ Ambient Light: Massive blurred SVG shapes ═══ */}
         <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden bg-[#F5F5F5]" aria-hidden="true">
@@ -205,7 +205,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        {/* LinkedIn Insight Tag */}
+        {/* LinkedIn Insight Tag — Pendiente conectar con ID real de Campaign Manager de Sandy (reemplazar XXXXXXXXXX) */}
         <Script id="linkedin-insight" strategy="lazyOnload">
           {`
             window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];

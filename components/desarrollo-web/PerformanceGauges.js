@@ -53,8 +53,8 @@ export function SpeedometerGauge({ isBefore }) {
           </g>
 
           {/* Outer Clean End Labels */}
-          <text x="14" y="110" fill="#DC2626" fontSize="9" fontWeight="bold" fontFamily="monospace">5.8s (Lento)</text>
-          <text x="134" y="110" fill="#5C9E43" fontSize="9" fontWeight="bold" fontFamily="monospace">1.1s (Rápido)</text>
+          <text x="14" y="110" fill="#DC2626" fontSize="9" fontWeight="bold" fontFamily="var(--font-manrope), sans-serif">5.8s (Lento)</text>
+          <text x="134" y="110" fill="#5C9E43" fontSize="9" fontWeight="bold" fontFamily="var(--font-manrope), sans-serif">1.1s (Rápido)</text>
 
           {/* Animated Needle with SVG Native Radial Arc Sweep */}
           <motion.g

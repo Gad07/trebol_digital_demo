@@ -97,7 +97,7 @@ function TrebolSVG({ activeIndex }) {
                       fill="#FFFFFF"
                       fontSize="28"
                       fontWeight="bold"
-                      fontFamily="monospace"
+                      fontFamily="var(--font-manrope), sans-serif"
                     >
                       0{i + 1}
                     </text>

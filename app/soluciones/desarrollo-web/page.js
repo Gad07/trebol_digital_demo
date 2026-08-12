@@ -384,7 +384,7 @@ export default function DesarrolloWebPage() {
               <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
               <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
               <span className="text-xs font-mono text-neutral-400 ml-2">
-                design-system-renderer — project_type: {projectTypes[activeMode].id}
+                treboldigital.com/demo — {projectTypes[activeMode].label}
               </span>
             </div>
 

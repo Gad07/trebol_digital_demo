@@ -16,21 +16,25 @@ import Contact from '@/components/Contact';
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPONENTE MASCOTA TREBOT (3D VECTORIAL CON VOZ Y EXPRESIONES)
 // ─────────────────────────────────────────────────────────────────────────────
-export function TrebotSVG({ isSpeaking, size = 180 }) {
+export function TrebotSVG({ isSpeaking, isHovered, size = 360 }) {
   return (
     <motion.div
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-      className="relative select-none"
+      animate={
+        isHovered
+          ? { scale: 0.95, rotate: -4, x: 0, y: -20 }
+          : { scale: 1, rotate: -18, x: 50, y: 110 }
+      }
+      transition={{ type: 'spring', stiffness: 150, damping: 18 }}
+      className="relative select-none cursor-pointer transform-gpu"
       style={{ width: size, height: size * 1.15 }}
     >
       <svg
         viewBox="0 0 230 280"
-        className="w-full h-full drop-shadow-[0_15px_30px_rgba(132,198,56,0.25)]"
+        className="w-full h-full drop-shadow-[0_45px_90px_rgba(141,198,63,0.7)]"
       >
         <defs>
           <radialGradient id="b-shadow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#84C638" stopOpacity="0.35" />
+            <stop offset="0%" stopColor="#84C638" stopOpacity="0.75" />
             <stop offset="100%" stopColor="#000000" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="b-white" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -52,11 +56,26 @@ export function TrebotSVG({ isSpeaking, size = 180 }) {
           </filter>
         </defs>
 
-        <ellipse cx="115" cy="270" rx="46" ry="7" fill="url(#b-shadow)" />
+        <ellipse cx="115" cy="268" rx="72" ry="12" fill="url(#b-shadow)" />
 
-        <g transform="rotate(-6, 54, 142)">
-          <path d="M 58 140 C 38 148 34 180 36 210 C 38 226 56 226 62 210 C 66 180 68 148 58 140 Z" fill="url(#b-white)" />
-          <ellipse cx="44" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
+        {/* BRAZO IZQUIERDO: SE ELEVA ALTO COMO SI QUISIERA TOCAR SU CABEZA (HAND TOUCHING HEAD WAVE 👋) */}
+        <g transform="translate(58, 148)">
+          <motion.g
+            animate={
+              isHovered
+                ? { rotate: [-155, -175, -160, -170, -155] }
+                : { rotate: 0 }
+            }
+            transition={
+              isHovered
+                ? { duration: 0.8, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.3 }
+            }
+            style={{ transformOrigin: '0px 0px' }}
+          >
+            <path d="M 0 0 C -18 8 -22 35 -16 55 C -10 65 4 65 8 55 C 12 35 8 8 0 0 Z" fill="url(#b-white)" />
+            <ellipse cx="-5" cy="26" rx="3.5" ry="12" fill="white" opacity="0.65" />
+          </motion.g>
         </g>
 
         <g transform="rotate(6, 176, 142)">
@@ -505,7 +524,7 @@ const faqsIA = [
     q: '¿Nuestros datos e información confidencial están seguros?',
     a: 'Absolutamente. Todos los modelos e integraciones se construyen bajo estándares de privacidad empresarial. Tus datos no se utilizan para entrenar modelos públicos de terceros y toda la comunicación está cifrada de punto a punto.'
   },
-{
+  {
     q: '¿La IA reemplazará a mi personal actual?',
     a: 'La Inteligencia Artificial no reemplaza a tu equipo; potencia sus capacidades. Al eliminar tareas repetitivas y tediosas, tu equipo se concentra en actividades de alto valor estratégico, ventas complejas y atención humana personalizada.'
   },
@@ -618,11 +637,11 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
   };
 
   const getNodeClasses = (stepIdx) => {
-    if (activeStep === -1) return "hover:scale-105 hover:border-emerald-500 border-slate-700/80 bg-[#1e293b] text-white transition-all duration-300 shadow-xl";
+    if (activeStep === -1) return "hover:scale-105 hover:border-trebol border-neutral-700/80 bg-[#242724] text-white transition-all duration-300 shadow-xl";
     if (activeStep === stepIdx) {
-      return "ring-4 ring-emerald-500 shadow-[0_0_35px_rgba(34,197,94,0.85)] scale-110 z-30 border-emerald-500 bg-[#1e293b] text-white transition-all duration-500";
+      return "ring-4 ring-trebol shadow-xl scale-110 z-30 border-trebol bg-[#242724] text-white transition-all duration-500";
     }
-    return "opacity-35 blur-[0.4px] scale-95 border-slate-800 bg-[#0f172a] text-slate-400 transition-all duration-500";
+    return "opacity-35 blur-[0.4px] scale-95 border-neutral-800 bg-[#141614] text-neutral-400 transition-all duration-500";
   };
 
   const flowAnimationCSS = (
@@ -640,22 +659,22 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
 
   return (
     <div
-      className="p-6 md:p-8 rounded-[2.5rem] bg-[#0b1329] border border-slate-800/90 shadow-2xl font-sans relative overflow-hidden text-white"
+      className="p-6 md:p-8 rounded-[2.5rem] bg-[#181a18] border-2 border-[#2a2c2a] shadow-2xl font-sans relative overflow-hidden text-white"
       style={{
-        backgroundImage: 'radial-gradient(#1e293b 1.2px, transparent 1.2px)',
+        backgroundImage: 'radial-gradient(#2d302d 1.2px, transparent 1.2px)',
         backgroundSize: '20px 20px'
       }}
     >
       {flowAnimationCSS}
 
-      {/* HEADER DE CONTROL E INFORMACIÓN DEL WORKFLOW ESTILO N8N PRO */}
-      <div className="flex flex-wrap items-center justify-between border-b border-slate-800/80 pb-4 mb-6 gap-4 relative z-10">
+      {/* HEADER DE CONTROL E INFORMACIÓN DEL WORKFLOW ESTILO TRÉBOL DIGITAL PRO */}
+      <div className="flex flex-wrap items-center justify-between border-b border-neutral-800/80 pb-4 mb-6 gap-4 relative z-10">
         <div className="flex items-center gap-3">
-          <span className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-[#ff6d5a] to-[#ea4b35] text-white text-xs font-black font-mono shadow-md flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span className="px-2.5 py-1 rounded-lg bg-trebol text-carbon text-xs font-black font-mono shadow-md flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-carbon animate-pulse" />
             n8n
           </span>
-          <span className="font-mono font-extrabold text-slate-100 text-sm tracking-tight">
+          <span className="font-mono font-extrabold text-white text-sm tracking-tight">
             {activeAreaTab === 0 && 'WhatsApp-to-CRM Lead Qualification'}
             {activeAreaTab === 1 && 'Invoice OCR → SAT Validator → SAP ERP Auto-Posting'}
             {activeAreaTab === 2 && 'Multi-Source BI Pipeline → CEO Executive Digest'}
@@ -663,11 +682,11 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
           </span>
         </div>
         <div className="flex items-center gap-2.5">
-          <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-500/40 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-[0_0_12px_rgba(34,197,94,0.3)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          <span className="text-[11px] font-mono font-bold text-trebol bg-trebol/10 border border-trebol/30 px-3 py-1 rounded-full flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
             ● Active Workflow
           </span>
-          <span className="text-[11px] font-mono text-slate-400 bg-slate-800/90 border border-slate-700/80 px-3 py-1 rounded-full">
+          <span className="text-[11px] font-mono text-neutral-300 bg-[#242724] border border-neutral-700/80 px-3 py-1 rounded-full">
             100% Autónomo
           </span>
         </div>
@@ -678,94 +697,94 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
         {/* ÁREA 0: CONVERSIÓN & VENTAS */}
         {activeAreaTab === 0 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 760 }}>
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', overflow:'visible', pointerEvents:'none', zIndex:0 }}>
+            <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
               <defs>
-                <marker id="a0g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e"/></marker>
-                <marker id="a0r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e"/></marker>
+                <marker id="a0g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e" /></marker>
+                <marker id="a0r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e" /></marker>
               </defs>
-              <path d="M 135 210 L 205 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)"/>
-              <circle cx="135" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 305 210 L 370 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)"/>
-              <circle cx="305" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 470 196 C 512 196 512 139 555 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)"/>
-              <circle cx="470" cy="196" r="3.5" fill="#22c55e"/>
-              <text x="478" y="181" style={{fontSize:10,fontFamily:'monospace',fill:'#4ade80',fontWeight:800}}>true</text>
-              <path d="M 470 224 C 512 224 512 311 555 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0r)"/>
-              <circle cx="470" cy="224" r="3.5" fill="#f43f5e"/>
-              <text x="478" y="272" style={{fontSize:10,fontFamily:'monospace',fill:'#fb7185',fontWeight:800}}>false</text>
+              <path d="M 135 210 L 205 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)" />
+              <circle cx="135" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 305 210 L 370 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)" />
+              <circle cx="305" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 470 196 C 512 196 512 139 555 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)" />
+              <circle cx="470" cy="196" r="3.5" fill="#22c55e" />
+              <text x="478" y="181" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>true</text>
+              <path d="M 470 224 C 512 224 512 311 555 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0r)" />
+              <circle cx="470" cy="224" r="3.5" fill="#f43f5e" />
+              <text x="478" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>false</text>
             </svg>
 
             {/* N1: WhatsApp Trigger */}
-            <div style={{position:'absolute', left:35, top:171}} onClick={() => handleNodeClick(0)}>
-              <div style={{width:100,height:78}} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
+            <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 {renderSimulatedClickBadge(0)}
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-emerald-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <span style={{position:'absolute', top:-9, right:-12}} className="bg-slate-800 border border-slate-700 text-slate-300 text-[8px] font-mono px-1.5 py-0.5 rounded-full shadow-sm">1 item</span>
-              <div className="mt-2 text-center" style={{width:130,marginLeft:-15}}>
+              <span style={{ position: 'absolute', top: -9, right: -12 }} className="bg-slate-800 border border-slate-700 text-slate-300 text-[8px] font-mono px-1.5 py-0.5 rounded-full shadow-sm">1 item</span>
+              <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">WhatsApp Business API</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Webhook · 24/7</div>
               </div>
             </div>
 
             {/* N2: GPT-4o Classifier */}
-            <div style={{position:'absolute', left:205, top:171}} onClick={() => handleNodeClick(1)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
+            <div style={{ position: 'absolute', left: 205, top: 171 }} onClick={() => handleNodeClick(1)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 {renderSimulatedClickBadge(1)}
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
                   <Cpu className="w-5 h-5 text-purple-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:128,marginLeft:-14}}>
+              <div className="mt-2 text-center" style={{ width: 128, marginLeft: -14 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">GPT-4o Intent Classifier</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Lead Score 0–100pts</div>
               </div>
             </div>
 
             {/* N3: Vector DB / CRM */}
-            <div style={{position:'absolute', left:370, top:171}} onClick={() => handleNodeClick(2)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
+            <div style={{ position: 'absolute', left: 370, top: 171 }} onClick={() => handleNodeClick(2)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 {renderSimulatedClickBadge(2)}
                 <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center">
                   <Database className="w-5 h-5 text-sky-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:120,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Consulta Vector DB</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Stock & Precios</div>
               </div>
             </div>
 
             {/* N4: Router IF */}
-            <div style={{position:'absolute', left:555, top:100}} onClick={() => handleNodeClick(3)}>
-              <div style={{width:115,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
+            <div style={{ position: 'absolute', left: 555, top: 100 }} onClick={() => handleNodeClick(3)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 {renderSimulatedClickBadge(3)}
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
                   <GitFork className="w-5 h-5 text-white" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:138,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 138, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Score &gt; 85pts? (IF)</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Conditional Router</div>
               </div>
             </div>
 
             {/* N5: HubSpot + Calendly */}
-            <div style={{position:'absolute', left:555, top:272}} onClick={() => handleNodeClick(4)}>
-              <div style={{width:115,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
+            <div style={{ position: 'absolute', left: 555, top: 272 }} onClick={() => handleNodeClick(4)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 {renderSimulatedClickBadge(4)}
                 <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-orange-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:138,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 138, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">HubSpot CRM + Calendly</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Create Deal + Book Demo</div>
               </div>
@@ -776,103 +795,103 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
         {/* ÁREA 1: OPERACIONES & RPA */}
         {activeAreaTab === 1 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 860 }}>
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', overflow:'visible', pointerEvents:'none', zIndex:0 }}>
+            <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
               <defs>
-                <marker id="a1g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e"/></marker>
-                <marker id="a1r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e"/></marker>
+                <marker id="a1g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e" /></marker>
+                <marker id="a1r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e" /></marker>
               </defs>
-              <path d="M 135 210 L 200 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)"/>
-              <circle cx="135" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 300 210 L 365 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)"/>
-              <circle cx="300" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 465 210 L 530 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)"/>
-              <circle cx="465" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)"/>
-              <circle cx="630" cy="196" r="3.5" fill="#22c55e"/>
-              <text x="637" y="182" style={{fontSize:10,fontFamily:'monospace',fill:'#4ade80',fontWeight:800}}>valid</text>
-              <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1r)"/>
-              <circle cx="630" cy="224" r="3.5" fill="#f43f5e"/>
-              <text x="636" y="272" style={{fontSize:10,fontFamily:'monospace',fill:'#fb7185',fontWeight:800}}>reject</text>
+              <path d="M 135 210 L 200 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)" />
+              <circle cx="135" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 300 210 L 365 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)" />
+              <circle cx="300" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 465 210 L 530 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)" />
+              <circle cx="465" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)" />
+              <circle cx="630" cy="196" r="3.5" fill="#22c55e" />
+              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>valid</text>
+              <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1r)" />
+              <circle cx="630" cy="224" r="3.5" fill="#f43f5e" />
+              <text x="636" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>reject</text>
             </svg>
 
             {/* N1: Gmail Trigger */}
-            <div style={{position:'absolute', left:35, top:171}} onClick={() => handleNodeClick(0)}>
-              <div style={{width:100,height:78}} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
+            <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-red-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:128,marginLeft:-14}}>
+              <div className="mt-2 text-center" style={{ width: 128, marginLeft: -14 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Gmail Watch API</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Trigger · Inbox Monitor</div>
               </div>
             </div>
 
             {/* N2: AWS Textract OCR */}
-            <div style={{position:'absolute', left:200, top:171}} onClick={() => handleNodeClick(1)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
+            <div style={{ position: 'absolute', left: 200, top: 171 }} onClick={() => handleNodeClick(1)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
                   <Eye className="w-5 h-5 text-amber-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">AWS Textract OCR</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Extract PDF Fields</div>
               </div>
             </div>
 
             {/* N3: SAT Validator */}
-            <div style={{position:'absolute', left:365, top:171}} onClick={() => handleNodeClick(2)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
+            <div style={{ position: 'absolute', left: 365, top: 171 }} onClick={() => handleNodeClick(2)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
                   <ShieldCheck className="w-5 h-5 text-blue-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">SAT Webservice v4</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">CFDI 4.0 Validation</div>
               </div>
             </div>
 
             {/* N4: CFDI 4.0 Valid? (IF) */}
-            <div style={{position:'absolute', left:530, top:171}} onClick={() => handleNodeClick(3)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
+            <div style={{ position: 'absolute', left: 530, top: 171 }} onClick={() => handleNodeClick(3)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
                   <GitFork className="w-5 h-5 text-white" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:120,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">CFDI 4.0 Valid? (IF)</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">RFC Check</div>
               </div>
             </div>
 
             {/* N5: SAP FI/CO API */}
-            <div style={{position:'absolute', left:710, top:100}} onClick={() => handleNodeClick(4)}>
-              <div style={{width:115,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
+            <div style={{ position: 'absolute', left: 710, top: 100 }} onClick={() => handleNodeClick(4)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
                   <Settings className="w-5 h-5 text-purple-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:136,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 136, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">SAP FI/CO API</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Journal Entry Posting</div>
               </div>
             </div>
 
             {/* N5b: Slack Alert */}
-            <div style={{position:'absolute', left:710, top:272}}>
-              <div style={{width:115,height:78}} className="rounded-2xl bg-[#1e293b]/70 border-2 border-rose-500/60 flex flex-col items-center justify-center relative opacity-70">
+            <div style={{ position: 'absolute', left: 710, top: 272 }}>
+              <div style={{ width: 115, height: 78 }} className="rounded-2xl bg-[#1e293b]/70 border-2 border-rose-500/60 flex flex-col items-center justify-center relative opacity-70">
                 <div className="w-9 h-9 rounded-xl bg-rose-500/20 flex items-center justify-center">
                   <ShieldAlert className="w-5 h-5 text-rose-400" />
                 </div>
               </div>
-              <div className="mt-2 text-center" style={{width:136,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 136, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-rose-400 leading-tight">Slack Alert + DLQ</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Retry Queue</div>
               </div>
@@ -883,101 +902,101 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
         {/* ÁREA 2: DECISIONES & BI */}
         {activeAreaTab === 2 && (
           <div className="relative mx-auto" style={{ height: 430, minWidth: 880 }}>
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', overflow:'visible', pointerEvents:'none', zIndex:0 }}>
+            <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
               <defs>
-                <marker id="a2g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e"/></marker>
+                <marker id="a2g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e" /></marker>
               </defs>
-              <path d="M 135 140 C 175 140 175 210 215 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)"/>
-              <circle cx="135" cy="140" r="3.5" fill="#22c55e"/>
-              <path d="M 135 320 C 175 320 175 210 215 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)"/>
-              <circle cx="135" cy="320" r="3.5" fill="#22c55e"/>
-              <path d="M 315 210 L 380 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)"/>
-              <circle cx="315" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 480 210 L 545 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)"/>
-              <circle cx="480" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 645 210 L 710 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)"/>
-              <circle cx="645" cy="210" r="3.5" fill="#22c55e"/>
+              <path d="M 135 140 C 175 140 175 210 215 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)" />
+              <circle cx="135" cy="140" r="3.5" fill="#22c55e" />
+              <path d="M 135 320 C 175 320 175 210 215 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)" />
+              <circle cx="135" cy="320" r="3.5" fill="#22c55e" />
+              <path d="M 315 210 L 380 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)" />
+              <circle cx="315" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 480 210 L 545 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)" />
+              <circle cx="480" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 645 210 L 710 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a2g)" />
+              <circle cx="645" cy="210" r="3.5" fill="#22c55e" />
             </svg>
 
             {/* N1a: PostgreSQL ERP */}
-            <div style={{position:'absolute', left:35, top:101}} onClick={() => handleNodeClick(0)}>
-              <div style={{width:100,height:78}} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
+            <div style={{ position: 'absolute', left: 35, top: 101 }} onClick={() => handleNodeClick(0)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center">
                   <Database className="w-5 h-5 text-sky-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:130,marginLeft:-15}}>
+              <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">PostgreSQL ERP</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Cron Ingesta Batch</div>
               </div>
             </div>
 
             {/* N1b: Stripe REST API */}
-            <div style={{position:'absolute', left:35, top:281}} onClick={() => handleNodeClick(0)}>
-              <div style={{width:100,height:78}} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
+            <div style={{ position: 'absolute', left: 35, top: 281 }} onClick={() => handleNodeClick(0)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/40 flex items-center justify-center">
                   <CreditCard className="w-5 h-5 text-violet-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:130,marginLeft:-15}}>
+              <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Stripe REST API</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">MRR & Churn Metrics</div>
               </div>
             </div>
 
             {/* N2: n8n Merge ETL */}
-            <div style={{position:'absolute', left:215, top:171}} onClick={() => handleNodeClick(1)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
+            <div style={{ position: 'absolute', left: 215, top: 171 }} onClick={() => handleNodeClick(1)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
                   <Layers className="w-5 h-5 text-amber-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">n8n Merge + ETL</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Join & Clean Data</div>
               </div>
             </div>
 
             {/* N3: Prophet ML Forecast */}
-            <div style={{position:'absolute', left:380, top:171}} onClick={() => handleNodeClick(2)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
+            <div style={{ position: 'absolute', left: 380, top: 171 }} onClick={() => handleNodeClick(2)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
                   <BarChart3 className="w-5 h-5 text-emerald-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Prophet ML Forecast</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Revenue Prediction</div>
               </div>
             </div>
 
             {/* N4: Looker Studio API */}
-            <div style={{position:'absolute', left:545, top:171}} onClick={() => handleNodeClick(3)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
+            <div style={{ position: 'absolute', left: 545, top: 171 }} onClick={() => handleNodeClick(3)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-indigo-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Looker Studio API</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Push Dashboard PDF</div>
               </div>
             </div>
 
             {/* N5: WhatsApp CEO Digest */}
-            <div style={{position:'absolute', left:710, top:171}} onClick={() => handleNodeClick(4)}>
-              <div style={{width:115,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
+            <div style={{ position: 'absolute', left: 710, top: 171 }} onClick={() => handleNodeClick(4)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
                   <Send className="w-5 h-5 text-white" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:134,marginLeft:-9}}>
+              <div className="mt-2 text-center" style={{ width: 134, marginLeft: -9 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">WhatsApp CEO Digest</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">KPI Summary Report</div>
               </div>
@@ -988,103 +1007,103 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
         {/* ÁREA 3: SOPORTE & ATENCIÓN RAG */}
         {activeAreaTab === 3 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 860 }}>
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', overflow:'visible', pointerEvents:'none', zIndex:0 }}>
+            <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
               <defs>
-                <marker id="a3g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e"/></marker>
-                <marker id="a3r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e"/></marker>
+                <marker id="a3g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22c55e" /></marker>
+                <marker id="a3r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f43f5e" /></marker>
               </defs>
-              <path d="M 135 210 L 200 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)"/>
-              <circle cx="135" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 300 210 L 365 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)"/>
-              <circle cx="300" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 465 210 L 530 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)"/>
-              <circle cx="465" cy="210" r="3.5" fill="#22c55e"/>
-              <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)"/>
-              <circle cx="630" cy="196" r="3.5" fill="#22c55e"/>
-              <text x="637" y="182" style={{fontSize:10,fontFamily:'monospace',fill:'#4ade80',fontWeight:800}}>&gt;92%</text>
-              <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3r)"/>
-              <circle cx="630" cy="224" r="3.5" fill="#f43f5e"/>
-              <text x="637" y="272" style={{fontSize:10,fontFamily:'monospace',fill:'#fb7185',fontWeight:800}}>&lt;92%</text>
+              <path d="M 135 210 L 200 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)" />
+              <circle cx="135" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 300 210 L 365 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)" />
+              <circle cx="300" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 465 210 L 530 210" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)" />
+              <circle cx="465" cy="210" r="3.5" fill="#22c55e" />
+              <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)" />
+              <circle cx="630" cy="196" r="3.5" fill="#22c55e" />
+              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>&gt;92%</text>
+              <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3r)" />
+              <circle cx="630" cy="224" r="3.5" fill="#f43f5e" />
+              <text x="637" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>&lt;92%</text>
             </svg>
 
             {/* N1: Zendesk Ticket */}
-            <div style={{position:'absolute', left:35, top:171}} onClick={() => handleNodeClick(0)}>
-              <div style={{width:100,height:78}} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
+            <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
                   <FileText className="w-5 h-5 text-orange-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:130,marginLeft:-15}}>
+              <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Zendesk Webhook</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Ticket Created</div>
               </div>
             </div>
 
             {/* N2: Pinecone Vector DB */}
-            <div style={{position:'absolute', left:200, top:171}} onClick={() => handleNodeClick(1)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
+            <div style={{ position: 'absolute', left: 200, top: 171 }} onClick={() => handleNodeClick(1)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
                   <Search className="w-5 h-5 text-emerald-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Pinecone Vector DB</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Semantic Search</div>
               </div>
             </div>
 
             {/* N3: Claude 3.5 Sonnet */}
-            <div style={{position:'absolute', left:365, top:171}} onClick={() => handleNodeClick(2)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
+            <div style={{ position: 'absolute', left: 365, top: 171 }} onClick={() => handleNodeClick(2)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
                   <Bot className="w-5 h-5 text-purple-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:124,marginLeft:-12}}>
+              <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Claude 3.5 Sonnet</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">RAG Context Builder</div>
               </div>
             </div>
 
             {/* N4: Confidence > 92% (IF) */}
-            <div style={{position:'absolute', left:530, top:171}} onClick={() => handleNodeClick(3)}>
-              <div style={{width:100,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
+            <div style={{ position: 'absolute', left: 530, top: 171 }} onClick={() => handleNodeClick(3)}>
+              <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
                   <GitFork className="w-5 h-5 text-white" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:120,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Confidence &gt; 92%? (IF)</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">RAG Score Evaluator</div>
               </div>
             </div>
 
             {/* N5: Auto-Resolve + CSAT */}
-            <div style={{position:'absolute', left:710, top:100}} onClick={() => handleNodeClick(4)}>
-              <div style={{width:120,height:78}} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
+            <div style={{ position: 'absolute', left: 710, top: 100 }} onClick={() => handleNodeClick(4)}>
+              <div style={{ width: 120, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{width:140,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 140, marginLeft: -10 }}>
                 <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Auto-Resolve + CSAT</div>
                 <div className="text-[9.5px] text-slate-400 font-mono">Zendesk Close</div>
               </div>
             </div>
 
             {/* N5b: Jira Escalation */}
-            <div style={{position:'absolute', left:710, top:272}}>
-              <div style={{width:120,height:78}} className="rounded-2xl bg-white border-2 border-rose-400 flex flex-col items-center justify-center relative opacity-70">
+            <div style={{ position: 'absolute', left: 710, top: 272 }}>
+              <div style={{ width: 120, height: 78 }} className="rounded-2xl bg-white border-2 border-rose-400 flex flex-col items-center justify-center relative opacity-70">
                 <div className="w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center">
                   <Users className="w-5 h-5 text-rose-600" />
                 </div>
               </div>
-              <div className="mt-2 text-center" style={{width:140,marginLeft:-10}}>
+              <div className="mt-2 text-center" style={{ width: 140, marginLeft: -10 }}>
                 <div className="text-[10px] font-extrabold text-rose-700 leading-tight">Jira Ticket + Handoff</div>
                 <div className="text-[9px] text-slate-400 font-mono">Human Escalation</div>
               </div>
@@ -1092,6 +1111,35 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
           </div>
         )}
       </div>
+
+      {/* MONITOREO EN VIVO IGUAL A MARKETING ESTRATÉGICO */}
+      <div className="bg-[#242724] border border-[#333633] rounded-2xl p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 font-sans mt-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0">
+            <Zap size={20} />
+          </div>
+          <div>
+            <span className="text-[11px] font-mono font-bold text-trebol uppercase tracking-wider block">
+              Monitoreo Activo: {activeAreaTab === 0 ? 'Agentes & Ventas' : activeAreaTab === 1 ? 'Operaciones & RPA' : activeAreaTab === 2 ? 'BI & Predictivo' : 'Soporte Autónomo'}
+            </span>
+            <p className="text-xs md:text-sm text-neutral-200 font-semibold">
+              {activeAreaTab === 0 && 'Agentes de voz y texto calificando e integrando leads en tiempo real.'}
+              {activeAreaTab === 1 && 'Lectura OCR, validación fiscal SAT y registro contable automático.'}
+              {activeAreaTab === 2 && 'Ingesta batch de ERPs y reporte ejecutivo predictivo diario.'}
+              {activeAreaTab === 3 && 'RAG en base vectorial Pinecone + Claude 3.5 respondiendo tickets.'}
+            </p>
+          </div>
+        </div>
+
+        <div className="text-right shrink-0">
+          <span className="text-[11px] font-mono text-neutral-400 block">Eficiencia Operativa:</span>
+          <span className="text-xs font-mono font-bold text-trebol">100% Autónomo</span>
+        </div>
+      </div>
+
+      <p className="text-xs text-neutral-400 font-sans text-center pt-2 relative z-10">
+        De punta a punta: Tu infraestructura conectada a la Inteligencia Artificial de Trébol Digital sin fricción.
+      </p>
     </div>
   );
 }
@@ -1107,10 +1155,11 @@ export default function IAAplicadaPage() {
   const [activeAreaTab, setActiveAreaTab] = useState(0);
   const [activeCompTab, setActiveCompTab] = useState(0);
   const [isTrebolActive, setIsTrebolActive] = useState(false); // false = Sin Trébol, true = Con Trébol IA
+  const [isTrebotHovered, setIsTrebotHovered] = useState(false);
 
   // Estado del Tutorial Guiado con Enfoque Spotlight
   const [showTutorial, setShowTutorial] = useState(false);
-  const [hideFloatingOnFooter, setHideFloatingOnFooter] = useState(false);
+  const [showFloatingButton, setShowFloatingButton] = useState(false);
   const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedDfdIndex, setSelectedDfdIndex] = useState(null);
   const [selectedCaseIndex, setSelectedCaseIndex] = useState(null);
@@ -1121,15 +1170,24 @@ export default function IAAplicadaPage() {
 
   useEffect(() => {
     const handleScroll = () => {
+      const hero = document.getElementById('hero');
       const footer = document.querySelector('footer');
-      if (footer) {
-        const rect = footer.getBoundingClientRect();
-        if (rect.top <= window.innerHeight - 50) {
-          setHideFloatingOnFooter(true);
-        } else {
-          setHideFloatingOnFooter(false);
-        }
+      let isPastHero = false;
+      let isAtFooter = false;
+
+      if (hero) {
+        const heroRect = hero.getBoundingClientRect();
+        isPastHero = heroRect.bottom <= 150;
+      } else {
+        isPastHero = window.scrollY > 400;
       }
+
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        isAtFooter = footerRect.top <= window.innerHeight - 50;
+      }
+
+      setShowFloatingButton(isPastHero && !isAtFooter);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -1410,22 +1468,22 @@ export default function IAAplicadaPage() {
                     <Sparkles className="w-5 h-5 text-emerald-400 shrink-0" />
                     {tutorialStep === 1 && selectedDfdIndex !== null
                       ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
-                          ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].title
-                          : DFD_EXPLANATIONS[selectedDfdIndex]?.title)
+                        ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].title
+                        : DFD_EXPLANATIONS[selectedDfdIndex]?.title)
                       : tutorialStep === 2 && selectedCaseIndex !== null
-                      ? CASE_EXPLANATIONS[selectedCaseIndex]?.title
-                      : TUTORIAL_STEPS[tutorialStep]?.title}
+                        ? CASE_EXPLANATIONS[selectedCaseIndex]?.title
+                        : TUTORIAL_STEPS[tutorialStep]?.title}
                   </h4>
                   <p className="text-xs md:text-sm text-slate-200 font-sans leading-relaxed">
                     {tutorialStep === 1 && selectedDfdIndex !== null
                       ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
-                          ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].text
-                          : DFD_EXPLANATIONS[selectedDfdIndex]?.speech)
+                        ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].text
+                        : DFD_EXPLANATIONS[selectedDfdIndex]?.speech)
                       : tutorialStep === 2
-                      ? (selectedCaseIndex !== null
+                        ? (selectedCaseIndex !== null
                           ? (isTrebolActive ? CASE_EXPLANATIONS[selectedCaseIndex]?.speechConTrebol : CASE_EXPLANATIONS[selectedCaseIndex]?.speechSinTrebol)
                           : 'En esta sección puedes seleccionar cuál de los 3 casos de uso deseas evaluar para ver el impacto antes y después de la Inteligencia Artificial:')
-                      : TUTORIAL_STEPS[tutorialStep]?.speech}
+                        : TUTORIAL_STEPS[tutorialStep]?.speech}
                   </p>
                 </div>
 
@@ -1445,11 +1503,10 @@ export default function IAAplicadaPage() {
                                 stopAudio();
                                 playCaseExplanationSequence(idx);
                               }}
-                              className={`px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left flex items-center justify-between shadow-md cursor-pointer ${
-                                activeCompTab === idx
-                                  ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
-                                  : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
-                              }`}
+                              className={`px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left flex items-center justify-between shadow-md cursor-pointer ${activeCompTab === idx
+                                ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
+                                : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
+                                }`}
                             >
                               <span>{c.title}</span>
                               {activeCompTab === idx && <span className="text-[10px] font-black">● VISTO</span>}
@@ -1462,9 +1519,8 @@ export default function IAAplicadaPage() {
                         {/* INSIGNIA DE ESTADO DE LA SECUENCIA DE EXPLICACIÓN */}
                         <div className="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono font-bold flex items-center justify-between shadow-inner">
                           <span className="text-slate-300">Modo Actual:</span>
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${
-                            isTrebolActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
-                          }`}>
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${isTrebolActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
+                            }`}>
                             {isTrebolActive ? 'Con Trébol IA' : 'Operación Sin Trébol'}
                           </span>
                         </div>
@@ -1508,11 +1564,10 @@ export default function IAAplicadaPage() {
                                 stopAudio();
                                 playDfdNodeSequence(flow.tab);
                               }}
-                              className={`px-3 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left truncate flex items-center justify-between shadow-md cursor-pointer ${
-                                activeAreaTab === flow.tab
-                                  ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
-                                  : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
-                              }`}
+                              className={`px-3 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left truncate flex items-center justify-between shadow-md cursor-pointer ${activeAreaTab === flow.tab
+                                ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
+                                : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
+                                }`}
                             >
                               <span className="truncate">{flow.label}</span>
                               {activeAreaTab === flow.tab && <span className="text-[10px] font-black">● VISTO</span>}
@@ -1589,8 +1644,8 @@ export default function IAAplicadaPage() {
         )}
       </AnimatePresence>
 
-      {/* BOTÓN FLOTANTE PERMANENTE PARA ABRIR EL TUTORIAL DE TREBOT */}
-      {!showTutorial && !hideFloatingOnFooter && (
+      {/* BOTÓN FLOTANTE SOLO VISIBLE FUERA DEL HERO Y ANTES DEL FOOTER */}
+      {!showTutorial && showFloatingButton && (
         <button
           onClick={startTutorialManual}
           className="fixed bottom-6 right-6 z-30 px-5 py-3 rounded-full bg-white border border-trebol/40 shadow-xl text-carbon font-bold text-xs hover:border-trebol hover:bg-trebol hover:text-white transition-all duration-300 flex items-center gap-2.5 group"
@@ -1603,128 +1658,137 @@ export default function IAAplicadaPage() {
       )}
 
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      {/* HERO SECTION COMPLETO */}
+      {/* HERO SECTION COMPLETO EN 2 COLUMNAS (ALINEADO A MARKETING ESTRATÉGICO) */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className={`relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-4 md:px-12 bg-hueso overflow-hidden transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
-            ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-hueso text-carbon pointer-events-auto'
-            : ''
+        className={`relative w-full pt-32 md:pt-40 pb-20 px-6 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
+          ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-hueso text-carbon pointer-events-auto'
+          : ''
           }`}
       >
 
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <motion.div
-            animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.8, 0.6] }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.7, 0.5] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-trebol/20 rounded-full blur-[110px]"
+            className="absolute -top-40 -left-40 w-[28rem] h-[28rem] bg-trebol/20 rounded-full blur-[100px]"
           />
           <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute top-20 right-0 w-[28rem] h-[28rem] bg-trebol/10 rounded-full blur-[90px]"
-          />
-          <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-            className="absolute -bottom-20 left-1/3 w-[35rem] h-[35rem] bg-trebol/15 rounded-full blur-[120px]"
+            className="absolute top-20 right-0 w-[24rem] h-[24rem] bg-trebol/10 rounded-full blur-[80px]"
           />
         </div>
 
-        {/* Container for Headline & Floating Glass Badge */}
-        <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center mb-12 md:mb-16 z-10">
+        <div className="max-w-[1350px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
 
-          {/* Floating Glass Badge (Micro-Floating Loop Animation) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20, rotate: -6 }}
-            animate={{ opacity: 1, y: [0, -6, 0], rotate: -2 }}
-            transition={{
-              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-              opacity: { duration: 0.8, delay: 0.2 },
-              rotate: { duration: 0.8, delay: 0.2 }
-            }}
-            className="mb-6"
-          >
-            <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
-              Inteligencia Artificial Aplicada a Negocios
-            </div>
-          </motion.div>
+          {/* COLUMNA IZQUIERDA: TITULAR (MAX 2 LÍNEAS), DESCRIPCIÓN Y CTAS */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 90, damping: 14 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-black text-carbon leading-[1.1] tracking-tight max-w-4xl"
+            >
+              Inteligencia Artificial que transforma tu <span className="text-trebol">negocio hoy.</span>
+            </motion.h1>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter mb-8"
-          >
-            Inteligencia Artificial <br className="hidden md:block" />
-            que Transforma tu Negocio <span className="text-trebol">HOY.</span>
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="text-base md:text-xl text-carbon/80 font-light leading-relaxed max-w-xl font-sans"
+            >
+              Diseñamos e integramos arquitectura de IA que automatiza tus ventas, conecta tus operaciones e incrementa la rentabilidad de tu empresa.
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed max-w-3xl text-center mb-10"
-          >
-            Diseñamos e integramos arquitectura de IA que automatiza tus ventas, conecta tus operaciones e incrementa la rentabilidad de tu empresa.
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2"
+            >
+              <button
+                onClick={startTutorialManual}
+                className="px-7 py-3.5 rounded-2xl bg-trebol text-white font-bold text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+              >
+                Iniciar Tour con TREBOT <ArrowUpRight size={18} />
+              </button>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <button
+              <a
+                href="/agenda"
+                className="px-7 py-3.5 rounded-2xl bg-white border border-neutral-300 text-carbon font-semibold text-sm md:text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
+              >
+                Agendar Sesión Estratégica
+              </a>
+            </motion.div>
+
+            {/* Badges de Confianza */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="pt-4 flex flex-wrap items-center gap-6 text-xs font-mono text-carbon/70"
+            >
+              <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-trebol" /> Privacidad & Cifrado</span>
+              <span className="flex items-center gap-2"><Clock size={16} className="text-trebol" /> ROI en &lt;60 días</span>
+              <span className="flex items-center gap-2"><Cpu size={16} className="text-trebol" /> Modelos Propietarios</span>
+            </motion.div>
+          </div>
+
+          {/* COLUMNA DERECHA: CABEZA DE TREBOT ASOMÁNDOSE EN LA MERA ESQUINA INFERIOR DERECHA */}
+          <div className="lg:col-span-5 flex flex-col items-end justify-end relative z-10 overflow-visible min-h-[320px]">
+            <div
+              onMouseEnter={() => setIsTrebotHovered(true)}
+              onMouseLeave={() => setIsTrebotHovered(false)}
               onClick={startTutorialManual}
-              className="px-8 py-4 rounded-2xl bg-trebol text-white font-bold text-base hover:bg-carbon transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-2.5 cursor-pointer ring-4 ring-trebol/30"
+              className="relative group cursor-pointer flex flex-col items-end justify-end overflow-visible"
             >
-              Iniciar Tour con TREBOT
-            </button>
+              {/* DIÁLOGO / GLOBO DE SALUDO FLUIDO CON ANIMACIÓN SPRING EN HOVER */}
+              <AnimatePresence>
+                {isTrebotHovered && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.85, transition: { duration: 0.2 } }}
+                    transition={{ type: "spring", stiffness: 140, damping: 16 }}
+                    className="absolute -top-16 right-6 bg-carbon text-white font-mono font-bold text-xs px-5 py-3 rounded-2xl shadow-2xl border border-trebol/40 flex items-center gap-2.5 pointer-events-none whitespace-nowrap z-50 drop-shadow-2xl"
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full bg-trebol animate-ping" />
+                    <span>¡Hola! Haz clic para iniciar el tour con Trebot 👋</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            <a
-              href="/agenda"
-              className="px-8 py-4 rounded-2xl bg-white border border-neutral-200 text-carbon font-semibold text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center gap-2"
-            >
-              Agendar Sesión Estratégica <ArrowUpRight size={18} />
-            </a>
-          </motion.div>
+              {/* RESPLANDOR AMBIENTAL Y SOMBRA GIGANTE DETRÁS DE TREBOT */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[24rem] h-[24rem] bg-trebol/30 rounded-full blur-[90px] pointer-events-none z-0" />
 
-          {/* Badges de Confianza */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="pt-8 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-carbon/70"
-          >
-            <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-trebol" /> Privacidad & Cifrado de Datos</span>
-            <span className="flex items-center gap-2"><Clock size={16} className="text-trebol" /> ROI Estimado en &lt;60 días</span>
-            <span className="flex items-center gap-2"><Cpu size={16} className="text-trebol" /> Modelos Propietarios</span>
-          </motion.div>
+              {/* CABEZA DE TREBOT ASOMADA EN LA MERA ESQUINA DE LA SECCIÓN */}
+              <div className="relative z-10 overflow-visible">
+                <TrebotSVG isSpeaking={isSpeaking || isTrebotHovered} isHovered={isTrebotHovered} size={360} />
+              </div>
+            </div>
+          </div>
+
         </div>
-
       </section>
 
       {/* ── SECCIÓN 1: CAPABILIDADES CLAVE DE IA EN FORMATO DFD CANVAS ESTILO n8n ── */}
       <section
         id="soluciones"
-        className={`py-24 md:py-32 px-6 md:px-12 bg-white border-y border-neutral-200/80 transition-all duration-500 ${
-          showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
-            ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-white pointer-events-auto'
-            : ''
-        }`}
+        className={`py-24 md:py-32 px-6 md:px-12 bg-white border-y border-neutral-200/80 transition-all duration-500 ${showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
+          ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-white pointer-events-auto'
+          : ''
+          }`}
       >
         <div className="max-w-[1400px] w-full mx-auto">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16">
             <div className="lg:col-span-7">
-              <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest block mb-3">
-                ARQUITECTURA & DIAGRAMAS DFD ESTILO n8n
-              </span>
-              <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.95]">
-                Las 4 áreas donde la IA <br />
-                <span className="text-trebol">revoluciona tu empresa</span>
+              <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+                Las 4 áreas donde la IA <span className="text-trebol">revoluciona tu empresa</span>
               </h2>
             </div>
 
@@ -1735,84 +1799,82 @@ export default function IAAplicadaPage() {
             </div>
           </div>
 
-        {/* SWITCHES / PESTAÑAS DE SELECCIÓN DE ÁREA (4 OPCIONES EN UNA SOLA LÍNEA DE IGUAL ANCHO) */}
-        <div className="w-full max-w-5xl mx-auto mb-10 overflow-x-auto pb-2">
-          <div className="grid grid-cols-4 gap-2 md:gap-3 min-w-[640px] md:min-w-0">
-            {pilarServices.map((sol, idx) => {
-              const Icon = sol.icon;
-              const isActive = activeAreaTab === idx;
-              const shortLabels = ['Agentes & Ventas', 'Operaciones & RPA', 'BI & Predictivo', 'Soporte Autónomo'];
-              return (
-                <button
-                  key={sol.id}
-                  onClick={() => {
-                    setActiveAreaTab(idx);
-                    stopAudio();
-                    setShowTutorial(true);
-                    setTutorialStep(1);
-                    setSelectedDfdIndex(idx);
-                    const el = document.getElementById(`dfd-area-${idx}`) || document.getElementById('soluciones');
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    speak(DFD_EXPLANATIONS[idx].speech);
-                  }}
-                  className={`w-full py-3.5 px-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm text-center truncate ${
-                    isActive
+          {/* SWITCHES / PESTAÑAS DE SELECCIÓN DE ÁREA (4 OPCIONES EN UNA SOLA LÍNEA DE IGUAL ANCHO) */}
+          <div className="w-full max-w-5xl mx-auto mb-10 overflow-x-auto pb-2">
+            <div className="grid grid-cols-4 gap-2 md:gap-3 min-w-[640px] md:min-w-0">
+              {pilarServices.map((sol, idx) => {
+                const Icon = sol.icon;
+                const isActive = activeAreaTab === idx;
+                const shortLabels = ['Agentes & Ventas', 'Operaciones & RPA', 'BI & Predictivo', 'Soporte Autónomo'];
+                return (
+                  <button
+                    key={sol.id}
+                    onClick={() => {
+                      setActiveAreaTab(idx);
+                      stopAudio();
+                      setShowTutorial(true);
+                      setTutorialStep(1);
+                      setSelectedDfdIndex(idx);
+                      const el = document.getElementById(`dfd-area-${idx}`) || document.getElementById('soluciones');
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      speak(DFD_EXPLANATIONS[idx].speech);
+                    }}
+                    className={`w-full py-3.5 px-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm text-center truncate ${isActive
                       ? 'bg-trebol text-white shadow-[0_0_25px_rgba(132,198,56,0.5)] ring-2 ring-trebol'
                       : 'bg-white text-carbon/80 border border-neutral-200 hover:border-trebol hover:text-trebol'
-                  }`}
-                >
-                  <Icon size={18} className={`shrink-0 ${isActive ? 'text-white' : 'text-trebol'}`} />
-                  <span className="truncate">{shortLabels[idx]}</span>
-                </button>
-              );
-            })}
+                      }`}
+                  >
+                    <Icon size={18} className={`shrink-0 ${isActive ? 'text-white' : 'text-trebol'}`} />
+                    <span className="truncate">{shortLabels[idx]}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* TARJETA ÚNICA INTERACTIVA CON SWITCH DE ÁREAS */}
-        {(() => {
-          const currentSol = pilarServices[activeAreaTab];
-          const Icon = currentSol.icon;
-          return (
-            <motion.div
-              key={activeAreaTab}
-              id={`dfd-area-${activeAreaTab}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className={`max-w-[1400px] mx-auto p-8 md:p-12 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-2xl space-y-8 transition-all duration-500 ${
-                showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
+          {/* TARJETA ÚNICA INTERACTIVA CON SWITCH DE ÁREAS */}
+          {(() => {
+            const currentSol = pilarServices[activeAreaTab];
+            const Icon = currentSol.icon;
+            return (
+              <motion.div
+                key={activeAreaTab}
+                id={`dfd-area-${activeAreaTab}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className={`max-w-[1400px] mx-auto p-8 md:p-12 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-2xl space-y-8 transition-all duration-500 ${showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
                   ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-white pointer-events-auto'
                   : ''
-              }`}
-            >
-              {/* Encabezado de la Tarjeta Seleccionada */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol shrink-0">
-                    <Icon size={32} />
+                  }`}
+              >
+                {/* Encabezado de la Tarjeta Seleccionada */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol shrink-0">
+                      <Icon size={32} />
+                    </div>
+                    <div>
+                      <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block mb-1">
+                        {currentSol.badge}
+                      </span>
+                      <h3 className="text-2xl md:text-3xl font-bold text-carbon tracking-tight">
+                        {currentSol.title}
+                      </h3>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block mb-1">
-                      {currentSol.badge}
-                    </span>
-                    <h3 className="text-2xl md:text-3xl font-bold text-carbon tracking-tight">
-                      {currentSol.title}
-                    </h3>
-                  </div>
+
                 </div>
 
-              </div>
+                <p className="text-carbon/70 text-base md:text-lg leading-relaxed font-light">
+                  {currentSol.desc}
+                </p>
 
-              <p className="text-carbon/70 text-base md:text-lg leading-relaxed font-light">
-                {currentSol.desc}
-              </p>
-
-              {/* CANVAS DE DIAGRAMA DE NODOS ESTILO n8n OFICIAL (ÚNICO Y EXCLUSIVO POR CADA ÁREA) */}
-              <RenderAreaWorkflowCanvas activeAreaTab={activeAreaTab} currentSol={currentSol} externalActiveStep={dfdActiveStep} />
-            </motion.div>
-          );
-        })()}
+                {/* CANVAS DE DIAGRAMA DE NODOS ESTILO n8n OFICIAL (ÚNICO Y EXCLUSIVO POR CADA ÁREA) */}
+                <RenderAreaWorkflowCanvas activeAreaTab={activeAreaTab} currentSol={currentSol} externalActiveStep={dfdActiveStep} />
+              </motion.div>
+            );
+          })()}
 
         </div>
       </section>
@@ -1822,11 +1884,8 @@ export default function IAAplicadaPage() {
         <div className="max-w-[1400px] w-full mx-auto">
 
           <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
-            <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest block">
-              TRANSFORMACIÓN OPERATIVA REAL
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tighter">
-              El cambio en tu empresa antes y después de la IA
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              El cambio en tu empresa <span className="text-trebol">antes y después de la IA</span>
             </h2>
             <p className="text-carbon/70 text-base md:text-lg font-light leading-relaxed">
               Compara cómo opera un negocio en esquema tradicional frente a una empresa acelerada con Inteligencia Artificial.
@@ -1843,11 +1902,10 @@ export default function IAAplicadaPage() {
                     setActiveCompTab(idx);
                     setIsTrebolActive(false); // Reinicia a modo Sin Trébol para experimentar la transformación
                   }}
-                  className={`px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold font-mono transition-all duration-300 flex items-center gap-2 ${
-                    activeCompTab === idx
-                      ? 'bg-trebol text-white shadow-md font-extrabold'
-                      : 'text-carbon/70 hover:text-carbon hover:bg-neutral-100'
-                  }`}
+                  className={`px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold font-mono transition-all duration-300 flex items-center gap-2 ${activeCompTab === idx
+                    ? 'bg-trebol text-white shadow-md font-extrabold'
+                    : 'text-carbon/70 hover:text-carbon hover:bg-neutral-100'
+                    }`}
                 >
                   <span>{idx + 1}.</span>
                   {item.area}
@@ -1867,13 +1925,11 @@ export default function IAAplicadaPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                className={`border rounded-3xl p-8 md:p-12 shadow-2xl space-y-8 relative overflow-hidden transition-all duration-700 ${
-                  isTrebolActive ? 'bg-emerald-50/40 border-trebol/40 shadow-[0_20px_60px_rgba(132,198,56,0.12)]' : 'bg-white border-neutral-200/80'
-                } ${
-                  showTutorial && tutorialStep === 2
+                className={`border rounded-3xl p-8 md:p-12 shadow-2xl space-y-8 relative overflow-hidden transition-all duration-700 ${isTrebolActive ? 'bg-emerald-50/40 border-trebol/40 shadow-[0_20px_60px_rgba(132,198,56,0.12)]' : 'bg-white border-neutral-200/80'
+                  } ${showTutorial && tutorialStep === 2
                     ? 'relative z-[9999] bg-white ring-4 ring-trebol shadow-[0_0_80px_rgba(132,198,56,0.85)] pointer-events-auto'
                     : ''
-                }`}
+                  }`}
               >
                 {/* ENCABEZADO CON TÍTULO, DESCRIPCIÓN Y SWITCH INTERACTIVO DE MODO */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-neutral-100 pb-6 relative z-10">
@@ -1897,16 +1953,14 @@ export default function IAAplicadaPage() {
                       role="switch"
                       aria-checked={isTrebolActive}
                       onClick={() => setIsTrebolActive(!isTrebolActive)}
-                      className={`w-14 h-7 rounded-full p-1 transition-colors duration-500 flex items-center cursor-pointer shadow-inner relative ${
-                        isTrebolActive ? 'bg-trebol shadow-[0_0_12px_rgba(132,198,56,0.6)]' : 'bg-neutral-300'
-                      }`}
+                      className={`w-14 h-7 rounded-full p-1 transition-colors duration-500 flex items-center cursor-pointer shadow-inner relative ${isTrebolActive ? 'bg-trebol shadow-[0_0_12px_rgba(132,198,56,0.6)]' : 'bg-neutral-300'
+                        }`}
                     >
                       <motion.div
                         layout
                         transition={{ type: "spring", stiffness: 600, damping: 30 }}
-                        className={`w-5 h-5 rounded-full bg-white shadow-md flex items-center justify-center ${
-                          isTrebolActive ? 'ml-7' : 'ml-0'
-                        }`}
+                        className={`w-5 h-5 rounded-full bg-white shadow-md flex items-center justify-center ${isTrebolActive ? 'ml-7' : 'ml-0'
+                          }`}
                       >
                         {isTrebolActive ? (
                           <Zap size={11} className="text-trebol fill-trebol" />
@@ -1927,97 +1981,97 @@ export default function IAAplicadaPage() {
 
                   {/* COLUMNA IZQUIERDA: TARJETA ÚNICA DINÁMICA CONMUTABLE (SIN TRÉBOL VS CON TRÉBOL IA) */}
                   <div className="w-full flex flex-col justify-between">
-                  <AnimatePresence mode="wait">
-                    {!isTrebolActive ? (
-                      <motion.div
-                        key="sin-trebol"
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="bg-rose-50/80 border-2 border-rose-200 rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-lg"
-                      >
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-mono font-black text-rose-600 bg-rose-100 px-3.5 py-1.5 rounded-full uppercase tracking-wider">
-                              Sin Trébol (Operación Tradicional)
-                            </span>
-                            <XCircle size={22} className="text-rose-600 shrink-0" />
+                    <AnimatePresence mode="wait">
+                      {!isTrebolActive ? (
+                        <motion.div
+                          key="sin-trebol"
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.35, ease: "easeOut" }}
+                          className="bg-rose-50/80 border-2 border-rose-200 rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-lg"
+                        >
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-mono font-black text-rose-600 bg-rose-100 px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                                Sin Trébol (Operación Tradicional)
+                              </span>
+                              <XCircle size={22} className="text-rose-600 shrink-0" />
+                            </div>
+
+                            <h4 className="text-2xl md:text-3xl font-black text-rose-950 tracking-tight">
+                              {currentItem.antesTitle}
+                            </h4>
+
+                            <p className="text-base md:text-lg text-rose-900/80 font-light leading-relaxed">
+                              {currentItem.antes}
+                            </p>
+
+                            <ul className="space-y-3 pt-4 border-t border-rose-200/80">
+                              {currentItem.antesPuntos?.map((pt, i) => (
+                                <li key={i} className="flex items-center gap-3 text-sm text-rose-900 font-medium">
+                                  <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                                  <span>{pt}</span>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
 
-                          <h4 className="text-2xl md:text-3xl font-black text-rose-950 tracking-tight">
-                            {currentItem.antesTitle}
-                          </h4>
-
-                          <p className="text-base md:text-lg text-rose-900/80 font-light leading-relaxed">
-                            {currentItem.antes}
-                          </p>
-
-                          <ul className="space-y-3 pt-4 border-t border-rose-200/80">
-                            {currentItem.antesPuntos?.map((pt, i) => (
-                              <li key={i} className="flex items-center gap-3 text-sm text-rose-900 font-medium">
-                                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
-                                <span>{pt}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="pt-6 border-t border-rose-200/80 flex items-center justify-between font-mono">
-                          <span className="text-xs text-rose-800 font-bold">Métrica Actual:</span>
-                          <span className="text-sm font-black text-rose-700 bg-white px-4 py-1.5 rounded-xl border border-rose-200 shadow-sm">
-                            {currentItem.antesKpiLabel}: {currentItem.antesKpi}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="con-trebol"
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="bg-emerald-50/90 border-2 border-trebol rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-xl relative overflow-hidden"
-                      >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-trebol/10 rounded-bl-full pointer-events-none" />
-
-                        <div className="space-y-4 relative z-10">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-mono font-black text-white bg-trebol px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-2">
-                              <Zap size={14} fill="currentColor" />
-                              Con Trébol IA (Alto Rendimiento)
+                          <div className="pt-6 border-t border-rose-200/80 flex items-center justify-between font-mono">
+                            <span className="text-xs text-rose-800 font-bold">Métrica Actual:</span>
+                            <span className="text-sm font-black text-rose-700 bg-white px-4 py-1.5 rounded-xl border border-rose-200 shadow-sm">
+                              {currentItem.antesKpiLabel}: {currentItem.antesKpi}
                             </span>
-                            <CheckCircle2 size={24} className="text-trebol shrink-0" />
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="con-trebol"
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.35, ease: "easeOut" }}
+                          className="bg-emerald-50/90 border-2 border-trebol rounded-3xl p-8 md:p-10 space-y-6 flex flex-col justify-between shadow-xl relative overflow-hidden"
+                        >
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-trebol/10 rounded-bl-full pointer-events-none" />
+
+                          <div className="space-y-4 relative z-10">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-mono font-black text-white bg-trebol px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-2">
+                                <Zap size={14} fill="currentColor" />
+                                Con Trébol IA (Alto Rendimiento)
+                              </span>
+                              <CheckCircle2 size={24} className="text-trebol shrink-0" />
+                            </div>
+
+                            <h4 className="text-2xl md:text-3xl font-black text-emerald-950 tracking-tight">
+                              {currentItem.despuesTitle}
+                            </h4>
+
+                            <p className="text-base md:text-lg text-emerald-900/90 font-light leading-relaxed">
+                              {currentItem.despues}
+                            </p>
+
+                            <ul className="space-y-3 pt-4 border-t border-emerald-200/80">
+                              {currentItem.despuesPuntos?.map((pt, i) => (
+                                <li key={i} className="flex items-center gap-3 text-sm text-emerald-950 font-semibold">
+                                  <CheckCircle2 size={16} className="text-trebol shrink-0" />
+                                  <span>{pt}</span>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
 
-                          <h4 className="text-2xl md:text-3xl font-black text-emerald-950 tracking-tight">
-                            {currentItem.despuesTitle}
-                          </h4>
-
-                          <p className="text-base md:text-lg text-emerald-900/90 font-light leading-relaxed">
-                            {currentItem.despues}
-                          </p>
-
-                          <ul className="space-y-3 pt-4 border-t border-emerald-200/80">
-                            {currentItem.despuesPuntos?.map((pt, i) => (
-                              <li key={i} className="flex items-center gap-3 text-sm text-emerald-950 font-semibold">
-                                <CheckCircle2 size={16} className="text-trebol shrink-0" />
-                                <span>{pt}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="pt-6 border-t border-emerald-200/80 flex items-center justify-between font-mono relative z-10">
-                          <span className="text-xs text-emerald-800 font-bold">Rendimiento Inmediato:</span>
-                          <span className="text-sm md:text-base font-black text-trebol bg-white px-4 py-1.5 rounded-xl border border-trebol/30 shadow-sm">
-                            {currentItem.despuesKpi} ({currentItem.impacto})
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                          <div className="pt-6 border-t border-emerald-200/80 flex items-center justify-between font-mono relative z-10">
+                            <span className="text-xs text-emerald-800 font-bold">Rendimiento Inmediato:</span>
+                            <span className="text-sm md:text-base font-black text-trebol bg-white px-4 py-1.5 rounded-xl border border-trebol/30 shadow-sm">
+                              {currentItem.despuesKpi} ({currentItem.impacto})
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
                   {/* COLUMNA DERECHA: GRÁFICOS VISUALES DINÁMICOS QUE REACCIONAN AL SWITCH */}
                   <div className="bg-white/80 backdrop-blur-md border border-neutral-200/80 rounded-2xl p-6 md:p-8 space-y-6 flex flex-col justify-between shadow-sm">
@@ -2141,15 +2195,13 @@ export default function IAAplicadaPage() {
                     </AnimatePresence>
 
                     {/* TARJETA INFORMATIVA INFERIOR DE MULTIPLICADOR */}
-                    <div className={`p-4 rounded-2xl border flex items-center justify-between transition-colors duration-500 ${
-                      isTrebolActive
-                        ? 'bg-gradient-to-r from-emerald-50 to-trebol/10 border-trebol/40 shadow-sm'
-                        : 'bg-rose-50/40 border-rose-200/70'
-                    }`}>
+                    <div className={`p-4 rounded-2xl border flex items-center justify-between transition-colors duration-500 ${isTrebolActive
+                      ? 'bg-gradient-to-r from-emerald-50 to-trebol/10 border-trebol/40 shadow-sm'
+                      : 'bg-rose-50/40 border-rose-200/70'
+                      }`}>
                       <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-md shrink-0 text-white transition-colors duration-500 ${
-                          isTrebolActive ? 'bg-trebol' : 'bg-rose-500'
-                        }`}>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-md shrink-0 text-white transition-colors duration-500 ${isTrebolActive ? 'bg-trebol' : 'bg-rose-500'
+                          }`}>
                           {isTrebolActive ? <TrendingUp size={20} /> : <Clock size={20} />}
                         </div>
                         <div>
@@ -2185,11 +2237,8 @@ export default function IAAplicadaPage() {
         <div className="max-w-[1400px] w-full mx-auto">
 
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest block">
-              STACK TECNOLÓGICO EMPRESARIAL
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tighter">
-              Modelos e integraciones con las mejores plataformas
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              Modelos e integraciones con <span className="text-trebol">las mejores plataformas</span>
             </h2>
             <p className="text-carbon/70 text-base md:text-lg font-light">
               Conectamos los modelos de lenguaje más potentes del mundo con tu infraestructura existente sin fisuras.
@@ -2222,20 +2271,16 @@ export default function IAAplicadaPage() {
       <section
         id="metodologia"
         className={`py-24 md:py-32 px-6 md:px-12 bg-white border-b border-neutral-200/80 transition-all duration-500 ${showTutorial && currentTargetId === 'metodologia'
-            ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-white text-carbon pointer-events-auto'
-            : ''
+          ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-white text-carbon pointer-events-auto'
+          : ''
           }`}
       >
         <div className="max-w-[1400px] w-full mx-auto">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-20">
             <div className="lg:col-span-7">
-              <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest block mb-3">
-                METODOLOGÍA DE DESPLIEGUE
-              </span>
-              <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.95]">
-                Cómo implementamos IA <br />
-                <span className="text-trebol">en 4 pasos estructurados</span>
+              <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+                Cómo implementamos IA <span className="text-trebol">en 4 pasos estructurados</span>
               </h2>
             </div>
             <div className="lg:col-span-5">
@@ -2282,11 +2327,8 @@ export default function IAAplicadaPage() {
         <div className="max-w-[1000px] w-full mx-auto space-y-12">
 
           <div className="text-center space-y-4">
-            <span className="text-xs font-mono text-trebol font-bold uppercase tracking-widest block">
-              RESOLVIENDO DUDAS CLAVE
-            </span>
-            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tighter">
-              Preguntas Frecuentes sobre Inteligencia Artificial
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              Preguntas frecuentes sobre <span className="text-trebol">Inteligencia Artificial</span>
             </h2>
           </div>
 
