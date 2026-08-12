@@ -58,26 +58,23 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360 }) {
 
         <ellipse cx="115" cy="268" rx="72" ry="12" fill="url(#b-shadow)" />
 
-        {/* BRAZO IZQUIERDO: SE ELEVA ALTO COMO SI QUISIERA TOCAR SU CABEZA (HAND TOUCHING HEAD WAVE 👋) */}
-        <g transform="translate(58, 148)">
-          <motion.g
-            animate={
-              isHovered
-                ? { rotate: [-155, -175, -160, -170, -155] }
-                : { rotate: 0 }
-            }
-            transition={
-              isHovered
-                ? { duration: 0.8, repeat: Infinity, ease: "easeInOut" }
-                : { duration: 0.3 }
-            }
-            style={{ transformOrigin: '0px 0px' }}
-          >
-            <path d="M 0 0 C -18 8 -22 35 -16 55 C -10 65 4 65 8 55 C 12 35 8 8 0 0 Z" fill="url(#b-white)" />
-            <ellipse cx="-5" cy="26" rx="3.5" ry="12" fill="white" opacity="0.65" />
-          </motion.g>
-        </g>
+        {/* BRAZO IZQUIERDO DE PANTALLA (100% IDÉNTICO Y SIMÉTRICO AL BRAZO DERECHO EN REPOSO) */}
+        <motion.g
+          animate={{
+            rotate: isHovered ? [-115, -145, -120, -140, -115] : -6
+          }}
+          transition={{
+            duration: isHovered ? 0.8 : 0.3,
+            repeat: isHovered ? Infinity : 0,
+            ease: "easeInOut"
+          }}
+          style={{ transformOrigin: '54px 142px', transformBox: 'fill-box' }}
+        >
+          <path d="M 58 140 C 38 148 34 180 36 210 C 38 226 56 226 62 210 C 66 180 68 148 58 140 Z" fill="url(#b-white)" />
+          <ellipse cx="44" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
+        </motion.g>
 
+        {/* BRAZO DERECHO DE PANTALLA (100% IDÉNTICO Y SIMÉTRICO AL BRAZO IZQUIERDO EN REPOSO) */}
         <g transform="rotate(6, 176, 142)">
           <path d="M 172 140 C 192 148 196 180 194 210 C 192 226 174 226 168 210 C 164 180 162 148 172 140 Z" fill="url(#b-white)" />
           <ellipse cx="186" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
