@@ -284,10 +284,10 @@ export default function MarketingEstrategicoPage() {
   };
 
   return (
-    <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden font-sans">
+    <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden lg:overflow-visible font-sans">
 
       {/* ── HERO EN 2 COLUMNAS ── */}
-      <section className="relative w-full pt-32 md:pt-40 pb-16 px-6 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10">
+      <section className="relative w-full pt-32 md:pt-40 pb-16 px-6 md:px-12 bg-hueso overflow-hidden lg:overflow-visible border-b border-carbon/10">
 
         {/* Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -362,7 +362,7 @@ export default function MarketingEstrategicoPage() {
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="bg-white rounded-[2.5rem] p-7 md:p-8 shadow-2xl border border-neutral-200/90 space-y-4 relative overflow-hidden"
+              className="bg-white rounded-[2.5rem] p-7 md:p-8 shadow-2xl border border-neutral-200/90 space-y-4 relative lg:overflow-visible overflow-hidden"
             >
               <div className="border-b border-neutral-100 pb-3">
                 <span className="text-[11px] font-mono font-bold text-carbon/50 uppercase tracking-widest block">

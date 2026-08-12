@@ -13,134 +13,530 @@ import {
 } from 'lucide-react';
 import Contact from '@/components/Contact';
 
+import dynamic from 'next/dynamic';
+import trebotLottieData from '@/public/trebot-lottie.json';
+import trebotLezaData from '@/public/trebot-leza.json';
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
+
 // ─────────────────────────────────────────────────────────────────────────────
-// COMPONENTE MASCOTA TREBOT (3D VECTORIAL CON VOZ Y EXPRESIONES)
+// CONSTANTES DE ANIMACIÓN DEL BOT 2 (fuera del componente para referencias estables)
+// Framer Motion NO reinicia la animación si la referencia del objeto no cambia.
 // ─────────────────────────────────────────────────────────────────────────────
-export function TrebotSVG({ isSpeaking, isHovered, size = 360 }) {
+const BOT2_HEAD_ANIMATE = { x: [0, 0, 10, 10, -10, -10, 0] };
+const BOT2_HEAD_TRANSITION = {
+  duration: 6,
+  times: [0, 0.62, 0.68, 0.76, 0.82, 0.90, 1],
+  repeat: Infinity,
+  repeatDelay: 3.5,
+  ease: 'easeInOut',
+};
+const BOT2_PUPIL_ANIMATE = { x: [0, 0, 12, 12, -12, -12, 0] };
+const BOT2_PUPIL_TRANSITION = {
+  duration: 6,
+  times: [0, 0.62, 0.68, 0.76, 0.82, 0.90, 1],
+  repeat: Infinity,
+  repeatDelay: 3.5,
+  ease: 'easeInOut',
+};
+const BOT2_BLINK_ANIMATE = { scaleY: [1, 1, 0.05, 1, 1] };
+const BOT2_BLINK_TRANSITION = { duration: 0.3, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' };
+const BOT2_FLOAT_ANIMATE = { y: [0, -10, 0] };
+const BOT2_FLOAT_TRANSITION = { duration: 4, repeat: Infinity, ease: 'easeInOut' };
+const BOT2_MOUTH_SPEAKING_ANIMATE = {
+  scaleY: [1, 1.5, 0.85, 1.4, 0.9, 1.55, 1],
+  scaleX: [1, 0.9, 1.06, 0.93, 1.04, 0.88, 1],
+  y: [0, 1.5, -0.5, 1, -0.5, 1.5, 0],
+};
+const BOT2_MOUTH_SPEAKING_TRANSITION = {
+  duration: 0.55,
+  repeat: Infinity,
+  ease: 'easeInOut',
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENTE MASCOTA TREBOT CON SWITCH DE 3 MODELOS
+// ─────────────────────────────────────────────────────────────────────────────
+export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, expression = 'happy', armPose = 'auto', eyeExpression = 'auto' }) {
+  const [botModel, setBotModel] = useState('lottie-trebol'); // 'svg-original' | 'lottie-trebol' | 'lottie-leza'
+
+  const activeArmPose = armPose !== 'auto' ? armPose : (isHovered ? 'wave' : 'rest');
+  const activeEyeExpr = eyeExpression !== 'auto' ? eyeExpression : (expression === 'celebrate' ? 'half-moon' : expression === 'smart' ? 'wink' : 'circle');
+
   return (
-    <motion.div
-      animate={
-        isHovered
-          ? { scale: 0.95, rotate: -4, x: 0, y: -20 }
-          : { scale: 1, rotate: -18, x: 50, y: 110 }
-      }
-      transition={{ type: 'spring', stiffness: 150, damping: 18 }}
-      className="relative select-none cursor-pointer transform-gpu"
-      style={{ width: size, height: size * 1.15 }}
-    >
-      <svg
-        viewBox="0 0 230 280"
-        className="w-full h-full drop-shadow-[0_45px_90px_rgba(141,198,63,0.7)]"
+    <div className="relative group">
+      {/* SWITCH SELECTOR FLOTANTE PARA COMPARAR LOS 3 BOTS */}
+      <div
+        className="absolute -top-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-black/90 p-1 rounded-full border border-trebol/40 shadow-xl backdrop-blur-md"
+        onClick={(e) => e.stopPropagation()}
       >
-        <defs>
-          <radialGradient id="b-shadow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#84C638" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="b-white" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="60%" stopColor="#f1f5f9" />
-            <stop offset="100%" stopColor="#cbd5e1" />
-          </linearGradient>
-          <linearGradient id="b-silver" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#e2e8f0" />
-            <stop offset="100%" stopColor="#94a3b8" />
-          </linearGradient>
-          <linearGradient id="b-screen" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#0b1329" />
-            <stop offset="100%" stopColor="#1e293b" />
-          </linearGradient>
-          <filter id="b-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3.5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-
-        <ellipse cx="115" cy="268" rx="72" ry="12" fill="url(#b-shadow)" />
-
-        {/* BRAZO IZQUIERDO DE PANTALLA (100% IDÉNTICO Y SIMÉTRICO AL BRAZO DERECHO EN REPOSO) */}
-        <motion.g
-          animate={{
-            rotate: isHovered ? [-115, -145, -120, -140, -115] : -6
-          }}
-          transition={{
-            duration: isHovered ? 0.8 : 0.3,
-            repeat: isHovered ? Infinity : 0,
-            ease: "easeInOut"
-          }}
-          style={{ transformOrigin: '54px 142px', transformBox: 'fill-box' }}
+        <button
+          onClick={() => setBotModel('svg-original')}
+          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'svg-original'
+            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
+            : 'text-slate-400 hover:text-white'
+            }`}
         >
-          <path d="M 58 140 C 38 148 34 180 36 210 C 38 226 56 226 62 210 C 66 180 68 148 58 140 Z" fill="url(#b-white)" />
-          <ellipse cx="44" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
-        </motion.g>
+          Bot 1 (SVG)
+        </button>
+        <button
+          onClick={() => setBotModel('lottie-trebol')}
+          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'lottie-trebol'
+            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
+            : 'text-slate-400 hover:text-white'
+            }`}
+        >
+          Bot 2 (Trébol)
+        </button>
+        <button
+          onClick={() => setBotModel('lottie-leza')}
+          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'lottie-leza'
+            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
+            : 'text-slate-400 hover:text-white'
+            }`}
+        >
+          Bot 3 (Leza)
+        </button>
+      </div>
 
-        {/* BRAZO DERECHO DE PANTALLA (100% IDÉNTICO Y SIMÉTRICO AL BRAZO IZQUIERDO EN REPOSO) */}
-        <g transform="rotate(6, 176, 142)">
-          <path d="M 172 140 C 192 148 196 180 194 210 C 192 226 174 226 168 210 C 164 180 162 148 172 140 Z" fill="url(#b-white)" />
-          <ellipse cx="186" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
-        </g>
+      <motion.div
+        animate={
+          isModal
+            ? { scale: 1, rotate: 0, x: 0, y: 0 }
+            : isHovered
+              ? { scale: 0.95, rotate: -4, x: 0, y: -20 }
+              : { scale: 1.35, rotate: -16, x: 75, y: 175 }
+        }
+        transition={{ type: 'spring', stiffness: 160, damping: 18 }}
+        className="relative select-none cursor-pointer transform-gpu flex items-center justify-center"
+        style={{ width: size, height: size * 1.15 }}
+      >
+        {botModel === 'lottie-trebol' && (
+          <motion.div
+            key="lottie-trebol"
+            className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)] flex items-center justify-center"
+            animate={BOT2_FLOAT_ANIMATE}
+            transition={BOT2_FLOAT_TRANSITION}
+          >
+            <svg fill="none" height="100%" width="100%" viewBox="0 0 682 902" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                {/* Body gradients - original gray palette */}
+                <linearGradient id="i0" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i1" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i2" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+                <linearGradient id="i3" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+                <linearGradient id="i4" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="250.236" x1="0" y1="-78.447"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i5" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-1" y2="40.807" x1="-1" y1="-11.476"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="49.9%" stopColor="#abafb8" /><stop offset="99.9%" stopColor="#b6babf" /></linearGradient>
+                <linearGradient id="i6" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="38.928" x1="0" y1="-72.957"><stop offset="20.6%" stopColor="#e4e8ef" /><stop offset="60.3%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i7" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.544" y2="0.096" x1="-28.627" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i8" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.798" y2="0.096" x1="-28.373" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                <linearGradient id="i9" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="-54.282" x1="0" y1="-16.131"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+                <linearGradient id="i10" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-0.357" y2="152.047" x1="-0.357" y1="-119.307"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+                {/* Face screen - dark slate gray (user requested, replaces original blue) */}
+                <radialGradient id="i11" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="0" cy="0.192" r="206.101" fy="0.192" fx="0"><stop offset="0%" stopColor="#1a2744" /><stop offset="50%" stopColor="#111c33" /><stop offset="100%" stopColor="#0b1329" /></radialGradient>
+                {/* Eyes - Trébol green (user requested, replaces original cyan) */}
+                <radialGradient id="i12" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.055" cy="0.167" r="48.124" fy="0.167" fx="-0.055"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+                <radialGradient id="i13" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.667" cy="0.174" r="25.166" fy="0.174" fx="-0.667"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+                <radialGradient id="i14" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.392" cy="0.167" r="48.123" fy="0.167" fx="-0.392"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+                <radialGradient id="i15" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.184" cy="-0.737" r="33.853" fy="-0.737" fx="-0.184"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+                <radialGradient id="i16" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.005" cy="0.174" r="25.166" fy="0.174" fx="-0.005"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+              </defs>
 
-        <path d="M 64 148 C 64 132 166 132 166 148 C 172 195 156 238 115 240 C 74 238 58 195 64 148 Z" fill="url(#b-white)" />
-        <ellipse cx="88" cy="172" rx="18" ry="28" fill="white" opacity="0.6" />
+              {/* ===== LEFT ARM (original structure) ===== */}
+              <g id="i17a"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+                <g visibility="hidden" id="i18"><g transform="translate(390.029,532.229)"><g transform="rotate(-5)"><g transform="scale(1,1) translate(-64,116)"><g id="i19a"><path fill="url(#i0)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
+                <g visibility="visible" id="i20"><g transform="translate(390.029,532.229)"><g transform="rotate(-2.406)"><g transform="scale(1,1) translate(-64,116)"><g id="i19b"><path fill="url(#i1)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
+              </g></g></g>
 
-        {/* ISOTIPO VECTORIAL TRÉBOL DIGITAL OFICIAL */}
-        <g transform="translate(115, 172) scale(0.065)" filter="url(#b-glow)">
-          <g transform="rotate(-135)">
-            <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-            <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-            <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
+              {/* ===== RIGHT ARM (original structure) ===== */}
+              <g id="i17b"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+                <g visibility="hidden" id="i21"><g transform="translate(693.971,534.229)"><g transform="rotate(9)"><g transform="scale(1,1) translate(60,114)"><g id="i19c"><path fill="url(#i2)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
+                <g visibility="visible" id="i22"><g transform="translate(693.971,534.229)"><g transform="rotate(5.369)"><g transform="scale(1,1) translate(60,114)"><g id="i19d"><path fill="url(#i3)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
+              </g></g></g>
+
+              {/* ===== BODY + CHEST LOGO ===== */}
+              <g id="i17c"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+                <g id="i23" transform="matrix(1,0,0,1,540,658.447)">
+                  <path fill="url(#i4)" d="M183.653,-72.253C183.653,-40.577,180.71,-11.573,175.246,14.631C174.697,17.302,174.114,19.946,173.5,22.559C148.536,129.807,80.281,187.878,0,187.878C-80.281,187.878,-148.536,129.807,-173.5,22.559C-174.114,19.946,-174.697,17.302,-175.246,14.631C-180.71,-11.573,-183.653,-40.577,-183.653,-72.253C-183.653,-142.718,-109.957,-187.878,0,-187.878C109.957,-187.878,183.653,-142.718,183.653,-72.253Z" />
+                  {/* CHEST LOGO - Trébol Digital 4-petal */}
+                  <g transform="translate(0, -10) scale(0.26)" id="trebol-chest-logo">
+                    <g transform="rotate(-135)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#2B2D2E" /></g>
+                    <g transform="rotate(-45)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
+                    <g transform="rotate(135)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
+                    <g transform="rotate(45)"><path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" /><circle cx="0" cy="-140" r="48" fill="#FFFFFF" /><circle cx="0" cy="-140" r="37" fill="#529B3C" /></g>
+                  </g>
+                </g>
+                <g id="i24body" transform="matrix(1,0,0,1,540,703.476)"><path fill="url(#i5)" d="M175.246,-30.398C174.697,-27.727,174.114,-25.083,173.5,-22.47C152.089,-15.034,119.941,-5.046,88.515,0.265C88.515,0.265,88.515,20.924,88.515,20.924C88.515,20.924,85.829,21.538,85.829,21.538C85.441,21.626,46.472,30.398,0,30.398C-46.472,30.398,-85.441,21.626,-85.829,21.538C-85.829,21.538,-88.515,20.924,-88.515,20.924C-88.515,20.924,-88.515,0.265,-88.515,0.265C-119.941,-5.046,-152.089,-15.034,-173.5,-22.47C-174.114,-25.083,-174.697,-27.727,-175.246,-30.398C-153.651,-22.747,-118.422,-11.496,-84.517,-6.078C-84.517,-6.078,-81.608,-5.614,-81.608,-5.614C-81.608,-5.614,-81.608,15.372,-81.608,15.372C-72.126,17.302,-38.724,23.491,0,23.491C38.763,23.491,72.134,17.306,81.608,15.372C81.608,15.372,81.608,-5.614,81.608,-5.614C81.608,-5.614,84.517,-6.078,84.517,-6.078C118.422,-11.496,153.651,-22.747,175.246,-30.398Z" /></g>
+                <g id="i25neck" transform="matrix(1,0,0,1,540,491.957)"><path fill="url(#i6)" d="M-74.711,-43.245C-74.711,-43.245,-74.711,0.883,-74.711,0.883C-74.711,24.279,-41.262,43.245,0,43.245C41.262,43.245,74.711,24.279,74.711,0.883C74.711,0.883,74.711,-43.245,74.711,-43.245C74.711,-43.245,-74.711,-43.245,-74.711,-43.245Z" /></g>
+                <g id="i26shadow" transform="matrix(1,0,0,1,581.038,666.197)" opacity="0.04"><path fill="#383838" d="M142.615,-80.003C142.615,-48.327,139.675,-19.323,134.21,6.88C133.659,9.551,133.076,12.194,132.464,14.808C107.497,122.058,39.243,180.129,-41.038,180.129C-78.595,180.129,-113.521,167.417,-142.615,142.907C-114.773,149.404,-85.214,146.932,-57.771,138.759C8.248,119.098,63.024,65.171,83.717,-0.53C102.481,-60.105,92.73,-127.805,58.811,-180.129C111.209,-161.218,142.615,-126.002,142.615,-80.003Z" /></g>
+                <g id="i19shine" transform="matrix(1,0,0,1,418.063,574.529)" opacity="0.49"><path fill="#ffffff" d="M37.103,-33.275C33.559,-25.547,26.23,-20.405,19.75,-14.903C-0.592,2.389,-14.884,26.668,-20.12,52.85C-21.184,58.184,-24.128,65.236,-29.426,63.992C-32.619,63.242,-34.165,59.676,-35.087,56.528C-42.505,31.141,-39.666,2.911,-27.346,-20.49C-18.287,-37.695,-4.175,-52.15,12.651,-61.874C19.391,-65.769,27.985,-64.566,33.201,-58.787C33.235,-58.75,33.269,-58.712,33.302,-58.675C39.322,-51.909,40.879,-41.509,37.103,-33.275Z" /></g>
+              </g></g></g>
+
+              {/* ===== HEAD SHELL + HANDLES/EARS/ANTENNA (fijos al casco blanco) ===== */}
+              <g id="i17d"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+                <g transform="matrix(1,0,0,1,0,0)" id="i27a">
+                  <g id="i28">
+                    <g transform="translate(540,261.003)">
+                      <g transform="scale(1,1) translate(-540,-261.003)">
+                        <g id="i25h" transform="matrix(1,0,0,1,304.627,323.904)"><path fill="url(#i7)" d="M22.405,59.103C22.405,59.103,10.629,57.29,10.629,57.29C-8.376,54.364,-22.405,38.01,-22.405,18.781C-22.405,18.781,-22.405,-18.781,-22.405,-18.781C-22.405,-38.01,-8.376,-54.364,10.629,-57.29C10.629,-57.29,22.405,-59.103,22.405,-59.103C22.405,-59.103,62.405,-60.904,62.405,-60.904C62.405,-60.904,62.853,63.257,62.853,63.257C62.853,63.257,22.405,59.103,22.405,59.103Z" /></g>
+                        <g id="i26h" transform="matrix(1,0,0,1,775.373,323.904)"><path fill="url(#i8)" d="M-22.405,59.103C-22.405,59.103,-10.629,57.29,-10.629,57.29C8.376,54.364,22.405,38.01,22.405,18.781C22.405,18.781,22.405,-18.781,22.405,-18.781C22.405,-38.01,8.376,-54.364,-10.629,-57.29C-10.629,-57.29,-22.405,-59.103,-22.405,-59.103C-22.405,-59.103,-62.405,-60.904,-62.405,-60.904C-62.405,-60.904,-62.853,63.257,-62.853,63.257C-62.853,63.257,-22.405,59.103,-22.405,59.103Z" /></g>
+                        <g id="i19ant" transform="matrix(1,0,0,1,540,196.131)"><path fill="url(#i9)" d="M79.16,0C79.16,31.552,43.719,57.131,0,57.131C-43.719,57.131,-79.16,31.552,-79.16,0C-79.16,-31.552,-79.16,-57.131,0,-57.131C79.16,-57.131,79.16,-31.552,79.16,0Z" /></g>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g></g></g>
+
+              {/* ===== HEAD OUTER SHELL ===== */}
+              <g id="i17e"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+                <g transform="matrix(1,0,0,1,0,0)" id="i27b">
+                  <g id="i26hs" transform="matrix(1,0,0,1,536.357,322.307)"><path fill="url(#i10)" d="M-217.223,59.103C-217.223,86.062,-202.464,110.869,-178.751,123.694C-148.607,139.997,-95.035,155.108,0,155.108C95.035,155.108,148.607,139.997,178.751,123.694C202.464,110.869,217.223,86.062,217.223,59.103C217.223,59.103,217.223,-59.103,217.223,-59.103C217.223,-86.062,202.464,-110.869,178.751,-123.694C148.607,-139.997,95.035,-155.108,0,-155.108C-95.035,-155.108,-148.607,-139.997,-178.751,-123.694C-202.464,-110.869,-217.223,-86.062,-217.223,-59.103C-217.223,-59.103,-217.223,59.103,-217.223,59.103Z" /></g>
+                  <g id="i19hsh" transform="matrix(1,0,0,1,380.775,226.347)" opacity="0.49"><path fill="#ffffff" d="M38.471,-11.132C-5.59,-0.851,-28.55,18.419,-39.773,31.928C-42.592,35.322,-48.081,32.556,-46.995,28.28C-41.229,5.58,-25.775,-8.713,-10.218,-17.474C3.286,-25.08,18.162,-29.609,33.316,-33.152C38.873,-34.451,44.516,-31.356,46.416,-25.975C46.441,-25.903,46.468,-25.83,46.493,-25.758C48.714,-19.467,44.968,-12.648,38.471,-11.132Z" /></g>
+                </g>
+              </g></g></g>
+
+              {/* ===== HEAD FACE SCREEN + EYES + MOUTH (Framer Motion con constantes estables) ===== */}
+              {/* Las constantes BOT2_* están definidas fuera del componente para que sean referencias */}
+              {/* estables y Framer Motion NO reinicie la animación al cambiar isSpeaking */}
+              <g id="i17f">
+                <g transform="translate(342,795.519)">
+                  <g transform="scale(1,1) translate(-542,-849.519)">
+                    {/* Head face group - volteo continuo sin interrupciones */}
+                    <motion.g
+                      animate={BOT2_HEAD_ANIMATE}
+                      transition={BOT2_HEAD_TRANSITION}
+                    >
+                      <g transform="translate(540,337.664)">
+                        <g transform="scale(1,1) translate(0,0)">
+                      {/* Face screen */}
+                      <g id="i19fs"><path fill="url(#i11)" d="M0,118.361C-94.925,118.361,-143.654,102.783,-167.816,89.715C-184.113,80.901,-194.236,63.899,-194.236,45.343C-194.236,45.343,-194.236,-45.342,-194.236,-45.342C-194.236,-63.898,-184.113,-80.901,-167.816,-89.715C-143.654,-102.783,-94.925,-118.361,0,-118.361C94.925,-118.361,143.653,-102.783,167.816,-89.715C184.112,-80.901,194.236,-63.898,194.236,-45.342C194.236,-45.342,194.236,45.343,194.236,45.343C194.236,63.899,184.113,80.901,167.816,89.715C143.653,102.784,94.925,118.361,0,118.361Z" /></g>
+                      {/* Pupil/eye group animado con constante estable */}
+                      <motion.g animate={BOT2_PUPIL_ANIMATE} transition={BOT2_PUPIL_TRANSITION}>
+                        <g transform="translate(1.223,17.765)">
+                          <g transform="scale(1,1) translate(-541.223,-355.429)">
+                            {/* Left eye glow */}
+                            <g opacity="0.06"><g transform="translate(449.055,334.833)">
+                              <path fill="url(#i12)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
+                            </g></g>
+                            {/* Left eye con parpadeo continuo */}
+                            <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '447.667px 329.826px' }}>
+                              <g transform="translate(447.667,329.826)">
+                                <path fill="url(#i13)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
+                              </g>
+                            </motion.g>
+                            {/* MOUTH - smile, pulsa solo al hablar */}
+                            <g id="i24mouth" transform="matrix(1,0,0,1,540,398.484)">
+                              <motion.path
+                                fill="#84C638"
+                                d="M23.637,-10.13C23.637,-3.603,20.992,2.304,16.713,6.583C12.434,10.862,6.527,13.507,0,13.507C-13.054,13.507,-23.637,2.924,-23.637,-10.13C-23.637,-11.06,-23.26,-11.906,-22.648,-12.518C-22.036,-13.13,-21.19,-13.507,-20.26,-13.507C-20.26,-13.507,20.26,-13.507,20.26,-13.507C22.123,-13.507,23.637,-11.993,23.637,-10.13Z"
+                                animate={isSpeaking ? BOT2_MOUTH_SPEAKING_ANIMATE : { scaleY: 1, scaleX: 1, y: 0 }}
+                                transition={isSpeaking ? BOT2_MOUTH_SPEAKING_TRANSITION : { duration: 0.2, ease: 'easeOut' }}
+                                style={{ transformOrigin: '0px 0px' }}
+                              />
+                            </g>
+                            {/* Right eye glow */}
+                            <g opacity="0.06"><g transform="translate(633.392,334.833)">
+                              <path fill="url(#i14)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
+                            </g></g>
+                            {/* Mouth shadow */}
+                            <g id="i26mouth" transform="matrix(1,0,0,1,539.184,402.737)" opacity="0.06"><path fill="url(#i15)" d="M42.822,-21.411C42.822,2.239,23.65,21.411,0,21.411C-23.65,21.411,-42.822,2.239,-42.822,-21.411C-42.822,-21.411,42.822,-21.411,42.822,-21.411Z" /></g>
+                            {/* Right eye con parpadeo continuo */}
+                            <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '632.005px 329.826px' }}>
+                              <g transform="translate(632.005,329.826)">
+                                <path fill="url(#i16)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
+                              </g>
+                            </motion.g>
+                          </g>
+                        </g>
+                      </motion.g>
+                    </g>
+                  </g>
+                </motion.g>
+              </g>
+            </g>
           </g>
-          <g transform="rotate(-45)">
-            <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-            <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-            <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-          </g>
-          <g transform="rotate(135)">
-            <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-            <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-            <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-          </g>
-          <g transform="rotate(45)">
-            <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
-            <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
-            <circle cx="0" cy="-140" r="37" fill="#529B3C" />
-          </g>
-        </g>
-        <text x="115" y="197" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="700" letterSpacing="2.5" fontFamily="system-ui, sans-serif">
-          TREBOT
-        </text>
 
-        <path d="M 96 122 C 96 138 134 138 134 122 Z" fill="url(#b-silver)" />
-        <ellipse cx="115" cy="122" rx="19" ry="5" fill="#e2e8f0" />
-
-        <rect x="34" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
-        <rect x="180" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
-
-        <ellipse cx="115" cy="30" rx="22" ry="8" fill="url(#b-white)" />
-        <rect x="44" y="32" width="142" height="96" rx="40" fill="url(#b-white)" />
-        <rect x="58" y="44" width="114" height="72" rx="28" fill="url(#b-screen)" />
-
-        <ellipse cx="72" cy="85" rx="7" ry="3.5" fill="#ff77aa" opacity="0.75" filter="url(#b-glow)" />
-        <ellipse cx="158" cy="85" rx="7" ry="3.5" fill="#ff77aa" opacity="0.75" filter="url(#b-glow)" />
-
-        <g filter="url(#b-glow)">
-          <path d="M 75 76 Q 88 60 101 76 Q 88 68 75 76 Z" fill="#84C638" />
-        </g>
-        <g filter="url(#b-glow)">
-          <path d="M 129 76 Q 142 60 155 76 Q 142 68 129 76 Z" fill="#84C638" />
-        </g>
-
-        {isSpeaking ? (
-          <motion.ellipse
-            cx="115" cy="95" rx="12" ry="5" fill="#84C638" filter="url(#b-glow)"
-            animate={{ ry: [3, 10, 3], cy: [95, 92, 95] }}
-            transition={{ duration: 0.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ) : (
-          <path d="M 106 93 Q 115 102 124 93" stroke="#84C638" strokeWidth="3" strokeLinecap="round" fill="none" filter="url(#b-glow)" />
+            </svg>
+          </motion.div>
         )}
-      </svg>
-    </motion.div>
+
+        {botModel === 'lottie-leza' && (
+          <svg
+            viewBox="0 0 230 280"
+            className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)]"
+          >
+            <defs>
+              <radialGradient id="leza-shadow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#84C638" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </radialGradient>
+              <linearGradient id="leza-white" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="70%" stopColor="#f8fafc" />
+                <stop offset="100%" stopColor="#e2e8f0" />
+              </linearGradient>
+            </defs>
+
+            {/* SOMBRA FLOTANTE */}
+            <motion.ellipse
+              cx="115"
+              cy="262"
+              rx="40"
+              ry="8"
+              fill="url(#leza-shadow)"
+              animate={{ scale: [1, 0.75, 1], opacity: [0.8, 0.4, 0.8] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            />
+
+            {/* ANILLOS FLOTANTES INFERIORES */}
+            <motion.g
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}
+            >
+              <rect x="85" y="215" width="60" height="14" rx="7" fill="none" stroke="#cbd5e1" strokeWidth="3" />
+              <rect x="96" y="235" width="38" height="11" rx="5.5" fill="none" stroke="#cbd5e1" strokeWidth="3" />
+            </motion.g>
+
+            {/* BRAZO IZQUIERDO (SALUDA ARRIBA SOLO EN HOVER) */}
+            <motion.g
+              animate={
+                isHovered
+                  ? { rotate: [-125, -75, -125] }
+                  : { y: [0, -14, 0], rotate: [-10, 5, -10] }
+              }
+              transition={{ duration: isHovered ? 0.45 : 2.6, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ transformOrigin: '32px 115px' }}
+            >
+              <ellipse cx="32" cy="130" rx="12" ry="23" fill="url(#leza-white)" stroke="#cbd5e1" strokeWidth="3" />
+            </motion.g>
+
+            {/* BRAZO DERECHO SEPARADO / LEVITANDO */}
+            <motion.g
+              animate={{ y: [0, -14, 0], rotate: [6, -6, 6] }}
+              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+              style={{ transformOrigin: '198px 130px' }}
+            >
+              <ellipse cx="198" cy="130" rx="12" ry="23" fill="url(#leza-white)" stroke="#cbd5e1" strokeWidth="3" transform="rotate(15, 198, 130)" />
+            </motion.g>
+
+            {/* CUERPO PRINCIPAL FOCO / SEMILLA LEZA */}
+            <motion.g
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <path
+                d="M 58 115 C 58 45 172 45 172 115 C 172 165 146 202 115 202 C 84 202 58 165 58 115 Z"
+                fill="url(#leza-white)"
+                stroke="#cbd5e1"
+                strokeWidth="3.5"
+              />
+
+              {/* 2 HOJITAS BROTE EN LA CABEZA DEL BOT 3 */}
+              <g transform="translate(0, 0)">
+                {/* Hojita pequeña izquierda */}
+                <path
+                  d="M 112 50 C 104 35 116 24 116 24 C 116 24 125 35 119 50 Z"
+                  fill="#84C638"
+                />
+                {/* Hojita grande derecha */}
+                <path
+                  d="M 122 47 C 128 25 152 26 152 26 C 152 26 146 45 127 49 Z"
+                  fill="#84C638"
+                />
+              </g>
+
+              {/* OJOS ANIMADOS */}
+              <motion.g
+                animate={{ scaleY: [1, 1, 0.1, 1, 1] }}
+                transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
+                style={{ transformOrigin: '115px 95px' }}
+              >
+                {/* Ojo Izquierdo */}
+                <circle cx="95" cy="95" r="9.5" fill="#1e293b" />
+                <circle cx="98" cy="92" r="3.5" fill="#ffffff" />
+
+                {/* Ojo Derecho */}
+                <circle cx="135" cy="95" r="9.5" fill="#1e293b" />
+                <circle cx="138" cy="92" r="3.5" fill="#ffffff" />
+              </motion.g>
+
+              {/* BOCA */}
+              {isSpeaking ? (
+                <motion.ellipse
+                  cx="115" cy="116" rx="8" ry="4.5" fill="#1e293b"
+                  animate={{ ry: [2, 6, 2] }}
+                  transition={{ duration: 0.2, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              ) : (
+                <path
+                  d="M 99 113 Q 115 125 131 113"
+                  stroke="#1e293b"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              )}
+
+              {/* EMBLEMA 4 PÉTALOS TRÉBOL DIGITAL (IDÉNTICO AL BOT 1) EN EL PECHO DEL BOT 3 */}
+              <g transform="translate(115, 154) scale(0.06)">
+                <g transform="rotate(-135)">
+                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                  <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
+                </g>
+                <g transform="rotate(-45)">
+                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+                </g>
+                <g transform="rotate(135)">
+                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+                </g>
+                <g transform="rotate(45)">
+                  <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                  <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                  <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+                </g>
+              </g>
+            </motion.g>
+          </svg>
+        )}
+
+        {botModel === 'svg-original' && (
+          <svg
+            viewBox="0 0 230 280"
+            className="w-full h-full drop-shadow-[0_45px_90px_rgba(141,198,63,0.7)]"
+          >
+            <defs>
+              <radialGradient id="b-shadow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#84C638" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </radialGradient>
+              <linearGradient id="b-white" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="60%" stopColor="#f1f5f9" />
+                <stop offset="100%" stopColor="#cbd5e1" />
+              </linearGradient>
+              <linearGradient id="b-white-subtle" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="100%" stopColor="#e2e8f0" />
+              </linearGradient>
+              <linearGradient id="b-silver" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#e2e8f0" />
+                <stop offset="100%" stopColor="#94a3b8" />
+              </linearGradient>
+              <linearGradient id="b-screen" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0b1329" />
+                <stop offset="100%" stopColor="#1e293b" />
+              </linearGradient>
+            </defs>
+
+            <ellipse cx="115" cy="268" rx="72" ry="12" fill="url(#b-shadow)" />
+
+            {!isHovered && (
+              <g>
+                <path d="M 58 140 C 38 148 34 180 36 210 C 38 226 56 226 62 210 C 66 180 68 148 58 140 Z" fill="url(#b-white)" />
+                <ellipse cx="44" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
+              </g>
+            )}
+
+            <g transform="rotate(6, 176, 142)">
+              <path d="M 172 140 C 192 148 196 180 194 210 C 192 226 174 226 168 210 C 164 180 162 148 172 140 Z" fill="url(#b-white)" />
+              <ellipse cx="186" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
+            </g>
+
+            <path d="M 64 148 C 64 132 166 132 166 148 C 172 195 156 238 115 240 C 74 238 58 195 64 148 Z" fill="url(#b-white)" />
+            <path d="M 72 148 C 72 135 158 135 158 148 C 163 190 148 230 115 232 C 82 230 67 190 72 148 Z" fill="url(#b-white-subtle)" />
+
+            {/* EMBLEMA E ISOTIPO ORIGINAL DE BOT 1 */}
+            <g transform="translate(115, 172) scale(0.065)">
+              <g transform="rotate(-135)">
+                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                <circle cx="0" cy="-140" r="37" fill="#2B2D2E" />
+              </g>
+              <g transform="rotate(-45)">
+                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+              </g>
+              <g transform="rotate(135)">
+                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+              </g>
+              <g transform="rotate(45)">
+                <path d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z" fill="#84C638" stroke="#84C638" strokeWidth="20" strokeLinejoin="round" />
+                <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
+                <circle cx="0" cy="-140" r="37" fill="#529B3C" />
+              </g>
+            </g>
+            <text x="115" y="197" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="700" letterSpacing="2.5" fontFamily="system-ui, sans-serif">
+              TREBOT
+            </text>
+
+            <path d="M 96 122 C 96 138 134 138 134 122 Z" fill="url(#b-silver)" />
+            <ellipse cx="115" cy="122" rx="19" ry="5" fill="#e2e8f0" />
+
+            <rect x="34" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
+            <rect x="180" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
+
+            <ellipse cx="115" cy="30" rx="22" ry="8" fill="url(#b-white)" />
+            <rect x="44" y="32" width="142" height="96" rx="40" fill="url(#b-white)" />
+            <rect x="58" y="44" width="114" height="72" rx="28" fill="url(#b-screen)" />
+
+            <ellipse cx="72" cy="86" rx="8" ry="4" fill="#ff6599" opacity="0.85" />
+            <ellipse cx="158" cy="86" rx="8" ry="4" fill="#ff6599" opacity="0.85" />
+
+            <motion.g
+              animate={{ scaleY: [1, 1, 0.1, 1, 1] }}
+              transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
+              style={{ transformOrigin: '115px 72px' }}
+            >
+              {activeEyeExpr === 'half-moon' ? (
+                <>
+                  <path d="M 74 76 Q 87 58 100 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+                  <path d="M 130 76 Q 143 58 156 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+                </>
+              ) : activeEyeExpr === 'wink' ? (
+                <>
+                  <circle cx="86" cy="72" r="10" fill="#84C638" />
+                  <path d="M 130 76 Q 143 58 156 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+                </>
+              ) : (
+                <>
+                  <circle cx="86" cy="72" r="10" fill="#84C638" />
+                  <circle cx="144" cy="72" r="10" fill="#84C638" />
+                </>
+              )}
+            </motion.g>
+
+            {isSpeaking ? (
+              <motion.ellipse
+                cx="115" cy="94" rx="10" ry="5" fill="#84C638"
+                animate={{ ry: [3, 9, 3], cy: [94, 91, 94] }}
+                transition={{ duration: 0.22, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            ) : (
+              <path d="M 106 93 Q 115 102 124 93" stroke="#84C638" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+            )}
+
+            {isHovered && (
+              <motion.g
+                animate={{ rotate: [-10, 5, -12, 8, -6, -10] }}
+                transition={{ duration: 1.0, repeat: Infinity, ease: "easeInOut" }}
+                style={{ transformOrigin: '58px 140px', transformBox: 'view-box' }}
+              >
+                <path d="M 58 140 C 38 132 34 100 36 70 C 38 54 56 54 62 70 C 66 100 68 132 58 140 Z" fill="url(#b-white)" />
+                <ellipse cx="49" cy="85" rx="3.5" ry="14" fill="white" opacity="0.65" transform="rotate(6, 49, 85)" />
+              </motion.g>
+            )}
+          </svg>
+        )}
+      </motion.div>
+    </div>
   );
 }
 
@@ -150,32 +546,44 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360 }) {
 const TUTORIAL_STEPS = [
   {
     targetId: 'hero',
-    title: '¡Bienvenido a IA Aplicada!',
-    speech: 'Te mostraré cómo acelerar tu empresa automatizando ventas, soporte y operaciones con arquitectura de Inteligencia Artificial.',
-    buttonText: 'Ver Arquitecturas DFD ➔',
+    title: '1. Bienvenida a Trébol Digital',
+    speech: '¡Hola! Soy Trebot. Bienvenido a Trébol Digital. Te acompañaré paso a paso a descubrir cómo transformar tu empresa con Inteligencia Artificial.',
+    buttonText: '¿Qué es la IA? ➔',
+    pos: 'left-6 md:left-12 bottom-6 md:bottom-12 -translate-x-0'
+  },
+  {
+    targetId: 'que-es-ia',
+    title: '2. ¿Qué es la IA Aplicada a Negocios?',
+    speech: 'La Inteligencia Artificial aplicada no es solo chatear. Es conectar tu negocio con agentes y flujos autónomos que ejecutan operaciones las 24 horas del día sin error humano.',
+    buttonText: 'Ver Ejemplos de IA ➔',
     pos: 'left-1/2 -translate-x-1/2'
   },
   {
     targetId: 'soluciones',
     isDfdHub: true,
-    title: 'Diagramas de Flujo DFD estilo n8n',
-    speech: 'Selecciona cuál de los 4 flujos de Inteligencia Artificial deseas que te explique primero. Puedes explorar los que quieras en cualquier orden:',
-    buttonText: 'Continuar a Transformación ➔',
+    title: '3. Ejemplos de IA Aplicada (Flujos DFD estilo n8n)',
+    speech: 'Aquí tienes 4 arquitecturas DFD reales: Agentes Comerciales en WhatsApp, Automatización RPA de facturas, BI Predictivo y Soporte Autónomo RAG.',
+    buttonText: 'Ver Tu Empresa Con IA ➔',
     pos: 'right-6 md:right-12 translate-x-0'
   },
   {
     targetId: 'master-transform-card',
-    title: 'El cambio en tu empresa antes y después de la IA',
-    speech: 'Primero observa la Operación Tradicional Sin Trébol: tiempos de espera de hasta 12 horas y carga manual propensa a errores. Ahora, ¡haz clic en el switch para activar Trébol IA!',
-    speechSinTrebol: 'Primero observa la Operación Tradicional Sin Trébol: tiempos de espera de hasta 12 horas y carga manual propensa a errores. Ahora, ¡haz clic en el switch en la tarjeta para activar Trébol IA!',
-    speechConTrebol: 'Al activar Trébol IA, tu empresa responde en menos de 5 segundos las 24 horas, automatizando la captura y alcanzando un 98% de rendimiento operativo.',
-    buttonText: 'Ver Metodología ➔',
+    title: '4. Tu Empresa Sin IA vs Con IA',
+    speech: 'Compara la operación tradicional de hasta 12 horas de espera y captura manual, frente a la aceleración con Trébol IA respondiendo en menos de 5 segundos.',
+    buttonText: '¿Cómo la Aplicamos? ➔',
     pos: 'left-1/2 -translate-x-1/2'
   },
   {
     targetId: 'metodologia',
-    title: 'Evolución de WordPress a Web App a Medida',
-    speech: 'Te guiamos en 4 pasos estructurados para evolucionar tu sitio de WordPress hacia una aplicación web moderna a medida, ultrarrápida y potenciada con Inteligencia Artificial.',
+    title: '5. ¿Cómo aplicamos la IA en tu empresa?',
+    speech: 'Implementamos IA en tu empresa en 4 etapas estructuradas: Diagnóstico Estratégico, Arquitectura DFD, Integración Segura a tus sistemas y Optimización Continua.',
+    buttonText: 'Agendar Diagnóstico ➔',
+    pos: 'left-1/2 -translate-x-1/2'
+  },
+  {
+    targetId: 'contacto',
+    title: '6. Agenda tu Diagnóstico de IA Gratuito',
+    speech: '¿Listo para acelerar tu negocio? Contáctanos y agenda hoy tu sesión de diagnóstico estratégico sin costo con nuestros ingenieros en Inteligencia Artificial.',
     buttonText: '¡Finalizar Tour!',
     pos: 'left-1/2 -translate-x-1/2'
   }
@@ -1199,19 +1607,27 @@ export default function IAAplicadaPage() {
   const hoursSavedMonth = Math.round(teamSize * hoursPerWeek * 4.2 * 0.65);
   const estimatedSavings = (hoursSavedMonth * 180).toLocaleString('es-MX');
 
+  const stopAudio = useCallback(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    if (currentAudioRef.current) {
+      try {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.currentTime = 0;
+        currentAudioRef.current.src = '';
+      } catch (e) { }
+      currentAudioRef.current = null;
+    }
+    setIsSpeaking(false);
+  }, []);
+
   const speak = useCallback((text) => {
+    stopAudio();
     return new Promise(async (resolve) => {
-      if (muted || typeof window === 'undefined') {
+      if (muted || typeof window === 'undefined' || !text) {
         resolve();
         return;
-      }
-
-      if (window.speechSynthesis && window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-      }
-      if (currentAudioRef.current) {
-        currentAudioRef.current.pause();
-        currentAudioRef.current = null;
       }
 
       let resolved = false;
@@ -1261,6 +1677,7 @@ export default function IAAplicadaPage() {
       }
 
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text);
         utter.lang = 'es-MX';
         utter.rate = 1.0;
@@ -1278,31 +1695,29 @@ export default function IAAplicadaPage() {
         safeResolve();
       }
     });
-  }, [muted]);
+  }, [muted, stopAudio]);
 
-  const stopAudio = useCallback(() => {
-    if (typeof window !== 'undefined') window.speechSynthesis.cancel();
-    if (currentAudioRef.current) {
-      currentAudioRef.current.pause();
-      currentAudioRef.current = null;
-    }
-    setIsSpeaking(false);
-  }, []);
+  const hasAutoStartedRef = useRef(false);
 
-  // Iniciar automáticamente el tutorial por primera vez
+  // Iniciar automáticamente el tutorial por primera vez (se ejecuta UNA SOLA VEZ)
   useEffect(() => {
+    if (hasAutoStartedRef.current) return;
     window.scrollTo(0, 0);
     const hasSeen = localStorage.getItem('trebot_tutorial_seen');
     if (!hasSeen) {
-      const timer = setTimeout(() => {
+      hasAutoStartedRef.current = true;
+      localStorage.setItem('trebot_tutorial_seen', 'true');
+      const timer = setTimeout(async () => {
         setShowTutorial(true);
         setTutorialStep(0);
-        speak(TUTORIAL_STEPS[0].speech);
-        localStorage.setItem('trebot_tutorial_seen', 'true');
+        await speak(TUTORIAL_STEPS[0].speech);
+        await new Promise((r) => setTimeout(r, 1000));
+        stopAudio();
+        nextTutorialStep();
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [speak]);
+  }, [speak, stopAudio]);
 
   // Función para ejecutar la locución secuencial automática (Sin Trébol -> Con Trébol IA) para un caso
   const playCaseExplanationSequence = useCallback(async (caseIdx) => {
@@ -1367,10 +1782,10 @@ export default function IAAplicadaPage() {
     if (showTutorial) {
       const timer = setTimeout(() => {
         let targetId = TUTORIAL_STEPS[tutorialStep]?.targetId;
-        if (tutorialStep === 1) {
+        if (tutorialStep === 2) {
           targetId = `dfd-area-${activeAreaTab}`;
         }
-        if (tutorialStep === 2) {
+        if (tutorialStep === 3) {
           targetId = 'master-transform-card';
         }
         const el = document.getElementById(targetId) || document.getElementById('transformacion');
@@ -1392,7 +1807,7 @@ export default function IAAplicadaPage() {
       const stepData = TUTORIAL_STEPS[nextIdx];
 
       setTimeout(() => {
-        const targetId = nextIdx === 1 ? `dfd-area-${activeAreaTab}` : stepData.targetId;
+        const targetId = nextIdx === 2 ? `dfd-area-${activeAreaTab}` : stepData.targetId;
         const element = document.getElementById(targetId) || document.getElementById(stepData.targetId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1405,14 +1820,17 @@ export default function IAAplicadaPage() {
     }
   };
 
-  const startTutorialManual = () => {
+  const startTutorialManual = async () => {
     stopAudio();
     setShowTutorial(true);
     setTutorialStep(0);
     setSelectedDfdIndex(null);
     const element = document.getElementById(TUTORIAL_STEPS[0].targetId);
     if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    speak(TUTORIAL_STEPS[0].speech);
+    await speak(TUTORIAL_STEPS[0].speech);
+    await new Promise((r) => setTimeout(r, 1000));
+    stopAudio();
+    nextTutorialStep();
   };
 
   const closeTutorial = () => {
@@ -1440,58 +1858,70 @@ export default function IAAplicadaPage() {
               onClick={closeTutorial}
             />
 
-            {/* TREBOT MASCOTA EN 3D CON TARJETA Y DIÁLOGO DE VOZ EN PANTALLA */}
-            <motion.div
-              key={tutorialStep}
-              initial={{ opacity: 0, y: 40, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 40, scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 90, damping: 15 }}
-              className={`fixed bottom-6 md:bottom-8 ${TUTORIAL_STEPS[tutorialStep].pos} z-[10000] flex flex-col md:flex-row items-center gap-5 pointer-events-auto select-none transition-all duration-700 ease-in-out max-w-2xl px-4`}
-            >
-              {/* TREBOT SVG 3D (220px) */}
-              <div className="relative drop-shadow-[0_30px_60px_rgba(132,198,56,0.75)] shrink-0">
-                <TrebotSVG isSpeaking={isSpeaking} size={200} />
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-black/90 border border-trebol/60 backdrop-blur-md text-trebol text-[10px] font-mono font-bold tracking-widest uppercase flex items-center gap-1.5 shadow-lg whitespace-nowrap">
-                  <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
-                  PASO {tutorialStep + 1} DE {TUTORIAL_STEPS.length}
+            {/* TREBOT MASCOTA EN 3D CON TARJETA Y DIÁLOGO — SOLO EN PASOS 2, 3, 4 (EL HERO BOT CUBRE EL PASO 1) */}
+            {tutorialStep > 0 && (
+              <motion.div
+                key={tutorialStep}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 40, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 90, damping: 15 }}
+                className={`fixed bottom-6 md:bottom-8 ${(tutorialStep === 2 && selectedDfdIndex === null) || dfdActiveStep >= 2
+                  ? 'left-4 md:left-8 flex-col md:flex-row-reverse'
+                  : dfdActiveStep !== -1
+                    ? 'right-4 md:right-8 flex-col md:flex-row'
+                    : `flex-col md:flex-row ${TUTORIAL_STEPS[tutorialStep].pos}`
+                  } z-[10000] flex items-center gap-5 pointer-events-auto select-none transition-all duration-700 ease-in-out max-w-2xl px-4`}
+              >
+                {/* TREBOT SVG 3D CON CAMBIO INTELIGENTE DE LADO Y SEÑALAMIENTO DE NODOS/OPCIONES */}
+                <div className="relative drop-shadow-[0_30px_60px_rgba(132,198,56,0.75)] shrink-0">
+                  <TrebotSVG
+                    isSpeaking={isSpeaking}
+                    isHovered={isSpeaking || tutorialStep === 0}
+                    isModal={true}
+                    size={230}
+                    armPose={
+                      tutorialStep === 1 && selectedDfdIndex === null
+                        ? 'point-right'  /* menú DFD: modal a la izquierda → brazo apunta al centro */
+                        : dfdActiveStep >= 2
+                          ? 'point-right'  /* nodos derecha: modal a la izquierda → brazo apunta al centro */
+                          : dfdActiveStep !== -1
+                            ? 'point-left'   /* nodos izquierda: modal a la derecha → brazo apunta al centro */
+                            : tutorialStep === 0
+                              ? 'wave'
+                              : 'rest'
+                    }
+                    eyeExpression={
+                      tutorialStep === 1 && selectedDfdIndex === null
+                        ? 'half-moon'
+                        : dfdActiveStep !== -1
+                          ? (dfdActiveStep % 2 === 0 ? 'half-moon' : 'wink')
+                          : tutorialStep === 0
+                            ? 'wink'
+                            : 'circle'
+                    }
+                  />
                 </div>
-              </div>
 
-              {/* TARJETA DE DIÁLOGO DE TREBOT Y CONTROLES DEL TOUR */}
-              <div className="bg-slate-900/95 border-2 border-emerald-500/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
-                <div className="space-y-1">
-                  <h4 className="text-base md:text-lg font-black text-white flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-emerald-400 shrink-0" />
-                    {tutorialStep === 1 && selectedDfdIndex !== null
-                      ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
-                        ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].title
-                        : DFD_EXPLANATIONS[selectedDfdIndex]?.title)
-                      : tutorialStep === 2 && selectedCaseIndex !== null
-                        ? CASE_EXPLANATIONS[selectedCaseIndex]?.title
-                        : TUTORIAL_STEPS[tutorialStep]?.title}
-                  </h4>
-                  <p className="text-xs md:text-sm text-slate-200 font-sans leading-relaxed">
-                    {tutorialStep === 1 && selectedDfdIndex !== null
-                      ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
-                        ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].text
-                        : DFD_EXPLANATIONS[selectedDfdIndex]?.speech)
-                      : tutorialStep === 2
-                        ? (selectedCaseIndex !== null
-                          ? (isTrebolActive ? CASE_EXPLANATIONS[selectedCaseIndex]?.speechConTrebol : CASE_EXPLANATIONS[selectedCaseIndex]?.speechSinTrebol)
-                          : 'En esta sección puedes seleccionar cuál de los 3 casos de uso deseas evaluar para ver el impacto antes y después de la Inteligencia Artificial:')
-                        : TUTORIAL_STEPS[tutorialStep]?.speech}
-                  </p>
-                </div>
+                {/* TARJETA DE DIÁLOGO DE TREBOT Y CONTROLES DEL TOUR */}
+                <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
+                  <div>
+                    <h4 className="text-base md:text-lg font-black text-white flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-trebol shrink-0" />
+                      {tutorialStep === 2 && selectedDfdIndex !== null
+                        ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
+                          ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].title
+                          : DFD_EXPLANATIONS[selectedDfdIndex]?.title)
+                        : tutorialStep === 3 && selectedCaseIndex !== null
+                          ? CASE_EXPLANATIONS[selectedCaseIndex]?.title
+                          : TUTORIAL_STEPS[tutorialStep]?.title}
+                    </h4>
+                  </div>
 
-                {/* PASO 3 (TRANSFORMACIÓN ANTES VS DESPUÉS): EXPLICACIÓN SECUENCIAL AUTOMÁTICA DE CASOS */}
-                {tutorialStep === 2 && (
-                  <div className="space-y-3 pt-2.5 border-t border-slate-800/80">
-                    {selectedCaseIndex === null ? (
-                      <div className="space-y-2">
-                        <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
-                          TREBOT: Selecciona el caso que deseas evaluar:
-                        </span>
+                  {/* PASO 4 (TRANSFORMACIÓN ANTES VS DESPUÉS): EXPLICACIÓN SECUENCIAL AUTOMÁTICA DE CASOS */}
+                  {tutorialStep === 3 && (
+                    <div className="space-y-3 pt-2.5 border-t border-[#2d302d]">
+                      {selectedCaseIndex === null ? (
                         <div className="grid grid-cols-1 gap-2">
                           {CASE_EXPLANATIONS.map((c, idx) => (
                             <button
@@ -1501,8 +1931,8 @@ export default function IAAplicadaPage() {
                                 playCaseExplanationSequence(idx);
                               }}
                               className={`px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left flex items-center justify-between shadow-md cursor-pointer ${activeCompTab === idx
-                                ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
-                                : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
+                                ? 'bg-trebol text-slate-950 shadow-[0_0_15px_rgba(132,198,56,0.6)] font-extrabold'
+                                : 'bg-[#1e211e] text-slate-200 hover:bg-[#282b28] border border-[#2d302d]'
                                 }`}
                             >
                               <span>{c.title}</span>
@@ -1510,133 +1940,117 @@ export default function IAAplicadaPage() {
                             </button>
                           ))}
                         </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {/* INSIGNIA DE ESTADO DE LA SECUENCIA DE EXPLICACIÓN */}
-                        <div className="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono font-bold flex items-center justify-between shadow-inner">
-                          <span className="text-slate-300">Modo Actual:</span>
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${isTrebolActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
-                            }`}>
-                            {isTrebolActive ? 'Con Trébol IA' : 'Operación Sin Trébol'}
-                          </span>
-                        </div>
-
-                        {/* ACCIONES SECUNDARIAS DE NAVEGACIÓN DE CASOS */}
-                        <div className="flex items-center justify-start pt-1">
-                          <button
-                            onClick={() => {
-                              stopAudio();
-                              setSelectedCaseIndex(null);
-                            }}
-                            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold flex items-center gap-1.5 border border-slate-700 shadow-sm cursor-pointer"
-                          >
-                            <GitFork size={13} className="text-emerald-400" />
-                            Ver / Repetir otro Caso
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* PASO 1 (SECCIÓN DFD): SELECCIÓN DE DFD A EXPLICAR NODO POR NODO */}
-                {tutorialStep === 1 && (
-                  <div className="space-y-3 pt-2.5 border-t border-slate-800/80">
-                    {selectedDfdIndex === null ? (
-                      <div className="space-y-2.5">
-                        <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
-                          TREBOT: ¿Qué flujo DFD deseas que te explique nodo por nodo o prefieres continuar?
-                        </span>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { label: '1. Agentes & Ventas', tab: 0 },
-                            { label: '2. Operaciones RPA', tab: 1 },
-                            { label: '3. BI & Predictivo', tab: 2 },
-                            { label: '4. Soporte RAG', tab: 3 }
-                          ].map((flow) => (
-                            <button
-                              key={flow.tab}
-                              onClick={() => {
-                                stopAudio();
-                                playDfdNodeSequence(flow.tab);
-                              }}
-                              className={`px-3 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left truncate flex items-center justify-between shadow-md cursor-pointer ${activeAreaTab === flow.tab
-                                ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(34,197,94,0.6)] font-extrabold'
-                                : 'bg-slate-800/90 text-slate-200 hover:bg-slate-700 border border-slate-700/60'
-                                }`}
-                            >
-                              <span className="truncate">{flow.label}</span>
-                              {activeAreaTab === flow.tab && <span className="text-[10px] font-black">● VISTO</span>}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {dfdActiveStep !== -1 && (
-                          <div className="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono font-bold flex items-center justify-between shadow-inner">
-                            <span className="text-slate-300">Explicando Módulo:</span>
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                              Paso {dfdActiveStep + 1} de 5
+                      ) : (
+                        <div className="space-y-3">
+                          {/* INSIGNIA DE ESTADO DE LA SECUENCIA DE EXPLICACIÓN */}
+                          <div className="px-3.5 py-2 rounded-xl bg-[#1e211e] border border-[#2d302d] text-xs font-mono font-bold flex items-center justify-between shadow-inner">
+                            <span className="text-slate-300">Modo Actual:</span>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${isTrebolActive ? 'bg-trebol/20 text-trebol border border-trebol/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
+                              }`}>
+                              {isTrebolActive ? 'Con Trébol IA' : 'Operación Sin Trébol'}
                             </span>
                           </div>
-                        )}
 
-                        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-800">
-                          <button
-                            onClick={() => {
-                              stopAudio();
-                              setDfdActiveStep(-1);
-                              setSelectedDfdIndex(null);
-                            }}
-                            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
-                          >
-                            <GitFork size={13} className="text-emerald-400" />
-                            Explorar / Repetir otro DFD
-                          </button>
+                          {/* ACCIONES SECUNDARIAS DE NAVEGACIÓN DE CASOS */}
+                          <div className="flex items-center justify-start pt-1">
+                            <button
+                              onClick={() => {
+                                stopAudio();
+                                setSelectedCaseIndex(null);
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] text-slate-200 text-xs font-mono font-bold flex items-center gap-1.5 border border-[#2d302d] shadow-sm cursor-pointer"
+                            >
+                              <GitFork size={13} className="text-trebol" />
+                              Ver / Repetir otro Caso
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                  )}
+
+                  {/* PASO 3 (SECCIÓN DFD): SELECCIÓN DE DFD A EXPLICAR NODO POR NODO */}
+                  {tutorialStep === 2 && (
+                    <div className="space-y-3 pt-2.5 border-t border-[#2d302d]">
+                      {selectedDfdIndex === null ? (
+                        <div className="grid grid-cols-2 gap-2 mt-1">
+                          {[
+                            { label: 'Agentes & Ventas', tab: 0 },
+                            { label: 'Operaciones RPA', tab: 1 },
+                            { label: 'BI & Predictivo', tab: 2 },
+                            { label: 'Soporte RAG', tab: 3 }
+                          ].map((flow, i) => {
+                            const isActive = activeAreaTab === flow.tab;
+                            return (
+                              <button
+                                key={flow.tab}
+                                onClick={() => { stopAudio(); playDfdNodeSequence(flow.tab); }}
+                                className={`relative px-3.5 py-3 rounded-2xl text-left transition-all duration-200 cursor-pointer ${isActive
+                                  ? 'bg-trebol/20 border-2 border-trebol text-white shadow-[0_0_18px_rgba(132,198,56,0.45)]'
+                                  : 'bg-[#181a18]/90 border border-[#2a2c2a] hover:bg-[#242724] hover:border-trebol/40 text-slate-300'
+                                  }`}
+                              >
+                                <span className={`text-[9px] font-mono font-bold tracking-widest uppercase block mb-0.5 ${isActive ? 'text-trebol font-extrabold' : 'text-neutral-500'}`}>
+                                  {`0${i + 1}`}
+                                </span>
+                                <span className={`text-[12px] font-extrabold block leading-tight ${isActive ? 'text-white' : 'text-slate-200'}`}>{flow.label}</span>
+                                {isActive && (
+                                  <span className="absolute top-2.5 right-3 text-[10px] font-black text-trebol">✓</span>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {dfdActiveStep !== -1 && (
+                            <div className="px-3.5 py-2 rounded-xl bg-[#1e211e] border border-[#2d302d] text-xs font-mono font-bold flex items-center justify-between shadow-inner">
+                              <span className="text-slate-300">Explicando Módulo:</span>
+                              <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold bg-trebol/20 text-trebol border border-trebol/40 flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-trebol animate-ping" />
+                                Paso {dfdActiveStep + 1} de 5
+                              </span>
+                            </div>
+                          )}
+
+                          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#2d302d]">
+                            <button
+                              onClick={() => {
+                                stopAudio();
+                                setDfdActiveStep(-1);
+                                setSelectedDfdIndex(null);
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-trebol/40 text-trebol text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                            >
+                              <GitFork size={13} className="text-trebol" />
+                              Explorar / Repetir otro DFD
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* BOTONES FLOTANTES DE CONTROL GENERAL */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#2d302d]">
+                    <button
+                      onClick={nextTutorialStep}
+                      className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
+                    >
+                      {TUTORIAL_STEPS[tutorialStep]?.buttonText}
+                    </button>
+
+                    <button
+                      onClick={closeTutorial}
+                      className="p-2 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-[#2d302d] text-slate-400 hover:text-white cursor-pointer"
+                      title="Saltar Tour"
+                    >
+                      <X size={14} />
+                    </button>
                   </div>
-                )}
-
-                {/* BOTONES FLOTANTES DE CONTROL GENERAL */}
-                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-800">
-                  <button
-                    onClick={() => {
-                      if (isSpeaking) stopAudio();
-                      else {
-                        const currentText = tutorialStep === 1 && selectedDfdIndex !== null
-                          ? DFD_EXPLANATIONS[selectedDfdIndex]?.speech
-                          : TUTORIAL_STEPS[tutorialStep]?.speech;
-                        speak(currentText);
-                      }
-                    }}
-                    className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-mono font-bold flex items-center gap-1.5 transition-all"
-                  >
-                    {isSpeaking ? <Volume2 size={14} className="text-emerald-400 animate-bounce" /> : <Play size={14} />}
-                    {isSpeaking ? 'Pausar Voz' : 'Repetir Voz'}
-                  </button>
-
-                  <button
-                    onClick={nextTutorialStep}
-                    className="px-5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-xs hover:bg-emerald-400 transition-all shadow-[0_0_20px_rgba(34,197,94,0.6)] flex items-center gap-1.5 ml-auto"
-                  >
-                    {TUTORIAL_STEPS[tutorialStep]?.buttonText}
-                  </button>
-
-                  <button
-                    onClick={closeTutorial}
-                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-white"
-                    title="Saltar Tour"
-                  >
-                    <X size={14} />
-                  </button>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            )}
           </>
         )}
       </AnimatePresence>
@@ -1735,40 +2149,80 @@ export default function IAAplicadaPage() {
             </motion.div>
           </div>
 
-          {/* COLUMNA DERECHA: CABEZA DE TREBOT ASOMÁNDOSE EN LA MERA ESQUINA INFERIOR DERECHA */}
-          <div className="lg:col-span-5 flex flex-col items-end justify-end relative z-10 overflow-visible min-h-[320px]">
+          {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-[340px] pt-8 lg:pt-0">
             <div
               onMouseEnter={() => setIsTrebotHovered(true)}
               onMouseLeave={() => setIsTrebotHovered(false)}
               onClick={startTutorialManual}
-              className="relative group cursor-pointer flex flex-col items-end justify-end overflow-visible"
+              className="relative group cursor-pointer flex flex-col items-center lg:items-end justify-end overflow-visible"
             >
-              {/* DIÁLOGO / GLOBO DE SALUDO FLUIDO CON ANIMACIÓN SPRING EN HOVER */}
-              <AnimatePresence>
-                {isTrebotHovered && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 15, scale: 0.85, transition: { duration: 0.2 } }}
-                    transition={{ type: "spring", stiffness: 140, damping: 16 }}
-                    className="absolute -top-16 right-6 bg-carbon text-white font-mono font-bold text-xs px-5 py-3 rounded-2xl shadow-2xl border border-trebol/40 flex items-center gap-2.5 pointer-events-none whitespace-nowrap z-50 drop-shadow-2xl"
-                  >
-                    <span className="w-2.5 h-2.5 rounded-full bg-trebol animate-ping" />
-                    <span>¡Hola! Haz clic para iniciar el tour con Trebot 👋</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* RESPLANDOR AMBIENTAL Y SOMBRA AURA DETRÁS DE TREBOT */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] pointer-events-none z-0 animate-pulse" />
 
-              {/* RESPLANDOR AMBIENTAL Y SOMBRA GIGANTE DETRÁS DE TREBOT */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[24rem] h-[24rem] bg-trebol/30 rounded-full blur-[90px] pointer-events-none z-0" />
-
-              {/* CABEZA DE TREBOT ASOMADA EN LA MERA ESQUINA DE LA SECCIÓN */}
+              {/* CABEZA Y CUERPO DE TREBOT CON SALUDO EN VOZ Y HOVER */}
               <div className="relative z-10 overflow-visible">
-                <TrebotSVG isSpeaking={isSpeaking || isTrebotHovered} isHovered={isTrebotHovered} size={360} />
+                <TrebotSVG
+                  isSpeaking={isSpeaking}
+                  isHovered={isTrebotHovered || isSpeaking}
+                  size={360}
+                />
               </div>
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ── SECCIÓN 0.5: ¿QUÉ ES LA INTELIGENCIA ARTIFICIAL APLICADA A NEGOCIOS? ── */}
+      <section
+        id="que-es-ia"
+        className={`py-20 md:py-28 px-6 md:px-12 bg-hueso border-b border-neutral-200/80 transition-all duration-500 ${showTutorial && currentTargetId === 'que-es-ia'
+          ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-hueso pointer-events-auto rounded-3xl'
+          : ''
+          }`}
+      >
+        <div className="max-w-[1400px] w-full mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              ¿Qué es la <span className="text-trebol">IA Aplicada a Negocios</span>?
+            </h2>
+            <p className="text-carbon/70 text-base md:text-lg font-light leading-relaxed">
+              No es un simple chatbot de respuestas genéricas. La Inteligencia Artificial Aplicada es la infraestructura de software autónomo que conecta tus sistemas, comprende intenciones y ejecuta procesos complejos 24/7 sin error humano.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-xl space-y-4 hover:border-trebol/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 text-trebol font-mono font-black flex items-center justify-center text-xl">
+                01
+              </div>
+              <h3 className="text-xl font-bold text-carbon">Flujos & Agentes Autónomos</h3>
+              <p className="text-carbon/70 text-sm font-light leading-relaxed">
+                Agentes entrenados con las reglas y protocolos de tu marca que responden prospectos, agendan citas y procesan órdenes en tiempo real.
+              </p>
+            </div>
+
+            <div className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-xl space-y-4 hover:border-trebol/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 text-trebol font-mono font-black flex items-center justify-center text-xl">
+                02
+              </div>
+              <h3 className="text-xl font-bold text-carbon">Integración con tus Sistemas</h3>
+              <p className="text-carbon/70 text-sm font-light leading-relaxed">
+                Se conecta directamente a tus bases de datos SQL, CRM (HubSpot, Salesforce), ERP (SAP) y APIs sin alterar tu operación actual.
+              </p>
+            </div>
+
+            <div className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-xl space-y-4 hover:border-trebol/40 transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-trebol/10 text-trebol font-mono font-black flex items-center justify-center text-xl">
+                03
+              </div>
+              <h3 className="text-xl font-bold text-carbon">Multiplicador de Productividad</h3>
+              <p className="text-carbon/70 text-sm font-light leading-relaxed">
+                Elimina hasta el 95% del trabajo administrativo repetitivo y permite a tu equipo enfocarse en ventas de alto valor estratégico.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2360,8 +2814,16 @@ export default function IAAplicadaPage() {
         </div>
       </section>
 
-      {/* ── FORMULARIO OFICIAL DE CONTACTO DE TRÉBOL DIGITAL ── */}
-      <Contact />
+      {/* ── SECCIÓN 7: LLAMADO A LA ACCIÓN / CTA FINAL & CONTACTO ── */}
+      <section
+        id="contacto"
+        className={`transition-all duration-500 ${showTutorial && currentTargetId === 'contacto'
+          ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-white pointer-events-auto rounded-3xl'
+          : ''
+          }`}
+      >
+        <Contact />
+      </section>
 
     </main>
   );
