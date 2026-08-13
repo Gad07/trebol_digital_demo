@@ -271,6 +271,375 @@ const faqsMarketing = [
   }
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENTE SHOWCASE INTERACTIVO — ECOSISTEMA Y MARCA TRÉBOL
+// ─────────────────────────────────────────────────────────────────────────────
+function BrandEcosystemShowcase() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const channels = [
+    {
+      id: 'whatsapp',
+      title: 'WhatsApp Business API',
+      subtitle: 'Atención & Conversión (<5 min)',
+      icon: MessageSquare,
+      desc: 'Configuramos perfiles profesionales de WhatsApp Business con menús de atención automatizada, respuestas rápidas, catálogo de servicios e integración directa al CRM para que ningún prospecto espere.',
+      features: [
+        'Respuesta automatizada en menos de 5 minutos las 24/7',
+        'Menús de autoservicio y calificación inicial de prospectos',
+        'Asignación automática al ejecutivo de ventas de turno'
+      ],
+      type: 'whatsapp'
+    },
+    {
+      id: 'redes',
+      title: 'Redes Sociales Corporativas',
+      subtitle: 'Instagram, Facebook & LinkedIn B2B',
+      icon: Share2,
+      desc: 'Construimos una operación de contenidos con estética profesional, carruseles educativos, reels de alto impacto y campañas publicitarias (Paid Media) orientadas a la captación de leads calificados.',
+      features: [
+        'Diseño gráfico y línea visual consistente en todos los canales',
+        'Parrillas estratégicas semanales & publicación programada',
+        'Optimización diaria de pauta publicitaria en Meta & Google Ads'
+      ],
+      type: 'instagram'
+    },
+    {
+      id: 'web',
+      title: 'Plataforma Web Nativa',
+      subtitle: 'Sitio Web Ultrarrápido & CRO',
+      icon: Globe,
+      desc: 'Desarrollamos páginas web de alta conversión en código nativo ultrarrápido, optimizadas para motores de búsqueda (SEO) y diseñadas con estética editorial que genera confianza inmediata.',
+      features: [
+        'Velocidad de carga ultrarrápida (<1 segundo en dispositivos móviles)',
+        'Formularios inteligentes anti-spam conectados directo al CRM',
+        'Arquitectura de conversión (CRO) orientada a la agenda de llamadas'
+      ],
+      type: 'web'
+    },
+    {
+      id: 'catalogos',
+      title: 'Catálogos & Decks B2B',
+      subtitle: 'Herramientas de Apoyo a Ventas',
+      icon: FileText,
+      desc: 'Diseñamos presentaciones comerciales ejecutivas, catálogos digitales interactivos, tarjetas inteligentes NFC y fichas técnicas para que tus vendedores cierren propuestas con solidez.',
+      features: [
+        'Catálogos digitales interactivos con botones de contacto directo',
+        'Presentaciones de alto impacto B2B para reuniones comerciales',
+        'Recursos descargables (lead magnets) para captar datos de clientes'
+      ],
+      type: 'pdf'
+    }
+  ];
+
+  const currentChannel = channels[activeTab];
+
+  return (
+    <div className="bg-white rounded-[3rem] p-6 md:p-10 border-2 border-neutral-200/90 shadow-xl space-y-8 relative overflow-hidden">
+
+      {/* Header de Sección */}
+      <div className="text-center max-w-4xl mx-auto space-y-2">
+        <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+          Un ecosistema consistente en todos los <span className="text-trebol">puntos de contacto.</span>
+        </h2>
+        <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed max-w-2xl mx-auto font-sans">
+          Alineamos tu presencia digital para construir una experiencia profesional uniforme desde el primer contacto en redes hasta la conversación comercial final.
+        </p>
+      </div>
+
+      {/* BOTONES PEQUEÑOS EN UNA SOLA FILA */}
+      <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center justify-start md:justify-center gap-2 min-w-max mx-auto">
+          {channels.map((ch, idx) => {
+            const isActive = activeTab === idx;
+            const IconComp = ch.icon;
+            return (
+              <button
+                key={ch.id}
+                onClick={() => setActiveTab(idx)}
+                className={`px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold font-sans transition-all duration-300 cursor-pointer flex items-center gap-2 border ${isActive
+                  ? 'bg-trebol border-trebol text-white shadow-md scale-[1.02]'
+                  : 'bg-neutral-50 border-neutral-200/80 text-carbon/70 hover:bg-neutral-100 hover:text-carbon'
+                  }`}
+              >
+                <IconComp size={16} className={isActive ? 'text-white' : 'text-trebol'} />
+                <span>{ch.title}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* LAYOUT EN 2 COLUMNAS SIN LABELS NI MARCO EXTRA EXCESIVO */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-neutral-50/70 rounded-[2.5rem] p-6 md:p-8 border border-neutral-200/80 shadow-inner"
+        >
+
+          {/* COLUMNA IZQUIERDA: INFORMACIÓN Y BENEFICIOS (5 COLS) */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-1">
+              <h3 className="text-2xl md:text-3xl font-black text-carbon font-sans leading-tight">
+                {currentChannel.title}
+              </h3>
+              <p className="text-xs md:text-sm font-mono text-trebol font-semibold">
+                {currentChannel.subtitle}
+              </p>
+            </div>
+
+            <p className="text-sm md:text-base text-carbon/80 font-normal leading-relaxed font-sans">
+              {currentChannel.desc}
+            </p>
+
+            <div className="space-y-2.5 pt-3 border-t border-neutral-200">
+              <span className="text-xs font-mono font-bold text-carbon/60 uppercase tracking-wider block">
+                Beneficios clave del canal:
+              </span>
+              {currentChannel.features.map((feat, i) => (
+                <div key={i} className="flex items-start gap-2.5">
+                  <CheckCircle2 size={16} className="text-trebol shrink-0 mt-0.5" />
+                  <span className="text-xs md:text-sm font-semibold text-carbon/90 font-sans">{feat}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-2">
+              <a
+                href="/agenda"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-carbon text-white font-bold text-xs md:text-sm hover:bg-trebol transition-colors duration-300 shadow-md cursor-pointer text-center"
+              >
+                <span>Solicitar implementación en mi empresa</span>
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          {/* COLUMNA DERECHA: MOCKUP DIRECTO DEL TELÉFONO DE ALTA FIDELIDAD MÁS ALTO Y CON IMAGEN COMPLETA (7 COLS) */}
+          <div className="lg:col-span-7 flex justify-center items-center py-4">
+
+            {/* FRAME DEL TELÉFONO TALL (MÁS ALTO) */}
+            <div className="w-full max-w-[340px] sm:max-w-[360px] bg-[#1a1b1a] p-3.5 rounded-[3.2rem] shadow-2xl border-4 border-neutral-800 relative">
+
+              {/* Island / Camera Notch */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-30 flex items-center justify-end px-2 pointer-events-none">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#0d121d] border border-white/10" />
+              </div>
+
+              {/* PANTALLA DEL TELÉFONO MÁS ALTA (MIN-H 500PX+) */}
+              <div className="w-full min-h-[500px] md:min-h-[540px] bg-[#0b141a] rounded-[2.5rem] overflow-hidden text-white font-sans relative shadow-inner flex flex-col justify-between">
+
+                {/* Status bar superior */}
+                <div className="bg-[#1f2c34] px-6 pt-3 pb-1.5 flex items-center justify-between text-[11px] text-white/80 font-mono shrink-0">
+                  <span>9:41 AM</span>
+                  <div className="flex items-center gap-1">
+                    <span>5G</span>
+                    <div className="w-3.5 h-2 border border-white/70 rounded-sm p-[1px]">
+                      <div className="w-full h-full bg-trebol" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* MOCKUP 1: WHATSAPP CON IMAGEN COMPLETA Y CHAT */}
+                {currentChannel.type === 'whatsapp' && (
+                  <div className="flex-1 flex flex-col justify-between">
+                    {/* Header de WhatsApp */}
+                    <div className="bg-[#1f2c34] px-4 py-3 flex items-center justify-between border-b border-white/10 shrink-0">
+                      <div className="flex items-center gap-2.5">
+                        <img
+                          src="/logo-trebol.png"
+                          alt="Trébol Digital"
+                          className="w-9 h-9 rounded-full bg-white p-1 object-contain shadow-md"
+                        />
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <span className="font-bold text-xs">Trébol Digital</span>
+                            <CheckCircle2 size={12} className="text-trebol fill-trebol text-white" />
+                          </div>
+                          <span className="text-[10px] text-trebol font-mono">En línea · Respuesta &lt;5 min</span>
+                        </div>
+                      </div>
+                      <span className="text-xs text-white/50">•••</span>
+                    </div>
+
+                    {/* Chat Flow con Imagen Completa */}
+                    <div className="p-3.5 space-y-3 bg-[#0b141a] flex-1 text-xs overflow-hidden flex flex-col justify-between">
+                      {/* Mensaje bot bienvenida */}
+                      <div className="bg-[#202c33] text-white p-3 rounded-2xl rounded-tl-none max-w-[92%] space-y-1 shadow-md">
+                        <p className="font-medium text-[11px] leading-relaxed">
+                          ¡Hola! 🍀 Bienvenido a **Trébol Digital**. Te compartimos nuestra propuesta integral:
+                        </p>
+                        <span className="text-[9px] text-white/40 block text-right">10:42 AM</span>
+                      </div>
+
+                      {/* Tarjeta con imagen completa prominente */}
+                      <div className="bg-[#202c33] p-2 rounded-2xl rounded-tl-none max-w-[92%] space-y-2 shadow-md border border-white/5">
+                        <img
+                          src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
+                          alt="Marketing Dashboard"
+                          className="w-full h-44 object-cover rounded-xl"
+                        />
+                        <div className="p-1 space-y-0.5">
+                          <span className="font-bold text-xs text-trebol block">Estrategia & Embudo B2B 2026</span>
+                          <span className="text-[10px] text-white/70 block">Diagnóstico en tiempo real y asignación al CRM.</span>
+                        </div>
+                      </div>
+
+                      {/* Lead respuesta */}
+                      <div className="flex flex-col items-end space-y-0.5">
+                        <div className="bg-[#005c4b] text-white p-2.5 rounded-2xl rounded-tr-none max-w-[85%] font-semibold text-[11px] shadow-sm">
+                          Solicitar diagnóstico de marketing B2B
+                        </div>
+                        <span className="text-[9px] text-white/40">10:43 AM ✓✓</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* MOCKUP 2: INSTAGRAM FEED CON FOTO COMPLETA TALL */}
+                {currentChannel.type === 'instagram' && (
+                  <div className="bg-[#121212] flex-1 flex flex-col justify-between text-white">
+                    {/* Header App Instagram */}
+                    <div className="p-3 border-b border-white/10 flex items-center justify-between bg-[#1a1a1a] shrink-0">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src="/logo-trebol.png"
+                          alt="Trébol Digital"
+                          className="w-8 h-8 rounded-full bg-white p-0.5 object-contain"
+                        />
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <span className="font-bold text-xs">treboldigital.mx</span>
+                            <CheckCircle2 size={11} className="text-trebol fill-trebol text-white" />
+                          </div>
+                          <span className="text-[9px] text-neutral-400">Marketing & Aceleración B2B</span>
+                        </div>
+                      </div>
+                      <span className="text-[11px] text-trebol font-bold bg-trebol/20 px-3 py-0.5 rounded-full">Seguir</span>
+                    </div>
+
+                    {/* Foto Principal Completa y Destacada */}
+                    <div className="relative flex-1">
+                      <img
+                        src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop"
+                        alt="Estrategia de contenidos redes sociales"
+                        className="w-full h-64 md:h-72 object-cover"
+                      />
+                      <div className="absolute bottom-3 left-3 bg-carbon/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-xs font-bold text-trebol shadow-lg">
+                        🍀 TRÉBOL DIGITAL · 2026
+                      </div>
+                    </div>
+
+                    {/* Footer Reacciones Instagram */}
+                    <div className="p-3.5 space-y-1.5 bg-[#1a1a1a] text-xs shrink-0">
+                      <div className="flex items-center justify-between text-neutral-300 font-semibold text-xs">
+                        <div className="flex items-center gap-4">
+                          <span>❤️ 1,840 Me gusta</span>
+                          <span>💬 112 comentarios</span>
+                        </div>
+                        <span>🔖</span>
+                      </div>
+                      <p className="text-neutral-300 text-xs leading-relaxed">
+                        <span className="font-bold text-white">treboldigital.mx</span> Operación de contenidos y pauta publicitaria para empresas B2B.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* MOCKUP 3: PLATAFORMA WEB NATIVA CON FOTO HERO ALTA */}
+                {currentChannel.type === 'web' && (
+                  <div className="bg-white text-carbon flex-1 flex flex-col justify-between">
+                    {/* Top bar de navegador móvil */}
+                    <div className="bg-[#282928] px-3.5 py-2 flex items-center gap-2 border-b border-white/10 text-white shrink-0">
+                      <div className="w-full bg-[#141514] px-3.5 py-1 rounded-lg text-xs font-mono text-neutral-300 border border-white/10 flex items-center gap-2 truncate">
+                        <Globe size={12} className="text-trebol shrink-0" />
+                        <span className="truncate">treboldigital.mx/soluciones</span>
+                      </div>
+                    </div>
+
+                    {/* Foto Web Hero Completa */}
+                    <div className="relative flex-1">
+                      <img
+                        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
+                        alt="Plataforma Web Nativa"
+                        className="w-full h-56 md:h-64 object-cover"
+                      />
+                      <div className="absolute top-3 right-3 bg-trebol text-white text-xs font-mono font-bold px-3 py-1 rounded-full shadow-lg">
+                        100/100 SPEED
+                      </div>
+                    </div>
+
+                    <div className="p-4 space-y-2.5 text-left shrink-0">
+                      <h4 className="text-base font-black text-carbon leading-snug">
+                        Sitios Web de Alta Conversión & Velocidad Relámpago.
+                      </h4>
+                      <p className="text-xs text-carbon/75 font-normal leading-relaxed">
+                        Código nativo ultrarrápido con arquitectura de conversión (CRO) y captura de prospectos.
+                      </p>
+                      <div className="pt-1">
+                        <span className="bg-trebol text-white py-2 rounded-xl text-xs font-bold block text-center shadow-md">
+                          Explorar soluciones web →
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* MOCKUP 4: CATÁLOGOS & DECKS PDF CON FOTO COMPLETA */}
+                {currentChannel.type === 'pdf' && (
+                  <div className="bg-[#181918] flex-1 flex flex-col justify-between text-white p-3.5 space-y-3">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2.5 shrink-0">
+                      <div className="flex items-center gap-2">
+                        <FileText size={18} className="text-trebol" />
+                        <span className="text-xs font-mono font-bold text-white">Dossier_Ejecutivo_2026.pdf</span>
+                      </div>
+                      <span className="text-xs font-mono bg-trebol/20 text-trebol px-2.5 py-0.5 rounded-full font-bold">
+                        Pág 01/12
+                      </span>
+                    </div>
+
+                    {/* Foto Slide Ejecutivo Completa */}
+                    <div className="rounded-2xl overflow-hidden relative border border-white/10 shadow-lg flex-1">
+                      <img
+                        src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop"
+                        alt="Dossier Ejecutivo B2B"
+                        className="w-full h-64 md:h-72 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/40 to-transparent p-4 flex flex-col justify-end">
+                        <span className="text-xs font-mono text-trebol font-bold">TRÉBOL DIGITAL</span>
+                        <h4 className="text-sm font-black text-white leading-tight">
+                          Modelo Integrado de Aceleración Comercial B2B
+                        </h4>
+                      </div>
+                    </div>
+
+                    <div className="bg-[#242624] p-3 rounded-xl border border-white/10 text-center space-y-1.5 shrink-0">
+                      <p className="text-xs text-white/80 font-light">
+                        Material de ventas descargable en formato digital interactivo.
+                      </p>
+                      <span className="bg-trebol text-white px-4 py-1.5 rounded-lg text-xs font-mono font-bold inline-block shadow-md">
+                        Descargar presentación
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+            </div>
+
+          </div>
+
+        </motion.div>
+      </AnimatePresence>
+
+    </div>
+  );
+}
+
 export default function MarketingEstrategicoPage() {
   const [activeStage, setActiveStage] = useState(0);
   const [openFaq, setOpenFaq] = useState(null);
@@ -805,34 +1174,9 @@ export default function MarketingEstrategicoPage() {
         </div>
       </section>
 
-      {/* ── 08 · SECCIÓN CON IMAGEN DE FONDO FULL-BLEED (CONSISTENCIA DE MARCA) ── */}
+      {/* ── 08 · SECCIÓN SHOWCASE INTERACTIVO DE MARCA TRÉBOL ── */}
       <section className="w-full max-w-[1300px] mx-auto px-6 md:px-12 py-16 relative z-10 border-t border-carbon/10">
-        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border border-trebol/30 min-h-[380px] flex items-center p-8 md:p-12">
-          {/* Section Image Background */}
-          <img
-            src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=80"
-            alt="Experiencia de Marca Trébol Digital"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-carbon via-carbon/95 to-carbon/75" />
-
-          <div className="relative z-10 max-w-2xl space-y-5">
-            <h2 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-[1.12]">
-              Experiencia de marca <span className="text-trebol">consistente.</span>
-            </h2>
-            <p className="text-sm md:text-base text-white/90 font-normal leading-relaxed font-sans">
-              Alineamos tu presencia digital para construir una experiencia profesional uniforme desde el primer contacto en redes hasta la conversación comercial final.
-            </p>
-
-            <div className="flex flex-wrap gap-2 pt-1">
-              {["Web", "Redes", "WhatsApp", "Presentaciones", "Catálogos", "Publicidad", "Comunicación comercial"].map((pill, i) => (
-                <span key={i} className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs md:text-sm font-mono font-bold text-white">
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
+        <BrandEcosystemShowcase />
       </section>
 
       {/* ── 09 · MÉTODO TRÉBOL (ROADMAP INTERACTIVO DE AUTONOMÍA) ────────── */}
