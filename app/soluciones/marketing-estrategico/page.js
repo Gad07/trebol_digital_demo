@@ -159,7 +159,6 @@ const ecosistemaEtapas = [
     subtitulo: "Captación de atención masiva e intención de búsqueda calificada",
     items: [
       "Estrategia de contenidos multi-canal",
-      "Gestión de redes sociales corporativas",
       "Producción de contenido orgánico",
       "Paid Media (Google & Meta Ads)",
       "Posicionamiento SEO / SEM"
@@ -173,8 +172,7 @@ const ecosistemaEtapas = [
       "Landing pages de alta conversión",
       "Formularios inteligentes anti-spam",
       "WhatsApp Business integrado",
-      "Lead magnets & Recursos descargables",
-      "CTAs de alto impacto comercial"
+      "Lead magnets & CTAs de alto impacto"
     ]
   },
   {
@@ -196,8 +194,7 @@ const ecosistemaEtapas = [
       "Definición del ciclo de vida del lead",
       "Tiempos de respuesta inmediata (<5 min)",
       "Guiones de atención y venta por canal",
-      "Manejo estructurado de objeciones",
-      "Método de contacto y seguimiento recurrente"
+      "Manejo estructurado de objeciones"
     ]
   },
   {
@@ -208,8 +205,7 @@ const ecosistemaEtapas = [
       "Materiales comerciales interactivos B2B",
       "Catálogos digitales dinámicos",
       "Páginas de producto / servicio",
-      "Plantillas de propuestas ejecutivas",
-      "Herramientas de apoyo a ejecutivos de venta"
+      "Plantillas de propuestas ejecutivas"
     ]
   },
   {
@@ -220,7 +216,6 @@ const ecosistemaEtapas = [
       "KPIs & Dashboards ejecutivos en tiempo real",
       "Evaluación continua de calidad de leads",
       "Control estricto de CPL & ROAS",
-      "Seguimiento de tasa de conversión por canal",
       "Optimización continua de pauta publicitaria"
     ]
   }
@@ -830,21 +825,16 @@ export default function MarketingEstrategicoPage() {
                     </div>
 
                     <p className="text-base md:text-lg text-white/90 font-normal leading-relaxed font-sans">
-                      {ecosistemaEtapas[activeStage].subtitulo}
+                      {ecosistemaEtapas[activeStage].subtitulo}:
                     </p>
 
-                    <div className="space-y-3 pt-2">
-                      <span className="text-xs font-mono font-bold text-white/60 uppercase tracking-wider block">
-                        Acciones Clave del Sistema:
-                      </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-                        {ecosistemaEtapas[activeStage].items.map((item, i) => (
-                          <div key={i} className="flex items-start gap-2.5">
-                            <CheckCircle2 size={18} className="text-trebol shrink-0 mt-0.5" />
-                            <span className="text-sm md:text-base font-medium text-white/90 font-sans leading-snug">{item}</span>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 pt-2">
+                      {ecosistemaEtapas[activeStage].items.slice(0, 4).map((item, i) => (
+                        <div key={i} className="flex items-start gap-2.5">
+                          <CheckCircle2 size={18} className="text-trebol shrink-0 mt-0.5" />
+                          <span className="text-sm md:text-base font-medium text-white/90 font-sans leading-snug">{item}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
