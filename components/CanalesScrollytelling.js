@@ -589,7 +589,7 @@ function CapacitacionContent({ isActive }) {
 }
 
 // ── MOCKUP DE TELÉFONO 3D HYPER-REALISTA IPHONE 15 PRO ─────────────────────
-function PhoneFrame({ children, backLightRef }) {
+export function PhoneFrame({ children, backLightRef }) {
   return (
     <div className="relative w-full h-full select-none" style={{ transformStyle: 'preserve-3d' }}>
 

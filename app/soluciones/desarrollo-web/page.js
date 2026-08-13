@@ -16,6 +16,7 @@ import { BrutalistMockup } from '../../../components/desarrollo-web/mockups/Brut
 import { LuxuryMockup } from '../../../components/desarrollo-web/mockups/LuxuryMockup';
 import { SpeedometerGauge, LighthouseGauge, ConversionGauge } from '../../../components/desarrollo-web/PerformanceGauges';
 import Contact from '@/components/Contact';
+import ClientLogosBanner from '@/components/ClientLogosBanner';
 
 const capabilitiesList = [
   { name: 'Renderizado Ultrarrápido & SEO Impecable', role: 'Carga Instantánea & SEO', desc: 'Desarrollamos páginas de carga instantánea optimizadas para posicionar en los primeros lugares de Google.', icon: Globe },
@@ -136,7 +137,7 @@ export default function DesarrolloWebPage() {
           </motion.h1>
         </div>
 
-        {/* Panoramic Hero Image Banner - 100% CLEAN WITHOUT TEXT OVERLAYS */}
+        {/* Panoramic Hero Image Banner */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -152,15 +153,15 @@ export default function DesarrolloWebPage() {
         </motion.div>
       </section>
 
-      {/* ── SECCIÓN COMPARATIVA: GRÁFICOS A LA IZQUIERDA Y ÚNICA CARD A LA DERECHA ── */}
+      {/* ── SECCIÓN COMPARATIVA EN 2 COLUMNAS PERFECTAS ── */}
       <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="space-y-12">
 
           {/* ENCABEZADO CON TIPOGRAFÍA MONUMENTAL */}
           <div className="text-center max-w-3xl mx-auto space-y-4">
             <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
-              Por qué debes migrar <br />
-              <span className="text-trebol">de WordPress a una Web App a Medida</span>
+              Por qué tu empresa necesita <br />
+              <span className="text-trebol">una Web App a Medida</span>
             </h2>
             <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
               Tu empresa necesita una plataforma viva, ultrarrápida, segura y construida a la medida exacta de tus clientes.
@@ -189,125 +190,161 @@ export default function DesarrolloWebPage() {
             </div>
           </div>
 
-          {/* GRID: IZQUIERDA = GRÁFICOS Y MEDIDORES | DERECHA = ÚNICA TARJETA */}
+          {/* GRID PRINCIPAL DE 2 COLUMNAS (6 COLS IZQUIERDA + 6 COLS DERECHA) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
-            {/* COLUMNA IZQUIERDA (GRÁFICOS & MEDIDORES DE RENDIMIENTO) */}
+            {/* COLUMNA 1 IZQUIERDA (TELEMETRÍA DE RENDIMIENTO CON TÍTULO) */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="lg:col-span-6 bg-white/80 backdrop-blur-2xl text-carbon border border-white/90 rounded-[3rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col justify-between space-y-8"
-            >
-              <div>
-                <div className="flex items-center justify-between border-b border-neutral-100 pb-4 mb-6">
-                  <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-trebol animate-pulse" />
-                    Telemetría & Core Web Vitals
-                  </span>
-                  <span className="text-xs font-mono text-carbon/50">
-                    {isBefore ? 'WordPress Legado' : 'Next.js Nativo'}
-                  </span>
-                </div>
-
-                {/* 3 Gauges de Rendimiento */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                  <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200/80 pb-4 md:pb-0 md:pr-4">
-                    <SpeedometerGauge isBefore={isBefore} />
-                  </div>
-
-                  <div className="flex justify-center border-b md:border-b-0 md:border-r border-neutral-200/80 py-4 md:py-0 md:px-4">
-                    <LighthouseGauge isBefore={isBefore} />
-                  </div>
-
-                  <div className="flex justify-center pt-4 md:pt-0 md:pl-4">
-                    <ConversionGauge isBefore={isBefore} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Status Banner Inferior en la tarjeta de gráficos */}
-              <div className={`p-4 rounded-2xl border text-xs font-mono flex items-center justify-between transition-all duration-300 ${
-                isBefore 
-                  ? 'bg-rose-50 border-rose-200 text-rose-700' 
-                  : 'bg-trebol/10 border-trebol/30 text-carbon font-bold'
-              }`}>
-                <span>{isBefore ? '⚠️ Riesgo de fuga de prospectos' : '✓ 100% Optimizado en CDN Global'}</span>
-                <span className="font-bold">{isBefore ? 'Latencia: 4.8s' : 'Latencia: 0.6s'}</span>
-              </div>
-            </motion.div>
-
-            {/* COLUMNA DERECHA (LA ÚNICA TARJETA: WEB APP A MEDIDA) */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="lg:col-span-6 p-8 md:p-10 rounded-[3rem] bg-white border-2 border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden flex flex-col justify-between"
+              className="lg:col-span-6 bg-white border-2 border-neutral-200/90 rounded-[3rem] p-8 md:p-10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden"
             >
               <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="px-4 py-1.5 rounded-full bg-trebol/10 border border-trebol/30 text-trebol font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
-                    Web App a Medida (Trébol Digital)
-                  </span>
-                  <span className="text-xs font-mono text-trebol font-extrabold">Alto Rendimiento</span>
-                </div>
-
                 <div>
                   <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
-                    Una plataforma viva para tu cliente
+                    Telemetría de Rendimiento
                   </h3>
-                  <p className="text-sm text-carbon/60 font-light">
-                    Código nativo, ultra velocidad y máxima conversión.
+                  <p className="text-sm text-carbon/75 font-medium">
+                    Monitoreo en tiempo real de velocidad, Core Web Vitals y tasa de conversión.
                   </p>
                 </div>
 
-                <div className="space-y-3.5 font-sans text-sm md:text-base text-carbon/80">
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
-                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Check size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Carga ultrarrápida (&lt; 0.8s):</strong> Navegación instantánea y mejor SEO en Google.
-                    </div>
+                {/* Fila Superior: 2 Medidores Amplios en 2 Columnas */}
+                <div className="grid grid-cols-2 gap-4 pb-4 border-b border-neutral-100">
+                  <div className="flex justify-center border-r border-neutral-100 pr-2">
+                    <SpeedometerGauge isBefore={isBefore} />
                   </div>
+                  <div className="flex justify-center pl-2">
+                    <LighthouseGauge isBefore={isBefore} />
+                  </div>
+                </div>
 
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
-                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Check size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Seguridad enterprise:</strong> Código privado y cerrado, sin plugins ni parches.
-                    </div>
-                  </div>
+                {/* Fila Inferior: Tasa de Conversión a todo el ancho */}
+                <div>
+                  <ConversionGauge isBefore={isBefore} />
+                </div>
+              </div>
+            </motion.div>
 
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
-                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Check size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">UX 100% a medida:</strong> Diseñada para convertir visitas en ventas reales.
-                    </div>
-                  </div>
+            {/* COLUMNA 2 DERECHA (TARJETA DINÁMICA QUE CAMBIA SEGÚN EL TOGGLE) */}
+            <motion.div
+              key={isBefore ? 'before-card' : 'after-card'}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className={`lg:col-span-6 p-8 md:p-10 rounded-[3rem] bg-white border-2 transition-all duration-500 shadow-xl relative overflow-hidden flex flex-col justify-between ${
+                isBefore
+                  ? 'border-red-500 shadow-[0_20px_50px_rgba(220,38,38,0.15)] bg-rose-50/20'
+                  : 'border-trebol shadow-[0_20px_50px_rgba(92,158,49,0.15)] bg-trebol/5'
+              }`}
+            >
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
+                    {isBefore ? 'Plataforma rígida y vulnerable' : 'Una plataforma viva para tu cliente'}
+                  </h3>
+                  <p className="text-sm text-carbon/75 font-medium">
+                    {isBefore
+                      ? 'Arquitectura obsoleta, carga lenta y pérdida masiva de ventas.'
+                      : 'Arquitectura moderna, ultra velocidad y máxima conversión.'}
+                  </p>
+                </div>
 
-                  <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/5 border border-trebol/20">
-                    <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Check size={15} strokeWidth={3} />
-                    </div>
-                    <div>
-                      <strong className="text-carbon font-bold">Ecosistema escalable:</strong> Conexión fluida a tu CRM y pasarelas de pago.
-                    </div>
-                  </div>
+                <div className="space-y-3.5 font-sans text-sm md:text-base text-carbon">
+                  {isBefore ? (
+                    <>
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-100/70 border border-rose-200">
+                        <div className="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <X size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-rose-950 font-bold">Carga lenta (&gt; 5.8s):</strong> Abandono masivo de usuarios antes de ver tus productos.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-100/70 border border-rose-200">
+                        <div className="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <X size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-rose-950 font-bold">Vulnerabilidades de seguridad:</strong> Riesgo constante de caídas por componentes desactualizados.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-100/70 border border-rose-200">
+                        <div className="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <X size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-rose-950 font-bold">Diseño rígido:</strong> Apariencia genérica e inflexible igual a cientos de sitios.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-rose-100/70 border border-rose-200">
+                        <div className="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <X size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-rose-950 font-bold">Fugas en el embudo:</strong> Pérdida de hasta el 75% del tráfico pagado.
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/10 border border-trebol/20">
+                        <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <Check size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-carbon font-bold">Carga ultrarrápida (&lt; 0.8s):</strong> Navegación instantánea y mejor SEO en Google.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/10 border border-trebol/20">
+                        <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <Check size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-carbon font-bold">Seguridad enterprise:</strong> Código privado y cerrado, máxima protección de datos.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/10 border border-trebol/20">
+                        <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <Check size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-carbon font-bold">UX 100% a medida:</strong> Diseñada para convertir visitas en ventas reales.
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 p-3 rounded-2xl bg-trebol/10 border border-trebol/20">
+                        <div className="w-6 h-6 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                          <Check size={15} strokeWidth={3} />
+                        </div>
+                        <div>
+                          <strong className="text-carbon font-bold">Ecosistema escalable:</strong> Conexión fluida a tu CRM y pasarelas de pago.
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
-              <div className="mt-6 pt-5 border-t border-neutral-100 font-mono text-xs text-trebol flex items-center justify-between">
-                <span className="font-bold">+300% conversión comercial</span>
-                <span className="font-bold bg-trebol text-white px-3.5 py-1 rounded-full shadow-sm">Speed Score: ~98/100</span>
+              <div className="mt-6 pt-5 border-t border-neutral-200/80 font-mono text-xs flex items-center justify-between transition-colors">
+                <span className={`font-bold ${isBefore ? 'text-red-600' : 'text-trebol'}`}>
+                  {isBefore ? 'Pérdida masiva de prospectos' : '+300% conversión comercial'}
+                </span>
+                <span className={`font-bold text-white px-3.5 py-1 rounded-full shadow-sm ${
+                  isBefore ? 'bg-red-600' : 'bg-trebol'
+                }`}>
+                  {isBefore ? 'Speed Score: ~42/100' : 'Speed Score: ~98/100'}
+                </span>
               </div>
             </motion.div>
+
           </div>
 
           {/* 3 PILARES DE VALOR RELEVANTES CON ICONOS LUCIDE */}
@@ -365,8 +402,8 @@ export default function DesarrolloWebPage() {
               key={m.id}
               onClick={() => setActiveMode(idx)}
               className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${activeMode === idx
-                  ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
-                  : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
+                ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
+                : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
                 }`}
             >
               <span className="font-black leading-tight">{m.label}</span>
@@ -506,6 +543,9 @@ export default function DesarrolloWebPage() {
           </div>
         </div>
       </section>
+
+      {/* ── CLIENTES / LOGOS MARQUEE ────────── */}
+      <ClientLogosBanner />
 
       {/* ── Contact CTA (mismo estilo que Home) ────────── */}
       <Contact />

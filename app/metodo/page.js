@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ArrowUpRight, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import Process from '@/components/Process';
 import Contact from '@/components/Contact';
+import ClientLogosBanner from '@/components/ClientLogosBanner';
 
 const testimonials = [
   {
@@ -258,6 +259,9 @@ export default function MetodoPage() {
           </div>
         </div>
       </section>
+
+      {/* ── CLIENTES / LOGOS ────────────────────────── */}
+      <ClientLogosBanner />
 
       {/* ── CONTACT ───────────────────────────────────── */}
       <Contact />
