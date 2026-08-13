@@ -54,19 +54,17 @@ const steps = [
 // Leaf 0: -135deg (Top-Left)
 // Leaf 1: -45deg (Top-Right)
 // Leaf 2: 45deg (Bottom-Right)
-// Leaf 3: 135deg (Bottom-Left)
 const leafAngles = [-135, -45, 45, 135];
-
-// Rotación para cada paso para que la hoja activa SIEMPRE rote a 45deg (Derecho Inferior):
 const stepRotations = [180, 90, 0, -90];
-// Rotación para cada paso cuando reverse es true (hoja activa rota a -135deg / Izquierdo Superior apuntando a la tarjeta):
 const reverseStepRotations = [0, -90, -180, 90];
 
 function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse = false }) {
   const currentRotation = (reverse ? reverseStepRotations : stepRotations)[activeStep];
 
   return (
-    <div className={`absolute top-1/2 -translate-y-1/2 w-[650px] h-[650px] sm:w-[800px] sm:h-[800px] md:w-[920px] md:h-[920px] lg:w-[1020px] lg:h-[1020px] flex items-center justify-center select-none overflow-visible pointer-events-auto z-50 ${reverse ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'
+    <div className={`absolute top-1/2 -translate-y-1/2 w-[1050px] h-[1050px] hidden lg:flex items-center justify-center select-none overflow-visible pointer-events-auto z-0 ${reverse
+        ? 'right-0 translate-x-1/2'
+        : 'left-0 -translate-x-1/2'
       }`}>
 
       {/* Resplandor Verde Ambiental */}
@@ -76,10 +74,10 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
           opacity: [0.35, 0.65, 0.35]
         }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 bg-trebol/35 rounded-full blur-[120px] pointer-events-none"
+        className="absolute inset-0 bg-trebol/35 rounded-full blur-[100px] pointer-events-none"
       />
 
-      {/* Trébol SVG Gigante Anclado */}
+      {/* Trébol SVG Gigante Anclado Rotativo Desktop */}
       <motion.div
         animate={{ rotate: currentRotation }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -100,7 +98,6 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                   onClick={() => setActiveStep(i)}
                   className="cursor-pointer group"
                 >
-                  {/* Pétalo de la Hoja */}
                   <path
                     d="M 0,0 C -35,-55 -65,-95 -65,-140 A 65,65 0 0,1 65,-140 C 65,-95 35,-55 0,0 Z"
                     fill={isActive ? "#84C638" : "#cbd2dc"}
@@ -110,7 +107,6 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                     className="transition-colors duration-500"
                   />
 
-                  {/* Círculos en la Cabeza de la Hoja */}
                   <circle cx="0" cy="-140" r="48" fill="#FFFFFF" />
                   <circle
                     cx="0"
@@ -120,7 +116,6 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
                     className="transition-colors duration-500"
                   />
 
-                  {/* ÚNICAMENTE la hoja activa muestra el número */}
                   {isActive && (
                     <motion.text
                       x="0"
@@ -236,23 +231,23 @@ export default function Process({ customSteps, title = "Metodología", titleGree
           />
         </div>
 
-        {/* Trébol Gigante Anclado en la Mitad del Borde */}
+        {/* Trébol Gigante Anclado (Solo visible en PC >= 1024px) */}
         <HalfGiantTrebol activeStep={activeStep} setActiveStep={setActiveStep} stepsList={stepsList} reverse={reverse} />
 
-        {/* Contenido Principal */}
-        <div className={`w-full max-w-[1400px] mx-auto flex flex-col justify-center relative z-20 py-4 sm:py-6 md:py-8 ${reverse
+        {/* ── 1. VISTA DESKTOP (100% ORIGINAL SINO QUE SOLO PARA >= 1024px) ── */}
+        <div className={`hidden lg:flex w-full max-w-[1400px] mx-auto flex-col justify-center relative z-20 py-4 sm:py-6 md:py-8 ${reverse
           ? 'px-4 sm:px-8 md:pr-56 lg:pr-[380px] xl:pr-[440px] pl-4 md:pl-8'
           : 'px-4 sm:px-8 md:pl-56 lg:pl-[380px] xl:pl-[440px] pr-4 md:pr-8'
           }`}>
 
-          {/* Encabezado del Título */}
+          {/* Encabezado del Título Original PC */}
           <div className="w-full mb-2 sm:mb-3 md:mb-4 shrink-0">
             <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight text-carbon">
               {title} <span className="text-trebol">{titleGreen}</span>
             </h2>
           </div>
 
-          {/* Tarjeta con Detalles del Paso Actual */}
+          {/* Tarjeta Original PC con Detalles del Paso Actual */}
           <div className="w-full relative min-h-0 flex items-center">
             <AnimatePresence mode="wait">
               <motion.div
@@ -281,7 +276,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                     </div>
                   </div>
 
-                  <div className="w-9 h-9 md:w-11 md:h-11 rounded-xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0 hidden sm:flex">
+                  <div className="w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0">
                     <StepIcon size={22} />
                   </div>
                 </div>
@@ -293,7 +288,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
 
                 {/* Tecnologías & Entregables */}
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="text-[10px] sm:text-[11px] uppercase tracking-wider font-mono text-carbon/60">
+                  <div className="text-[9px] sm:text-[11px] uppercase tracking-wider font-mono text-carbon/60">
                     Tecnología & Entregables Clave:
                   </div>
                   <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
@@ -302,27 +297,111 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                         key={i}
                         className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white border border-neutral-200 text-[10px] sm:text-xs text-carbon font-mono flex items-center gap-1 shadow-sm"
                       >
-                        <CheckCircle2 size={12} className="text-trebol" />
+                        <CheckCircle2 size={11} className="text-trebol shrink-0" />
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                {/* Pie con resultado de etapa */}
-                <div className="mt-3 sm:mt-4 md:mt-5 pt-2.5 sm:pt-3 md:pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] sm:text-xs font-mono text-carbon/60">
-                  <span>Resultado de Etapa</span>
-                  <span className="text-trebol font-bold flex items-center gap-1.5">
+                {/* Métrica / Impacto */}
+                <div className="mt-3 sm:mt-4 md:mt-5 pt-2.5 sm:pt-3 border-t border-neutral-200/80 flex items-center justify-between">
+                  <span className="text-[10px] sm:text-xs text-carbon/50 font-mono font-medium">Entregable:</span>
+                  <span className="text-xs sm:text-sm text-trebol font-mono font-bold flex items-center gap-1">
                     {currentStep.metrica}
-                    <ArrowRight size={13} />
                   </span>
                 </div>
-
               </motion.div>
             </AnimatePresence>
           </div>
 
         </div>
+
+        {/* ── 2. VISTA MÓVIL (< 1024px) OPTIMIZADA CON TITULO GRANDE Y PASOS ── */}
+        <div className="flex lg:hidden w-full max-w-[1400px] mx-auto flex-col justify-center gap-6 relative z-20 px-6 sm:px-10 py-6">
+          {/* Encabezado Móvil */}
+          <div className="w-full flex flex-col items-center gap-4 text-center mb-2">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tighter text-carbon text-center leading-none">
+              {title} <span className="text-trebol">{titleGreen}</span>
+            </h2>
+            <div className="flex items-center justify-center gap-1.5 bg-neutral-100/90 p-1.5 rounded-full border border-neutral-200/80 mt-1">
+              {stepsList.map((st, i) => (
+                <button
+                  key={st.number}
+                  onClick={() => setActiveStep(i)}
+                  className={`py-1.5 px-3.5 rounded-full font-mono font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+                    activeStep === i
+                      ? 'bg-trebol text-white shadow-sm'
+                      : 'bg-transparent text-carbon/60 hover:text-carbon'
+                  }`}
+                >
+                  Paso {st.number}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Detalles del Paso Móvil Sin Tarjeta (Cardless) */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep.number}
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full flex flex-col gap-4"
+            >
+              <div className="flex items-center justify-between border-b border-neutral-200/80 pb-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl sm:text-4xl font-black text-trebol font-mono leading-none">
+                    {currentStep.number}.
+                  </span>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-black tracking-tight text-carbon">
+                      {currentStep.title}
+                    </h3>
+                    <div className="text-xs sm:text-sm text-trebol font-mono font-semibold mt-0.5">
+                      {currentStep.tagline}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-10 h-10 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol shrink-0">
+                  <StepIcon size={22} />
+                </div>
+              </div>
+
+              <p className="text-sm sm:text-base text-carbon/85 font-normal leading-relaxed">
+                {currentStep.description}
+              </p>
+
+              <div className="space-y-2">
+                <div className="text-xs uppercase tracking-wider font-mono text-carbon/60 font-bold">
+                  Tecnología & Entregables Clave:
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {currentStep.tecnologias.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 rounded-full bg-neutral-100/90 border border-neutral-200 text-xs text-carbon font-mono font-medium shadow-sm flex items-center gap-1.5"
+                    >
+                      <CheckCircle2 size={13} className="text-trebol shrink-0" />
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-neutral-200/80 flex items-center justify-between">
+                <span className="text-xs text-carbon/60 font-mono font-medium">Entregable:</span>
+                <span className="text-sm text-trebol font-mono font-bold flex items-center gap-2">
+                  {currentStep.metrica}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </section>
     </div>
   );

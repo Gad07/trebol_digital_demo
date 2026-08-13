@@ -49,7 +49,7 @@ function StickyHalfGiantTrebol({ activeStep, setActiveStep }) {
   const currentRotation = stepRotations[activeStep];
 
   return (
-    <div className="w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] md:w-[750px] md:h-[750px] flex items-center justify-center select-none overflow-visible pointer-events-auto relative">
+    <div className="w-[280px] h-[280px] sm:w-[450px] sm:h-[450px] md:w-[600px] md:h-[600px] lg:w-[750px] lg:h-[750px] flex items-center justify-center select-none overflow-visible pointer-events-auto relative mx-auto">
       
       {/* Resplandor Verde Ambiental */}
       <motion.div

@@ -259,15 +259,16 @@ export default function OrgStructureCanvas() {
           </div>
         </div>
 
-        {/* Canvas body */}
-        <div ref={canvasRef} className="relative w-full overflow-hidden" style={{ minHeight: 520 }}>
-          {/* SVG overlay */}
-          <svg
-            className="absolute inset-0 pointer-events-none"
-            width={canvasSize.w}
-            height={canvasSize.h}
-            style={{ overflow: 'visible' }}
-          >
+        {/* Canvas body con desplazamiento horizontal responsivo en pantallas pequeñas */}
+        <div className="w-full overflow-x-auto">
+          <div ref={canvasRef} className="relative w-full min-w-[650px] md:min-w-full overflow-hidden" style={{ minHeight: 540 }}>
+            {/* SVG overlay */}
+            <svg
+              className="absolute inset-0 pointer-events-none"
+              width={canvasSize.w}
+              height={canvasSize.h}
+              style={{ overflow: 'visible' }}
+            >
             <AnimatePresence mode="wait">
               {showChaosLines && (
                 <motion.g
@@ -321,6 +322,7 @@ export default function OrgStructureCanvas() {
               raci={RACI_LABELS[dept.id]}
             />
           ))}
+          </div>
         </div>
 
         {/* Footer */}

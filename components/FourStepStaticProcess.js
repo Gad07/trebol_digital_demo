@@ -49,7 +49,7 @@ function TrebolSVG({ activeIndex }) {
   const rotation = stepRotations[activeIndex];
 
   return (
-    <div className="relative w-[520px] h-[520px] flex items-center justify-center select-none shrink-0">
+    <div className="relative w-[280px] h-[280px] sm:w-[420px] sm:h-[420px] md:w-[520px] md:h-[520px] flex items-center justify-center select-none shrink-0 mx-auto">
       {/* Ambient glow */}
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.55, 0.3] }}

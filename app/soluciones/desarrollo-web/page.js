@@ -211,12 +211,12 @@ export default function DesarrolloWebPage() {
                   </p>
                 </div>
 
-                {/* Fila Superior: 2 Medidores Amplios en 2 Columnas */}
-                <div className="grid grid-cols-2 gap-4 pb-4 border-b border-neutral-100">
-                  <div className="flex justify-center border-r border-neutral-100 pr-2">
+                {/* Fila Superior: Medidores Responsivos (Stack en móvil, 2 cols en tablet/desktop) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 pb-4 border-b border-neutral-100">
+                  <div className="flex justify-center border-b sm:border-b-0 sm:border-r border-neutral-100 pb-4 sm:pb-0 sm:pr-2">
                     <SpeedometerGauge isBefore={isBefore} />
                   </div>
-                  <div className="flex justify-center pl-2">
+                  <div className="flex justify-center sm:pl-2">
                     <LighthouseGauge isBefore={isBefore} />
                   </div>
                 </div>
