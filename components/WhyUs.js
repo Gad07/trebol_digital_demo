@@ -1,5 +1,3 @@
-'use client';
-import { motion } from 'framer-motion';
 import { BookOpen, Cpu, HeartHandshake, Target } from 'lucide-react';
 
 const reasons = [
@@ -34,14 +32,9 @@ export default function WhyUs() {
     <section id="nosotros" className="w-full py-28 md:py-36 bg-white relative overflow-hidden">
       
       <div className="px-6 md:px-12 max-w-[1400px] mx-auto mb-16 md:mb-20">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-5xl md:text-7xl lg:text-[7.5rem] font-black text-carbon tracking-tighter leading-[0.85]"
-        >
+        <h2 className="text-5xl md:text-7xl lg:text-[7.5rem] font-black text-carbon tracking-tighter leading-[0.85]">
           El <span className="text-trebol">Diferenciador.</span>
-        </motion.h2>
+        </h2>
       </div>
 
       {/* Grid de Cards en Estilo Editorial Blanco con Borde Verde */}
@@ -49,12 +42,8 @@ export default function WhyUs() {
         {reasons.map((r, i) => {
           const Icon = r.icon;
           return (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
               className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between h-full"
             >
               <div>
@@ -75,7 +64,7 @@ export default function WhyUs() {
                   {r.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>

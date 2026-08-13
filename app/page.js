@@ -1,5 +1,10 @@
-import { Hero, Services, CanalesScrollytelling, Process, WhyUs, Contact } from '../components/DynamicSections';
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import Process from '../components/Process';
+import WhyUs from '../components/WhyUs';
+import Contact from '../components/Contact';
 import ClientLogosBanner from '../components/ClientLogosBanner';
+import LazyCanalesScrollytelling from '../components/LazyCanalesScrollytelling';
 
 export const metadata = {
   title: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
@@ -27,7 +32,7 @@ export default function Home() {
         <Services />
       </div>
       <div id="section-scrollytelling">
-        <CanalesScrollytelling />
+        <LazyCanalesScrollytelling />
       </div>
       <div id="section-clientes-wrapper" className="relative z-10">
         <ClientLogosBanner />

@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'framer-motion';
 
 const clientLogos = [
   {
@@ -92,15 +91,10 @@ export default function ClientLogosBanner() {
     <section id="section-clientes" className="relative z-10 w-full bg-white text-carbon py-24 md:py-32 px-6 md:px-12 overflow-visible">
 
       <div className="max-w-[1400px] w-full mx-auto relative z-10 mb-16 md:mb-20">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.92] text-center"
-        >
+        <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.92] text-center">
           Empresas que impulsan <br className="hidden md:block" />
           su crecimiento con <span className="text-trebol">Trébol Digital.</span>
-        </motion.h2>
+        </h2>
       </div>
 
       {/* CINTA DESLIZANTE DE LOGOS MARQUEE */}

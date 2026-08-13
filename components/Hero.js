@@ -69,6 +69,7 @@ export default function Hero() {
           src="/hero_panoramica.png" 
           alt="Trébol Digital Equipo"
           fill
+          sizes="(max-width: 768px) 95vw, (max-width: 1280px) 90vw, 1400px"
           className="object-cover object-center transition-transform duration-700"
           priority
         />

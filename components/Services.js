@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { Target, Zap, Users, Sparkles, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -9,16 +6,8 @@ export default function Services() {
     <section id="que-es-trebol" className="relative w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 overflow-hidden">
       {/* Luz Ambiental de fondo */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-32 -right-32 w-[35rem] h-[35rem] bg-trebol/30 rounded-full blur-[140px]"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-40 -left-40 w-[30rem] h-[30rem] bg-emerald-500/20 rounded-full blur-[120px]"
-        />
+        <div className="absolute -top-32 -right-32 w-[35rem] h-[35rem] bg-trebol/20 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-40 -left-40 w-[30rem] h-[30rem] bg-emerald-500/15 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-[1400px] w-full mx-auto relative z-10">
@@ -43,13 +32,7 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 
           {/* Pilar 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between"
-          >
+          <div className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between">
             <div>
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol mb-8 group-hover:bg-trebol group-hover:text-white transition-all duration-300">
                 <Target size={28} />
@@ -71,16 +54,10 @@ export default function Services() {
                 <span>Pauta de alta conversión</span>
               </li>
             </ul>
-          </motion.div>
+          </div>
 
           {/* Pilar 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between"
-          >
+          <div className="p-8 md:p-10 rounded-3xl bg-white border border-neutral-200/80 shadow-lg hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between">
             <div>
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol mb-8 group-hover:bg-trebol group-hover:text-white transition-all duration-300">
                 <Zap size={28} />
@@ -102,16 +79,10 @@ export default function Services() {
                 <span>Filtro anti-leads basura</span>
               </li>
             </ul>
-          </motion.div>
+          </div>
 
           {/* Pilar 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="p-8 md:p-10 rounded-3xl bg-trebol text-white shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
-          >
+          <div className="p-8 md:p-10 rounded-3xl bg-trebol text-white shadow-xl hover:shadow-2xl transition-all duration-500 group flex flex-col justify-between relative overflow-hidden">
             <div className="relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center text-white mb-8 group-hover:scale-110 transition-all duration-300">
                 <Users size={28} />
@@ -133,7 +104,7 @@ export default function Services() {
                 <span>Transferencia técnica completa</span>
               </li>
             </ul>
-          </motion.div>
+          </div>
 
         </div>
 
