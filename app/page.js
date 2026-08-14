@@ -28,7 +28,7 @@ export default function Home() {
       <div id="section-hero">
         <Hero />
       </div>
-      <div id="section-services">
+      <div id="section-services" className="relative z-10 bg-hueso">
         <Services />
       </div>
       <div id="section-scrollytelling">

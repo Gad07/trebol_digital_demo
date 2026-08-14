@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useScroll } from 'framer-motion';
 import {
   ArrowUpRight, Laptop, Smartphone, Tablet, Gauge, CheckCircle2,
@@ -84,73 +85,90 @@ export default function DesarrolloWebPage() {
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
-      {/* ── HERO EXACTO ESTILO HOME CON BADGE FLOTANTE & LUZ AMBIENTAL ── */}
-      <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-4 md:px-12 bg-hueso overflow-hidden">
+      {/* ── HERO EN PANTALLA COMPLETA CON FOTOGRAFÍA Y DEGRADADO ── */}
+      <section className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
+
+        {/* Background Hero Image with Crisp Right & Soft Left Gradient Fade */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=2200&q=95"
+            alt="Desarrollo Web Trébol Digital"
+            fill
+            priority
+            className="object-cover object-center md:object-right opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-hueso via-hueso/95 via-70% md:via-60% to-hueso/10 md:to-transparent" />
+        </div>
 
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <motion.div
-            animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.8, 0.6] }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.7, 0.5] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-trebol/20 rounded-full blur-[110px]"
+            className="absolute -top-40 -left-40 w-[28rem] h-[28rem] bg-trebol/20 rounded-full blur-[100px]"
           />
           <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute top-20 right-0 w-[28rem] h-[28rem] bg-trebol/10 rounded-full blur-[90px]"
-          />
-          <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-            className="absolute -bottom-20 left-1/3 w-[35rem] h-[35rem] bg-trebol/15 rounded-full blur-[120px]"
+            className="absolute top-20 right-0 w-[24rem] h-[24rem] bg-trebol/10 rounded-full blur-[80px]"
           />
         </div>
 
-        {/* Headline Container with Floating Glass Badge */}
-        <div className="relative w-full max-w-[1400px] mx-auto text-center flex justify-center mb-16 md:mb-20 z-10">
+        <div className="max-w-[1350px] mx-auto relative z-10 w-full">
 
-          {/* Floating Glass Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20, rotate: -6 }}
-            animate={{ opacity: 1, y: [0, -6, 0], rotate: -2 }}
-            transition={{
-              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-              opacity: { duration: 0.8, delay: 0.2 },
-              rotate: { duration: 0.8, delay: 0.2 }
-            }}
-            className="absolute -top-10 md:-top-12 lg:right-[14%] right-0 z-20"
-          >
-            <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
-              El activo comercial clave para hacer crecer tu empresa
-            </div>
-          </motion.div>
+          {/* CONTENIDO PRINCIPAL DEL HERO */}
+          <div className="max-w-3xl space-y-6 text-left">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 90, damping: 14 }}
+              className="text-4xl md:text-6xl lg:text-[4.5rem] font-black text-carbon leading-[1.05] tracking-tight"
+            >
+              Sitios Web Profesionales <br />
+              que Atraen y Convierten <span className="text-trebol">Clientes.</span>
+            </motion.h1>
 
-          {/* Massive Headline with Stagger Spring Animation */}
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
-          >
-            Sitios Web Profesionales <br className="hidden md:block" />
-            que Atraen y Convierten <span className="text-trebol">Clientes.</span>
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="text-base md:text-xl text-carbon/80 font-light leading-relaxed max-w-2xl font-sans"
+            >
+              Diseñamos e implementamos páginas web y plataformas a medida con velocidad ultra-rápida, diseño editorial de impacto y optimización SEO nativa para convertir visitas en oportunidades reales.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1"
+            >
+              <a
+                href="#contacto"
+                className="px-7 py-3.5 rounded-2xl bg-trebol text-white font-bold text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+              >
+                Solicita tu diagnóstico gratuito <ArrowUpRight size={18} />
+              </a>
+
+              <a
+                href="#rendimiento"
+                className="px-7 py-3.5 rounded-2xl bg-white border border-neutral-300 text-carbon font-semibold text-sm md:text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
+              >
+                Ver Telemetría de Rendimiento ↓
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="text-xs font-mono text-white sm:text-carbon/60 flex items-center gap-2 pt-1 font-semibold sm:font-normal drop-shadow-sm sm:drop-shadow-none"
+            >
+              <span>30 minutos · Sin costo · Auditoría de velocidad y rendimiento SEO</span>
+            </motion.div>
+          </div>
+
         </div>
-
-        {/* Panoramic Hero Image Banner */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 80, damping: 16, delay: 0.3 }}
-          whileHover={{ scale: 1.015 }}
-          className="w-[95%] max-w-[1600px] h-[55vh] md:h-[65vh] min-h-[420px] relative rounded-3xl overflow-hidden shadow-2xl z-10 transition-shadow duration-500 hover:shadow-[0_30px_70px_rgba(92,158,49,0.15)]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1800&q=80"
-            alt="Desarrollo Web Trébol Digital"
-            className="w-full h-full object-cover object-center transition-transform duration-700"
-          />
-        </motion.div>
       </section>
 
       {/* ── SECCIÓN COMPARATIVA EN 2 COLUMNAS PERFECTAS ── */}

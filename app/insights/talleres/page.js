@@ -77,8 +77,8 @@ export default function TalleresPage() {
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
-      {/* ── HERO CON BADGE, TITULAR, SUBTÍTULO Y BARRA DE ESTADÍSTICAS ── */}
-      <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-6 md:px-12 bg-hueso overflow-hidden">
+      {/* ── HERO ORIGINAL CENTRADO QUE ABARCA TODA LA PANTALLA ── */}
+      <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10">
         
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -111,9 +111,9 @@ export default function TalleresPage() {
               opacity: { duration: 0.8, delay: 0.2 },
               rotate: { duration: 0.8, delay: 0.2 }
             }}
-            className="absolute -top-10 md:-top-12 lg:right-[14%] right-0 z-20"
+            className="relative mb-2 sm:absolute sm:-top-10 md:-top-12 lg:right-[14%] sm:right-2 z-20"
           >
-            <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
+            <div className="bg-white/60 backdrop-blur-md px-5 sm:px-6 py-2.5 sm:py-3 border border-white/80 shadow-xl rounded-full text-xs sm:text-sm md:text-lg text-carbon font-semibold">
               Capacitaciones intensivas para tu equipo
             </div>
           </motion.div>
@@ -123,9 +123,9 @@ export default function TalleresPage() {
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
           >
-            Aprende Haciendo. <br className="hidden md:block" />
+            Aprende Haciendo. <br className="hidden sm:block" />
             Aplica en tu <span className="text-trebol">Empresa.</span>
           </motion.h1>
 

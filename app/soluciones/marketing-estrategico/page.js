@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowUpRight, ArrowRight, CheckCircle2, Zap, MessageSquare, BarChart3, Users,
@@ -490,7 +491,19 @@ export default function MarketingEstrategicoPage() {
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden lg:overflow-visible font-sans">
 
       {/* ── HERO EN 2 COLUMNAS ── */}
-      <section className="relative w-full pt-32 md:pt-40 pb-16 px-6 md:px-12 bg-hueso overflow-hidden lg:overflow-visible border-b border-carbon/10">
+      <section className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden lg:overflow-visible border-b border-carbon/10 flex items-center">
+
+        {/* Background Hero Image with Crisp Right & Soft Left Gradient Fade */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2200&q=95"
+            alt="Marketing Estratégico Trébol Digital"
+            fill
+            priority
+            className="object-cover object-center md:object-right opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-hueso via-hueso/95 via-70% md:via-60% to-hueso/10 md:to-transparent" />
+        </div>
 
         {/* Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -553,14 +566,14 @@ export default function MarketingEstrategicoPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.35 }}
-              className="text-xs font-mono text-carbon/60 flex items-center gap-2 pt-1"
+              className="text-xs font-mono text-white sm:text-carbon/60 flex items-center gap-2 pt-1 font-semibold sm:font-normal drop-shadow-sm sm:drop-shadow-none"
             >
               <span>30 minutos · Sin costo · Identificamos oportunidades para tu negocio</span>
             </motion.div>
           </div>
 
-          {/* COLUMNA DERECHA: TARJETA INTERACTIVA DE PROCESO COMPLETO */}
-          <div className="lg:col-span-5">
+          {/* COLUMNA DERECHA: TARJETA INTERACTIVA DE PROCESO COMPLETO (SOLO DESKTOP) */}
+          <div className="hidden lg:block lg:col-span-5">
             <motion.div
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}

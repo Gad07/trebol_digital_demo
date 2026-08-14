@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Services() {
   return (
-    <section id="que-es-trebol" className="relative w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 overflow-hidden">
+    <section id="que-es-trebol" className="relative z-10 w-full bg-hueso text-carbon py-24 md:py-32 px-6 md:px-12 overflow-hidden border-b border-neutral-200/80">
       {/* Luz Ambiental de fondo */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-32 -right-32 w-[35rem] h-[35rem] bg-trebol/20 rounded-full blur-[140px]" />
@@ -13,17 +13,17 @@ export default function Services() {
       <div className="max-w-[1400px] w-full mx-auto relative z-10">
 
         {/* Encabezado Principal */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16 md:mb-20">
-          <div className="lg:col-span-7">
-            <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.92]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start mb-16 md:mb-20">
+          <div className="lg:col-span-5">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
               ¿Qué es <br />
               <span className="text-trebol">Trébol Digital?</span>
             </h2>
           </div>
 
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-7 pt-2">
             <p className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed">
-              Somos una firma de <span className="font-semibold text-carbon">aceleración tecnológica y humana</span>. Ayudamos a las empresas a evolucionar su presencia digital, sus ventas y su operación interna.
+              Somos una firma de <span className="font-bold text-carbon">aceleración tecnológica y humana.</span> Ayudamos a las empresas a evolucionar su presencia digital, sus ventas y su operación interna.
             </p>
           </div>
         </div>
@@ -106,6 +106,26 @@ export default function Services() {
             </ul>
           </div>
 
+        </div>
+
+        {/* Bloque Secundario: Somos tu aliado estratégico */}
+        <div className="pt-16 border-t border-neutral-200/80">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
+            <div className="lg:col-span-5">
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-carbon tracking-tighter leading-[0.95]">
+                Somos tu <br />
+                <span className="text-trebol">aliado estratégico.</span>
+              </h3>
+            </div>
+
+            <div className="lg:col-span-7 pt-1">
+              <p className="text-base md:text-xl text-carbon/80 font-light leading-relaxed">
+                <span className="font-bold text-carbon">Trébol Digital</span> es una empresa especializada en impulsar el crecimiento de las organizaciones mediante la integración de estrategia, marketing, tecnología e inteligencia artificial — con un enfoque profundamente humano.
+                <br /><br />
+                Más que ofrecer servicios aislados, desarrollamos soluciones que ayudan a las empresas a vender mejor, organizarse mejor y prepararse para competir en un entorno cada vez más digital.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

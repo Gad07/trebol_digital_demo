@@ -97,7 +97,7 @@ export default function CasosPage() {
   return (
     <main className="w-full bg-hueso min-h-screen overflow-hidden">
       {/* ── HERO ESPACIOSO CON LETRA GIGANTE E IMAGEN SIN CORTES ────── */}
-      <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-4 md:px-12 bg-hueso overflow-hidden">
+      <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10">
         
         {/* Decorative Green Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -107,16 +107,16 @@ export default function CasosPage() {
         </div>
 
         {/* Container for Headline & Floating Glass Badge */}
-        <div className="relative w-full max-w-[1400px] mx-auto text-center flex justify-center mb-16 md:mb-20 z-10">
+        <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center mb-8 md:mb-12 z-10 space-y-6">
           
           {/* Floating Glass Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: -10 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="absolute -top-10 md:-top-12 lg:right-[15%] right-0 z-20"
+            className="relative mb-2 sm:absolute sm:-top-10 md:-top-12 lg:right-[15%] sm:right-2 z-20"
           >
-            <div className="bg-white/40 backdrop-blur-md px-6 py-3 border border-white/60 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
+            <div className="bg-white/60 backdrop-blur-md px-5 sm:px-6 py-2.5 sm:py-3 border border-white/80 shadow-xl rounded-full text-xs sm:text-sm md:text-lg text-carbon font-semibold">
               Resultados Medibles Reales
             </div>
           </motion.div>
@@ -126,26 +126,22 @@ export default function CasosPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] sm:leading-[0.85] tracking-tighter"
           >
-            Resultados Reales en <br/>
+            Resultados Reales en <br className="hidden sm:block" />
             Empresas <span className="text-trebol">Reales.</span>
           </motion.h1>
-        </div>
 
-        {/* Spacious Full-Sized Panoramic Image */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="w-[95%] max-w-[1600px] h-[55vh] md:h-[65vh] min-h-[420px] relative rounded-3xl overflow-hidden shadow-2xl z-10"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1800&q=80" 
-            alt="Casos de Éxito Trébol Digital"
-            className="w-full h-full object-cover object-center"
-          />
-        </motion.div>
+          {/* Description Paragraph */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed max-w-3xl mx-auto font-sans"
+          >
+            Conoce cómo ayudamos a empresas en crecimiento a escalar sus ventas, optimizar su operación e implementar Inteligencia Artificial con resultados medibles desde el primer mes.
+          </motion.p>
+        </div>
       </section>
 
       {/* ── BARRA DE FILTROS POR CATEGORÍA ─────────────────────────── */}

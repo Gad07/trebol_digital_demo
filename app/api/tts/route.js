@@ -31,7 +31,7 @@ export async function POST(request) {
       if (response.ok) {
         const audioBuffer = await response.arrayBuffer();
         return new NextResponse(audioBuffer, {
-          headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'public, max-age=3600' },
+          headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-cache, no-store, must-revalidate' },
         });
       }
     }
@@ -55,7 +55,7 @@ export async function POST(request) {
       if (response.ok) {
         const audioBuffer = await response.arrayBuffer();
         return new NextResponse(audioBuffer, {
-          headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'public, max-age=3600' },
+          headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-cache, no-store, must-revalidate' },
         });
       }
     }
@@ -73,7 +73,11 @@ export async function POST(request) {
     if (gResponse.ok) {
       const audioBuffer = await gResponse.arrayBuffer();
       return new NextResponse(audioBuffer, {
-        headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'public, max-age=3600' },
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'X-TTS-Fallback': 'true'
+        },
       });
     }
 

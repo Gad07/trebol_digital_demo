@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowUpRight, CheckCircle2, Zap, MessageSquare, BarChart3, Users,
   Globe, Code2, Database, Server, ShieldCheck, Clock, Cpu, Sparkles,
-  ArrowRight, Check, Bot, Layers, Target, Rocket, Calculator,
+  ArrowRight, ChevronRight, Check, Bot, Layers, Target, Rocket, Calculator,
   TrendingUp, HelpCircle, ChevronDown, Sliders, Play, Volume2, VolumeX, X, Share2,
   Mail, Eye, Settings, ShieldAlert, CreditCard, Send, FileText, Search,
   Pause, RotateCcw, GitFork, UserCheck, Calendar, XCircle
@@ -500,51 +500,56 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, 
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// PRESETS ESTÁTICOS Y FIJOS PARA LAS 3 OPCIONES DE VOZ (VALORES EXACTOS Y DEFINIDOS)
+// ─────────────────────────────────────────────────────────────────────────────
+const VOICE_PRESETS = {
+  v1: {
+    key: 'nova',
+    label: '👩 Mujer V1',
+    playbackRate: 1.35, // Tono agudo femenino brillante
+    pitch: 1.75,
+    rate: 1.45
+  },
+  v2: {
+    key: 'shimmer',
+    label: '👩 Mujer V2',
+    playbackRate: 1.15, // Tono femenino suave y dulce
+    pitch: 1.25,
+    rate: 1.25
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // PASOS DEL TUTORIAL GUIADO: EXPLICANDO UNO A UNO LOS DIAGRAMAS DFD TIPO n8n
 // ─────────────────────────────────────────────────────────────────────────────
 const TUTORIAL_STEPS = [
   {
     targetId: 'hero',
-    title: '1. Bienvenida a Trébol Digital',
-    speech: '¡Hola! Soy Trebot. Bienvenido a Trébol Digital. Te acompañaré paso a paso a descubrir cómo transformar tu empresa con Inteligencia Artificial.',
-    buttonText: '¿Qué es la IA? ➔',
-    pos: 'left-6 md:left-12 bottom-6 md:bottom-12 -translate-x-0'
+    title: '1. Bienvenida de TREBOT',
+    speech: 'Hola, bienvenido. Me da gusto que estés aquí.',
+    buttonText: 'Siguiente ➔',
+    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'que-es-ia',
-    title: '2. ¿Qué es la IA Aplicada a Negocios?',
-    speech: 'La Inteligencia Artificial aplicada no es solo chatear. Es conectar tu negocio con agentes y flujos autónomos que ejecutan operaciones las 24 horas del día sin error humano.',
-    buttonText: 'Ver Ejemplos de IA ➔',
-    pos: 'left-1/2 -translate-x-1/2'
+    title: '2. Presentación de TREBOT',
+    speech: 'Soy TREBOT — el asistente de inteligencia artificial de Trébol Digital. Antes de contarte qué hacemos... quiero decirte algo importante. Esta página no es solo información sobre nuestros servicios.',
+    buttonText: 'Siguiente ➔',
+    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'soluciones',
-    isDfdHub: true,
-    title: '3. Ejemplos de IA Aplicada (Flujos DFD estilo n8n)',
-    speech: 'Aquí tienes 4 arquitecturas DFD reales: Agentes Comerciales en WhatsApp, Automatización RPA de facturas, BI Predictivo y Soporte Autónomo RAG.',
-    buttonText: 'Ver Tu Empresa Con IA ➔',
-    pos: 'right-6 md:right-12 translate-x-0'
-  },
-  {
-    targetId: 'master-transform-card',
-    title: '4. Tu Empresa Sin IA vs Con IA',
-    speech: 'Compara la operación tradicional de hasta 12 horas de espera y captura manual, frente a la aceleración con Trébol IA respondiendo en menos de 5 segundos.',
-    buttonText: '¿Cómo la Aplicamos? ➔',
-    pos: 'left-1/2 -translate-x-1/2'
-  },
-  {
-    targetId: 'metodologia',
-    title: '5. ¿Cómo aplicamos la IA en tu empresa?',
-    speech: 'Implementamos IA en tu empresa en 4 etapas estructuradas: Diagnóstico Estratégico, Arquitectura DFD, Integración Segura a tus sistemas y Optimización Continua.',
-    buttonText: 'Agendar Diagnóstico ➔',
-    pos: 'left-1/2 -translate-x-1/2'
+    title: '3. Propósito de la Plataforma',
+    speech: 'Mientras navegas aquí, voy a explicarte cómo la inteligencia artificial se está aplicando HOY en negocios como el tuyo. Sin que tengas que contratar nada. Sin formularios. Sin requisitos. ¿Te gustaría que te explique un ejemplo de automatización?',
+    buttonText: 'Siguiente ➔',
+    pos: 'right-2 md:right-6 lg:right-10 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'contacto',
-    title: '6. Agenda tu Diagnóstico de IA Gratuito',
-    speech: '¿Listo para acelerar tu negocio? Contáctanos y agenda hoy tu sesión de diagnóstico estratégico sin costo con nuestros ingenieros en Inteligencia Artificial.',
-    buttonText: '¡Finalizar Tour!',
-    pos: 'left-1/2 -translate-x-1/2'
+    title: '4. Capacitación Gratuita en IA',
+    speech: 'Solo por estar aquí, ya empezaste tu primera capacitación gratuita en IA aplicada a negocios. Si consideras que Trébol puede ayudarte a ir más lejos, ¡con gusto hablamos!',
+    buttonText: '<< Con gusto hablamos >>',
+    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   }
 ];
 
@@ -1528,6 +1533,8 @@ export default function IAAplicadaPage() {
   const [selectedDfdIndex, setSelectedDfdIndex] = useState(null);
   const [selectedCaseIndex, setSelectedCaseIndex] = useState(null);
   const [dfdActiveStep, setDfdActiveStep] = useState(-1);
+  const [isExplainingExample, setIsExplainingExample] = useState(false);
+  const [selectedVoice, setSelectedVoice] = useState('v1'); // 'v1' (Mujer V1) | 'v2' (Mujer V2)
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
   const currentAudioRef = useRef(null);
@@ -1581,13 +1588,17 @@ export default function IAAplicadaPage() {
     setIsSpeaking(false);
   }, []);
 
-  const speak = useCallback((text) => {
+  const speak = useCallback((text, explicitVoice = null) => {
     stopAudio();
+    const voiceToUse = explicitVoice || selectedVoice;
     return new Promise(async (resolve) => {
       if (muted || typeof window === 'undefined' || !text) {
         resolve();
         return;
       }
+
+      // Convertir MAYÚSCULAS de TREBOT a Trebot para evitar que el motor TTS lo deletree letra por letra
+      const cleanText = text.replace(/\bTREBOT\b/g, 'Trebot').replace(/\bTREBOTS\b/g, 'Trebots');
 
       let resolved = false;
       let timerId = null;
@@ -1601,16 +1612,22 @@ export default function IAAplicadaPage() {
         }
       };
 
-      // Timer de seguridad por si el audio es bloqueado o tarda
-      const durationEstimate = Math.max(3000, text.length * 75);
+      // Timer de seguridad por si el audio es bloqueado o falla (amplio para no cortar la locución)
+      const durationEstimate = Math.max(12000, cleanText.length * 150);
       timerId = setTimeout(safeResolve, durationEstimate);
 
       try {
+        const controller = new AbortController();
+        const fetchTimeout = setTimeout(() => controller.abort(), 600);
+
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, voice: 'nova' }),
+          body: JSON.stringify({ text: cleanText, voice: voiceToUse }),
+          signal: controller.signal,
         });
+
+        clearTimeout(fetchTimeout);
 
         if (res.ok) {
           const blob = await res.blob();
@@ -1628,6 +1645,17 @@ export default function IAAplicadaPage() {
             safeResolve();
           };
 
+          // Obtener la configuración fija estática del preset seleccionado
+          const preset = VOICE_PRESETS[voiceToUse] || VOICE_PRESETS.onyx;
+
+          // Desactivar preservación de tono para permitir la alteración real de la frecuencia vocal (Pitch Shift)
+          audio.preservesPitch = false;
+          if ('webkitPreservesPitch' in audio) audio.webkitPreservesPitch = false;
+          if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = false;
+
+          // Asignar el valor fijo e inmutable del preset
+          audio.playbackRate = preset.playbackRate;
+
           await audio.play();
           return;
         }
@@ -1637,16 +1665,29 @@ export default function IAAplicadaPage() {
 
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(text);
+        const preset = VOICE_PRESETS[voiceToUse] || VOICE_PRESETS.onyx;
+        const utter = new SpeechSynthesisUtterance(cleanText);
         utter.lang = 'es-MX';
-        utter.rate = 1.0;
+        utter.pitch = preset.pitch;
+        utter.rate = preset.rate;
 
         utter.onend = safeResolve;
         utter.onerror = safeResolve;
 
         const voices = window.speechSynthesis.getVoices();
-        const esVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
-        if (esVoice) utter.voice = esVoice;
+        if (voiceToUse === 'onyx') {
+          // Voz Masculina
+          const maleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('raul') || v.name.toLowerCase().includes('pablo') || v.name.toLowerCase().includes('jorge') || (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female'))));
+          if (maleVoice) utter.voice = maleVoice;
+        } else if (voiceToUse === 'shimmer') {
+          // Voz Femenina Cute / Dulce para la opción Mujer
+          const femaleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('sabina') || v.name.toLowerCase().includes('monica') || v.name.toLowerCase().includes('laura') || v.name.toLowerCase().includes('lucia') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('female')));
+          if (femaleVoice) utter.voice = femaleVoice;
+        } else {
+          // Voz Andrógina / Neutra para la opción Cute
+          const neutralVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
+          if (neutralVoice) utter.voice = neutralVoice;
+        }
 
         setIsSpeaking(true);
         window.speechSynthesis.speak(utter);
@@ -1654,7 +1695,59 @@ export default function IAAplicadaPage() {
         safeResolve();
       }
     });
-  }, [muted, stopAudio]);
+  }, [muted, selectedVoice, stopAudio]);
+
+  const currentStepRef = useRef(-1);
+
+  // Función maestra para reproducir un paso y avanzar automáticamente en el recorrido
+  const playStep = useCallback(async (stepIdx) => {
+    stopAudio();
+    if (stepIdx >= TUTORIAL_STEPS.length) {
+      setShowTutorial(false);
+      currentStepRef.current = -1;
+      setIsExplainingExample(false);
+      return;
+    }
+
+    setShowTutorial(true);
+    setTutorialStep(stepIdx);
+    currentStepRef.current = stepIdx;
+    setSelectedDfdIndex(null);
+    setIsExplainingExample(false);
+
+    const stepData = TUTORIAL_STEPS[stepIdx];
+    setTimeout(() => {
+      const targetId = stepIdx === 2 ? `dfd-area-${activeAreaTab}` : stepData.targetId;
+      const element = document.getElementById(targetId) || document.getElementById(stepData.targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 80);
+
+    // Hablar el mensaje del paso actual
+    await speak(stepData.speech);
+
+    // Auto-avanzar secuencialmente en los pasos introductorios (0 y 1)
+    if (currentStepRef.current === stepIdx && stepIdx < 2) {
+      await new Promise((r) => setTimeout(r, 600));
+      if (currentStepRef.current === stepIdx) {
+        playStep(stepIdx + 1);
+      }
+    }
+  }, [activeAreaTab, speak, stopAudio]);
+
+  // Manejador para explicar el ejemplo interactivo si el usuario responde "Sí"
+  const handleExplainExample = useCallback(async () => {
+    stopAudio();
+    setIsExplainingExample(true);
+    await speak('¡Excelente! Mira este ejemplo de Agente Comercial en WhatsApp: El mensaje ingresa vía Webhook en WhatsApp, la IA procesa la intención del cliente con GPT-4o, consulta la base de datos y agenda la cita automáticamente en tu CRM en menos de 5 segundos.');
+  }, [speak, stopAudio]);
+
+  const handleFinishExample = useCallback(() => {
+    stopAudio();
+    setIsExplainingExample(false);
+    playStep(3);
+  }, [playStep, stopAudio]);
 
   const hasAutoStartedRef = useRef(false);
 
@@ -1666,17 +1759,12 @@ export default function IAAplicadaPage() {
     if (!hasSeen) {
       hasAutoStartedRef.current = true;
       localStorage.setItem('trebot_tutorial_seen', 'true');
-      const timer = setTimeout(async () => {
-        setShowTutorial(true);
-        setTutorialStep(0);
-        await speak(TUTORIAL_STEPS[0].speech);
-        await new Promise((r) => setTimeout(r, 1000));
-        stopAudio();
-        nextTutorialStep();
+      const timer = setTimeout(() => {
+        playStep(0);
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [speak, stopAudio]);
+  }, [playStep]);
 
   // Función para ejecutar la locución secuencial automática (Sin Trébol -> Con Trébol IA) para un caso
   const playCaseExplanationSequence = useCallback(async (caseIdx) => {
@@ -1756,46 +1844,26 @@ export default function IAAplicadaPage() {
     }
   }, [showTutorial, tutorialStep, activeAreaTab]);
 
-  // Manejar el cambio de pasos en el tutorial
-  const nextTutorialStep = () => {
-    stopAudio();
+  // Manejar el cambio manual de pasos en el tutorial
+  const nextTutorialStep = useCallback(() => {
     if (tutorialStep < TUTORIAL_STEPS.length - 1) {
-      const nextIdx = tutorialStep + 1;
-      setTutorialStep(nextIdx);
-      setSelectedDfdIndex(null);
-      const stepData = TUTORIAL_STEPS[nextIdx];
-
-      setTimeout(() => {
-        const targetId = nextIdx === 2 ? `dfd-area-${activeAreaTab}` : stepData.targetId;
-        const element = document.getElementById(targetId) || document.getElementById(stepData.targetId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 80);
-
-      speak(stepData.speech);
+      playStep(tutorialStep + 1);
     } else {
+      stopAudio();
       setShowTutorial(false);
+      currentStepRef.current = -1;
     }
-  };
+  }, [tutorialStep, playStep, stopAudio]);
 
-  const startTutorialManual = async () => {
-    stopAudio();
-    setShowTutorial(true);
-    setTutorialStep(0);
-    setSelectedDfdIndex(null);
-    const element = document.getElementById(TUTORIAL_STEPS[0].targetId);
-    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    await speak(TUTORIAL_STEPS[0].speech);
-    await new Promise((r) => setTimeout(r, 1000));
-    stopAudio();
-    nextTutorialStep();
-  };
+  const startTutorialManual = useCallback(() => {
+    playStep(0);
+  }, [playStep]);
 
-  const closeTutorial = () => {
+  const closeTutorial = useCallback(() => {
     stopAudio();
     setShowTutorial(false);
-  };
+    currentStepRef.current = -1;
+  }, [stopAudio]);
 
   const currentTargetId = TUTORIAL_STEPS[tutorialStep]?.targetId;
 
@@ -1825,188 +1893,115 @@ export default function IAAplicadaPage() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 40, scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 90, damping: 15 }}
-                className={`fixed bottom-6 md:bottom-8 ${(tutorialStep === 2 && selectedDfdIndex === null) || dfdActiveStep >= 2
-                  ? 'left-4 md:left-8 flex-col md:flex-row-reverse'
-                  : dfdActiveStep !== -1
-                    ? 'right-4 md:right-8 flex-col md:flex-row'
-                    : `flex-col md:flex-row ${TUTORIAL_STEPS[tutorialStep].pos}`
-                  } z-[10000] flex items-center gap-5 pointer-events-auto select-none transition-all duration-700 ease-in-out max-w-2xl px-4`}
+                className={`fixed bottom-4 md:bottom-8 right-2 md:right-6 lg:right-10 flex-col md:flex-row-reverse z-[10000] flex items-center gap-4 md:gap-5 pointer-events-auto select-none transition-all duration-500 ease-in-out max-w-xl px-2 md:px-4`}
               >
-                {/* TREBOT SVG 3D CON CAMBIO INTELIGENTE DE LADO Y SEÑALAMIENTO DE NODOS/OPCIONES */}
+                {/* TREBOT SVG 3D ALINEADO TOTALMENTE A LA DERECHA */}
                 <div className="relative drop-shadow-[0_30px_60px_rgba(132,198,56,0.75)] shrink-0">
                   <TrebotSVG
                     isSpeaking={isSpeaking}
                     isHovered={isSpeaking || tutorialStep === 0}
                     isModal={true}
-                    size={230}
-                    armPose={
-                      tutorialStep === 1 && selectedDfdIndex === null
-                        ? 'point-right'  /* menú DFD: modal a la izquierda → brazo apunta al centro */
-                        : dfdActiveStep >= 2
-                          ? 'point-right'  /* nodos derecha: modal a la izquierda → brazo apunta al centro */
-                          : dfdActiveStep !== -1
-                            ? 'point-left'   /* nodos izquierda: modal a la derecha → brazo apunta al centro */
-                            : tutorialStep === 0
-                              ? 'wave'
-                              : 'rest'
-                    }
-                    eyeExpression={
-                      tutorialStep === 1 && selectedDfdIndex === null
-                        ? 'half-moon'
-                        : dfdActiveStep !== -1
-                          ? (dfdActiveStep % 2 === 0 ? 'half-moon' : 'wink')
-                          : tutorialStep === 0
-                            ? 'wink'
-                            : 'circle'
-                    }
+                    size={220}
+                    armPose={isExplainingExample ? 'point-left' : tutorialStep === 0 ? 'wave' : 'rest'}
+                    eyeExpression={isSpeaking ? 'wink' : 'circle'}
                   />
                 </div>
 
                 {/* TARJETA DE DIÁLOGO DE TREBOT Y CONTROLES DEL TOUR */}
                 <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
-                  <div>
-                    <h4 className="text-base md:text-lg font-black text-white flex items-center gap-2">
-                      <Sparkles className="w-5 h-5 text-trebol shrink-0" />
-                      {tutorialStep === 2 && selectedDfdIndex !== null
-                        ? (dfdActiveStep !== -1 && DFD_NODE_STEPS[selectedDfdIndex]?.[dfdActiveStep]
-                          ? DFD_NODE_STEPS[selectedDfdIndex][dfdActiveStep].title
-                          : DFD_EXPLANATIONS[selectedDfdIndex]?.title)
-                        : tutorialStep === 3 && selectedCaseIndex !== null
-                          ? CASE_EXPLANATIONS[selectedCaseIndex]?.title
-                          : TUTORIAL_STEPS[tutorialStep]?.title}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#2d302d] pb-3">
+                    <h4 className="text-sm md:text-base font-black text-white flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-trebol shrink-0" />
+                      {isExplainingExample
+                        ? 'Ejemplo de IA Aplicada'
+                        : TUTORIAL_STEPS[tutorialStep]?.title}
                     </h4>
+
+                    {/* CONMUTADOR DE 2 VOCES FEMENINAS (V1 / V2) */}
+                    <div className="flex items-center gap-1 bg-[#1e211e] p-1 rounded-xl border border-[#2d302d] shrink-0 self-start sm:self-auto">
+                      {[
+                        { id: 'v1', label: '👩 Mujer V1' },
+                        { id: 'v2', label: '👩 Mujer V2' }
+                      ].map((v) => (
+                        <button
+                          key={v.id}
+                          onClick={() => {
+                            setSelectedVoice(v.id);
+                            stopAudio();
+                            const activeText = isExplainingExample
+                              ? '¡Excelente! Mira este ejemplo de Agente Comercial en WhatsApp: El mensaje ingresa vía Webhook en WhatsApp, la IA procesa la intención del cliente con GPT-4o, consulta la base de datos y agenda la cita automáticamente en tu CRM en menos de 5 segundos.'
+                              : TUTORIAL_STEPS[tutorialStep]?.speech;
+                            if (activeText) {
+                              setTimeout(() => {
+                                speak(activeText, v.id);
+                              }, 50);
+                            }
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                            selectedVoice === v.id
+                              ? 'bg-trebol text-slate-950 shadow-md font-extrabold'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                          title={`Cambiar a ${v.label}`}
+                        >
+                          {v.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* PASO 4 (TRANSFORMACIÓN ANTES VS DESPUÉS): EXPLICACIÓN SECUENCIAL AUTOMÁTICA DE CASOS */}
-                  {tutorialStep === 3 && (
-                    <div className="space-y-3 pt-2.5 border-t border-[#2d302d]">
-                      {selectedCaseIndex === null ? (
-                        <div className="grid grid-cols-1 gap-2">
-                          {CASE_EXPLANATIONS.map((c, idx) => (
-                            <button
-                              key={c.tab}
-                              onClick={() => {
-                                stopAudio();
-                                playCaseExplanationSequence(idx);
-                              }}
-                              className={`px-3.5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all text-left flex items-center justify-between shadow-md cursor-pointer ${activeCompTab === idx
-                                ? 'bg-trebol text-slate-950 shadow-[0_0_15px_rgba(132,198,56,0.6)] font-extrabold'
-                                : 'bg-[#1e211e] text-slate-200 hover:bg-[#282b28] border border-[#2d302d]'
-                                }`}
-                            >
-                              <span>{c.title}</span>
-                              {activeCompTab === idx && <span className="text-[10px] font-black">● VISTO</span>}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {/* INSIGNIA DE ESTADO DE LA SECUENCIA DE EXPLICACIÓN */}
-                          <div className="px-3.5 py-2 rounded-xl bg-[#1e211e] border border-[#2d302d] text-xs font-mono font-bold flex items-center justify-between shadow-inner">
-                            <span className="text-slate-300">Modo Actual:</span>
-                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${isTrebolActive ? 'bg-trebol/20 text-trebol border border-trebol/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
-                              }`}>
-                              {isTrebolActive ? 'Con Trébol IA' : 'Operación Sin Trébol'}
-                            </span>
-                          </div>
+                  {/* PREGUNTA DE EJEMPLO INTERACTIVO EN EL PASO 3 (INDEX 2) */}
+                  {tutorialStep === 2 && !isExplainingExample && (
+                    <div className="space-y-2.5 pt-2 border-t border-[#2d302d]">
+                      <button
+                        onClick={handleExplainExample}
+                        className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center justify-between cursor-pointer"
+                      >
+                        <span>¡Sí, explícame un ejemplo!</span>
+                        <ArrowRight size={15} />
+                      </button>
 
-                          {/* ACCIONES SECUNDARIAS DE NAVEGACIÓN DE CASOS */}
-                          <div className="flex items-center justify-start pt-1">
-                            <button
-                              onClick={() => {
-                                stopAudio();
-                                setSelectedCaseIndex(null);
-                              }}
-                              className="px-3 py-1.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] text-slate-200 text-xs font-mono font-bold flex items-center gap-1.5 border border-[#2d302d] shadow-sm cursor-pointer"
-                            >
-                              <GitFork size={13} className="text-trebol" />
-                              Ver / Repetir otro Caso
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                      <button
+                        onClick={() => playStep(3)}
+                        className="w-full px-4 py-2.5 rounded-2xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center justify-between cursor-pointer"
+                      >
+                        <span>No, continuar</span>
+                        <ChevronRight size={15} className="text-neutral-500" />
+                      </button>
                     </div>
                   )}
 
-                  {/* PASO 3 (SECCIÓN DFD): SELECCIÓN DE DFD A EXPLICAR NODO POR NODO */}
-                  {tutorialStep === 2 && (
-                    <div className="space-y-3 pt-2.5 border-t border-[#2d302d]">
-                      {selectedDfdIndex === null ? (
-                        <div className="grid grid-cols-2 gap-2 mt-1">
-                          {[
-                            { label: 'Agentes & Ventas', tab: 0 },
-                            { label: 'Operaciones RPA', tab: 1 },
-                            { label: 'BI & Predictivo', tab: 2 },
-                            { label: 'Soporte RAG', tab: 3 }
-                          ].map((flow, i) => {
-                            const isActive = activeAreaTab === flow.tab;
-                            return (
-                              <button
-                                key={flow.tab}
-                                onClick={() => { stopAudio(); playDfdNodeSequence(flow.tab); }}
-                                className={`relative px-3.5 py-3 rounded-2xl text-left transition-all duration-200 cursor-pointer ${isActive
-                                  ? 'bg-trebol/20 border-2 border-trebol text-white shadow-[0_0_18px_rgba(132,198,56,0.45)]'
-                                  : 'bg-[#181a18]/90 border border-[#2a2c2a] hover:bg-[#242724] hover:border-trebol/40 text-slate-300'
-                                  }`}
-                              >
-                                <span className={`text-[9px] font-mono font-bold tracking-widest uppercase block mb-0.5 ${isActive ? 'text-trebol font-extrabold' : 'text-neutral-500'}`}>
-                                  {`0${i + 1}`}
-                                </span>
-                                <span className={`text-[12px] font-extrabold block leading-tight ${isActive ? 'text-white' : 'text-slate-200'}`}>{flow.label}</span>
-                                {isActive && (
-                                  <span className="absolute top-2.5 right-3 text-[10px] font-black text-trebol">✓</span>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {dfdActiveStep !== -1 && (
-                            <div className="px-3.5 py-2 rounded-xl bg-[#1e211e] border border-[#2d302d] text-xs font-mono font-bold flex items-center justify-between shadow-inner">
-                              <span className="text-slate-300">Explicando Módulo:</span>
-                              <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold bg-trebol/20 text-trebol border border-trebol/40 flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-trebol animate-ping" />
-                                Paso {dfdActiveStep + 1} de 5
-                              </span>
-                            </div>
-                          )}
 
-                          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#2d302d]">
-                            <button
-                              onClick={() => {
-                                stopAudio();
-                                setDfdActiveStep(-1);
-                                setSelectedDfdIndex(null);
-                              }}
-                              className="px-3 py-1.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-trebol/40 text-trebol text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
-                            >
-                              <GitFork size={13} className="text-trebol" />
-                              Explorar / Repetir otro DFD
-                            </button>
-                          </div>
-                        </div>
-                      )}
+
+                  {/* BOTONES FLOTANTES DE CONTROL GENERAL (EN PASOS 0, 1 Y 3 FUERA DE LA PREGUNTA) */}
+                  {(tutorialStep !== 2 || isExplainingExample) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <button
+                        onClick={() => {
+                          if (isExplainingExample) {
+                            handleFinishExample();
+                          } else if (tutorialStep === TUTORIAL_STEPS.length - 1) {
+                            closeTutorial();
+                            const el = document.getElementById('contacto');
+                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          } else {
+                            nextTutorialStep();
+                          }
+                        }}
+                        className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
+                      >
+                        {isExplainingExample ? 'Continuar ➔' : TUTORIAL_STEPS[tutorialStep]?.buttonText}
+                      </button>
+
+                      <button
+                        onClick={closeTutorial}
+                        className="p-2 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-[#2d302d] text-slate-400 hover:text-white cursor-pointer"
+                        title="Saltar Tour"
+                      >
+                        <X size={14} />
+                      </button>
                     </div>
                   )}
-
-                  {/* BOTONES FLOTANTES DE CONTROL GENERAL */}
-                  <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#2d302d]">
-                    <button
-                      onClick={nextTutorialStep}
-                      className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
-                    >
-                      {TUTORIAL_STEPS[tutorialStep]?.buttonText}
-                    </button>
-
-                    <button
-                      onClick={closeTutorial}
-                      className="p-2 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-[#2d302d] text-slate-400 hover:text-white cursor-pointer"
-                      title="Saltar Tour"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
                 </div>
               </motion.div>
             )}
