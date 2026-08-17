@@ -8,7 +8,7 @@ import {
   Code2, ShieldCheck, Zap, Layers, ChevronDown, Terminal, Cpu, Database, Globe, Sparkles, Check, X,
   MoveHorizontal, AlertTriangle, ArrowRight, Star, ShoppingBag, CreditCard, BarChart3, Lock,
   Search, User, ShoppingCart, Calendar, FileText, Activity, Server, Filter, Sparkle, Grid, ArrowDownRight,
-  Download, MessageSquare, Compass, Rocket
+  Download, MessageSquare, Compass, Rocket, Mail, Share2, Users, Target, Palette, RotateCcw
 } from 'lucide-react';
 
 import { BadOldWebMockup } from '../../../components/desarrollo-web/mockups/BadOldWebMockup';
@@ -18,6 +18,60 @@ import { LuxuryMockup } from '../../../components/desarrollo-web/mockups/LuxuryM
 import { SpeedometerGauge, LighthouseGauge, ConversionGauge } from '../../../components/desarrollo-web/PerformanceGauges';
 import Contact from '@/components/Contact';
 import ClientLogosBanner from '@/components/ClientLogosBanner';
+
+const webIncludedServices = [
+  {
+    icon: Smartphone,
+    title: 'Diseño responsive',
+    desc: 'Tu sitio se ve perfecto en celular, tablet y computadora.'
+  },
+  {
+    icon: Globe,
+    title: 'Hosting + dominio',
+    desc: '12 meses incluidos para que tu sitio esté en línea desde el primer día.'
+  },
+  {
+    icon: Mail,
+    title: 'Correos corporativos',
+    desc: 'Correos con tu dominio incluidos según el plan contratado.'
+  },
+  {
+    icon: Search,
+    title: 'SEO básico',
+    desc: 'Optimización inicial para que Google encuentre tu sitio más fácil.'
+  },
+  {
+    icon: MessageSquare,
+    title: 'Integración WhatsApp y RRSS',
+    desc: 'Botón de WhatsApp y enlaces a tus redes sociales integrados.'
+  },
+  {
+    icon: RotateCcw,
+    title: 'Revisiones incluidas',
+    desc: 'Rondas de ajustes para que el resultado sea exactamente lo que necesitas.'
+  },
+];
+
+const powerUpServices = [
+  {
+    title: 'Mantenimiento Web',
+    desc: 'Mantén tu sitio actualizado, seguro y funcionando todos los meses.',
+    icon: ShieldCheck,
+    whatsappMsg: 'Hola, me interesa agregar Mantenimiento Web a mi sitio de Trébol Digital.'
+  },
+  {
+    title: 'Redes Sociales',
+    desc: 'Complementa tu sitio web con gestión profesional de tus redes sociales.',
+    icon: Share2,
+    whatsappMsg: 'Hola, me interesa agregar Redes Sociales a mi plan de Desarrollo Web de Trébol Digital.'
+  },
+  {
+    title: 'Publicidad Digital',
+    desc: 'Atrae tráfico calificado a tu sitio con campañas de Google Ads o Meta Ads.',
+    icon: Rocket,
+    whatsappMsg: 'Hola, me interesa agregar Publicidad Digital a mi plan de Desarrollo Web de Trébol Digital.'
+  }
+];
 
 const capabilitiesList = [
   { name: 'Renderizado Ultrarrápido & SEO Impecable', role: 'Carga Instantánea & SEO', desc: 'Desarrollamos páginas de carga instantánea optimizadas para posicionar en los primeros lugares de Google.', icon: Globe },
@@ -85,8 +139,8 @@ export default function DesarrolloWebPage() {
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
-      {/* ── HERO EN PANTALLA COMPLETA CON FOTOGRAFÍA Y DEGRADADO ── */}
-      <section className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
+      {/* ── 1. HERO EN PANTALLA COMPLETA CON FOTOGRAFÍA Y DEGRADADO ── */}
+      <section id="hero" className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
 
         {/* Background Hero Image with Crisp Right & Soft Left Gradient Fade */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -115,7 +169,6 @@ export default function DesarrolloWebPage() {
         </div>
 
         <div className="max-w-[1350px] mx-auto relative z-10 w-full">
-
           {/* CONTENIDO PRINCIPAL DEL HERO */}
           <div className="max-w-3xl space-y-6 text-left">
             <motion.h1
@@ -167,12 +220,149 @@ export default function DesarrolloWebPage() {
               <span>30 minutos · Sin costo · Auditoría de velocidad y rendimiento SEO</span>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* ── 2. ¿QUÉ INCLUYE ESTE SERVICIO? ── */}
+      <section id="que-incluye" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10 bg-white rounded-[3.5rem] my-12 shadow-sm">
+        <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
+          <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.98]">
+            ¿Qué incluye este <span className="text-trebol">servicio?</span>
+          </h2>
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto leading-relaxed font-sans">
+            Todo lo que necesitas para tener un sitio web profesional y funcional desde el primer día.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {webIncludedServices.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                className="p-8 rounded-[2.5rem] bg-hueso border border-neutral-200/80 shadow-sm hover:border-trebol/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="w-14 h-14 rounded-2xl bg-white border border-neutral-200/80 shadow-sm flex items-center justify-center text-trebol mb-6 group-hover:scale-105 group-hover:border-trebol/40 transition-all">
+                    <Icon size={26} strokeWidth={2.2} />
+                  </div>
+
+                  <h3 className="text-xl font-bold text-carbon mb-3 group-hover:text-trebol transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-carbon/70 text-sm leading-relaxed font-light">
+                    {item.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── 3. SECCIÓN MOCKUPS COMPARATIVOS ADAPTABLES (POR TIPO DE PROYECTO) ── */}
+      <section id="proyectos" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+        <div className="text-center mb-16 space-y-4 max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+            Te Llevamos al Siguiente Paso <br />
+            <span className="text-trebol">Tecnológico.</span>
+          </h2>
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
+            Tu sitio web es el activo comercial más importante de tu empresa. Usa el comparador interactivo para visualizar el salto tecnológico en tu industria.
+          </p>
+        </div>
+
+        {/* Modalidad Selector Tabs - 3 Project Types */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+          {projectTypes.map((m, idx) => (
+            <button
+              key={m.id}
+              onClick={() => setActiveMode(idx)}
+              className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${activeMode === idx
+                ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
+                : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
+                }`}
+            >
+              <span className="font-black leading-tight">{m.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
+        <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
+
+          {/* Header Bar Browser MacOS */}
+          <div className="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+            <div className="flex items-center gap-3">
+              <span className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-sm" />
+              <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
+              <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
+              <span className="text-xs font-mono text-neutral-400 ml-2">
+                treboldigital.com/demo — {projectTypes[activeMode].label}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-trebol font-bold bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/30">
+                ◄ Desliza para revelar el salto de calidad ►
+              </span>
+            </div>
+          </div>
+
+          {/* VIEWPORT INTERACTIVO CON MOCKUPS ADAPTABLES SEGÚN EL TIPO DE PROYECTO */}
+          <div className="relative w-full h-[580px] md:h-[650px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
+
+            {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
+            <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
+              <div className="w-full h-full min-w-[1000px] relative z-0">
+                {renderModernMockup(activeMode)}
+              </div>
+            </div>
+
+            {/* 2. LADO IZQUIERDO: EL SITIO VIEJO TRADICIONAL Y OBSOLETO ADAPTADO AL TIPO DE PROYECTO */}
+            <div
+              className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
+              style={{ width: `${sliderPos}%` }}
+            >
+              <div className="w-full h-full min-w-[1000px] relative z-10">
+                <BadOldWebMockup type={projectTypes[activeMode].id} styleName={projectTypes[activeMode].label} />
+              </div>
+            </div>
+
+            {/* Range Input for Dragging */}
+            <input
+              type="range"
+              min="5"
+              max="95"
+              value={sliderPos}
+              onChange={(e) => setSliderPos(Number(e.target.value))}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+            />
+
+            {/* Vertical Handle Line */}
+            <div
+              className="absolute top-0 bottom-0 w-1 bg-white pointer-events-none z-20 shadow-[0_0_20px_rgba(255,255,255,1)]"
+              style={{ left: `${sliderPos}%` }}
+            >
+              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-carbon/95 text-white text-[11px] font-mono font-bold px-4 py-2 rounded-full shadow-2xl border-2 border-trebol flex items-center gap-2 z-40 pointer-events-none">
+                <span>↔ Mueve la barra para comparar antes y después</span>
+              </div>
+              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white text-carbon font-bold flex items-center justify-center shadow-2xl border-2 border-trebol">
+                <MoveHorizontal size={20} className="text-carbon" />
+              </div>
+            </div>
+
+          </div>
 
         </div>
       </section>
 
-      {/* ── SECCIÓN COMPARATIVA EN 2 COLUMNAS PERFECTAS ── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+      {/* ── 4. SECCIÓN COMPARATIVA & TELEMETRÍA DE RENDIMIENTO ── */}
+      <section id="rendimiento" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="space-y-12">
 
           {/* ENCABEZADO CON TIPOGRAFÍA MONUMENTAL */}
@@ -229,7 +419,7 @@ export default function DesarrolloWebPage() {
                   </p>
                 </div>
 
-                {/* Fila Superior: Medidores Responsivos (Stack en móvil, 2 cols en tablet/desktop) */}
+                {/* Fila Superior: Medidores Responsivos */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 pb-4 border-b border-neutral-100">
                   <div className="flex justify-center border-b sm:border-b-0 sm:border-r border-neutral-100 pb-4 sm:pb-0 sm:pr-2">
                     <SpeedometerGauge isBefore={isBefore} />
@@ -401,105 +591,54 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── SECCIÓN MOCKUPS COMPARATIVOS ADAPTABLES (POR TIPO DE PROYECTO: CORPORATIVA, LANDINGS, E-COMMERCE) ── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
-        <div className="text-center mb-16 space-y-4 max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
-            Te Llevamos al Siguiente Paso <br />
-            <span className="text-trebol">Tecnológico.</span>
-          </h2>
-          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
-            Tu sitio web es el activo comercial más importante de tu empresa. Usa el comparador interactivo para visualizar el salto tecnológico en tu industria.
-          </p>
+      {/* ── 5. SECCIÓN METODOLOGÍA: HOJA DE RUTA EN 4 ETAPAS ── */}
+      <section id="metodologia" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16">
+          <div className="lg:col-span-7">
+            <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.98]">
+              Cómo construimos tu plataforma <br />
+              <span className="text-trebol">en 4 etapas estructuradas.</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-5">
+            <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed font-sans">
+              Brindamos acompañamiento continuo, metodología ágil y entregables claros en cada fase del desarrollo.
+            </p>
+          </div>
         </div>
 
-        {/* Modalidad Selector Tabs - 3 Project Types */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {projectTypes.map((m, idx) => (
-            <button
-              key={m.id}
-              onClick={() => setActiveMode(idx)}
-              className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${activeMode === idx
-                ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
-                : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
-                }`}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {roadmapWeb.map((stepItem, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="p-8 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-lg flex flex-col justify-between hover:border-trebol/40 transition-all duration-300 group"
             >
-              <span className="font-black leading-tight">{m.label}</span>
-            </button>
+              <div>
+                <div className="text-4xl font-black text-trebol font-mono mb-6">
+                  {stepItem.paso}
+                </div>
+                <h3 className="text-xl font-bold text-carbon tracking-tight mb-3">
+                  {stepItem.titulo}
+                </h3>
+                <p className="text-carbon/70 text-sm leading-relaxed font-light mb-6">
+                  {stepItem.desc}
+                </p>
+              </div>
+              <div className="pt-5 border-t border-neutral-100 font-mono text-xs text-carbon/70">
+                <span className="text-trebol font-bold uppercase block mb-1">Entregable Clave:</span>
+                {stepItem.entregable}
+              </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
-        <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
-
-          {/* Header Bar Browser MacOS */}
-          <div className="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-            <div className="flex items-center gap-3">
-              <span className="w-3.5 h-3.5 rounded-full bg-red-500/90 shadow-sm" />
-              <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
-              <span className="w-3.5 h-3.5 rounded-full bg-trebol shadow-sm" />
-              <span className="text-xs font-mono text-neutral-400 ml-2">
-                treboldigital.com/demo — {projectTypes[activeMode].label}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-trebol font-bold bg-trebol/10 px-4 py-1.5 rounded-full border border-trebol/30">
-                ◄ Desliza para revelar el salto de calidad ►
-              </span>
-            </div>
-          </div>
-
-          {/* VIEWPORT INTERACTIVO CON MOCKUPS ADAPTABLES SEGÚN EL TIPO DE PROYECTO */}
-          <div className="relative w-full h-[580px] md:h-[650px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
-
-            {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
-            <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
-              <div className="w-full h-full min-w-[1000px] relative z-0">
-                {renderModernMockup(activeMode)}
-              </div>
-            </div>
-
-            {/* 2. LADO IZQUIERDO: EL SITIO VIEJO TRADICIONAL Y OBSOLETO ADAPTADO AL TIPO DE PROYECTO */}
-            <div
-              className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
-              style={{ width: `${sliderPos}%` }}
-            >
-              <div className="w-full h-full min-w-[1000px] relative z-10">
-                <BadOldWebMockup type={projectTypes[activeMode].id} styleName={projectTypes[activeMode].label} />
-              </div>
-            </div>
-
-            {/* Range Input for Dragging */}
-            <input
-              type="range"
-              min="5"
-              max="95"
-              value={sliderPos}
-              onChange={(e) => setSliderPos(Number(e.target.value))}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
-            />
-
-            {/* Vertical Handle Line */}
-            <div
-              className="absolute top-0 bottom-0 w-1 bg-white pointer-events-none z-20 shadow-[0_0_20px_rgba(255,255,255,1)]"
-              style={{ left: `${sliderPos}%` }}
-            >
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-carbon/95 text-white text-[11px] font-mono font-bold px-4 py-2 rounded-full shadow-2xl border-2 border-trebol flex items-center gap-2 z-40 pointer-events-none">
-                <span>↔ Mueve la barra para comparar antes y después</span>
-              </div>
-              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white text-carbon font-bold flex items-center justify-center shadow-2xl border-2 border-trebol">
-                <MoveHorizontal size={20} className="text-carbon" />
-              </div>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
-      {/* ── SECCIÓN CAPACIDADES: LO QUE PODEMOS HACER POR TU EMPRESA ────────────────── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+      {/* ── 6. SECCIÓN CAPACIDADES: EL MOTOR DE TU EMPRESA ── */}
+      <section id="capacidades" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
             Por qué una Web Profesional es <br className="hidden md:block" /> el <span className="text-trebol">Motor de tu Empresa.</span>
@@ -531,13 +670,68 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── BANNER CTA ESPECÍFICO WEB ────────── */}
+      {/* ── 7. SECCIÓN: POTENCIA TU SITIO WEB (SERVICIOS COMPLEMENTARIOS) ── */}
+      <section id="potencia" className="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative z-10 border-t border-carbon/10">
+        <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
+          <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.95]">
+            Potencia tu <span className="text-trebol">Sitio Web.</span>
+          </h2>
+          <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto leading-relaxed font-sans">
+            Combina tu sitio web con estos servicios para maximizar tu presencia digital.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {powerUpServices.map((service, idx) => {
+            const Icon = service.icon;
+            const waUrl = `https://wa.me/525564929081?text=${encodeURIComponent(service.whatsappMsg)}`;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                className="p-8 md:p-10 rounded-[3rem] bg-white border border-neutral-200/90 shadow-xl hover:border-trebol/50 flex flex-col justify-between transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="space-y-6">
+                  <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol">
+                    <Icon size={28} strokeWidth={2.2} />
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-black text-carbon tracking-tight mb-3">
+                      {service.title}
+                    </h3>
+                    <p className="text-carbon/70 text-sm leading-relaxed font-light">
+                      {service.desc}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-neutral-100">
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm md:text-base font-bold text-trebol hover:text-carbon transition-colors group cursor-pointer"
+                  >
+                    <span>Más información</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── 8. BANNER CTA ESPECÍFICO WEB ── */}
       <section className="w-full bg-carbon relative z-10">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             {/* Left — headline */}
             <div className="flex flex-col gap-6 max-w-2xl">
-
               <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.92]">
                 ¿Listo para transformar<br />
                 tu <span className="text-trebol">presencia</span> en línea?
@@ -550,23 +744,24 @@ export default function DesarrolloWebPage() {
             {/* Right — CTA */}
             <div className="flex flex-col gap-3 shrink-0">
               <a
-                href="/agenda"
+                href="#contacto"
                 className="group inline-flex items-center gap-3 px-10 py-5 bg-trebol text-white font-bold text-base rounded-full hover:bg-white hover:text-carbon transition-all duration-300 shadow-sm cursor-pointer whitespace-nowrap"
               >
                 Agenda tu diagnóstico gratuito
                 <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CLIENTES / LOGOS MARQUEE ────────── */}
+      {/* ── 9. CLIENTES / LOGOS MARQUEE ── */}
       <ClientLogosBanner />
 
-      {/* ── Contact CTA (mismo estilo que Home) ────────── */}
-      <Contact />
+      {/* ── 10. Contact CTA ── */}
+      <div id="contacto">
+        <Contact />
+      </div>
     </main>
   );
 }

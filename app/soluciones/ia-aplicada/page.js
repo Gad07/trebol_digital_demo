@@ -865,7 +865,7 @@ const roadmapIA = [
   {
     paso: '01',
     titulo: 'Auditoría & Mapeo de Oportunidades',
-    desc: 'Analizamos tus flujos operativos actuales, identificamos cuellos de botella y priorizamos los proyectos de IA con mayor retorno de inversión a 60 días.',
+    desc: 'Analizamos tus flujos operativos actuales, identificamos cuellos de botella y priorizamos los proyectos de IA con mayor retorno de inversión a corto plazo.',
     entregable: 'Diagnóstico Operativo & Hoja de Ruta'
   },
   {
@@ -878,7 +878,7 @@ const roadmapIA = [
     paso: '03',
     titulo: 'Despliegue Piloto & Pruebas de Estrés',
     desc: 'Implementamos la solución en un entorno controlado, auditamos respuestas, medimos precisión y garantizamos cumplimiento con protocolos de seguridad.',
-    entregable: 'Certificación de Calidad & Métricas'
+    entregable: 'Reporte de Validación & Métricas de Rendimiento'
   },
   {
     paso: '04',
@@ -2098,7 +2098,7 @@ export default function IAAplicadaPage() {
               className="pt-4 flex flex-wrap items-center gap-6 text-xs font-mono text-carbon/70"
             >
               <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-trebol" /> Privacidad & Cifrado</span>
-              <span className="flex items-center gap-2"><Clock size={16} className="text-trebol" /> ROI en &lt;60 días</span>
+              <span className="flex items-center gap-2"><Target size={16} className="text-trebol" /> Resultados Medibles</span>
               <span className="flex items-center gap-2"><Cpu size={16} className="text-trebol" /> Modelos Propietarios</span>
             </motion.div>
           </div>
@@ -2153,7 +2153,7 @@ export default function IAAplicadaPage() {
               </div>
               <h3 className="text-xl font-bold text-carbon">Flujos & Agentes Autónomos</h3>
               <p className="text-carbon/70 text-sm font-light leading-relaxed">
-                Agentes entrenados con las reglas y protocolos de tu marca que responden prospectos, agendan citas y procesan órdenes en tiempo real.
+                Agentes entrenados con las reglas y protocolos de tu marca que responden automáticamente a prospectos, agendan citas y procesan órdenes en tiempo real.
               </p>
             </div>
 
@@ -2173,7 +2173,7 @@ export default function IAAplicadaPage() {
               </div>
               <h3 className="text-xl font-bold text-carbon">Multiplicador de Productividad</h3>
               <p className="text-carbon/70 text-sm font-light leading-relaxed">
-                Elimina hasta el 95% del trabajo administrativo repetitivo y permite a tu equipo enfocarse en ventas de alto valor estratégico.
+                Elimina hasta el 95% del trabajo administrativo repetitivo permitiendo a tu equipo mayor enfoque en ventas de alto valor estratégico.
               </p>
             </div>
           </div>
@@ -2690,7 +2690,7 @@ export default function IAAplicadaPage() {
             </div>
             <div className="lg:col-span-5">
               <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
-                Garantizamos seguridad, entrenamiento riguroso y seguimiento continuo en cada etapa del desarrollo.
+                Brindamos seguridad, entrenamiento riguroso y seguimiento continuo en cada etapa del desarrollo.
               </p>
             </div>
           </div>

@@ -327,7 +327,7 @@ export default function DesarrolloOrgPage() {
             o <span className="text-trebol">Estructuración de Equipos.</span>
           </h2>
           <p className="text-lg md:text-xl text-carbon/70 font-light max-w-2xl mx-auto mt-4 leading-relaxed font-sans">
-            Alineamos tu modelo organizativo a la etapa exacta de tus áreas de Ventas, Marketing e IT.
+            Alineamos tu modelo organizacional a la etapa exacta de tus áreas de Ventas, Marketing e IT.
           </p>
         </div>
 
@@ -355,8 +355,8 @@ export default function DesarrolloOrgPage() {
                 <h3 className="text-2xl md:text-3xl font-black tracking-tight text-carbon mb-2">
                   Creación de Equipos
                 </h3>
-                <p className="text-sm text-carbon/60 font-light">
-                  Armamos la estructura inicial de Ventas, Mkt e IT.
+                <p className="text-sm text-carbon/70 font-light leading-relaxed">
+                  Podemos operar las áreas y brindar el servicio integral mientras buscas a tu equipo interno. Posteriormente, te ayudamos con la transferencia e implementación del sistema, capacitando a tu equipo hasta dejarlo funcional.
                 </p>
               </div>
 
