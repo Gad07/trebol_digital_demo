@@ -13,24 +13,24 @@ const soluciones = [
   },
   {
     id: '02',
-    title: 'Inteligencia Artificial Aplicada.',
-    subtitle: 'Productividad & Eficiencia',
-    desc: 'Ayudamos a las empresas a integrar herramientas de inteligencia artificial para mejorar su productividad sin perder el enfoque humano.',
-    href: '/soluciones/ia-aplicada',
-  },
-  {
-    id: '03',
-    title: 'Desarrollo Organizacional.',
-    subtitle: 'Liderazgo & Procesos',
-    desc: 'Fortalecemos las capacidades de liderazgo y organización de los equipos para acompañar el crecimiento sostenido de la empresa.',
-    href: '/soluciones/desarrollo-organizacional',
-  },
-  {
-    id: '04',
     title: 'Desarrollo Web.',
     subtitle: 'Plataformas & Experiencia',
     desc: 'Desarrollamos sitios web, tiendas online y aplicaciones web ultrarrápidas a la medida diseñadas para convertir visitantes en clientes.',
     href: '/soluciones/desarrollo-web',
+  },
+  {
+    id: '03',
+    title: 'Inteligencia Artificial Aplicada.',
+    subtitle: 'Capacitación & Implementación',
+    desc: 'Capacitamos a tu equipo e implementamos soluciones prácticas de inteligencia artificial para elevar la productividad y autonomía de tu empresa.',
+    href: '/soluciones/ia-aplicada',
+  },
+  {
+    id: '04',
+    title: 'Desarrollo Organizacional.',
+    subtitle: 'Liderazgo & Procesos',
+    desc: 'Fortalecemos las capacidades de liderazgo y organización de los equipos para acompañar el crecimiento sostenido de la empresa.',
+    href: '/soluciones/desarrollo-organizacional',
   },
 ];
 

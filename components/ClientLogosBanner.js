@@ -84,14 +84,14 @@ const clientLogos = [
   }
 ];
 
-export default function ClientLogosBanner() {
+export default function ClientLogosBanner({ isLanding }) {
   const duplicatedLogos = [...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
-    <section id="section-clientes" className="relative z-10 w-full bg-white text-carbon py-24 md:py-32 px-6 md:px-12 overflow-visible">
+    <section id="section-clientes" className={`relative z-10 w-full py-24 md:py-32 px-6 md:px-12 overflow-visible ${isLanding ? 'bg-transparent text-inherit' : 'bg-white text-carbon'}`}>
 
       <div className="max-w-[1400px] w-full mx-auto relative z-10 mb-16 md:mb-20">
-        <h2 className="text-4xl md:text-7xl font-black text-carbon tracking-tighter leading-[0.92] text-center">
+        <h2 className={`text-4xl md:text-7xl font-black tracking-tighter leading-[0.92] text-center ${isLanding ? 'text-inherit' : 'text-carbon'}`}>
           Empresas que impulsan <br className="hidden md:block" />
           su crecimiento con <span className="text-trebol">Trébol Digital.</span>
         </h2>
@@ -101,14 +101,20 @@ export default function ClientLogosBanner() {
       <div className="relative w-full overflow-hidden py-6 z-10">
 
         {/* Máscaras de degradado a los lados */}
-        <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        {!isLanding && (
+          <>
+            <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          </>
+        )}
 
         <div className="flex w-max animate-marquee space-x-16 md:space-x-24 items-center">
           {duplicatedLogos.map((client, idx) => (
             <div
               key={`${client.name}-${idx}`}
-              className="flex items-center gap-3 text-carbon/50 hover:text-trebol transition-all duration-300 opacity-70 hover:opacity-100 cursor-pointer shrink-0"
+              className={`flex items-center gap-3 transition-all duration-300 cursor-pointer shrink-0 ${
+                isLanding ? 'opacity-80 hover:opacity-100 hover:text-trebol' : 'text-carbon/50 hover:text-trebol opacity-70 hover:opacity-100'
+              }`}
             >
               <div className="scale-110 md:scale-125">
                 {client.svg}

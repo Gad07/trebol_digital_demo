@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // ── LOGO VECTORIAL SÓLIDO OFICIAL DE WHATSAPP ──
 function WhatsAppIconSVG({ className = "w-5 h-5" }) {
@@ -28,7 +31,12 @@ function TrebolLogoSVG({ className = "w-12 h-12", variant = "white" }) {
 }
 
 export default function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <footer className="w-full bg-[#141614] text-white pt-16 pb-12 mt-0 relative z-10 font-sans border-t border-neutral-800">

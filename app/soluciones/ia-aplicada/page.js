@@ -13,11 +13,6 @@ import {
 } from 'lucide-react';
 import Contact from '@/components/Contact';
 
-import dynamic from 'next/dynamic';
-import trebotLottieData from '@/public/trebot-lottie.json';
-import trebotLezaData from '@/public/trebot-leza.json';
-
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTES DE ANIMACIÓN DEL BOT 2 (fuera del componente para referencias estables)
@@ -55,50 +50,11 @@ const BOT2_MOUTH_SPEAKING_TRANSITION = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// COMPONENTE MASCOTA TREBOT CON SWITCH DE 3 MODELOS
+// COMPONENTE MASCOTA TREBOT (MODELO OFICIAL TRÉBOL DIGITAL)
 // ─────────────────────────────────────────────────────────────────────────────
-export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, expression = 'happy', armPose = 'auto', eyeExpression = 'auto' }) {
-  const [botModel, setBotModel] = useState('lottie-trebol'); // 'svg-original' | 'lottie-trebol' | 'lottie-leza'
-
-  const activeArmPose = armPose !== 'auto' ? armPose : (isHovered ? 'wave' : 'rest');
-  const activeEyeExpr = eyeExpression !== 'auto' ? eyeExpression : (expression === 'celebrate' ? 'half-moon' : expression === 'smart' ? 'wink' : 'circle');
-
+export function TrebotSVG({ isSpeaking, isHovered, size, isModal = false, className = '' }) {
   return (
-    <div className="relative group">
-      {/* SWITCH SELECTOR FLOTANTE PARA COMPARAR LOS 3 BOTS */}
-      <div
-        className="absolute -top-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 bg-black/90 p-1 rounded-full border border-trebol/40 shadow-xl backdrop-blur-md"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={() => setBotModel('svg-original')}
-          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'svg-original'
-            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
-            : 'text-slate-400 hover:text-white'
-            }`}
-        >
-          Bot 1 (SVG)
-        </button>
-        <button
-          onClick={() => setBotModel('lottie-trebol')}
-          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'lottie-trebol'
-            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
-            : 'text-slate-400 hover:text-white'
-            }`}
-        >
-          Bot 2 (Trébol)
-        </button>
-        <button
-          onClick={() => setBotModel('lottie-leza')}
-          className={`px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase transition-all ${botModel === 'lottie-leza'
-            ? 'bg-trebol text-slate-950 shadow-[0_0_10px_rgba(132,198,56,0.5)]'
-            : 'text-slate-400 hover:text-white'
-            }`}
-        >
-          Bot 3 (Leza)
-        </button>
-      </div>
-
+    <div className="relative select-none">
       <motion.div
         animate={
           isModal
@@ -108,446 +64,231 @@ export function TrebotSVG({ isSpeaking, isHovered, size = 360, isModal = false, 
               : { scale: 1.35, rotate: -16, x: 75, y: 175 }
         }
         transition={{ type: 'spring', stiffness: 160, damping: 18 }}
-        className="relative select-none cursor-pointer transform-gpu flex items-center justify-center"
-        style={{ width: size, height: size * 1.15 }}
+        className={`relative select-none cursor-pointer transform-gpu flex items-center justify-center ${className || 'w-[300px] sm:w-[360px] md:w-[400px] lg:w-[460px] xl:w-[540px] 2xl:w-[620px] aspect-[1/1.15]'}`}
+        style={size ? { width: size, height: typeof size === 'number' ? size * 1.15 : size } : undefined}
       >
-        {botModel === 'lottie-trebol' && (
-          <motion.div
-            key="lottie-trebol"
-            className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)] flex items-center justify-center"
-            animate={BOT2_FLOAT_ANIMATE}
-            transition={BOT2_FLOAT_TRANSITION}
-          >
-            <svg fill="none" height="100%" width="100%" viewBox="0 0 682 902" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                {/* Body gradients - original gray palette */}
-                <linearGradient id="i0" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i1" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i2" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
-                <linearGradient id="i3" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
-                <linearGradient id="i4" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="250.236" x1="0" y1="-78.447"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i5" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-1" y2="40.807" x1="-1" y1="-11.476"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="49.9%" stopColor="#abafb8" /><stop offset="99.9%" stopColor="#b6babf" /></linearGradient>
-                <linearGradient id="i6" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="38.928" x1="0" y1="-72.957"><stop offset="20.6%" stopColor="#e4e8ef" /><stop offset="60.3%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i7" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.544" y2="0.096" x1="-28.627" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i8" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.798" y2="0.096" x1="-28.373" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                <linearGradient id="i9" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="-54.282" x1="0" y1="-16.131"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
-                <linearGradient id="i10" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-0.357" y2="152.047" x1="-0.357" y1="-119.307"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
-                {/* Face screen - dark slate gray (user requested, replaces original blue) */}
-                <radialGradient id="i11" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="0" cy="0.192" r="206.101" fy="0.192" fx="0"><stop offset="0%" stopColor="#1a2744" /><stop offset="50%" stopColor="#111c33" /><stop offset="100%" stopColor="#0b1329" /></radialGradient>
-                {/* Eyes - Trébol green (user requested, replaces original cyan) */}
-                <radialGradient id="i12" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.055" cy="0.167" r="48.124" fy="0.167" fx="-0.055"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
-                <radialGradient id="i13" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.667" cy="0.174" r="25.166" fy="0.174" fx="-0.667"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
-                <radialGradient id="i14" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.392" cy="0.167" r="48.123" fy="0.167" fx="-0.392"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
-                <radialGradient id="i15" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.184" cy="-0.737" r="33.853" fy="-0.737" fx="-0.184"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
-                <radialGradient id="i16" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.005" cy="0.174" r="25.166" fy="0.174" fx="-0.005"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
-              </defs>
+        <motion.div
+          key="trebot-model"
+          className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)] flex items-center justify-center"
+          animate={BOT2_FLOAT_ANIMATE}
+          transition={BOT2_FLOAT_TRANSITION}
+        >
+          <svg fill="none" height="100%" width="100%" viewBox="0 0 682 902" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              {/* Body gradients - original gray palette */}
+              <linearGradient id="i0" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i1" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.262" y2="-0.229" x1="-97.029" y1="-0.229"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i2" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+              <linearGradient id="i3" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="67.319" y2="-0.229" x1="-96.971" y1="-0.229"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+              <linearGradient id="i4" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="250.236" x1="0" y1="-78.447"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i5" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-1" y2="40.807" x1="-1" y1="-11.476"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="49.9%" stopColor="#abafb8" /><stop offset="99.9%" stopColor="#b6babf" /></linearGradient>
+              <linearGradient id="i6" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="38.928" x1="0" y1="-72.957"><stop offset="20.6%" stopColor="#e4e8ef" /><stop offset="60.3%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i7" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.544" y2="0.096" x1="-28.627" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i8" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="18.798" y2="0.096" x1="-28.373" y1="0.096"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              <linearGradient id="i9" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="0" y2="-54.282" x1="0" y1="-16.131"><stop offset="0%" stopColor="#a0a5b0" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#e4e8ef" /></linearGradient>
+              <linearGradient id="i10" gradientUnits="userSpaceOnUse" spreadMethod="pad" x2="-0.357" y2="152.047" x1="-0.357" y1="-119.307"><stop offset="0%" stopColor="#e4e8ef" /><stop offset="50%" stopColor="#c2c6d0" /><stop offset="100%" stopColor="#a0a5b0" /></linearGradient>
+              {/* Face screen - dark slate gray (user requested, replaces original blue) */}
+              <radialGradient id="i11" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="0" cy="0.192" r="206.101" fy="0.192" fx="0"><stop offset="0%" stopColor="#1a2744" /><stop offset="50%" stopColor="#111c33" /><stop offset="100%" stopColor="#0b1329" /></radialGradient>
+              {/* Eyes - Trébol green (user requested, replaces original cyan) */}
+              <radialGradient id="i12" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.055" cy="0.167" r="48.124" fy="0.167" fx="-0.055"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+              <radialGradient id="i13" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.667" cy="0.174" r="25.166" fy="0.174" fx="-0.667"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+              <radialGradient id="i14" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.392" cy="0.167" r="48.123" fy="0.167" fx="-0.392"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+              <radialGradient id="i15" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.184" cy="-0.737" r="33.853" fy="-0.737" fx="-0.184"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+              <radialGradient id="i16" gradientUnits="userSpaceOnUse" spreadMethod="pad" cx="-0.005" cy="0.174" r="25.166" fy="0.174" fx="-0.005"><stop offset="0%" stopColor="#aee855" /><stop offset="50%" stopColor="#84C638" /><stop offset="100%" stopColor="#5a9a1e" /></radialGradient>
+            </defs>
 
-              {/* ===== LEFT ARM (original structure) ===== */}
-              <g id="i17a"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
-                <g visibility="hidden" id="i18"><g transform="translate(390.029,532.229)"><g transform="rotate(-5)"><g transform="scale(1,1) translate(-64,116)"><g id="i19a"><path fill="url(#i0)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
-                <g visibility="visible" id="i20"><g transform="translate(390.029,532.229)"><g transform="rotate(-2.406)"><g transform="scale(1,1) translate(-64,116)"><g id="i19b"><path fill="url(#i1)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
-              </g></g></g>
+            {/* ===== LEFT ARM (original structure) ===== */}
+            <g id="i17a"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+              <g visibility="hidden" id="i18"><g transform="translate(390.029,532.229)"><g transform="rotate(-5)"><g transform="scale(1,1) translate(-64,116)"><g id="i19a"><path fill="url(#i0)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
+              <g visibility="visible" id="i20"><g transform="translate(390.029,532.229)"><g transform="rotate(-2.406)"><g transform="scale(1,1) translate(-64,116)"><g id="i19b"><path fill="url(#i1)" d="M77.963,-109.532C76.666,-91.816,64.054,-90.446,49.933,-56.844C31.887,-13.91,27.455,27.796,17.77,73.669C5.694,130.904,-28.172,134.975,-43.367,131.855C-70.745,126.23,-83.362,93.484,-75.933,58.278C-48.509,-71.64,3.457,-133.088,53.647,-132.616C62.994,-132.528,79.225,-126.791,77.963,-109.532Z" /></g></g></g></g></g>
+            </g></g></g>
 
-              {/* ===== RIGHT ARM (original structure) ===== */}
-              <g id="i17b"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
-                <g visibility="hidden" id="i21"><g transform="translate(693.971,534.229)"><g transform="rotate(9)"><g transform="scale(1,1) translate(60,114)"><g id="i19c"><path fill="url(#i2)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
-                <g visibility="visible" id="i22"><g transform="translate(693.971,534.229)"><g transform="rotate(5.369)"><g transform="scale(1,1) translate(60,114)"><g id="i19d"><path fill="url(#i3)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
-              </g></g></g>
+            {/* ===== RIGHT ARM (original structure) ===== */}
+            <g id="i17b"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+              <g visibility="hidden" id="i21"><g transform="translate(693.971,534.229)"><g transform="rotate(9)"><g transform="scale(1,1) translate(60,114)"><g id="i19c"><path fill="url(#i2)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
+              <g visibility="visible" id="i22"><g transform="translate(693.971,534.229)"><g transform="rotate(5.369)"><g transform="scale(1,1) translate(60,114)"><g id="i19d"><path fill="url(#i3)" d="M-77.963,-109.532C-76.666,-91.816,-64.054,-90.446,-49.933,-56.844C-31.887,-13.91,-27.455,27.796,-17.77,73.669C-5.694,130.904,28.172,134.975,43.367,131.855C70.745,126.23,83.362,93.484,75.933,58.278C48.509,-71.64,-3.457,-133.088,-53.647,-132.616C-62.994,-132.528,-79.225,-126.791,-77.963,-109.532Z" /></g></g></g></g></g>
+            </g></g></g>
 
-              {/* ===== BODY + CHEST LOGO ===== */}
-              <g id="i17c"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
-                <g id="i23" transform="matrix(1,0,0,1,540,658.447)">
-                  <path fill="url(#i4)" d="M183.653,-72.253C183.653,-40.577,180.71,-11.573,175.246,14.631C174.697,17.302,174.114,19.946,173.5,22.559C148.536,129.807,80.281,187.878,0,187.878C-80.281,187.878,-148.536,129.807,-173.5,22.559C-174.114,19.946,-174.697,17.302,-175.246,14.631C-180.71,-11.573,-183.653,-40.577,-183.653,-72.253C-183.653,-142.718,-109.957,-187.878,0,-187.878C109.957,-187.878,183.653,-142.718,183.653,-72.253Z" />
-                  {/* CHEST LOGO - Isotipo Trébol Digital Oficial PNG */}
-                  <g transform="translate(0, -10) scale(0.7)" id="trebol-chest-logo">
-                    <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
+            {/* ===== BODY + CHEST LOGO ===== */}
+            <g id="i17c"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+              <g id="i23" transform="matrix(1,0,0,1,540,658.447)">
+                <path fill="url(#i4)" d="M183.653,-72.253C183.653,-40.577,180.71,-11.573,175.246,14.631C174.697,17.302,174.114,19.946,173.5,22.559C148.536,129.807,80.281,187.878,0,187.878C-80.281,187.878,-148.536,129.807,-173.5,22.559C-174.114,19.946,-174.697,17.302,-175.246,14.631C-180.71,-11.573,-183.653,-40.577,-183.653,-72.253C-183.653,-142.718,-109.957,-187.878,0,-187.878C109.957,-187.878,183.653,-142.718,183.653,-72.253Z" />
+                {/* CHEST LOGO - Isotipo Trébol Digital Oficial PNG */}
+                <g transform="translate(0, -10) scale(0.7)" id="trebol-chest-logo">
+                  <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
+                </g>
+              </g>
+              <g id="i24body" transform="matrix(1,0,0,1,540,703.476)"><path fill="url(#i5)" d="M175.246,-30.398C174.697,-27.727,174.114,-25.083,173.5,-22.47C152.089,-15.034,119.941,-5.046,88.515,0.265C88.515,0.265,88.515,20.924,88.515,20.924C88.515,20.924,85.829,21.538,85.829,21.538C85.441,21.626,46.472,30.398,0,30.398C-46.472,30.398,-85.441,21.626,-85.829,21.538C-85.829,21.538,-88.515,20.924,-88.515,20.924C-88.515,20.924,-88.515,0.265,-88.515,0.265C-119.941,-5.046,-152.089,-15.034,-173.5,-22.47C-174.114,-25.083,-174.697,-27.727,-175.246,-30.398C-153.651,-22.747,-118.422,-11.496,-84.517,-6.078C-84.517,-6.078,-81.608,-5.614,-81.608,-5.614C-81.608,-5.614,-81.608,15.372,-81.608,15.372C-72.126,17.302,-38.724,23.491,0,23.491C38.763,23.491,72.134,17.306,81.608,15.372C81.608,15.372,81.608,-5.614,81.608,-5.614C81.608,-5.614,84.517,-6.078,84.517,-6.078C118.422,-11.496,153.651,-22.747,175.246,-30.398Z" /></g>
+              <g id="i25neck" transform="matrix(1,0,0,1,540,491.957)"><path fill="url(#i6)" d="M-74.711,-43.245C-74.711,-43.245,-74.711,0.883,-74.711,0.883C-74.711,24.279,-41.262,43.245,0,43.245C41.262,43.245,74.711,24.279,74.711,0.883C74.711,0.883,74.711,-43.245,74.711,-43.245C74.711,-43.245,-74.711,-43.245,-74.711,-43.245Z" /></g>
+              <g id="i26shadow" transform="matrix(1,0,0,1,581.038,666.197)" opacity="0.04"><path fill="#383838" d="M142.615,-80.003C142.615,-48.327,139.675,-19.323,134.21,6.88C133.659,9.551,133.076,12.194,132.464,14.808C107.497,122.058,39.243,180.129,-41.038,180.129C-78.595,180.129,-113.521,167.417,-142.615,142.907C-114.773,149.404,-85.214,146.932,-57.771,138.759C8.248,119.098,63.024,65.171,83.717,-0.53C102.481,-60.105,92.73,-127.805,58.811,-180.129C111.209,-161.218,142.615,-126.002,142.615,-80.003Z" /></g>
+              <g id="i19shine" transform="matrix(1,0,0,1,418.063,574.529)" opacity="0.49"><path fill="#ffffff" d="M37.103,-33.275C33.559,-25.547,26.23,-20.405,19.75,-14.903C-0.592,2.389,-14.884,26.668,-20.12,52.85C-21.184,58.184,-24.128,65.236,-29.426,63.992C-32.619,63.242,-34.165,59.676,-35.087,56.528C-42.505,31.141,-39.666,2.911,-27.346,-20.49C-18.287,-37.695,-4.175,-52.15,12.651,-61.874C19.391,-65.769,27.985,-64.566,33.201,-58.787C33.235,-58.75,33.269,-58.712,33.302,-58.675C39.322,-51.909,40.879,-41.509,37.103,-33.275Z" /></g>
+            </g></g></g>
+
+            {/* ===== HEAD SHELL + HANDLES/EARS/ANTENNA (fijos al casco blanco) ===== */}
+            <g id="i17d"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+              <g transform="matrix(1,0,0,1,0,0)" id="i27a">
+                <g id="i28">
+                  <g transform="translate(540,261.003)">
+                    <g transform="scale(1,1) translate(-540,-261.003)">
+                      <g id="i25h" transform="matrix(1,0,0,1,304.627,323.904)"><path fill="url(#i7)" d="M22.405,59.103C22.405,59.103,10.629,57.29,10.629,57.29C-8.376,54.364,-22.405,38.01,-22.405,18.781C-22.405,18.781,-22.405,-18.781,-22.405,-18.781C-22.405,-38.01,-8.376,-54.364,10.629,-57.29C10.629,-57.29,22.405,-59.103,22.405,-59.103C22.405,-59.103,62.405,-60.904,62.405,-60.904C62.405,-60.904,62.853,63.257,62.853,63.257C62.853,63.257,22.405,59.103,22.405,59.103Z" /></g>
+                      <g id="i26h" transform="matrix(1,0,0,1,775.373,323.904)"><path fill="url(#i8)" d="M-22.405,59.103C-22.405,59.103,-10.629,57.29,-10.629,57.29C8.376,54.364,22.405,38.01,22.405,18.781C22.405,18.781,22.405,-18.781,22.405,-18.781C22.405,-38.01,8.376,-54.364,-10.629,-57.29C-10.629,-57.29,-22.405,-59.103,-22.405,-59.103C-22.405,-59.103,-62.405,-60.904,-62.405,-60.904C-62.405,-60.904,-62.853,63.257,-62.853,63.257C-62.853,63.257,-22.405,59.103,-22.405,59.103Z" /></g>
+                      <g id="i19ant" transform="matrix(1,0,0,1,540,196.131)"><path fill="url(#i9)" d="M79.16,0C79.16,31.552,43.719,57.131,0,57.131C-43.719,57.131,-79.16,31.552,-79.16,0C-79.16,-31.552,-79.16,-57.131,0,-57.131C79.16,-57.131,79.16,-31.552,79.16,0Z" /></g>
+                    </g>
                   </g>
                 </g>
-                <g id="i24body" transform="matrix(1,0,0,1,540,703.476)"><path fill="url(#i5)" d="M175.246,-30.398C174.697,-27.727,174.114,-25.083,173.5,-22.47C152.089,-15.034,119.941,-5.046,88.515,0.265C88.515,0.265,88.515,20.924,88.515,20.924C88.515,20.924,85.829,21.538,85.829,21.538C85.441,21.626,46.472,30.398,0,30.398C-46.472,30.398,-85.441,21.626,-85.829,21.538C-85.829,21.538,-88.515,20.924,-88.515,20.924C-88.515,20.924,-88.515,0.265,-88.515,0.265C-119.941,-5.046,-152.089,-15.034,-173.5,-22.47C-174.114,-25.083,-174.697,-27.727,-175.246,-30.398C-153.651,-22.747,-118.422,-11.496,-84.517,-6.078C-84.517,-6.078,-81.608,-5.614,-81.608,-5.614C-81.608,-5.614,-81.608,15.372,-81.608,15.372C-72.126,17.302,-38.724,23.491,0,23.491C38.763,23.491,72.134,17.306,81.608,15.372C81.608,15.372,81.608,-5.614,81.608,-5.614C81.608,-5.614,84.517,-6.078,84.517,-6.078C118.422,-11.496,153.651,-22.747,175.246,-30.398Z" /></g>
-                <g id="i25neck" transform="matrix(1,0,0,1,540,491.957)"><path fill="url(#i6)" d="M-74.711,-43.245C-74.711,-43.245,-74.711,0.883,-74.711,0.883C-74.711,24.279,-41.262,43.245,0,43.245C41.262,43.245,74.711,24.279,74.711,0.883C74.711,0.883,74.711,-43.245,74.711,-43.245C74.711,-43.245,-74.711,-43.245,-74.711,-43.245Z" /></g>
-                <g id="i26shadow" transform="matrix(1,0,0,1,581.038,666.197)" opacity="0.04"><path fill="#383838" d="M142.615,-80.003C142.615,-48.327,139.675,-19.323,134.21,6.88C133.659,9.551,133.076,12.194,132.464,14.808C107.497,122.058,39.243,180.129,-41.038,180.129C-78.595,180.129,-113.521,167.417,-142.615,142.907C-114.773,149.404,-85.214,146.932,-57.771,138.759C8.248,119.098,63.024,65.171,83.717,-0.53C102.481,-60.105,92.73,-127.805,58.811,-180.129C111.209,-161.218,142.615,-126.002,142.615,-80.003Z" /></g>
-                <g id="i19shine" transform="matrix(1,0,0,1,418.063,574.529)" opacity="0.49"><path fill="#ffffff" d="M37.103,-33.275C33.559,-25.547,26.23,-20.405,19.75,-14.903C-0.592,2.389,-14.884,26.668,-20.12,52.85C-21.184,58.184,-24.128,65.236,-29.426,63.992C-32.619,63.242,-34.165,59.676,-35.087,56.528C-42.505,31.141,-39.666,2.911,-27.346,-20.49C-18.287,-37.695,-4.175,-52.15,12.651,-61.874C19.391,-65.769,27.985,-64.566,33.201,-58.787C33.235,-58.75,33.269,-58.712,33.302,-58.675C39.322,-51.909,40.879,-41.509,37.103,-33.275Z" /></g>
-              </g></g></g>
+              </g>
+            </g></g></g>
 
-              {/* ===== HEAD SHELL + HANDLES/EARS/ANTENNA (fijos al casco blanco) ===== */}
-              <g id="i17d"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
-                <g transform="matrix(1,0,0,1,0,0)" id="i27a">
-                  <g id="i28">
-                    <g transform="translate(540,261.003)">
-                      <g transform="scale(1,1) translate(-540,-261.003)">
-                        <g id="i25h" transform="matrix(1,0,0,1,304.627,323.904)"><path fill="url(#i7)" d="M22.405,59.103C22.405,59.103,10.629,57.29,10.629,57.29C-8.376,54.364,-22.405,38.01,-22.405,18.781C-22.405,18.781,-22.405,-18.781,-22.405,-18.781C-22.405,-38.01,-8.376,-54.364,10.629,-57.29C10.629,-57.29,22.405,-59.103,22.405,-59.103C22.405,-59.103,62.405,-60.904,62.405,-60.904C62.405,-60.904,62.853,63.257,62.853,63.257C62.853,63.257,22.405,59.103,22.405,59.103Z" /></g>
-                        <g id="i26h" transform="matrix(1,0,0,1,775.373,323.904)"><path fill="url(#i8)" d="M-22.405,59.103C-22.405,59.103,-10.629,57.29,-10.629,57.29C8.376,54.364,22.405,38.01,22.405,18.781C22.405,18.781,22.405,-18.781,22.405,-18.781C22.405,-38.01,8.376,-54.364,-10.629,-57.29C-10.629,-57.29,-22.405,-59.103,-22.405,-59.103C-22.405,-59.103,-62.405,-60.904,-62.405,-60.904C-62.405,-60.904,-62.853,63.257,-62.853,63.257C-62.853,63.257,-22.405,59.103,-22.405,59.103Z" /></g>
-                        <g id="i19ant" transform="matrix(1,0,0,1,540,196.131)"><path fill="url(#i9)" d="M79.16,0C79.16,31.552,43.719,57.131,0,57.131C-43.719,57.131,-79.16,31.552,-79.16,0C-79.16,-31.552,-79.16,-57.131,0,-57.131C79.16,-57.131,79.16,-31.552,79.16,0Z" /></g>
+            {/* ===== HEAD OUTER SHELL ===== */}
+            <g id="i17e"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
+              <g transform="matrix(1,0,0,1,0,0)" id="i27b">
+                <g id="i26hs" transform="matrix(1,0,0,1,536.357,322.307)"><path fill="url(#i10)" d="M-217.223,59.103C-217.223,86.062,-202.464,110.869,-178.751,123.694C-148.607,139.997,-95.035,155.108,0,155.108C95.035,155.108,148.607,139.997,178.751,123.694C202.464,110.869,217.223,86.062,217.223,59.103C217.223,59.103,217.223,-59.103,217.223,-59.103C217.223,-86.062,202.464,-110.869,178.751,-123.694C148.607,-139.997,95.035,-155.108,0,-155.108C-95.035,-155.108,-148.607,-139.997,-178.751,-123.694C-202.464,-110.869,-217.223,-86.062,-217.223,-59.103C-217.223,-59.103,-217.223,59.103,-217.223,59.103Z" /></g>
+                <g id="i19hsh" transform="matrix(1,0,0,1,380.775,226.347)" opacity="0.49"><path fill="#ffffff" d="M38.471,-11.132C-5.59,-0.851,-28.55,18.419,-39.773,31.928C-42.592,35.322,-48.081,32.556,-46.995,28.28C-41.229,5.58,-25.775,-8.713,-10.218,-17.474C3.286,-25.08,18.162,-29.609,33.316,-33.152C38.873,-34.451,44.516,-31.356,46.416,-25.975C46.441,-25.903,46.468,-25.83,46.493,-25.758C48.714,-19.467,44.968,-12.648,38.471,-11.132Z" /></g>
+              </g>
+            </g></g></g>
+
+            {/* ===== HEAD FACE SCREEN + EYES + MOUTH (Framer Motion con constantes estables) ===== */}
+            <g id="i17f">
+              <g transform="translate(342,795.519)">
+                <g transform="scale(1,1) translate(-542,-849.519)">
+                  {/* Head face group - volteo continuo sin interrupciones */}
+                  <motion.g
+                    animate={BOT2_HEAD_ANIMATE}
+                    transition={BOT2_HEAD_TRANSITION}
+                  >
+                    <g transform="translate(540,337.664)">
+                      <g transform="scale(1,1) translate(0,0)">
+                        {/* Face screen */}
+                        <g id="i19fs"><path fill="url(#i11)" d="M0,118.361C-94.925,118.361,-143.654,102.783,-167.816,89.715C-184.113,80.901,-194.236,63.899,-194.236,45.343C-194.236,45.343,-194.236,-45.342,-194.236,-45.342C-194.236,-63.898,-184.113,-80.901,-167.816,-89.715C-143.654,-102.783,-94.925,-118.361,0,-118.361C94.925,-118.361,143.653,-102.783,167.816,-89.715C184.112,-80.901,194.236,-63.898,194.236,-45.342C194.236,-45.342,194.236,45.343,194.236,45.343C194.236,63.899,184.113,80.901,167.816,89.715C143.653,102.784,94.925,118.361,0,118.361Z" /></g>
+                        {/* Pupil/eye group animado con constante estable */}
+                        <motion.g animate={BOT2_PUPIL_ANIMATE} transition={BOT2_PUPIL_TRANSITION}>
+                          <g transform="translate(1.223,17.765)">
+                            <g transform="scale(1,1) translate(-541.223,-355.429)">
+                              {/* Left eye glow */}
+                              <g opacity="0.06"><g transform="translate(449.055,334.833)">
+                                <path fill="url(#i12)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
+                              </g></g>
+                              {/* Left eye con parpadeo continuo */}
+                              <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '447.667px 329.826px' }}>
+                                <g transform="translate(447.667,329.826)">
+                                  <path fill="url(#i13)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
+                                </g>
+                              </motion.g>
+                              {/* MOUTH - smile, pulsa solo al hablar */}
+                              <g id="i24mouth" transform="matrix(1,0,0,1,540,398.484)">
+                                <motion.path
+                                  fill="#84C638"
+                                  d="M23.637,-10.13C23.637,-3.603,20.992,2.304,16.713,6.583C12.434,10.862,6.527,13.507,0,13.507C-13.054,13.507,-23.637,2.924,-23.637,-10.13C-23.637,-11.06,-23.26,-11.906,-22.648,-12.518C-22.036,-13.13,-21.19,-13.507,-20.26,-13.507C-20.26,-13.507,20.26,-13.507,20.26,-13.507C22.123,-13.507,23.637,-11.993,23.637,-10.13Z"
+                                  animate={isSpeaking ? BOT2_MOUTH_SPEAKING_ANIMATE : { scaleY: 1, scaleX: 1, y: 0 }}
+                                  transition={isSpeaking ? BOT2_MOUTH_SPEAKING_TRANSITION : { duration: 0.2, ease: 'easeOut' }}
+                                  style={{ transformOrigin: '0px 0px' }}
+                                />
+                              </g>
+                              {/* Right eye glow */}
+                              <g opacity="0.06"><g transform="translate(633.392,334.833)">
+                                <path fill="url(#i14)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
+                              </g></g>
+                              {/* Mouth shadow */}
+                              <g id="i26mouth" transform="matrix(1,0,0,1,539.184,402.737)" opacity="0.06"><path fill="url(#i15)" d="M42.822,-21.411C42.822,2.239,23.65,21.411,0,21.411C-23.65,21.411,-42.822,2.239,-42.822,-21.411C-42.822,-21.411,42.822,-21.411,42.822,-21.411Z" /></g>
+                              {/* Right eye con parpadeo continuo */}
+                              <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '632.005px 329.826px' }}>
+                                <g transform="translate(632.005,329.826)">
+                                  <path fill="url(#i16)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
+                                </g>
+                              </motion.g>
+                            </g>
+                          </g>
+                        </motion.g>
                       </g>
                     </g>
-                  </g>
+                  </motion.g>
                 </g>
-              </g></g></g>
-
-              {/* ===== HEAD OUTER SHELL ===== */}
-              <g id="i17e"><g transform="translate(342,795.519)"><g transform="scale(1,1) translate(-542,-849.519)">
-                <g transform="matrix(1,0,0,1,0,0)" id="i27b">
-                  <g id="i26hs" transform="matrix(1,0,0,1,536.357,322.307)"><path fill="url(#i10)" d="M-217.223,59.103C-217.223,86.062,-202.464,110.869,-178.751,123.694C-148.607,139.997,-95.035,155.108,0,155.108C95.035,155.108,148.607,139.997,178.751,123.694C202.464,110.869,217.223,86.062,217.223,59.103C217.223,59.103,217.223,-59.103,217.223,-59.103C217.223,-86.062,202.464,-110.869,178.751,-123.694C148.607,-139.997,95.035,-155.108,0,-155.108C-95.035,-155.108,-148.607,-139.997,-178.751,-123.694C-202.464,-110.869,-217.223,-86.062,-217.223,-59.103C-217.223,-59.103,-217.223,59.103,-217.223,59.103Z" /></g>
-                  <g id="i19hsh" transform="matrix(1,0,0,1,380.775,226.347)" opacity="0.49"><path fill="#ffffff" d="M38.471,-11.132C-5.59,-0.851,-28.55,18.419,-39.773,31.928C-42.592,35.322,-48.081,32.556,-46.995,28.28C-41.229,5.58,-25.775,-8.713,-10.218,-17.474C3.286,-25.08,18.162,-29.609,33.316,-33.152C38.873,-34.451,44.516,-31.356,46.416,-25.975C46.441,-25.903,46.468,-25.83,46.493,-25.758C48.714,-19.467,44.968,-12.648,38.471,-11.132Z" /></g>
-                </g>
-              </g></g></g>
-
-              {/* ===== HEAD FACE SCREEN + EYES + MOUTH (Framer Motion con constantes estables) ===== */}
-              {/* Las constantes BOT2_* están definidas fuera del componente para que sean referencias */}
-              {/* estables y Framer Motion NO reinicie la animación al cambiar isSpeaking */}
-              <g id="i17f">
-                <g transform="translate(342,795.519)">
-                  <g transform="scale(1,1) translate(-542,-849.519)">
-                    {/* Head face group - volteo continuo sin interrupciones */}
-                    <motion.g
-                      animate={BOT2_HEAD_ANIMATE}
-                      transition={BOT2_HEAD_TRANSITION}
-                    >
-                      <g transform="translate(540,337.664)">
-                        <g transform="scale(1,1) translate(0,0)">
-                      {/* Face screen */}
-                      <g id="i19fs"><path fill="url(#i11)" d="M0,118.361C-94.925,118.361,-143.654,102.783,-167.816,89.715C-184.113,80.901,-194.236,63.899,-194.236,45.343C-194.236,45.343,-194.236,-45.342,-194.236,-45.342C-194.236,-63.898,-184.113,-80.901,-167.816,-89.715C-143.654,-102.783,-94.925,-118.361,0,-118.361C94.925,-118.361,143.653,-102.783,167.816,-89.715C184.112,-80.901,194.236,-63.898,194.236,-45.342C194.236,-45.342,194.236,45.343,194.236,45.343C194.236,63.899,184.113,80.901,167.816,89.715C143.653,102.784,94.925,118.361,0,118.361Z" /></g>
-                      {/* Pupil/eye group animado con constante estable */}
-                      <motion.g animate={BOT2_PUPIL_ANIMATE} transition={BOT2_PUPIL_TRANSITION}>
-                        <g transform="translate(1.223,17.765)">
-                          <g transform="scale(1,1) translate(-541.223,-355.429)">
-                            {/* Left eye glow */}
-                            <g opacity="0.06"><g transform="translate(449.055,334.833)">
-                              <path fill="url(#i12)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
-                            </g></g>
-                            {/* Left eye con parpadeo continuo */}
-                            <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '447.667px 329.826px' }}>
-                              <g transform="translate(447.667,329.826)">
-                                <path fill="url(#i13)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
-                              </g>
-                            </motion.g>
-                            {/* MOUTH - smile, pulsa solo al hablar */}
-                            <g id="i24mouth" transform="matrix(1,0,0,1,540,398.484)">
-                              <motion.path
-                                fill="#84C638"
-                                d="M23.637,-10.13C23.637,-3.603,20.992,2.304,16.713,6.583C12.434,10.862,6.527,13.507,0,13.507C-13.054,13.507,-23.637,2.924,-23.637,-10.13C-23.637,-11.06,-23.26,-11.906,-22.648,-12.518C-22.036,-13.13,-21.19,-13.507,-20.26,-13.507C-20.26,-13.507,20.26,-13.507,20.26,-13.507C22.123,-13.507,23.637,-11.993,23.637,-10.13Z"
-                                animate={isSpeaking ? BOT2_MOUTH_SPEAKING_ANIMATE : { scaleY: 1, scaleX: 1, y: 0 }}
-                                transition={isSpeaking ? BOT2_MOUTH_SPEAKING_TRANSITION : { duration: 0.2, ease: 'easeOut' }}
-                                style={{ transformOrigin: '0px 0px' }}
-                              />
-                            </g>
-                            {/* Right eye glow */}
-                            <g opacity="0.06"><g transform="translate(633.392,334.833)">
-                              <path fill="url(#i14)" d="M48.124,0C48.124,26.578,26.578,48.124,0,48.124C-26.578,48.124,-48.124,26.578,-48.124,0C-48.124,-26.578,-26.578,-48.124,0,-48.124C26.578,-48.124,48.124,-26.578,48.124,0Z" />
-                            </g></g>
-                            {/* Mouth shadow */}
-                            <g id="i26mouth" transform="matrix(1,0,0,1,539.184,402.737)" opacity="0.06"><path fill="url(#i15)" d="M42.822,-21.411C42.822,2.239,23.65,21.411,0,21.411C-23.65,21.411,-42.822,2.239,-42.822,-21.411C-42.822,-21.411,42.822,-21.411,42.822,-21.411Z" /></g>
-                            {/* Right eye con parpadeo continuo */}
-                            <motion.g animate={BOT2_BLINK_ANIMATE} transition={BOT2_BLINK_TRANSITION} style={{ transformOrigin: '632.005px 329.826px' }}>
-                              <g transform="translate(632.005,329.826)">
-                                <path fill="url(#i16)" d="M29.527,9.658C29.527,25.966,16.308,17.85,0,17.85C-16.308,17.85,-29.527,25.966,-29.527,9.658C-29.527,-6.65,-16.308,-19.87,0,-19.87C16.308,-19.87,29.527,-6.65,29.527,9.658Z" />
-                              </g>
-                            </motion.g>
-                          </g>
-                        </g>
-                      </motion.g>
-                    </g>
-                  </g>
-                </motion.g>
               </g>
             </g>
-          </g>
-
-            </svg>
-          </motion.div>
-        )}
-
-        {botModel === 'lottie-leza' && (
-          <svg
-            viewBox="0 0 230 280"
-            className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)]"
-          >
-            <defs>
-              <radialGradient id="leza-shadow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#84C638" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-              </radialGradient>
-              <linearGradient id="leza-white" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="70%" stopColor="#f8fafc" />
-                <stop offset="100%" stopColor="#e2e8f0" />
-              </linearGradient>
-            </defs>
-
-            {/* SOMBRA FLOTANTE */}
-            <motion.ellipse
-              cx="115"
-              cy="262"
-              rx="40"
-              ry="8"
-              fill="url(#leza-shadow)"
-              animate={{ scale: [1, 0.75, 1], opacity: [0.8, 0.4, 0.8] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            />
-
-            {/* ANILLOS FLOTANTES INFERIORES */}
-            <motion.g
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}
-            >
-              <rect x="85" y="215" width="60" height="14" rx="7" fill="none" stroke="#cbd5e1" strokeWidth="3" />
-              <rect x="96" y="235" width="38" height="11" rx="5.5" fill="none" stroke="#cbd5e1" strokeWidth="3" />
-            </motion.g>
-
-            {/* BRAZO IZQUIERDO (SALUDA ARRIBA SOLO EN HOVER) */}
-            <motion.g
-              animate={
-                isHovered
-                  ? { rotate: [-125, -75, -125] }
-                  : { y: [0, -14, 0], rotate: [-10, 5, -10] }
-              }
-              transition={{ duration: isHovered ? 0.45 : 2.6, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ transformOrigin: '32px 115px' }}
-            >
-              <ellipse cx="32" cy="130" rx="12" ry="23" fill="url(#leza-white)" stroke="#cbd5e1" strokeWidth="3" />
-            </motion.g>
-
-            {/* BRAZO DERECHO SEPARADO / LEVITANDO */}
-            <motion.g
-              animate={{ y: [0, -14, 0], rotate: [6, -6, 6] }}
-              transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-              style={{ transformOrigin: '198px 130px' }}
-            >
-              <ellipse cx="198" cy="130" rx="12" ry="23" fill="url(#leza-white)" stroke="#cbd5e1" strokeWidth="3" transform="rotate(15, 198, 130)" />
-            </motion.g>
-
-            {/* CUERPO PRINCIPAL FOCO / SEMILLA LEZA */}
-            <motion.g
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <path
-                d="M 58 115 C 58 45 172 45 172 115 C 172 165 146 202 115 202 C 84 202 58 165 58 115 Z"
-                fill="url(#leza-white)"
-                stroke="#cbd5e1"
-                strokeWidth="3.5"
-              />
-
-              {/* 2 HOJITAS BROTE EN LA CABEZA DEL BOT 3 */}
-              <g transform="translate(0, 0)">
-                {/* Hojita pequeña izquierda */}
-                <path
-                  d="M 112 50 C 104 35 116 24 116 24 C 116 24 125 35 119 50 Z"
-                  fill="#84C638"
-                />
-                {/* Hojita grande derecha */}
-                <path
-                  d="M 122 47 C 128 25 152 26 152 26 C 152 26 146 45 127 49 Z"
-                  fill="#84C638"
-                />
-              </g>
-
-              {/* OJOS ANIMADOS */}
-              <motion.g
-                animate={{ scaleY: [1, 1, 0.1, 1, 1] }}
-                transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
-                style={{ transformOrigin: '115px 95px' }}
-              >
-                {/* Ojo Izquierdo */}
-                <circle cx="95" cy="95" r="9.5" fill="#1e293b" />
-                <circle cx="98" cy="92" r="3.5" fill="#ffffff" />
-
-                {/* Ojo Derecho */}
-                <circle cx="135" cy="95" r="9.5" fill="#1e293b" />
-                <circle cx="138" cy="92" r="3.5" fill="#ffffff" />
-              </motion.g>
-
-              {/* BOCA */}
-              {isSpeaking ? (
-                <motion.ellipse
-                  cx="115" cy="116" rx="8" ry="4.5" fill="#1e293b"
-                  animate={{ ry: [2, 6, 2] }}
-                  transition={{ duration: 0.2, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              ) : (
-                <path
-                  d="M 99 113 Q 115 125 131 113"
-                  stroke="#1e293b"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  fill="none"
-                />
-              )}
-
-              {/* EMBLEMA TRÉBOL DIGITAL PNG EN EL PECHO DEL BOT 3 */}
-              <g transform="translate(115, 154) scale(0.2)">
-                <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
-              </g>
-            </motion.g>
           </svg>
-        )}
-
-        {botModel === 'svg-original' && (
-          <svg
-            viewBox="0 0 230 280"
-            className="w-full h-full drop-shadow-[0_45px_90px_rgba(141,198,63,0.7)]"
-          >
-            <defs>
-              <radialGradient id="b-shadow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#84C638" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-              </radialGradient>
-              <linearGradient id="b-white" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="60%" stopColor="#f1f5f9" />
-                <stop offset="100%" stopColor="#cbd5e1" />
-              </linearGradient>
-              <linearGradient id="b-white-subtle" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="100%" stopColor="#e2e8f0" />
-              </linearGradient>
-              <linearGradient id="b-silver" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#e2e8f0" />
-                <stop offset="100%" stopColor="#94a3b8" />
-              </linearGradient>
-              <linearGradient id="b-screen" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#0b1329" />
-                <stop offset="100%" stopColor="#1e293b" />
-              </linearGradient>
-            </defs>
-
-            <ellipse cx="115" cy="268" rx="72" ry="12" fill="url(#b-shadow)" />
-
-            {!isHovered && (
-              <g>
-                <path d="M 58 140 C 38 148 34 180 36 210 C 38 226 56 226 62 210 C 66 180 68 148 58 140 Z" fill="url(#b-white)" />
-                <ellipse cx="44" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
-              </g>
-            )}
-
-            <g transform="rotate(6, 176, 142)">
-              <path d="M 172 140 C 192 148 196 180 194 210 C 192 226 174 226 168 210 C 164 180 162 148 172 140 Z" fill="url(#b-white)" />
-              <ellipse cx="186" cy="164" rx="4" ry="14" fill="white" opacity="0.65" />
-            </g>
-
-            <path d="M 64 148 C 64 132 166 132 166 148 C 172 195 156 238 115 240 C 74 238 58 195 64 148 Z" fill="url(#b-white)" />
-            <path d="M 72 148 C 72 135 158 135 158 148 C 163 190 148 230 115 232 C 82 230 67 190 72 148 Z" fill="url(#b-white-subtle)" />
-
-            {/* EMBLEMA TRÉBOL DIGITAL PNG EN EL PECHO DEL BOT 1 */}
-            <g transform="translate(115, 172) scale(0.2)">
-              <image href="/images/TREBOL_01.png" x="-50" y="-50" width="100" height="100" />
-            </g>
-            <text x="115" y="197" textAnchor="middle" fill="#64748b" fontSize="7.5" fontWeight="700" letterSpacing="2.5" fontFamily="system-ui, sans-serif">
-              TREBOT
-            </text>
-
-            <path d="M 96 122 C 96 138 134 138 134 122 Z" fill="url(#b-silver)" />
-            <ellipse cx="115" cy="122" rx="19" ry="5" fill="#e2e8f0" />
-
-            <rect x="34" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
-            <rect x="180" y="58" width="16" height="42" rx="8" fill="url(#b-silver)" />
-
-            <ellipse cx="115" cy="30" rx="22" ry="8" fill="url(#b-white)" />
-            <rect x="44" y="32" width="142" height="96" rx="40" fill="url(#b-white)" />
-            <rect x="58" y="44" width="114" height="72" rx="28" fill="url(#b-screen)" />
-
-            <ellipse cx="72" cy="86" rx="8" ry="4" fill="#ff6599" opacity="0.85" />
-            <ellipse cx="158" cy="86" rx="8" ry="4" fill="#ff6599" opacity="0.85" />
-
-            <motion.g
-              animate={{ scaleY: [1, 1, 0.1, 1, 1] }}
-              transition={{ duration: 0.25, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
-              style={{ transformOrigin: '115px 72px' }}
-            >
-              {activeEyeExpr === 'half-moon' ? (
-                <>
-                  <path d="M 74 76 Q 87 58 100 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-                  <path d="M 130 76 Q 143 58 156 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-                </>
-              ) : activeEyeExpr === 'wink' ? (
-                <>
-                  <circle cx="86" cy="72" r="10" fill="#84C638" />
-                  <path d="M 130 76 Q 143 58 156 76" stroke="#84C638" strokeWidth="4.5" strokeLinecap="round" fill="none" />
-                </>
-              ) : (
-                <>
-                  <circle cx="86" cy="72" r="10" fill="#84C638" />
-                  <circle cx="144" cy="72" r="10" fill="#84C638" />
-                </>
-              )}
-            </motion.g>
-
-            {isSpeaking ? (
-              <motion.ellipse
-                cx="115" cy="94" rx="10" ry="5" fill="#84C638"
-                animate={{ ry: [3, 9, 3], cy: [94, 91, 94] }}
-                transition={{ duration: 0.22, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            ) : (
-              <path d="M 106 93 Q 115 102 124 93" stroke="#84C638" strokeWidth="3.5" strokeLinecap="round" fill="none" />
-            )}
-
-            {isHovered && (
-              <motion.g
-                animate={{ rotate: [-10, 5, -12, 8, -6, -10] }}
-                transition={{ duration: 1.0, repeat: Infinity, ease: "easeInOut" }}
-                style={{ transformOrigin: '58px 140px', transformBox: 'view-box' }}
-              >
-                <path d="M 58 140 C 38 132 34 100 36 70 C 38 54 56 54 62 70 C 66 100 68 132 58 140 Z" fill="url(#b-white)" />
-                <ellipse cx="49" cy="85" rx="3.5" ry="14" fill="white" opacity="0.65" transform="rotate(6, 49, 85)" />
-              </motion.g>
-            )}
-          </svg>
-        )}
+        </motion.div>
       </motion.div>
     </div>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PRESETS ESTÁTICOS Y FIJOS PARA LAS 3 OPCIONES DE VOZ (VALORES EXACTOS Y DEFINIDOS)
+// PRESETS ESTÁTICOS Y FIJOS PARA LA VOZ (TONO NATURAL, HUMANO Y CÁLIDO)
 // ─────────────────────────────────────────────────────────────────────────────
 const VOICE_PRESETS = {
   v1: {
     key: 'nova',
     label: '👩 Mujer V1',
-    playbackRate: 1.35, // Tono agudo femenino brillante
-    pitch: 1.75,
-    rate: 1.45
-  },
-  v2: {
-    key: 'shimmer',
-    label: '👩 Mujer V2',
-    playbackRate: 1.15, // Tono femenino suave y dulce
-    pitch: 1.25,
-    rate: 1.25
+    playbackRate: 1.10, // 10% más rápida manteniendo tono natural cálido
+    pitch: 1.0,
+    rate: 1.10
   }
 };
 
+const EXAMPLE_AREAS = [
+  {
+    id: 0,
+    title: '💬 Agentes Comerciales en WhatsApp',
+    shortTitle: 'Ventas en WhatsApp',
+    badge: 'Comercial',
+    description: 'Atención 24/7 y agendamiento automático en tu calendario',
+    speech: 'Mira este ejemplo de Agente Comercial en WhatsApp: El mensaje ingresa de forma automática, la IA comprende la intención del cliente, consulta tus productos y agenda la cita en tu calendario en menos de 5 segundos.'
+  },
+  {
+    id: 1,
+    title: '⚡ Automatización de Facturas y Documentos',
+    shortTitle: 'Facturas & Operaciones',
+    badge: 'Operaciones',
+    description: 'Lectura inteligente de PDF, validación y carga a tu sistema',
+    speech: 'Mira este ejemplo de Automatización Operativa: El correo recibe la factura PDF, la IA extrae los datos principales, valida los folios y registra todo en tu sistema contable sin intervención manual.'
+  },
+  {
+    id: 2,
+    title: '📊 Resúmenes Ejecutivos & Proyecciones',
+    shortTitle: 'Predicción & Decisiones',
+    badge: 'Finanzas',
+    description: 'Análisis de tendencias y alertas enviadas al WhatsApp de Dirección',
+    speech: 'Mira este ejemplo de Decisiones con IA: Recopilamos datos de tus ventas, analizamos tendencias de ingresos y enviamos un resumen ejecutivo en tiempo real directo al WhatsApp de dirección.'
+  },
+  {
+    id: 3,
+    title: '🧠 Soporte Autónomo & Manuales Internos',
+    shortTitle: 'Soporte & Manuales',
+    badge: 'Atención',
+    description: 'Resolución de dudas consultando los manuales oficiales de tu empresa',
+    speech: 'Mira este ejemplo de Soporte Inteligente: Al recibir una pregunta, la IA busca de inmediato en tus manuales y políticas internas para responder con precisión y resolver el 80% de dudas frecuentes.'
+  }
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
-// PASOS DEL TUTORIAL GUIADO: EXPLICANDO UNO A UNO LOS DIAGRAMAS DFD TIPO n8n
+// PASOS DEL TUTORIAL GUIADO: EXPLICANDO EL USO PRÁCTICO DE IA EN TU EMPRESA
 // ─────────────────────────────────────────────────────────────────────────────
 const TUTORIAL_STEPS = [
   {
     targetId: 'hero',
     title: '1. Bienvenida de TREBOT',
-    speech: 'Hola, bienvenido. Me da gusto que estés aquí.',
+    speech: 'Hola, bienvenido a Trébol Digital. Me da gusto que estés aquí.',
     buttonText: 'Siguiente ➔',
     pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'que-es-ia',
     title: '2. Presentación de TREBOT',
-    speech: 'Soy TREBOT — el asistente de inteligencia artificial de Trébol Digital. Antes de contarte qué hacemos... quiero decirte algo importante. Esta página no es solo información sobre nuestros servicios.',
+    speech: 'Soy TREBOT, el asistente de inteligencia artificial de Trébol Digital. Te enseñamos a usar la Inteligencia Artificial en tu empresa para que ahorres tiempo, capacites a tu equipo y mantengas el control total.',
     buttonText: 'Siguiente ➔',
     pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'soluciones',
-    title: '3. Propósito de la Plataforma',
-    speech: 'Mientras navegas aquí, voy a explicarte cómo la inteligencia artificial se está aplicando HOY en negocios como el tuyo. Sin que tengas que contratar nada. Sin formularios. Sin requisitos. ¿Te gustaría que te explique un ejemplo de automatización?',
+    title: '3. Aplicación Práctica',
+    speech: 'Aquí te mostramos cómo se aplica la IA hoy en negocios reales: capacitando a tu equipo e implementando asistentes prácticos sin complicaciones técnicas. ¿Te gustaría ver un ejemplo?',
     buttonText: 'Siguiente ➔',
     pos: 'right-2 md:right-6 lg:right-10 bottom-6 md:bottom-8 ml-auto'
   },
   {
     targetId: 'contacto',
-    title: '4. Capacitación Gratuita en IA',
-    speech: 'Solo por estar aquí, ya empezaste tu primera capacitación gratuita en IA aplicada a negocios. Si consideras que Trébol puede ayudarte a ir más lejos, ¡con gusto hablamos!',
+    title: '4. Tu Equipo al Mando',
+    speech: 'Te acompañamos en cada paso para que al final tu equipo administre la tecnología de forma autónoma. Si quieres implementar la IA en tu negocio, con gusto conversamos.',
     buttonText: '<< Con gusto hablamos >>',
     pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
   }
@@ -555,20 +296,20 @@ const TUTORIAL_STEPS = [
 
 const DFD_EXPLANATIONS = [
   {
-    title: 'DFD 1: Agentes Comerciales en WhatsApp',
-    speech: 'Primer Diagrama DFD: Agentes Comerciales. El mensaje ingresa vía Webhook en WhatsApp, el modelo GPT-4o procesa la intención, consulta la base de datos y agenda la cita automáticamente en tu CRM.'
+    title: 'Agentes Comerciales en WhatsApp',
+    speech: 'Ejemplo de Agentes Comerciales: El cliente escribe a WhatsApp, la IA entiende su consulta, verifica la información en tu catálogo y agenda la cita de inmediato.'
   },
   {
-    title: 'DFD 2: Automatización de Procesos (RPA)',
-    speech: 'Segundo Diagrama DFD: Automatización RPA. El correo recibe la factura, la IA extrae los campos con visión Llama 3 OCR, valida el folio ante el SAT y carga el asiento contable en SAP ERP.'
+    title: 'Automatización de Facturas y Documentos',
+    speech: 'Ejemplo de Automatización Operativa: Recibes un PDF por correo, la IA lee los datos clave, los comprueba y realiza el registro contable automáticamente.'
   },
   {
-    title: 'DFD 3: BI & Modelos Predictivos',
-    speech: 'Tercer Diagrama DFD: Business Intelligence. Extraemos datos de tus ERPs y bases SQL, procesamos tendencias con Machine Learning y enviamos el resumen ejecutivo en PDF directo al WhatsApp del CEO.'
+    title: 'Resúmenes Ejecutivos & Decisiones',
+    speech: 'Ejemplo de Análisis para Dirección: Consolidamos las métricas de tu negocio, calculamos proyecciones de venta y enviamos el reporte directo al WhatsApp del director.'
   },
   {
-    title: 'DFD 4: Soporte Autónomo & RAG',
-    speech: 'Cuarto Diagrama DFD: Soporte Autónomo RAG. Al ingresar un ticket en Zendesk, la base vectorial Pinecone y Claude 3.5 buscan en tus manuales para resolver y cerrar el 80% de dudas sin personal.'
+    title: 'Soporte & Manuales Internos',
+    speech: 'Ejemplo de Soporte Inteligente: Tu equipo o cliente hace una consulta, la IA busca en tus manuales de empresa y responde con precisión en menos de 2 segundos.'
   }
 ];
 
@@ -583,13 +324,13 @@ const CASE_EXPLANATIONS = [
     tab: 1,
     title: 'Caso 2: Procesamiento de Datos',
     speechSinTrebol: 'Caso 2: Procesamiento de Datos. Sin IA, el personal pasa horas copiando y pegando facturas PDF con riesgo de error humano. Haz clic en Con Trébol IA para ver la aceleración.',
-    speechConTrebol: '¡Excelente! Con Trébol IA en Procesamiento de Datos, las facturas se leen con visión OCR, se validan ante el SAT y se cargan a tu ERP en 1.2 segundos.'
+    speechConTrebol: '¡Excelente! Con Trébol IA en Procesamiento de Datos, las facturas se leen con inteligencia artificial, se comprueban y se cargan a tu sistema en 1.2 segundos.'
   },
   {
     tab: 2,
     title: 'Caso 3: Toma de Decisiones',
     speechSinTrebol: 'Caso 3: Toma de Decisiones. Sin IA, los reportes son mensuales y desfasados 30 días en Excel. Haz clic en Con Trébol IA para ver la aceleración.',
-    speechConTrebol: '¡Excelente! Con Trébol IA en Toma de Decisiones, obtienes dashboards predictivos en tiempo real con alertas automáticas directo al WhatsApp del CEO.'
+    speechConTrebol: '¡Excelente! Con Trébol IA en Toma de Decisiones, obtienes resúmenes predictivos en tiempo real con alertas automáticas directo al WhatsApp del director.'
   }
 ];
 
@@ -597,179 +338,201 @@ const pilarServices = [
   {
     id: 'dfd-area-0',
     icon: MessageSquare,
-    badge: 'DFD 01: CONVERSIÓN & VENTAS',
+    badge: 'ÁREA 01: VENTAS & ATENCIÓN',
     title: 'Agentes Comerciales 24/7 en WhatsApp & Web',
-    desc: 'Desplegamos agentes de Inteligencia Artificial entrenados con la voz, productos y protocolos de tu marca. Responden preguntas complejas, califican prospectos y agendan citas de venta directamente en tu calendario.',
+    desc: 'Implementamos asistentes de Inteligencia Artificial capacitados con la voz, catálogo y respuestas frecuentes de tu marca. Responden dudas, califican prospectos y agendan citas de venta en tu calendario.',
     n8nNodes: [
       {
         type: 'TRIGGER',
         icon: '01',
-        title: 'WhatsApp / Webhook Entrante',
-        sub: 'Mensaje de prospecto 24/7'
+        title: 'Mensaje Entrante WhatsApp',
+        sub: 'Atención automática 24/7'
       },
       {
         type: 'AI AGENT',
         icon: '02',
-        title: 'OpenAI GPT-4o Intención',
-        sub: 'Extracción de Lead Scoring'
+        title: 'Análisis de Intención IA',
+        sub: 'Comprensión semántica'
       },
       {
         type: 'DATABASE',
         icon: '03',
-        title: 'Consulta Vector DB / CRM',
-        sub: 'Verificación stock & precios'
+        title: 'Consulta de Catálogo / CRM',
+        sub: 'Verificación de precios & stock'
       },
       {
         type: 'LOGIC IF',
         icon: '04',
-        title: '¿Lead B2B Calificado?',
-        sub: 'Filtro por presupuesto & urgencia'
+        title: '¿Prospecto Calificado?',
+        sub: 'Filtro de interés & presupuesto'
       },
       {
         type: 'ACTION',
         icon: '05',
-        title: 'Calendar & HubSpot Action',
-        sub: 'Cita agendada + Alerta a Slack'
+        title: 'Agendamiento & Notificación',
+        sub: 'Cita en calendario + Alerta al equipo'
       }
     ],
-    benefits: ['Respuesta instantánea <5 segundos', 'Cierre automático en WhatsApp & Web', 'Sincronización directa a tu CRM']
+    benefits: ['Respuesta instantánea en <5 segundos', 'Atención constante en WhatsApp & Web', 'Sincronización a tu calendario de trabajo']
   },
   {
     id: 'dfd-area-1',
     icon: Zap,
-    badge: 'DFD 02: OPERACIONES & RPA',
-    title: 'Automatización de Procesos con n8n + IA',
-    desc: 'Eliminamos la carga de trabajo manual conectando tus correos, hojas de cálculo, facturación y sistemas ERP. La IA extrae datos, clasifica solicitudes y ejecuta flujos sin error humano.',
+    badge: 'ÁREA 02: OPERACIONES & PROCESOS',
+    title: 'Automatización de Facturas & Documentación',
+    desc: 'Ahorra trabajo manual conectando tus correos, hojas de cálculo y sistemas contables. La IA lee documentos, extrae información relevante y registra los datos sin error humano.',
     n8nNodes: [
       {
         type: 'TRIGGER',
         icon: '01',
-        title: 'IMAP / Email Trigger',
-        sub: 'Factura o documento PDF'
+        title: 'Recepción de Correo / PDF',
+        sub: 'Factura o documento entrante'
       },
       {
         type: 'VISION AI',
         icon: '02',
-        title: 'Llama 3 Vision OCR Agent',
-        sub: 'Extracción folios, RFC & montos'
+        title: 'Lectura Inteligente de Texto',
+        sub: 'Extracción de montos & folios'
       },
       {
         type: 'VALIDATOR',
         icon: '03',
-        title: 'Validación Fiscal SAT API',
-        sub: 'Verificación CFDI en vivo'
+        title: 'Verificación de Información',
+        sub: 'Comprobación de datos'
       },
       {
         type: 'ERP SYSTEM',
         icon: '04',
-        title: 'Carga Directa SAP / ERP',
-        sub: 'Registro contable automático'
+        title: 'Carga a Sistema Contable',
+        sub: 'Registro directo en tu ERP'
       },
       {
         type: 'NOTIFICATION',
         icon: '05',
-        title: 'Slack / Telegram Bot',
-        sub: 'Confirmación & reporte a Finanzas'
+        title: 'Notificación a Finanzas',
+        sub: 'Confirmación de registro'
       }
     ],
-    benefits: ['Reducción del 70% en trabajo manual', 'Zero errores en captura de información', 'Flujos activos 24/7 entre tus sistemas']
+    benefits: ['Reducción drástica de tareas repetitivas', 'Captura de información sin errores', 'Conexión limpia entre tus sistemas actualizados']
   },
   {
     id: 'dfd-area-2',
     icon: BarChart3,
-    badge: 'DFD 03: DECISIONES & BI',
-    title: 'Business Intelligence & Modelos Predictivos',
-    desc: 'Transformamos bases de datos desorganizadas en tableros ejecutivos interactivos. Algoritmos predictivos te anticipan fluctuaciones de demanda, comportamiento de clientes y proyecciones de flujo.',
+    badge: 'ÁREA 03: DECISIONES & DIRECCIÓN',
+    title: 'Resúmenes Ejecutivos & Modelos de Tendencia',
+    desc: 'Transformamos datos dispersos en reportes ejecutivos fáciles de entender. La IA analiza proyecciones de ventas, comportamiento de clientes y alertas clave para tomar decisiones con certeza.',
     n8nNodes: [
       {
         type: 'TRIGGER',
         icon: '01',
-        title: 'Cron Schedule Ingesta Batch',
-        sub: 'Sincronización ERP & SQL'
+        title: 'Recopilación de Datos de Venta',
+        sub: 'Sincronización de registros'
       },
       {
         type: 'ETL CLEAN',
         icon: '02',
-        title: 'Data Transformer Node',
-        sub: 'Limpieza & Desduplicación'
+        title: 'Unión & Limpieza de Datos',
+        sub: 'Consolidación en un solo formato'
       },
       {
         type: 'PREDICTIVE ML',
         icon: '03',
-        title: 'Modelado Predictivo Sales/Churn',
-        sub: 'Cálculo de tendencias & volumen'
+        title: 'Análisis de Tendencias IA',
+        sub: 'Proyección de ventas & retención'
       },
       {
         type: 'DASHBOARD',
         icon: '04',
-        title: 'Generación Dashboard PDF',
-        sub: 'Creación de reporte ejecutivo'
+        title: 'Generación de Reporte PDF',
+        sub: 'Síntesis ejecutiva clara'
       },
       {
         type: 'DISPATCHER',
         icon: '05',
-        title: 'Alerta WhatsApp al CEO',
-        sub: 'Notificación de KPIs críticos'
+        title: 'Resumen a WhatsApp del Director',
+        sub: 'Alerta diaria con KPIs principales'
       }
     ],
-    benefits: ['Dashboards en tiempo real', 'Análisis de sentimiento y rotación', 'Proyecciones financieras asistidas']
+    benefits: ['Reportes claros en tiempo real', 'Análisis práctico sin complicaciones', 'Alertas tempranas de ingresos y metas']
   },
   {
     id: 'dfd-area-3',
     icon: Users,
-    badge: 'DFD 04: ATENCIÓN AL CLIENTE',
-    title: 'Soporte Autónomo & Asistentes Internos',
-    desc: 'Instala un asistente de IA capaz de resolver el 80% de los tickets frecuentes de soporte o brindar a tu equipo interno acceso instantáneo a todas las políticas y manuales de la empresa.',
+    badge: 'ÁREA 04: SOPORTE & EQUIPO INTERNO',
+    title: 'Asistente de Consulta sobre Manuales de Empresa',
+    desc: 'Implementamos un asistente inteligente capaz de responder dudas frecuentes de clientes o brindar a tu equipo acceso inmediato a los manuales, políticas y procedimientos de tu negocio.',
     n8nNodes: [
       {
         type: 'TRIGGER',
         icon: '01',
-        title: 'Omnichannel Webhook Ticket',
-        sub: 'Zendesk / WhatsApp / Chat'
+        title: 'Pregunta Entrante',
+        sub: 'Solicitud de cliente o colaborador'
       },
       {
         type: 'VECTOR RAG',
         icon: '02',
-        title: 'Pinecone Vector DB Search',
-        sub: 'Búsqueda semántica en docs'
+        title: 'Búsqueda en Manuales de Empresa',
+        sub: 'Consulta de políticas oficiales'
       },
       {
         type: 'LLM GENERATOR',
         icon: '03',
-        title: 'Claude 3.5 Sonnet RAG Agent',
-        sub: 'Sintetización solución precisa'
+        title: 'Generación de Respuesta IA',
+        sub: 'Redacción clara & precisa'
       },
       {
         type: 'CONFIDENCE IF',
         icon: '04',
-        title: '¿Confianza > 92%?',
-        sub: 'Validación de certeza'
+        title: '¿Nivel de Certeza Alto?',
+        sub: 'Validación de respuesta'
       },
       {
         type: 'AUTO-RESOLVE',
         icon: '05',
-        title: 'Respuesta & Cierre Autónomo',
-        sub: '80% resolución en <2s'
+        title: 'Respuesta Inmediata',
+        sub: 'Resolución de duda en <2s'
       }
     ],
-    benefits: ['Resolución automática de tickets', 'Base de conocimiento interactiva', 'Reducción drástica en costos de soporte']
+    benefits: ['Respuestas rápidas basadas en tus manuales', 'Capacitación constante para colaboradores', 'Ahorro significativo de tiempo en soporte']
   }
 ];
 
 const techStack = [
-  { name: 'OpenAI GPT-4o', desc: 'Modelos del estado del arte para comprensión semántica avanzada y visión.' },
-  { name: 'Anthropic Claude 3.5', desc: 'Lógica ejecutiva compleja y generación de código/documentos sin alucinación.' },
-  { name: 'Meta Llama 3', desc: 'Modelos de código abierto para despliegues privados on-premise de máxima seguridad.' },
-  { name: 'n8n & Make', desc: 'Orquestación de flujos empresariales e integración nativa con +500 APIs.' },
-  { name: 'Pinecone & Vector DBs', desc: 'Bases de datos vectoriales para búsqueda semántica e inteligencia sobre tus archivos.' },
-  { name: 'WhatsApp Business API', desc: 'Canal oficial verificado para agentes conversacionales masivos de alta conversión.' }
+  {
+    icon: Users,
+    badge: 'CAPACITACIÓN',
+    name: 'Capacitación a Equipos',
+    desc: 'Talleres 100% prácticos e interactivos para que tus colaboradores dominen las herramientas de IA en su trabajo diario sin depender de técnicos.',
+    highlight: 'Cero curva de aprendizaje'
+  },
+  {
+    icon: Cpu,
+    badge: 'A MEDIDA',
+    name: 'Implementación a Medida',
+    desc: 'Configuración y puesta en marcha de asistentes de IA personalizados con los protocolos, datos y tono de voz exacto de tu empresa.',
+    highlight: 'Adaptado a tu negocio'
+  },
+  {
+    icon: Zap,
+    badge: 'AUTOMATIZACIÓN',
+    name: 'Uso Práctico & Conexión Total',
+    desc: 'Integración fluida con WhatsApp, correo y tus sistemas actuales para eliminar horas de trabajo manual repetitivo.',
+    highlight: 'Ahorro inmediato de tiempo'
+  },
+  {
+    icon: ShieldCheck,
+    badge: 'AUTONOMÍA',
+    name: 'Autonomía & Gobierno de IA',
+    desc: 'Te entregamos el control total, documentación y entrenamiento para que tu equipo administre y evolucione la tecnología sin depender de nosotros.',
+    highlight: '100% Autonomía garantizada'
+  }
 ];
 
 const comparativaAntesDespues = [
   {
     id: 0,
     area: 'Atención a Prospectos',
-    areaDesc: 'Atención inmediata de leads las 24 horas, calificación de intención de compra y agendamiento automático de citas en CRM.',
+    areaDesc: 'Atención inmediata de leads las 24 horas, calificación de intención de compra y agendamiento automático de citas en tu calendario.',
     badge: 'Ventas & Conversión 24/7',
     trebotInsight: 'TREBOT Insight: La atención inmediata con IA eleva la tasa de conversión de prospectos de un 12% a un 42%, sin costo adicional por lead.',
     antesTitle: 'Cuello de Botella & Pérdida de Leads',
@@ -800,24 +563,24 @@ const comparativaAntesDespues = [
   {
     id: 1,
     area: 'Procesamiento de Datos',
-    areaDesc: 'Extracción inteligente de información en documentos PDF, lectura OCR y carga autónoma de asientos contables a tu ERP.',
-    badge: 'RPA & Visión Documental',
+    areaDesc: 'Extracción inteligente de información en documentos PDF, lectura automática y carga autónoma a tu sistema contable.',
+    badge: 'Lectura Documental & Procesos',
     trebotInsight: 'TREBOT Insight: El procesamiento autónomo de facturas y documentos elimina el 95% de la carga administrativa en contabilidad y finanzas.',
     antesTitle: 'Captura Manual y Carga de Trabajo Tediosa',
     antes: 'Personal dedicado horas a copiar y pegar folios, extraer facturas PDF y responder correos manualmente con alto riesgo de error humano.',
     antesPuntos: [
       'Captura manual propensa a errores',
       'Horas hombre desperdiciadas en copiar/pegar',
-      'Retardos en la validación fiscal ante el SAT'
+      'Retardos en la comprobación de información'
     ],
     antesKpi: '0% Auto',
     antesKpiLabel: 'Captura 100% Manual',
-    despuesTitle: 'Flujos Autónomos de Carga ERP',
-    despues: 'Flujos automáticos con IA que leen, validan ante el webservice del SAT y cargan asientos contables al sistema ERP al instante.',
+    despuesTitle: 'Flujos Autónomos de Registro',
+    despues: 'Flujos automáticos con IA que leen, comprueban y registran datos en tu sistema contable al instante.',
     despuesPuntos: [
-      'Visión OCR con Llama 3 para leer cualquier formato PDF',
-      'Validación automática de folios y listas negras del SAT',
-      'Carga directa a SAP, QuickBooks o ERP interno'
+      'Lectura de cualquier formato PDF o imagen',
+      'Verificación de folios y datos clave',
+      'Carga directa a tu sistema contable o ERP'
     ],
     despuesKpi: '100% Auto',
     despuesKpiLabel: 'Procesamiento Autónomo',
@@ -831,8 +594,8 @@ const comparativaAntesDespues = [
   {
     id: 2,
     area: 'Toma de Decisiones',
-    areaDesc: 'Consolidación dinámica de métricas de negocio en tiempo real con modelos de Machine Learning y alertas ejecutivas.',
-    badge: 'BI & Analytics Predictivo',
+    areaDesc: 'Consolidación dinámica de métricas de negocio en tiempo real con modelos inteligentes y alertas ejecutivas.',
+    badge: 'BI & Resúmenes de Negocio',
     trebotInsight: 'TREBOT Insight: Acceso instantáneo a métricas financieras y proyecciones de flujo de caja para decisiones estratégicas en tiempo real.',
     antesTitle: 'Reportes Tardíos y Datos Desfasados',
     antes: 'Reportes mensuales tardíos en hojas de cálculo Excel con datos desactualizados, inconsistencias de formato y elevado margen de error.',
@@ -844,10 +607,10 @@ const comparativaAntesDespues = [
     antesKpi: '30 Días',
     antesKpiLabel: 'Desfase de Información',
     despuesTitle: 'Dashboards Dinámicos & Predicciones',
-    despues: 'Dashboards dinámicos en tiempo real con alertas tempranas y predicciones de ventas con Machine Learning directo al WhatsApp del CEO.',
+    despues: 'Dashboards dinámicos en tiempo real con alertas tempranas y proyecciones enviadas directo al WhatsApp de dirección.',
     despuesPuntos: [
       'Consolidación de datos en tiempo real de todos tus sistemas',
-      'Modelos de ML que proyectan flujo de caja a 90 días',
+      'Modelos inteligentes que proyectan tendencia de ventas',
       'Alertas automáticas vía WhatsApp ante anomalías de ingresos'
     ],
     despuesKpi: 'Tiempo Real',
@@ -864,85 +627,84 @@ const comparativaAntesDespues = [
 const roadmapIA = [
   {
     paso: '01',
-    titulo: 'Auditoría & Mapeo de Oportunidades',
-    desc: 'Analizamos tus flujos operativos actuales, identificamos cuellos de botella y priorizamos los proyectos de IA con mayor retorno de inversión a corto plazo.',
-    entregable: 'Diagnóstico Operativo & Hoja de Ruta'
+    titulo: 'Diagnóstico & Oportunidades',
+    desc: 'Analizamos los procesos de tu empresa, identificamos tareas repetitivas y priorizamos los proyectos de IA con mayor impacto para tu equipo.',
+    entregable: 'Diagnóstico y Plan de Capacitación'
   },
   {
     paso: '02',
-    titulo: 'Arquitectura & Entrenamiento de Modelos',
-    desc: 'Conectamos tus sistemas, estructuramos bases de conocimiento vectoriales y entrenamos los agentes con la información oficial y tono de tu empresa.',
-    entregable: 'Agentes Entrenados & Flujos de Prueba'
+    titulo: 'Diseño e Implementación a Medida',
+    desc: 'Configuramos los asistentes de IA con la información, tono y protocolos de tu marca, conectando tus herramientas actuales de trabajo.',
+    entregable: 'Asistentes Configurados & Pruebas'
   },
   {
     paso: '03',
-    titulo: 'Despliegue Piloto & Pruebas de Estrés',
-    desc: 'Implementamos la solución en un entorno controlado, auditamos respuestas, medimos precisión y garantizamos cumplimiento con protocolos de seguridad.',
-    entregable: 'Reporte de Validación & Métricas de Rendimiento'
+    titulo: 'Capacitación a tu Equipo',
+    desc: 'Capacitamos a tus colaboradores con talleres prácticos para que utilicen las herramientas de IA con fluidez en sus tareas diarias.',
+    entregable: 'Talleres Prácticos & Guías de Uso'
   },
   {
     paso: '04',
-    titulo: 'Lanzamiento Total & Capacitación',
-    desc: 'Desplegamos la arquitectura a producción completa, capacitamos a tu equipo humano para supervisar los modelos y optimizamos de forma continua.',
-    entregable: 'Plataforma en Producción & Soporte'
+    titulo: 'Autonomía & Gobierno Propio',
+    desc: 'Te entregamos el control total de la tecnología y los manuales de gestión para que administres y evoluciones los sistemas por tu cuenta.',
+    entregable: 'Entrega Total & Autonomía Garantizada'
   }
 ];
 
 const faqsIA = [
   {
-    q: '¿Nuestros datos e información confidencial están seguros?',
-    a: 'Absolutamente. Todos los modelos e integraciones se construyen bajo estándares de privacidad empresarial. Tus datos no se utilizan para entrenar modelos públicos de terceros y toda la comunicación está cifrada de punto a punto.'
+    q: '¿Nuestra información y datos empresariales están protegidos?',
+    a: 'Por supuesto. Diseñamos todas las implementaciones bajo estrictos criterios de confidencialidad. Tu información no se comparte ni se utiliza para entrenar modelos públicos de terceros.'
   },
   {
-    q: '¿La IA reemplazará a mi personal actual?',
-    a: 'La Inteligencia Artificial no reemplaza a tu equipo; potencia sus capacidades. Al eliminar tareas repetitivas y tediosas, tu equipo se concentra en actividades de alto valor estratégico, ventas complejas y atención humana personalizada.'
+    q: '¿Al finalizar dependeremos de Trébol Digital para operar?',
+    a: 'No. Nuestro objetivo principal es tu autonomía. Capacitamos a ti y a tu equipo para que sean ustedes quienes gestionen, administren y adapten las herramientas de IA en el día a día.'
   },
   {
-    q: '¿Cuánto tiempo toma implementar una solución de IA?',
-    a: 'Nuestros proyectos piloto y agentes de ventas/soporte se despliegan habitualmente en un periodo de 3 a 5 semanas. Proyectos más complejos de arquitectura de datos se estructuran en fases de 8 semanas.'
+    q: '¿La IA reemplazará al personal de mi empresa?',
+    a: 'No. La IA está diseñada para liberar a tu equipo de tareas tediosas y repetitivas, permitiéndoles concentrarse en actividades de alto valor, atención humana y decisiones estratégicas.'
   },
   {
-    q: '¿Necesitamos conocimientos técnicos avanzados en nuestro equipo?',
-    a: 'No. Diseñamos sistemas con interfaces intuitivas y entregamos paneles autoadministrables para que cualquier persona de tu equipo pueda gestionarlos sin escribir una sola línea de código.'
+    q: '¿Necesitamos conocimientos técnicos o programadores?',
+    a: 'No. Todo el uso e interacción se realiza a través de lenguaje natural y paneles sencillos. Nosotros nos encargamos de la implementación y capacitamos a tu personal sin tecnicismos.'
   }
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CANVAS Y DEMOSTRACIÓN INTERACTIVA PASO A PASO ESTILO N8N
+// CANVAS Y DEMOSTRACIÓN INTERACTIVA PASO A PASO
 // ─────────────────────────────────────────────────────────────────────────────
-// Explicaciones detalladas por cada paso de cada área DFD
 const DFD_NODE_STEPS = [
   // Área 0: Conversión & Ventas
   [
-    { title: "1. Webhook Entrante (WhatsApp)", text: "Paso 1: Entra un mensaje del cliente vía Webhook a WhatsApp Business API. El sistema lo recibe las 24 horas del día.", nodeIndex: 0 },
-    { title: "2. OpenAI GPT-4o Agent", text: "Paso 2: La Inteligencia Artificial analiza semánticamente el mensaje, comprende la intención y calcula el Lead Score.", nodeIndex: 1 },
-    { title: "3. Consulta Vector DB / CRM", text: "Paso 3: Se realiza una consulta relacional a la base vectorial y CRM para verificar stock, catálogo y precios.", nodeIndex: 2 },
-    { title: "4. Evaluador IF (Score > 85)", text: "Paso 4: El nodo condicional evalúa si el prospecto cumple con el perfil calificado B2B.", nodeIndex: 3 },
-    { title: "5. HubSpot & ActiveCampaign", text: "Paso 5: ¡Lead Calificado! Se registra la oportunidad en HubSpot, se agenda la cita en Calendly y se envía alerta a Slack.", nodeIndex: 4 }
+    { title: "1. Recepción de Mensajes (WhatsApp)", text: "Paso 1: Entra un mensaje del cliente en WhatsApp o Web. El asistente inteligente lo recibe al instante las 24 horas.", nodeIndex: 0 },
+    { title: "2. Análisis Inteligente de Intención", text: "Paso 2: La Inteligencia Artificial analiza el mensaje, comprende qué necesita el cliente y mide su nivel de interés.", nodeIndex: 1 },
+    { title: "3. Consulta de Catálogo y Precios", text: "Paso 3: Revisa la base de datos de tu empresa para verificar disponibilidad, servicios y precios en tiempo real.", nodeIndex: 2 },
+    { title: "4. Evaluación de Calificación de Prospecto", text: "Paso 4: El sistema evalúa si el cliente cumple con el perfil ideal para agendar una reunión comercial.", nodeIndex: 3 },
+    { title: "5. Agendamiento y Notificación a tu Equipo", text: "Paso 5: Agenda la cita directamente en tu calendario y notifica a tu equipo por WhatsApp o correo al instante.", nodeIndex: 4 }
   ],
-  // Área 1: Operaciones & RPA
+  // Área 1: Operaciones & Documentos
   [
-    { title: "1. Gmail Watch Trigger", text: "Paso 1: Llega un correo con factura adjunta en PDF/XML. El trigger automático intercepta el documento.", nodeIndex: 0 },
-    { title: "2. Llama 3 Vision OCR", text: "Paso 2: El modelo de visión de IA lee el documento PDF y extrae de forma estructurada folios, montos y RFC.", nodeIndex: 1 },
-    { title: "3. Validación SAT API", text: "Paso 3: Verificación directa en el webservice del SAT para confirmar la autenticidad y timbrado CFDI 4.0.", nodeIndex: 2 },
-    { title: "4. Filtro Fiscal IF", text: "Paso 4: El nodo condicional valida que el comprobante fiscal esté vigente y libre de duplicidad.", nodeIndex: 3 },
-    { title: "5. SAP FI/CO Auto-Posting", text: "Paso 5: Carga automática del asiento contable en SAP ERP sin captura manual y reporte de confirmación.", nodeIndex: 4 }
+    { title: "1. Recepción de Correo o Documento", text: "Paso 1: Llega un correo con una factura o documento en PDF. El flujo lo captura de forma automática.", nodeIndex: 0 },
+    { title: "2. Lectura Inteligente de Texto y Datos", text: "Paso 2: La IA lee el documento PDF y extrae de forma limpia folios, nombres, fechas y montos.", nodeIndex: 1 },
+    { title: "3. Verificación de Datos y Comprobación", text: "Paso 3: Revisa los datos contra los registros oficiales para validar que la información sea exacta y sin duplicados.", nodeIndex: 2 },
+    { title: "4. Validación de Reglas de Negocio", text: "Paso 4: Comprueba que el documento cumpla con los requisitos internos antes de proceder al registro.", nodeIndex: 3 },
+    { title: "5. Registro Automático y Confirmación", text: "Paso 5: Registra los datos directamente en tu sistema contable sin escribir a mano y envía confirmación a Finanzas.", nodeIndex: 4 }
   ],
   // Área 2: Decisiones & BI
   [
-    { title: "1. Ingesta PostgreSQL & Stripe", text: "Paso 1: Extracción periódica programada de datos financieros y ventas desde PostgreSQL y Stripe.", nodeIndex: 0 },
-    { title: "2. n8n Merge ETL Transformer", text: "Paso 2: Consolidación, filtrado y normalización de miles de registros de distintas fuentes.", nodeIndex: 1 },
-    { title: "3. Prophet ML Forecast Engine", text: "Paso 3: Algoritmos de Machine Learning ejecutan modelos predictivos sobre tendencias de ventas y churn.", nodeIndex: 2 },
-    { title: "4. Looker Studio API", text: "Paso 4: Síntesis interactiva de los indicadores clave de rendimiento (KPIs) en tableros ejecutivos.", nodeIndex: 3 },
-    { title: "5. WhatsApp CEO Digest", text: "Paso 5: Envío matutino automático del reporte gerencial en PDF directo al WhatsApp del CEO.", nodeIndex: 4 }
+    { title: "1. Recopilación de Datos de Ventas", text: "Paso 1: Extracción periódica automática de los datos de ventas y cobros de tu negocio.", nodeIndex: 0 },
+    { title: "2. Integración y Limpieza de Información", text: "Paso 2: La IA organiza y limpia los datos provenientes de distintas fuentes en un solo formato.", nodeIndex: 1 },
+    { title: "3. Análisis de Tendencias y Proyecciones", text: "Paso 3: Modelos inteligentes proyectan tendencias de ventas, ingresos futuros y comportamiento de clientes.", nodeIndex: 2 },
+    { title: "4. Generación de Tablero Ejecutivo", text: "Paso 4: Resume los indicadores clave en un reporte visual, claro y fácil de interpretar.", nodeIndex: 3 },
+    { title: "5. Resumen Diario al WhatsApp del Director", text: "Paso 5: Envía automáticamente un resumen ejecutivo en PDF directo al WhatsApp de dirección todas las mañanas.", nodeIndex: 4 }
   ],
-  // Área 3: Soporte Autónomo & RAG
+  // Área 3: Soporte & Base de Conocimiento Interna
   [
-    { title: "1. Omnichannel Ticket Trigger", text: "Paso 1: El cliente envía una solicitud de soporte por Zendesk, WhatsApp o Chat Web.", nodeIndex: 0 },
-    { title: "2. Pinecone Vector DB Search", text: "Paso 2: Búsqueda semántica en la base vectorial sobre manuales, políticas y documentos oficiales de la empresa.", nodeIndex: 1 },
-    { title: "3. Claude 3.5 Sonnet RAG Agent", text: "Paso 3: El agente Claude 3.5 genera una respuesta precisa utilizando el contexto recuperado sin inventar datos.", nodeIndex: 2 },
-    { title: "4. Evaluador de Confianza (> 92%)", text: "Paso 4: Validación de certeza de la solución antes de responder al usuario.", nodeIndex: 3 },
-    { title: "5. Auto-Resolución & CSAT", text: "Paso 5: Cierre automático del ticket en <2 segundos y envío de encuesta de satisfacción al cliente.", nodeIndex: 4 }
+    { title: "1. Recepción de Pregunta o Ticket", text: "Paso 1: El cliente o colaborador envía una duda por WhatsApp, chat web o portal de atención.", nodeIndex: 0 },
+    { title: "2. Búsqueda en Manuales de la Empresa", text: "Paso 2: La IA consulta en segundos los manuales, políticas y procedimientos oficiales de tu negocio.", nodeIndex: 1 },
+    { title: "3. Generación de Respuesta Precisa", text: "Paso 3: Redacta una solución clara y amable basada únicamente en la información oficial de tu empresa.", nodeIndex: 2 },
+    { title: "4. Verificación de Certeza", text: "Paso 4: Valida la precisión de la respuesta para garantizar que sea 100% correcta.", nodeIndex: 3 },
+    { title: "5. Solución Inmediata y Cierre", text: "Paso 5: Responde al usuario en menos de 2 segundos, resuelve la duda y capacita a tu equipo con la respuesta.", nodeIndex: 4 }
   ]
 ];
 
@@ -1036,24 +798,24 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
     >
       {flowAnimationCSS}
 
-      {/* HEADER DE CONTROL E INFORMACIÓN DEL WORKFLOW ESTILO TRÉBOL DIGITAL PRO */}
+      {/* HEADER DE CONTROL E INFORMACIÓN DEL WORKFLOW */}
       <div className="flex flex-wrap items-center justify-between border-b border-neutral-800/80 pb-4 mb-6 gap-4 relative z-10">
         <div className="flex items-center gap-3">
           <span className="px-2.5 py-1 rounded-lg bg-trebol text-carbon text-xs font-black font-mono shadow-md flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-carbon animate-pulse" />
-            n8n
+            PROCESO DE IA
           </span>
           <span className="font-mono font-extrabold text-white text-sm tracking-tight">
-            {activeAreaTab === 0 && 'WhatsApp-to-CRM Lead Qualification'}
-            {activeAreaTab === 1 && 'Invoice OCR → SAT Validator → SAP ERP Auto-Posting'}
-            {activeAreaTab === 2 && 'Multi-Source BI Pipeline → CEO Executive Digest'}
-            {activeAreaTab === 3 && 'RAG Support Automation — Pinecone + Claude 3.5'}
+            {activeAreaTab === 0 && 'Atención y Agendamiento Automatizado en WhatsApp & Web'}
+            {activeAreaTab === 1 && 'Lectura Inteligente de Documentos → Registro Contable'}
+            {activeAreaTab === 2 && 'Consolidación de Datos → Análisis IA → Reporte a Dirección'}
+            {activeAreaTab === 3 && 'Consulta de Manuales → Respuesta Inteligente → Solución'}
           </span>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="text-[11px] font-mono font-bold text-trebol bg-trebol/10 border border-trebol/30 px-3 py-1 rounded-full flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
-            ● Active Workflow
+            ● Flujo Activo
           </span>
           <span className="text-[11px] font-mono text-neutral-300 bg-[#242724] border border-neutral-700/80 px-3 py-1 rounded-full">
             100% Autónomo
@@ -1063,7 +825,7 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
 
       {/* CANVAS DFD SEGÚN EL ÁREA SELECCIONADA */}
       <div className="w-full overflow-x-auto flex justify-center py-4 relative z-10">
-        {/* ÁREA 0: CONVERSIÓN & VENTAS */}
+        {/* ÁREA 0: VENTAS & ATENCIÓN */}
         {activeAreaTab === 0 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 760 }}>
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
@@ -1077,13 +839,13 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
               <circle cx="305" cy="210" r="3.5" fill="#22c55e" />
               <path d="M 470 196 C 512 196 512 139 555 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0g)" />
               <circle cx="470" cy="196" r="3.5" fill="#22c55e" />
-              <text x="478" y="181" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>true</text>
+              <text x="478" y="181" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>sí</text>
               <path d="M 470 224 C 512 224 512 311 555 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a0r)" />
               <circle cx="470" cy="224" r="3.5" fill="#f43f5e" />
-              <text x="478" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>false</text>
+              <text x="478" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>no</text>
             </svg>
 
-            {/* N1: WhatsApp Trigger */}
+            {/* N1: Recepción WhatsApp */}
             <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 {renderSimulatedClickBadge(0)}
@@ -1092,14 +854,14 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <span style={{ position: 'absolute', top: -9, right: -12 }} className="bg-slate-800 border border-slate-700 text-slate-300 text-[8px] font-mono px-1.5 py-0.5 rounded-full shadow-sm">1 item</span>
+              <span style={{ position: 'absolute', top: -9, right: -12 }} className="bg-slate-800 border border-slate-700 text-slate-300 text-[8px] font-mono px-1.5 py-0.5 rounded-full shadow-sm">Entrante</span>
               <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">WhatsApp Business API</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Webhook · 24/7</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Recepción de Mensajes</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">WhatsApp / Web 24/7</div>
               </div>
             </div>
 
-            {/* N2: GPT-4o Classifier */}
+            {/* N2: Análisis de Intención */}
             <div style={{ position: 'absolute', left: 205, top: 171 }} onClick={() => handleNodeClick(1)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 {renderSimulatedClickBadge(1)}
@@ -1109,59 +871,59 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 128, marginLeft: -14 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">GPT-4o Intent Classifier</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Lead Score 0–100pts</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Análisis de Intención IA</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Comprensión & Catálogo</div>
               </div>
             </div>
 
-            {/* N3: Vector DB / CRM */}
+            {/* N3: ¿Prospecto Calificado? */}
             <div style={{ position: 'absolute', left: 370, top: 171 }} onClick={() => handleNodeClick(2)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 {renderSimulatedClickBadge(2)}
-                <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center">
-                  <Database className="w-5 h-5 text-sky-400" />
-                </div>
-                <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
-              </div>
-              <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Consulta Vector DB</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Stock & Precios</div>
-              </div>
-            </div>
-
-            {/* N4: Router IF */}
-            <div style={{ position: 'absolute', left: 555, top: 100 }} onClick={() => handleNodeClick(3)}>
-              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
-                {renderSimulatedClickBadge(3)}
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
                   <GitFork className="w-5 h-5 text-white" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
-              <div className="mt-2 text-center" style={{ width: 138, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Score &gt; 85pts? (IF)</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Conditional Router</div>
+              <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">¿Prospecto Calificado?</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Filtro de Interés</div>
               </div>
             </div>
 
-            {/* N5: HubSpot + Calendly */}
-            <div style={{ position: 'absolute', left: 555, top: 272 }} onClick={() => handleNodeClick(4)}>
-              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
-                {renderSimulatedClickBadge(4)}
+            {/* N4: Agendamiento en Calendario (Ruta Sí) */}
+            <div style={{ position: 'absolute', left: 555, top: 100 }} onClick={() => handleNodeClick(3)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
+                {renderSimulatedClickBadge(3)}
                 <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-orange-400" />
                 </div>
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 138, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">HubSpot CRM + Calendly</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Create Deal + Book Demo</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Agendamiento en Calendario</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Notificación a tu Equipo</div>
+              </div>
+            </div>
+
+            {/* N5: Seguimiento Autónomo (Ruta No) */}
+            <div style={{ position: 'absolute', left: 555, top: 272 }} onClick={() => handleNodeClick(4)}>
+              <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
+                {renderSimulatedClickBadge(4)}
+                <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center">
+                  <Send className="w-5 h-5 text-sky-400" />
+                </div>
+                <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
+              </div>
+              <div className="mt-2 text-center" style={{ width: 138, marginLeft: -12 }}>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Seguimiento Autónomo</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Envío de Información</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ÁREA 1: OPERACIONES & RPA */}
+        {/* ÁREA 1: OPERACIONES & PROCESOS */}
         {activeAreaTab === 1 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 860 }}>
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
@@ -1177,13 +939,13 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
               <circle cx="465" cy="210" r="3.5" fill="#22c55e" />
               <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1g)" />
               <circle cx="630" cy="196" r="3.5" fill="#22c55e" />
-              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>valid</text>
+              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>válido</text>
               <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a1r)" />
               <circle cx="630" cy="224" r="3.5" fill="#f43f5e" />
-              <text x="636" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>reject</text>
+              <text x="636" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>revisar</text>
             </svg>
 
-            {/* N1: Gmail Trigger */}
+            {/* N1: Recepción de Documento */}
             <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center">
@@ -1192,12 +954,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 128, marginLeft: -14 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Gmail Watch API</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Trigger · Inbox Monitor</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Recepción de Documento</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Correo o PDF Entrante</div>
               </div>
             </div>
 
-            {/* N2: AWS Textract OCR */}
+            {/* N2: Lectura Inteligente IA */}
             <div style={{ position: 'absolute', left: 200, top: 171 }} onClick={() => handleNodeClick(1)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
@@ -1206,12 +968,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">AWS Textract OCR</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Extract PDF Fields</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Lectura Inteligente IA</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Extracción de Datos</div>
               </div>
             </div>
 
-            {/* N3: SAT Validator */}
+            {/* N3: Verificación de Folios */}
             <div style={{ position: 'absolute', left: 365, top: 171 }} onClick={() => handleNodeClick(2)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/40 flex items-center justify-center">
@@ -1220,12 +982,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">SAT Webservice v4</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">CFDI 4.0 Validation</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Verificación de Folios</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Comprobación de Datos</div>
               </div>
             </div>
 
-            {/* N4: CFDI 4.0 Valid? (IF) */}
+            {/* N4: ¿Documento Válido? */}
             <div style={{ position: 'absolute', left: 530, top: 171 }} onClick={() => handleNodeClick(3)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
@@ -1234,12 +996,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">CFDI 4.0 Valid? (IF)</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">RFC Check</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">¿Documento Válido?</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Filtro de Seguridad</div>
               </div>
             </div>
 
-            {/* N5: SAP FI/CO API */}
+            {/* N5: Carga a Sistema Contable */}
             <div style={{ position: 'absolute', left: 710, top: 100 }} onClick={() => handleNodeClick(4)}>
               <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
@@ -1248,12 +1010,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 136, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">SAP FI/CO API</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Journal Entry Posting</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Carga a Sistema Contable</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Registro Automático</div>
               </div>
             </div>
 
-            {/* N5b: Slack Alert */}
+            {/* N5b: Aviso por Inconsistencia */}
             <div style={{ position: 'absolute', left: 710, top: 272 }}>
               <div style={{ width: 115, height: 78 }} className="rounded-2xl bg-[#1e293b]/70 border-2 border-rose-500/60 flex flex-col items-center justify-center relative opacity-70">
                 <div className="w-9 h-9 rounded-xl bg-rose-500/20 flex items-center justify-center">
@@ -1261,14 +1023,14 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 </div>
               </div>
               <div className="mt-2 text-center" style={{ width: 136, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-rose-400 leading-tight">Slack Alert + DLQ</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Retry Queue</div>
+                <div className="text-[11px] font-extrabold text-rose-400 leading-tight">Aviso por Inconsistencia</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Revisión por Equipo</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ÁREA 2: DECISIONES & BI */}
+        {/* ÁREA 2: DECISIONES & DIRECCIÓN */}
         {activeAreaTab === 2 && (
           <div className="relative mx-auto" style={{ height: 430, minWidth: 880 }}>
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
@@ -1287,7 +1049,7 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
               <circle cx="645" cy="210" r="3.5" fill="#22c55e" />
             </svg>
 
-            {/* N1a: PostgreSQL ERP */}
+            {/* N1a: Base de Datos de Ventas */}
             <div style={{ position: 'absolute', left: 35, top: 101 }} onClick={() => handleNodeClick(0)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center">
@@ -1296,12 +1058,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">PostgreSQL ERP</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Cron Ingesta Batch</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Base de Datos de Ventas</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Sincronización Periódica</div>
               </div>
             </div>
 
-            {/* N1b: Stripe REST API */}
+            {/* N1b: Métricas de Cobros */}
             <div style={{ position: 'absolute', left: 35, top: 281 }} onClick={() => handleNodeClick(0)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/40 flex items-center justify-center">
@@ -1310,12 +1072,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Stripe REST API</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">MRR & Churn Metrics</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Métricas de Cobros</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Ingresos & Finanzas</div>
               </div>
             </div>
 
-            {/* N2: n8n Merge ETL */}
+            {/* N2: Unión & Limpieza de Datos */}
             <div style={{ position: 'absolute', left: 215, top: 171 }} onClick={() => handleNodeClick(1)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
@@ -1324,12 +1086,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">n8n Merge + ETL</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Join & Clean Data</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Unión & Limpieza</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Consolidación IA</div>
               </div>
             </div>
 
-            {/* N3: Prophet ML Forecast */}
+            {/* N3: Análisis de Tendencias */}
             <div style={{ position: 'absolute', left: 380, top: 171 }} onClick={() => handleNodeClick(2)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
@@ -1338,12 +1100,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Prophet ML Forecast</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Revenue Prediction</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Análisis de Tendencias</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Proyección de Ingresos</div>
               </div>
             </div>
 
-            {/* N4: Looker Studio API */}
+            {/* N4: Generación de Reporte */}
             <div style={{ position: 'absolute', left: 545, top: 171 }} onClick={() => handleNodeClick(3)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center">
@@ -1352,12 +1114,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Looker Studio API</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Push Dashboard PDF</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Generación de Reporte</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Tablero Ejecutivo</div>
               </div>
             </div>
 
-            {/* N5: WhatsApp CEO Digest */}
+            {/* N5: Resumen a WhatsApp */}
             <div style={{ position: 'absolute', left: 710, top: 171 }} onClick={() => handleNodeClick(4)}>
               <div style={{ width: 115, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow-md">
@@ -1366,14 +1128,14 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 134, marginLeft: -9 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">WhatsApp CEO Digest</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">KPI Summary Report</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Resumen a WhatsApp</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Reporte para Director</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ÁREA 3: SOPORTE & ATENCIÓN RAG */}
+        {/* ÁREA 3: SOPORTE & MANUALES */}
         {activeAreaTab === 3 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 860 }}>
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none', zIndex: 0 }}>
@@ -1389,13 +1151,13 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
               <circle cx="465" cy="210" r="3.5" fill="#22c55e" />
               <path d="M 630 196 C 668 196 668 139 710 139" stroke="#22c55e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3g)" />
               <circle cx="630" cy="196" r="3.5" fill="#22c55e" />
-              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>&gt;92%</text>
+              <text x="637" y="182" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#4ade80', fontWeight: 800 }}>&gt;90%</text>
               <path d="M 630 224 C 668 224 668 311 710 311" stroke="#f43f5e" strokeWidth="2.5" fill="none" className="n8n-flow-path" markerEnd="url(#a3r)" />
               <circle cx="630" cy="224" r="3.5" fill="#f43f5e" />
-              <text x="637" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>&lt;92%</text>
+              <text x="637" y="272" style={{ fontSize: 10, fontFamily: 'monospace', fill: '#fb7185', fontWeight: 800 }}>&lt;90%</text>
             </svg>
 
-            {/* N1: Zendesk Ticket */}
+            {/* N1: Recepción de Pregunta */}
             <div style={{ position: 'absolute', left: 35, top: 171 }} onClick={() => handleNodeClick(0)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-l-[2rem] rounded-r-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(0)}`}>
                 <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/40 flex items-center justify-center">
@@ -1404,12 +1166,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 130, marginLeft: -15 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Zendesk Webhook</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Ticket Created</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Recepción de Pregunta</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">WhatsApp o Chat Web</div>
               </div>
             </div>
 
-            {/* N2: Pinecone Vector DB */}
+            {/* N2: Búsqueda en Manuales */}
             <div style={{ position: 'absolute', left: 200, top: 171 }} onClick={() => handleNodeClick(1)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(1)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
@@ -1418,12 +1180,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Pinecone Vector DB</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Semantic Search</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Búsqueda en Manuales</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Políticas de tu Empresa</div>
               </div>
             </div>
 
-            {/* N3: Claude 3.5 Sonnet */}
+            {/* N3: Agente de Respuesta IA */}
             <div style={{ position: 'absolute', left: 365, top: 171 }} onClick={() => handleNodeClick(2)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(2)}`}>
                 <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
@@ -1432,12 +1194,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 124, marginLeft: -12 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Claude 3.5 Sonnet</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">RAG Context Builder</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Respuesta Inteligente IA</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Redacción Precisa</div>
               </div>
             </div>
 
-            {/* N4: Confidence > 92% (IF) */}
+            {/* N4: ¿Nivel de Certeza Alto? */}
             <div style={{ position: 'absolute', left: 530, top: 171 }} onClick={() => handleNodeClick(3)}>
               <div style={{ width: 100, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(3)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
@@ -1446,12 +1208,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 120, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Confidence &gt; 92%? (IF)</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">RAG Score Evaluator</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">¿Certeza &gt; 90%?</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Filtro de Certeza</div>
               </div>
             </div>
 
-            {/* N5: Auto-Resolve + CSAT */}
+            {/* N5: Respuesta al Cliente */}
             <div style={{ position: 'absolute', left: 710, top: 100 }} onClick={() => handleNodeClick(4)}>
               <div style={{ width: 120, height: 78 }} className={`rounded-2xl border-2 flex flex-col items-center justify-center relative cursor-pointer ${getNodeClasses(4)}`}>
                 <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center">
@@ -1460,12 +1222,12 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 <span className="absolute bottom-1 right-2 text-emerald-400 text-[9px] font-black">✓</span>
               </div>
               <div className="mt-2 text-center" style={{ width: 140, marginLeft: -10 }}>
-                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Auto-Resolve + CSAT</div>
-                <div className="text-[9.5px] text-slate-400 font-mono">Zendesk Close</div>
+                <div className="text-[11px] font-extrabold text-slate-100 leading-tight">Respuesta al Cliente</div>
+                <div className="text-[9.5px] text-slate-400 font-mono">Resolución Inmediata</div>
               </div>
             </div>
 
-            {/* N5b: Jira Escalation */}
+            {/* N5b: Atención Personalizada */}
             <div style={{ position: 'absolute', left: 710, top: 272 }}>
               <div style={{ width: 120, height: 78 }} className="rounded-2xl bg-white border-2 border-rose-400 flex flex-col items-center justify-center relative opacity-70">
                 <div className="w-9 h-9 rounded-xl bg-rose-50 flex items-center justify-center">
@@ -1473,8 +1235,8 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
                 </div>
               </div>
               <div className="mt-2 text-center" style={{ width: 140, marginLeft: -10 }}>
-                <div className="text-[10px] font-extrabold text-rose-700 leading-tight">Jira Ticket + Handoff</div>
-                <div className="text-[9px] text-slate-400 font-mono">Human Escalation</div>
+                <div className="text-[10px] font-extrabold text-rose-700 leading-tight">Atención Personalizada</div>
+                <div className="text-[9px] text-slate-400 font-mono">Escalación a Asesor</div>
               </div>
             </div>
           </div>
@@ -1534,7 +1296,8 @@ export default function IAAplicadaPage() {
   const [selectedCaseIndex, setSelectedCaseIndex] = useState(null);
   const [dfdActiveStep, setDfdActiveStep] = useState(-1);
   const [isExplainingExample, setIsExplainingExample] = useState(false);
-  const [selectedVoice, setSelectedVoice] = useState('v1'); // 'v1' (Mujer V1) | 'v2' (Mujer V2)
+  const [exampleSelectedArea, setExampleSelectedArea] = useState(null);
+  const [selectedVoice, setSelectedVoice] = useState('v1');
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
   const currentAudioRef = useRef(null);
@@ -1588,9 +1351,18 @@ export default function IAAplicadaPage() {
     setIsSpeaking(false);
   }, []);
 
-  const speak = useCallback((text, explicitVoice = null) => {
+  const toggleAudio = useCallback(() => {
+    setMuted((prev) => {
+      const nextMuted = !prev;
+      if (nextMuted) {
+        stopAudio();
+      }
+      return nextMuted;
+    });
+  }, [stopAudio]);
+
+  const speak = useCallback((text) => {
     stopAudio();
-    const voiceToUse = explicitVoice || selectedVoice;
     return new Promise(async (resolve) => {
       if (muted || typeof window === 'undefined' || !text) {
         resolve();
@@ -1613,17 +1385,17 @@ export default function IAAplicadaPage() {
       };
 
       // Timer de seguridad por si el audio es bloqueado o falla (amplio para no cortar la locución)
-      const durationEstimate = Math.max(12000, cleanText.length * 150);
+      const durationEstimate = Math.max(15000, cleanText.length * 200);
       timerId = setTimeout(safeResolve, durationEstimate);
 
       try {
         const controller = new AbortController();
-        const fetchTimeout = setTimeout(() => controller.abort(), 600);
+        const fetchTimeout = setTimeout(() => controller.abort(), 9000);
 
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: cleanText, voice: voiceToUse }),
+          body: JSON.stringify({ text: cleanText, voice: 'nova' }),
           signal: controller.signal,
         });
 
@@ -1645,48 +1417,38 @@ export default function IAAplicadaPage() {
             safeResolve();
           };
 
-          // Obtener la configuración fija estática del preset seleccionado
-          const preset = VOICE_PRESETS[voiceToUse] || VOICE_PRESETS.onyx;
+          // Mantener tono natural y humano (no chillón ni distorsionado)
+          audio.preservesPitch = true;
+          if ('webkitPreservesPitch' in audio) audio.webkitPreservesPitch = true;
+          if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
 
-          // Desactivar preservación de tono para permitir la alteración real de la frecuencia vocal (Pitch Shift)
-          audio.preservesPitch = false;
-          if ('webkitPreservesPitch' in audio) audio.webkitPreservesPitch = false;
-          if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = false;
-
-          // Asignar el valor fijo e inmutable del preset
-          audio.playbackRate = preset.playbackRate;
+          // Velocidad 10% más rápida manteniendo tono perfecto
+          audio.playbackRate = 1.10;
 
           await audio.play();
           return;
         }
       } catch (e) {
-        // Fallback a SpeechSynthesis
+        // Fallback a SpeechSynthesis solo si la red falla
       }
 
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const preset = VOICE_PRESETS[voiceToUse] || VOICE_PRESETS.onyx;
         const utter = new SpeechSynthesisUtterance(cleanText);
         utter.lang = 'es-MX';
-        utter.pitch = preset.pitch;
-        utter.rate = preset.rate;
+        utter.pitch = 1.0;
+        utter.rate = 1.10;
 
         utter.onend = safeResolve;
         utter.onerror = safeResolve;
 
         const voices = window.speechSynthesis.getVoices();
-        if (voiceToUse === 'onyx') {
-          // Voz Masculina
-          const maleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('raul') || v.name.toLowerCase().includes('pablo') || v.name.toLowerCase().includes('jorge') || (v.name.toLowerCase().includes('male') && !v.name.toLowerCase().includes('female'))));
-          if (maleVoice) utter.voice = maleVoice;
-        } else if (voiceToUse === 'shimmer') {
-          // Voz Femenina Cute / Dulce para la opción Mujer
-          const femaleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('sabina') || v.name.toLowerCase().includes('monica') || v.name.toLowerCase().includes('laura') || v.name.toLowerCase().includes('lucia') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('female')));
-          if (femaleVoice) utter.voice = femaleVoice;
-        } else {
-          // Voz Andrógina / Neutra para la opción Cute
-          const neutralVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
-          if (neutralVoice) utter.voice = neutralVoice;
+        const femaleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('sabina') || v.name.toLowerCase().includes('monica') || v.name.toLowerCase().includes('laura') || v.name.toLowerCase().includes('lucia') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('mujer') || v.name.toLowerCase().includes('paulina') || v.name.toLowerCase().includes('mia')));
+        const genericVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
+        if (femaleVoice) {
+          utter.voice = femaleVoice;
+        } else if (genericVoice) {
+          utter.voice = genericVoice;
         }
 
         setIsSpeaking(true);
@@ -1695,7 +1457,7 @@ export default function IAAplicadaPage() {
         safeResolve();
       }
     });
-  }, [muted, selectedVoice, stopAudio]);
+  }, [muted, stopAudio]);
 
   const currentStepRef = useRef(-1);
 
@@ -1706,6 +1468,7 @@ export default function IAAplicadaPage() {
       setShowTutorial(false);
       currentStepRef.current = -1;
       setIsExplainingExample(false);
+      setExampleSelectedArea(null);
       return;
     }
 
@@ -1714,6 +1477,7 @@ export default function IAAplicadaPage() {
     currentStepRef.current = stepIdx;
     setSelectedDfdIndex(null);
     setIsExplainingExample(false);
+    setExampleSelectedArea(null);
 
     const stepData = TUTORIAL_STEPS[stepIdx];
     setTimeout(() => {
@@ -1736,16 +1500,41 @@ export default function IAAplicadaPage() {
     }
   }, [activeAreaTab, speak, stopAudio]);
 
-  // Manejador para explicar el ejemplo interactivo si el usuario responde "Sí"
+  // Manejador cuando el usuario responde "¡Sí, explícame un ejemplo!"
   const handleExplainExample = useCallback(async () => {
     stopAudio();
     setIsExplainingExample(true);
-    await speak('¡Excelente! Mira este ejemplo de Agente Comercial en WhatsApp: El mensaje ingresa vía Webhook en WhatsApp, la IA procesa la intención del cliente con GPT-4o, consulta la base de datos y agenda la cita automáticamente en tu CRM en menos de 5 segundos.');
+    setExampleSelectedArea(null);
+    await speak('¡Excelente! ¿Cuál de estas 4 áreas te gustaría ver en acción? Selecciona una.');
   }, [speak, stopAudio]);
 
+  // Manejador cuando el usuario selecciona una de las 4 áreas
+  const handleSelectExampleArea = useCallback(async (areaId) => {
+    stopAudio();
+    setExampleSelectedArea(areaId);
+    setActiveAreaTab(areaId);
+    setTimeout(() => {
+      const el = document.getElementById(`dfd-area-${areaId}`) || document.getElementById('soluciones');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 80);
+    const area = EXAMPLE_AREAS[areaId];
+    if (area) {
+      await speak(area.speech);
+    }
+  }, [speak, stopAudio]);
+
+  // Manejador para volver a la lista de selección de áreas
+  const handleResetExampleSelection = useCallback(async () => {
+    stopAudio();
+    setExampleSelectedArea(null);
+    await speak('¿Cuál otra área te gustaría explorar? Elige una opción.');
+  }, [speak, stopAudio]);
+
+  // Manejador para terminar la explicación y continuar al paso de Contacto
   const handleFinishExample = useCallback(() => {
     stopAudio();
     setIsExplainingExample(false);
+    setExampleSelectedArea(null);
     playStep(3);
   }, [playStep, stopAudio]);
 
@@ -1754,11 +1543,29 @@ export default function IAAplicadaPage() {
   // Iniciar automáticamente el tutorial por primera vez (se ejecuta UNA SOLA VEZ)
   useEffect(() => {
     if (hasAutoStartedRef.current) return;
-    window.scrollTo(0, 0);
+    hasAutoStartedRef.current = true;
+
+    // Precargar en segundo plano los audios de los pasos y áreas para latencia cero
+    const allTexts = [
+      ...TUTORIAL_STEPS.map((s) => s.speech),
+      ...EXAMPLE_AREAS.map((a) => a.speech),
+      '¡Excelente! ¿Cuál de estas 4 áreas te gustaría ver en acción? Selecciona una.',
+      '¿Cuál otra área te gustaría explorar? Elige una opción.'
+    ];
+
+    allTexts.forEach((text) => {
+      const clean = text.replace(/\bTREBOT\b/g, 'Trebot').replace(/\bTREBOTS\b/g, 'Trebots');
+      fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: clean, voice: 'nova' })
+      }).catch(() => { });
+    });
+
     const hasSeen = localStorage.getItem('trebot_tutorial_seen');
     if (!hasSeen) {
-      hasAutoStartedRef.current = true;
       localStorage.setItem('trebot_tutorial_seen', 'true');
+      window.scrollTo(0, 0);
       const timer = setTimeout(() => {
         playStep(0);
       }, 1200);
@@ -1909,78 +1716,134 @@ export default function IAAplicadaPage() {
 
                 {/* TARJETA DE DIÁLOGO DE TREBOT Y CONTROLES DEL TOUR */}
                 <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#2d302d] pb-3">
+                  <div className="flex items-center justify-between gap-3 border-b border-[#2d302d] pb-3">
                     <h4 className="text-sm md:text-base font-black text-white flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-trebol shrink-0" />
                       {isExplainingExample
-                        ? 'Ejemplo de IA Aplicada'
+                        ? exampleSelectedArea !== null
+                          ? EXAMPLE_AREAS[exampleSelectedArea]?.title
+                          : 'Elige un área para ver en acción'
                         : TUTORIAL_STEPS[tutorialStep]?.title}
                     </h4>
 
-                    {/* CONMUTADOR DE 2 VOCES FEMENINAS (V1 / V2) */}
-                    <div className="flex items-center gap-1 bg-[#1e211e] p-1 rounded-xl border border-[#2d302d] shrink-0 self-start sm:self-auto">
-                      {[
-                        { id: 'v1', label: '👩 Mujer V1' },
-                        { id: 'v2', label: '👩 Mujer V2' }
-                      ].map((v) => (
-                        <button
-                          key={v.id}
-                          onClick={() => {
-                            setSelectedVoice(v.id);
-                            stopAudio();
-                            const activeText = isExplainingExample
-                              ? '¡Excelente! Mira este ejemplo de Agente Comercial en WhatsApp: El mensaje ingresa vía Webhook en WhatsApp, la IA procesa la intención del cliente con GPT-4o, consulta la base de datos y agenda la cita automáticamente en tu CRM en menos de 5 segundos.'
-                              : TUTORIAL_STEPS[tutorialStep]?.speech;
-                            if (activeText) {
-                              setTimeout(() => {
-                                speak(activeText, v.id);
-                              }, 50);
-                            }
-                          }}
-                          className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer ${
-                            selectedVoice === v.id
-                              ? 'bg-trebol text-slate-950 shadow-md font-extrabold'
-                              : 'text-slate-400 hover:text-white'
-                          }`}
-                          title={`Cambiar a ${v.label}`}
-                        >
-                          {v.label}
-                        </button>
-                      ))}
-                    </div>
+                    {/* BOTÓN DE CONTROL DE AUDIO DEL BOT */}
+                    <button
+                      onClick={toggleAudio}
+                      className={`px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${muted
+                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                        : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                        }`}
+                      title={muted ? 'Activar audio del bot' : 'Quitar audio del bot'}
+                    >
+                      {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
+                      <span className="hidden sm:inline">{muted ? 'Audio Silenciado' : 'Voz Activada'}</span>
+                    </button>
                   </div>
 
-                  {/* PREGUNTA DE EJEMPLO INTERACTIVO EN EL PASO 3 (INDEX 2) */}
+                  {/* CASO 1: EN PASO 3 (INDEX 2) - PREGUNTA INICIAL "¿TE GUSTARÍA QUE TE EXPLIQUE UN EJEMPLO?" */}
                   {tutorialStep === 2 && !isExplainingExample && (
                     <div className="space-y-2.5 pt-2 border-t border-[#2d302d]">
-                      <button
-                        onClick={handleExplainExample}
-                        className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center justify-between cursor-pointer"
-                      >
-                        <span>¡Sí, explícame un ejemplo!</span>
-                        <ArrowRight size={15} />
-                      </button>
+                      <div className="space-y-2">
+                        <button
+                          onClick={handleExplainExample}
+                          className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center justify-between cursor-pointer"
+                        >
+                          <span>¡Sí, explícame un ejemplo!</span>
+                          <ArrowRight size={15} />
+                        </button>
 
-                      <button
-                        onClick={() => playStep(3)}
-                        className="w-full px-4 py-2.5 rounded-2xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center justify-between cursor-pointer"
-                      >
-                        <span>No, continuar</span>
-                        <ChevronRight size={15} className="text-neutral-500" />
-                      </button>
+                        <button
+                          onClick={() => playStep(3)}
+                          className="w-full px-4 py-2.5 rounded-2xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center justify-between cursor-pointer"
+                        >
+                          <span>No, continuar</span>
+                          <ChevronRight size={15} className="text-neutral-500" />
+                        </button>
+                      </div>
                     </div>
                   )}
 
+                  {/* CASO 2: EL USUARIO DIJO "SÍ" Y AHORA ELIGE CUÁL DE LAS 4 ÁREAS VER */}
+                  {isExplainingExample && exampleSelectedArea === null && (
+                    <div className="space-y-2.5 pt-1 border-t border-[#2d302d]">
+                      <p className="text-xs text-neutral-300 font-semibold">
+                        Selecciona el área que deseas ver en acción:
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {EXAMPLE_AREAS.map((area) => (
+                          <button
+                            key={area.id}
+                            onClick={() => handleSelectExampleArea(area.id)}
+                            className="p-2.5 rounded-xl bg-[#1a1d1a] hover:bg-[#232723] border border-[#2d302d] hover:border-trebol/60 text-left transition-all group cursor-pointer flex flex-col justify-between"
+                          >
+                            <div className="flex items-center justify-between gap-1 mb-1">
+                              <span className="text-xs font-bold text-white group-hover:text-trebol transition-colors">
+                                {area.shortTitle}
+                              </span>
+                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-trebol border border-trebol/20">
+                                {area.badge}
+                              </span>
+                            </div>
+                            <span className="text-[10px] text-neutral-400 leading-tight">
+                              {area.description}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between pt-1">
+                        <button
+                          onClick={() => playStep(3)}
+                          className="px-3 py-1.5 rounded-xl bg-transparent hover:bg-white/5 text-neutral-400 hover:text-white text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>Saltar al paso final</span>
+                          <ChevronRight size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
+                  {/* CASO 3: EL USUARIO SELECCIONÓ UN ÁREA ESPECÍFICA Y ESTÁ VIENDO SU EXPLICACIÓN */}
+                  {isExplainingExample && exampleSelectedArea !== null && (
+                    <div className="space-y-3 pt-1 border-t border-[#2d302d]">
+                      <div className="p-3 rounded-2xl bg-trebol/10 border border-trebol/30 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-black text-trebol">
+                            {EXAMPLE_AREAS[exampleSelectedArea]?.badge}: Diagrama en Vivo
+                          </span>
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-trebol text-slate-950 font-bold">
+                            Activo
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-neutral-300 leading-relaxed">
+                          {EXAMPLE_AREAS[exampleSelectedArea]?.description}
+                        </p>
+                      </div>
 
-                  {/* BOTONES FLOTANTES DE CONTROL GENERAL (EN PASOS 0, 1 Y 3 FUERA DE LA PREGUNTA) */}
-                  {(tutorialStep !== 2 || isExplainingExample) && (
+                      <div className="flex items-center gap-2 pt-1">
+                        <button
+                          onClick={handleResetExampleSelection}
+                          className="px-3.5 py-2.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <Sparkles size={13} className="text-trebol" />
+                          <span>Elegir otro ejemplo</span>
+                        </button>
+
+                        <button
+                          onClick={handleFinishExample}
+                          className="px-4 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
+                        >
+                          <span>Siguiente paso ➔</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* BOTONES DE CONTROL PARA LOS DEMÁS PASOS (0, 1 Y 3) */}
+                  {!isExplainingExample && tutorialStep !== 2 && (
                     <div className="flex flex-wrap items-center gap-2 pt-1">
                       <button
                         onClick={() => {
-                          if (isExplainingExample) {
-                            handleFinishExample();
-                          } else if (tutorialStep === TUTORIAL_STEPS.length - 1) {
+                          if (tutorialStep === TUTORIAL_STEPS.length - 1) {
                             closeTutorial();
                             const el = document.getElementById('contacto');
                             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1990,7 +1853,7 @@ export default function IAAplicadaPage() {
                         }}
                         className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
                       >
-                        {isExplainingExample ? 'Continuar ➔' : TUTORIAL_STEPS[tutorialStep]?.buttonText}
+                        {TUTORIAL_STEPS[tutorialStep]?.buttonText}
                       </button>
 
                       <button
@@ -2011,23 +1874,36 @@ export default function IAAplicadaPage() {
 
       {/* BOTÓN FLOTANTE SOLO VISIBLE FUERA DEL HERO Y ANTES DEL FOOTER */}
       {!showTutorial && showFloatingButton && (
-        <button
-          onClick={startTutorialManual}
-          className="fixed bottom-6 right-6 z-30 px-5 py-3 rounded-full bg-white border border-trebol/40 shadow-xl text-carbon font-bold text-xs hover:border-trebol hover:bg-trebol hover:text-white transition-all duration-300 flex items-center gap-2.5 group"
-        >
-          <div className="w-6 h-6 rounded-full bg-trebol/20 group-hover:bg-white text-trebol group-hover:text-trebol flex items-center justify-center font-bold text-xs">
-            AI
-          </div>
-          <span>Iniciar Tour con TREBOT</span>
-        </button>
+        <div className="fixed bottom-6 right-6 z-30 flex items-center gap-2.5">
+          <button
+            onClick={toggleAudio}
+            className={`p-3.5 rounded-full shadow-2xl border transition-all duration-300 cursor-pointer ${muted
+              ? 'bg-neutral-900 text-rose-400 border-rose-500/50 hover:bg-neutral-800'
+              : 'bg-white text-trebol border-trebol/40 hover:bg-trebol hover:text-white'
+              }`}
+            title={muted ? 'Activar voz de TREBOT' : 'Silenciar voz de TREBOT'}
+          >
+            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          </button>
+
+          <button
+            onClick={startTutorialManual}
+            className="px-5 py-3 rounded-full bg-white border border-trebol/40 shadow-xl text-carbon font-bold text-xs hover:border-trebol hover:bg-trebol hover:text-white transition-all duration-300 flex items-center gap-2.5 group cursor-pointer"
+          >
+            <div className="w-6 h-6 rounded-full bg-trebol/20 group-hover:bg-white text-trebol group-hover:text-trebol flex items-center justify-center font-bold text-xs">
+              AI
+            </div>
+            <span>Iniciar Tour con TREBOT</span>
+          </button>
+        </div>
       )}
 
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      {/* HERO SECTION COMPLETO EN 2 COLUMNAS (ALINEADO A MARKETING ESTRATÉGICO) */}
+      {/* HERO SECTION COMPLETO EN 2 COLUMNAS (PANTALLA COMPLETA 100DVH) */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className={`relative w-full pt-32 md:pt-40 pb-20 px-6 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
+        className={`relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
           ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-hueso text-carbon pointer-events-auto'
           : ''
           }`}
@@ -2047,7 +1923,7 @@ export default function IAAplicadaPage() {
           />
         </div>
 
-        <div className="max-w-[1350px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="max-w-[1350px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
 
           {/* COLUMNA IZQUIERDA: TITULAR (MAX 2 LÍNEAS), DESCRIPCIÓN Y CTAS */}
           <div className="lg:col-span-7 space-y-6 text-left">
@@ -2057,7 +1933,7 @@ export default function IAAplicadaPage() {
               transition={{ type: "spring", stiffness: 90, damping: 14 }}
               className="text-4xl md:text-5xl lg:text-6xl font-black text-carbon leading-[1.1] tracking-tight max-w-4xl"
             >
-              Inteligencia Artificial que transforma tu <span className="text-trebol">negocio hoy.</span>
+              Inteligencia Artificial aplicada: <span className="text-trebol">capacitación e implementación.</span>
             </motion.h1>
 
             <motion.p
@@ -2066,7 +1942,7 @@ export default function IAAplicadaPage() {
               transition={{ delay: 0.15 }}
               className="text-base md:text-xl text-carbon/80 font-light leading-relaxed max-w-xl font-sans"
             >
-              Diseñamos e integramos arquitectura de IA que automatiza tus ventas, conecta tus operaciones e incrementa la rentabilidad de tu empresa.
+              Capacitamos a tu equipo e implementamos soluciones prácticas de inteligencia artificial para elevar la productividad, automatizar ventas y operaciones, y darte autonomía total.
             </motion.p>
 
             <motion.div
@@ -2082,12 +1958,16 @@ export default function IAAplicadaPage() {
                 Iniciar Tour con TREBOT <ArrowUpRight size={18} />
               </button>
 
-              <a
-                href="/agenda"
-                className="px-7 py-3.5 rounded-2xl bg-white border border-neutral-300 text-carbon font-semibold text-sm md:text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
+              <button
+                onClick={toggleAudio}
+                className={`px-5 py-3.5 rounded-2xl border font-bold text-sm md:text-base transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer ${muted
+                  ? 'bg-neutral-800 text-rose-300 border-rose-500/40 hover:bg-neutral-700'
+                  : 'bg-white text-carbon border-neutral-300 hover:border-trebol hover:text-trebol'
+                  }`}
               >
-                Agendar Sesión Estratégica
-              </a>
+                {muted ? <VolumeX size={18} className="text-rose-500" /> : <Volume2 size={18} className="text-trebol" />}
+                <span>{muted ? 'Activar Voz del Bot' : 'Silenciar Bot'}</span>
+              </button>
             </motion.div>
 
             {/* Badges de Confianza */}
@@ -2103,8 +1983,8 @@ export default function IAAplicadaPage() {
             </motion.div>
           </div>
 
-          {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA */}
-          <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-[340px] pt-8 lg:pt-0">
+          {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA (RESPONSIVA & AGRANDADA EN PANTALLAS GRANDES) */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-[360px] lg:min-h-[460px] xl:min-h-[540px] pt-8 lg:pt-0">
             <div
               onMouseEnter={() => setIsTrebotHovered(true)}
               onMouseLeave={() => setIsTrebotHovered(false)}
@@ -2112,14 +1992,14 @@ export default function IAAplicadaPage() {
               className="relative group cursor-pointer flex flex-col items-center lg:items-end justify-end overflow-visible"
             >
               {/* RESPLANDOR AMBIENTAL Y SOMBRA AURA DETRÁS DE TREBOT */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] pointer-events-none z-0 animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] lg:w-[32rem] lg:h-[32rem] xl:w-[40rem] xl:h-[40rem] 2xl:w-[48rem] 2xl:h-[48rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] xl:blur-[130px] pointer-events-none z-0 animate-pulse" />
 
               {/* CABEZA Y CUERPO DE TREBOT CON SALUDO EN VOZ Y HOVER */}
               <div className="relative z-10 overflow-visible">
                 <TrebotSVG
                   isSpeaking={isSpeaking}
                   isHovered={isTrebotHovered || isSpeaking}
-                  size={360}
+                  className="w-[300px] sm:w-[360px] md:w-[400px] lg:w-[460px] xl:w-[540px] 2xl:w-[620px] aspect-[1/1.15]"
                 />
               </div>
             </div>
@@ -2199,7 +2079,7 @@ export default function IAAplicadaPage() {
 
             <div className="lg:col-span-5">
               <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
-                Visualiza los flujos de trabajo n8n y diagramas DFD conectados directamente a tus sistemas actuales para operar sin fricción.
+                Visualiza cómo la Inteligencia Artificial aplicada a tu negocio conecta tus procesos para hacerlos más eficientes, rápidos y autónomos.
               </p>
             </div>
           </div>
@@ -2210,19 +2090,22 @@ export default function IAAplicadaPage() {
               {pilarServices.map((sol, idx) => {
                 const Icon = sol.icon;
                 const isActive = activeAreaTab === idx;
-                const shortLabels = ['Agentes & Ventas', 'Operaciones & RPA', 'BI & Predictivo', 'Soporte Autónomo'];
+                const shortLabels = ['Ventas & Atención', 'Operaciones & Procesos', 'Decisiones & Dirección', 'Soporte & Manuales'];
                 return (
                   <button
                     key={sol.id}
                     onClick={() => {
                       setActiveAreaTab(idx);
                       stopAudio();
-                      setShowTutorial(true);
-                      setTutorialStep(1);
+                      setShowTutorial(false);
+                      setIsExplainingExample(false);
                       setSelectedDfdIndex(idx);
-                      const el = document.getElementById(`dfd-area-${idx}`) || document.getElementById('soluciones');
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      speak(DFD_EXPLANATIONS[idx].speech);
+                      setTimeout(() => {
+                        const el = document.getElementById('diagrama-canvas-area');
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                      }, 50);
                     }}
                     className={`w-full py-3.5 px-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm text-center truncate ${isActive
                       ? 'bg-trebol text-white shadow-[0_0_25px_rgba(132,198,56,0.5)] ring-2 ring-trebol'
@@ -2244,7 +2127,7 @@ export default function IAAplicadaPage() {
             return (
               <motion.div
                 key={activeAreaTab}
-                id={`dfd-area-${activeAreaTab}`}
+                id="diagrama-canvas-area"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
@@ -2637,36 +2520,59 @@ export default function IAAplicadaPage() {
 
 
 
-      {/* ── SECCIÓN 4: ECOSISTEMA TECNOLÓGICO & INTEGRACIONES DE IA ── */}
+      {/* ── SECCIÓN 4: PILARES Y CAPACIDADES DE IA EN TU NEGOCIO ── */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-hueso border-b border-neutral-200/80">
         <div className="max-w-[1400px] w-full mx-auto">
 
           <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
             <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-              Modelos e integraciones con <span className="text-trebol">las mejores plataformas</span>
+              Cómo integramos la IA en <span className="text-trebol">tu infraestructura actual</span>
             </h2>
-            <p className="text-carbon/70 text-base md:text-lg font-light">
-              Conectamos los modelos de lenguaje más potentes del mundo con tu infraestructura existente sin fisuras.
+            <p className="text-carbon/70 text-base md:text-lg font-light leading-relaxed">
+              Conectamos la Inteligencia Artificial más potente del mundo con tus canales de trabajo (WhatsApp, correo, CRM y ERP) garantizando capacitación práctica y autonomía total.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {techStack.map((tech, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="p-8 rounded-3xl bg-white border border-neutral-200/80 shadow-md hover:shadow-xl transition-all"
-              >
-                <div className="w-10 h-10 rounded-xl bg-trebol/10 text-trebol flex items-center justify-center font-bold mb-4">
-                  <Cpu size={22} />
-                </div>
-                <h4 className="text-xl font-bold text-carbon mb-2">{tech.name}</h4>
-                <p className="text-carbon/70 text-sm font-light leading-relaxed">{tech.desc}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {techStack.map((tech, i) => {
+              const IconComp = tech.icon || Cpu;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="p-7 md:p-8 rounded-[2.2rem] bg-white border border-neutral-200/90 shadow-md hover:shadow-xl hover:border-trebol/60 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+                >
+                  {/* ÍCONO COMO MARCA DE AGUA SÓLIDA EN EL BACKGROUND (SIN SOLAPAMIENTO DE OPACIDAD) */}
+                  <div className="absolute -bottom-6 -right-6 text-[#e5f2e0] group-hover:text-[#d3eabf] transition-all duration-300 transform group-hover:scale-110 pointer-events-none z-0">
+                    <IconComp size={140} strokeWidth={1.2} />
+                  </div>
+
+                  <div className="space-y-4 relative z-10">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-mono font-extrabold text-trebol uppercase tracking-widest">
+                        ● {tech.badge}
+                      </span>
+                    </div>
+
+                    <h4 className="text-xl font-extrabold text-carbon tracking-tight leading-snug group-hover:text-trebol transition-colors">
+                      {tech.name}
+                    </h4>
+
+                    <p className="text-slate-700 text-sm md:text-[14.5px] font-normal leading-relaxed">
+                      {tech.desc}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center gap-2 text-xs font-mono font-extrabold text-trebol relative z-10">
+                    <CheckCircle2 size={16} className="text-trebol shrink-0" />
+                    <span>{tech.highlight}</span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>

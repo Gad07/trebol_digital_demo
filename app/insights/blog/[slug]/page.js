@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Quote, User, Play, Award, Calendar, Clock, Video } from 'lucide-react';
-import { use, useState } from 'react';
+import { ArrowLeft, ArrowUpRight, Quote, User, Play, Award, Calendar, Clock, Video, BookOpen, Tag, ChevronRight } from 'lucide-react';
+import { use, useState, useEffect } from 'react';
 import Contact from '@/components/Contact';
 
 const articulos = {
@@ -129,6 +129,97 @@ const articulos = {
     ],
   },
 };
+
+// ─────────────────────────────────────────────────────────────
+// DB-DRIVEN TEMPLATE: renders an article from blogs_db.json
+// ─────────────────────────────────────────────────────────────
+function TemplateDynamic({ art }) {
+  const content = art.content || {};
+  return (
+    <article className="max-w-[1100px] mx-auto px-6 md:px-12 pt-36 pb-16 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-16 items-start">
+        <div className="space-y-10">
+          <BackLink />
+
+          {/* Hero image */}
+          {art.imagen && (
+            <div className="rounded-[2.5rem] overflow-hidden aspect-video shadow-2xl">
+              <img src={art.imagen} alt={art.titulo} className="w-full h-full object-cover" />
+            </div>
+          )}
+
+          {/* Meta */}
+          <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
+            <span className="px-3 py-1 rounded-full bg-trebol/10 text-trebol border border-trebol/20 font-bold uppercase tracking-wider">{art.categoria}</span>
+            {art.destacado && <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200 font-bold uppercase">★ Destacado</span>}
+            <span className="text-carbon/40 flex items-center gap-1"><Clock size={12} /> {art.tiempo} lectura</span>
+            <span className="text-carbon/40 flex items-center gap-1"><Calendar size={12} /> {art.fecha}</span>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl md:text-6xl font-black text-carbon leading-[0.88] tracking-tighter">{art.titulo}</h1>
+          <p className="text-xl text-carbon/60 font-light leading-relaxed">{art.extracto}</p>
+
+          {/* Introducción */}
+          {content.introduccion && (
+            <p className="text-base text-carbon/80 leading-[1.9] font-light border-l-4 border-trebol/30 pl-6 italic">
+              {content.introduccion}
+            </p>
+          )}
+
+          {/* Secciones */}
+          {(content.secciones || []).map((sec, i) => (
+            <div key={i} className="space-y-4">
+              {sec.subtitulo && (
+                <h2 className="text-2xl md:text-3xl font-black text-carbon tracking-tight">{sec.subtitulo}</h2>
+              )}
+              {sec.texto && (
+                <p className="text-base text-carbon/80 leading-[1.85] font-light">{sec.texto}</p>
+              )}
+              {sec.fraseDestacada && (
+                <blockquote className="border-l-4 border-trebol bg-trebol/5 px-6 py-5 rounded-r-2xl my-6">
+                  <p className="text-lg font-semibold text-carbon italic leading-relaxed">&ldquo;{sec.fraseDestacada}&rdquo;</p>
+                </blockquote>
+              )}
+              {(sec.bullets || []).length > 0 && (
+                <ul className="space-y-2.5">
+                  {sec.bullets.map((b, j) => (
+                    <li key={j} className="flex items-start gap-3 text-carbon/80 text-sm">
+                      <span className="text-trebol font-black text-base mt-0.5 shrink-0">✓</span>
+                      <span className="leading-relaxed">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+
+          {/* Conclusión */}
+          {content.conclusion && (
+            <div className="bg-carbon rounded-[2rem] p-8 md:p-10 text-hueso space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-trebol font-mono">Conclusión</p>
+              <p className="text-base leading-relaxed opacity-85">{content.conclusion}</p>
+            </div>
+          )}
+
+          {/* CTA */}
+          {content.ctaText && content.ctaUrl && (
+            <a
+              href={content.ctaUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-3 bg-trebol text-white font-black text-sm px-8 py-4 rounded-2xl hover:bg-carbon transition-all shadow-xl shadow-trebol/20"
+            >
+              <span>{content.ctaText}</span>
+              <ArrowUpRight size={18} />
+            </a>
+          )}
+        </div>
+        <Sidebar />
+      </div>
+    </article>
+  );
+}
 
 function BackLink({ light }) {
   return (
@@ -763,13 +854,57 @@ const templates = {
   guia: TemplateVideo,
   entrevista: TemplateAutor,
   listicle: TemplateLogros,
+  dynamic: TemplateDynamic,
 };
 
 export default function ArticuloPage({ params }) {
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
-  const art = articulos[slug] || articulos['ia-en-tu-negocio-hoy'];
-  const Template = templates[art.plantilla] || templates.feature;
+
+  const [art, setArt] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/blogs')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const found = data.find((b) => b.slug === slug);
+          if (found) { setArt(found); return; }
+        }
+        // fallback a hardcode
+        setArt(articulos[slug] || articulos['ia-en-tu-negocio-hoy']);
+      })
+      .catch(() => {
+        setArt(articulos[slug] || articulos['ia-en-tu-negocio-hoy']);
+      })
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <main className="w-full bg-hueso min-h-screen flex items-center justify-center">
+        <div className="space-y-4 text-center">
+          <div className="w-12 h-12 rounded-full border-4 border-trebol border-t-transparent animate-spin mx-auto" />
+          <p className="text-carbon/40 font-mono text-xs">Cargando artículo…</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!art) {
+    return (
+      <main className="w-full bg-hueso min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <p className="text-2xl font-black text-carbon">Artículo no encontrado</p>
+          <Link href="/insights/blog" className="text-trebol font-bold hover:underline">← Volver al Blog</Link>
+        </div>
+      </main>
+    );
+  }
+
+  // Usa la plantilla del artículo; TemplateDynamic como fallback para artículos nuevos sin plantilla definida
+  const Template = templates[art.plantilla] || TemplateDynamic;
 
   return (
     <main className="w-full bg-hueso min-h-screen relative overflow-hidden">
@@ -783,7 +918,7 @@ export default function ArticuloPage({ params }) {
       <Template art={art} />
 
       <div className="max-w-[1100px] mx-auto px-6 md:px-12 pb-32 relative z-10">
-        {/* Author bio — premium glassmorphism card */}
+        {/* Author bio */}
         <div className="bg-white/50 backdrop-blur-xl border border-white/60 p-8 md:p-10 rounded-[2.5rem] shadow-[0_8px_32px_rgba(0,0,0,0.03)] mb-12 relative overflow-hidden">
           <div className="absolute -right-16 -bottom-16 w-32 h-32 bg-trebol/10 rounded-full blur-2xl pointer-events-none" />
           <div className="flex items-start gap-6">

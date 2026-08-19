@@ -21,8 +21,8 @@ export default function WhyUsV3() {
             initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             className="bg-white/10 backdrop-blur-[80px] border-t border-l border-white/80 border-b border-r border-white/30 rounded-[3rem] p-8 shadow-[0_30px_60px_rgba(0,0,0,0.08),inset_0_1px_20px_rgba(255,255,255,0.4)] flex flex-col justify-end hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500"
           >
-            <h3 className="text-3xl font-bold text-carbon mb-2">Autonomía</h3>
-            <p className="text-carbon/60 text-sm">Te capacitamos para que no dependas de nosotros.</p>
+            <h3 className="text-3xl font-bold text-carbon mb-2">Autonomía Total</h3>
+            <p className="text-carbon/60 text-sm">Te capacitamos para que administres por tu cuenta y no dependas de nosotros.</p>
           </motion.div>
 
           <motion.div 

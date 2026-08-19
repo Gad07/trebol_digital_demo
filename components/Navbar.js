@@ -37,22 +37,22 @@ const solucionesItems = [
     icon: Target,
   },
   {
+    title: 'Desarrollo Web & Apps',
+    desc: 'Plataformas web corporativas, tiendas online y portales a la medida',
+    href: '/soluciones/desarrollo-web',
+    icon: Globe,
+  },
+  {
     title: 'IA Aplicada al Negocio',
-    desc: 'Automatización de procesos, agentes IA y talleres prácticos',
+    desc: 'Capacitación a tu equipo, implementación de IA y asistentes inteligentes',
     href: '/soluciones/ia-aplicada',
     icon: Bot,
   },
   {
     title: 'Desarrollo Organizacional',
-    desc: 'Estructura empresarial, procesos y capacitación de equipos',
+    desc: 'Estructura empresarial, procesos y alineación de equipos',
     href: '/soluciones/desarrollo-organizacional',
     icon: Network,
-  },
-  {
-    title: 'Desarrollo Web & Apps',
-    desc: 'Plataformas web corporativas, tiendas online y portales SaaS',
-    href: '/soluciones/desarrollo-web',
-    icon: Globe,
   }
 ];
 
@@ -85,7 +85,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
 
-  const isV2orV3 = pathname?.startsWith('/v2') || pathname?.startsWith('/v3');
+  const hideNavbar = pathname?.startsWith('/v2') || pathname?.startsWith('/v3') || pathname?.startsWith('/admin');
 
   useEffect(() => {
     setMenuOpen(false);
@@ -93,9 +93,16 @@ export default function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
+    let currentScrolled = false;
     const handleScroll = () => {
       const y = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      setScrolled(y > 20);
+      if (!currentScrolled && y > 40) {
+        currentScrolled = true;
+        setScrolled(true);
+      } else if (currentScrolled && y < 15) {
+        currentScrolled = false;
+        setScrolled(false);
+      }
     };
 
     handleScroll();
@@ -117,7 +124,7 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (isV2orV3) return null;
+  if (hideNavbar) return null;
 
   return (
     <>
@@ -137,16 +144,18 @@ export default function Navbar() {
 
       <header
         ref={dropdownRef}
-        className={`fixed left-0 right-0 top-0 z-50 flex flex-col items-center w-full transition-all duration-300 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex flex-col items-center w-full isolate transform-gpu transition-all duration-300 ${
           scrolled ? 'lg:pt-4 lg:px-6' : 'pt-0 px-0'
         }`}
+        style={{ transform: 'translateZ(0)' }}
       >
         <div
-          className={`w-full flex items-center justify-between transition-all duration-500 ${
+          className={`w-full flex items-center justify-between isolate transform-gpu transition-all duration-500 ${
             scrolled
-              ? 'bg-white/95 backdrop-blur-2xl border-b lg:border border-gray-200/80 shadow-md lg:shadow-[0_20px_50px_rgba(0,0,0,0.12)] lg:rounded-full lg:max-w-[1200px] py-3 px-4 sm:px-6 md:px-10'
-              : 'bg-white/90 lg:bg-white/40 backdrop-blur-xl border-b border-white/60 rounded-none py-3 px-4 sm:px-6 md:px-12'
+              ? 'bg-white shadow-md lg:shadow-[0_20px_50px_rgba(0,0,0,0.12)] lg:rounded-full lg:max-w-[1200px] py-3 px-4 sm:px-6 md:px-10 border-b lg:border border-gray-200/80'
+              : 'bg-white/95 lg:bg-white/90 border-b border-gray-200/60 rounded-none py-3 px-4 sm:px-6 md:px-12'
           }`}
+          style={{ transform: 'translateZ(0)' }}
         >
 
           {/* BRAND LOGO */}

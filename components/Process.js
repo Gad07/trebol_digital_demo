@@ -147,7 +147,16 @@ function HalfGiantTrebol({ activeStep, setActiveStep, stepsList = steps, reverse
 export default function Process({ customSteps, title = "Metodología", titleGreen = "Dinámica.", sectionId = "proceso", reverse = false }) {
   const containerRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
-  const stepsList = customSteps || steps;
+  
+  const stepsList = (customSteps && customSteps.length > 0 ? customSteps : steps).map((st, i) => ({
+    number: st.number || `0${i + 1}`,
+    title: st.title || steps[i % 4].title,
+    tagline: st.tagline || steps[i % 4].tagline,
+    description: st.description || st.desc || steps[i % 4].description,
+    tecnologias: st.tecnologias || st.technologies || steps[i % 4].tecnologias || [],
+    icon: st.icon || steps[i % 4].icon || Users,
+    metrica: st.metrica || steps[i % 4].metrica || 'Entregable Personalizado',
+  }));
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -219,14 +228,14 @@ export default function Process({ customSteps, title = "Metodología", titleGree
       <section
         id={sectionId}
         ref={containerRef}
-        className="relative w-full h-screen min-h-[550px] bg-white text-carbon select-none overflow-visible flex flex-col justify-center z-20 border-none outline-none"
+        className={`relative w-full h-screen min-h-[550px] select-none overflow-visible flex flex-col justify-center z-20 border-none outline-none ${customSteps ? 'bg-transparent text-inherit' : 'bg-white text-carbon'}`}
       >
         {/* Luces Ambientales sobre Fondo Blanco */}
         <div className="absolute inset-0 pointer-events-none z-0">
           <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute top-1/3 w-[40rem] h-[40rem] bg-trebol/20 rounded-full blur-[140px] ${reverse ? 'right-1/4' : 'left-1/4'
+            className={`absolute top-1/3 w-[40rem] h-[40rem] rounded-full blur-[140px] ${customSteps ? 'bg-current/10' : 'bg-trebol/20'} ${reverse ? 'right-1/4' : 'left-1/4'
               }`}
           />
         </div>
@@ -242,7 +251,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
 
           {/* Encabezado del Título Original PC */}
           <div className="w-full mb-2 sm:mb-3 md:mb-4 shrink-0">
-            <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight text-carbon">
+            <h2 className={`text-xl sm:text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-tight ${customSteps ? 'text-inherit' : 'text-carbon'}`}>
               {title} <span className="text-trebol">{titleGreen}</span>
             </h2>
           </div>
@@ -256,18 +265,22 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -25, scale: 0.98 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full p-4 sm:p-5 md:p-6 lg:p-8 rounded-[2rem] bg-hueso/90 backdrop-blur-xl border border-neutral-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)] relative overflow-hidden"
+                className={`w-full p-4 sm:p-5 md:p-6 lg:p-8 rounded-[2rem] backdrop-blur-xl relative overflow-hidden ${
+                  customSteps
+                    ? 'bg-current/10 border border-current/20 text-inherit shadow-2xl'
+                    : 'bg-hueso/90 border border-neutral-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)]'
+                }`}
               >
                 {/* Resplandor decorativo de esquina */}
                 <div className="absolute top-0 right-0 w-36 h-36 bg-trebol/10 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="flex items-center justify-between mb-2.5 sm:mb-3 md:mb-4 border-b border-neutral-200 pb-2.5 sm:pb-3 md:pb-4">
+                <div className={`flex items-center justify-between mb-2.5 sm:mb-3 md:mb-4 border-b pb-2.5 sm:pb-3 md:pb-4 ${customSteps ? 'border-current/15' : 'border-neutral-200'}`}>
                   <div className="flex items-center gap-2.5 sm:gap-3 md:gap-4">
                     <span className="text-2xl sm:text-3xl md:text-5xl font-black text-trebol font-mono leading-none">
                       {currentStep.number}.
                     </span>
                     <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-carbon">
+                      <h3 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-black tracking-tight ${customSteps ? 'text-inherit' : 'text-carbon'}`}>
                         {currentStep.title}
                       </h3>
                       <div className="text-[11px] sm:text-xs md:text-sm text-trebol font-mono font-semibold mt-0.5">
@@ -282,22 +295,26 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 </div>
 
                 {/* Descripción del Paso */}
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-carbon/80 font-light leading-relaxed mb-3 sm:mb-4 md:mb-5">
+                <p className={`text-xs sm:text-sm md:text-base lg:text-lg font-light leading-relaxed mb-3 sm:mb-4 md:mb-5 ${customSteps ? 'opacity-90' : 'text-carbon/80'}`}>
                   {currentStep.description}
                 </p>
 
                 {/* Tecnologías & Entregables */}
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="text-[9px] sm:text-[11px] uppercase tracking-wider font-mono text-carbon/60">
+                  <div className={`text-[9px] sm:text-[11px] uppercase tracking-wider font-mono ${customSteps ? 'opacity-75' : 'text-carbon/60'}`}>
                     Tecnología & Entregables Clave:
                   </div>
                   <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                    {currentStep.tecnologias.map((tech, i) => (
+                    {(currentStep.tecnologias || []).map((tech, i) => (
                       <span
                         key={i}
-                        className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white border border-neutral-200 text-[10px] sm:text-xs text-carbon font-mono flex items-center gap-1 shadow-sm"
+                        className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-mono flex items-center gap-1 shadow-sm text-[10px] sm:text-xs ${
+                          customSteps
+                            ? 'bg-current/15 border border-current/20 text-inherit'
+                            : 'bg-white border border-neutral-200 text-carbon'
+                        }`}
                       >
-                        <CheckCircle2 size={11} className="text-trebol shrink-0" />
+                        <CheckCircle2 size={12} className="text-trebol shrink-0" />
                         {tech}
                       </span>
                     ))}
@@ -305,9 +322,9 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 </div>
 
                 {/* Métrica / Impacto */}
-                <div className="mt-3 sm:mt-4 md:mt-5 pt-2.5 sm:pt-3 border-t border-neutral-200/80 flex items-center justify-between">
-                  <span className="text-[10px] sm:text-xs text-carbon/50 font-mono font-medium">Entregable:</span>
-                  <span className="text-xs sm:text-sm text-trebol font-mono font-bold flex items-center gap-1">
+                <div className={`pt-2.5 sm:pt-3 border-t flex items-center justify-between mt-2.5 sm:mt-3 ${customSteps ? 'border-current/15' : 'border-neutral-200'}`}>
+                  <span className={`text-[10px] sm:text-xs font-mono font-medium ${customSteps ? 'opacity-70' : 'text-carbon/60'}`}>Entregable:</span>
+                  <span className="text-xs sm:text-sm text-trebol font-mono font-bold flex items-center gap-1.5">
                     {currentStep.metrica}
                   </span>
                 </div>
@@ -317,21 +334,25 @@ export default function Process({ customSteps, title = "Metodología", titleGree
 
         </div>
 
-        {/* ── 2. VISTA MÓVIL (< 1024px) OPTIMIZADA CON TITULO GRANDE Y PASOS ── */}
-        <div className="flex lg:hidden w-full max-w-[1400px] mx-auto flex-col justify-center gap-6 relative z-20 px-6 sm:px-10 py-6">
-          {/* Encabezado Móvil */}
-          <div className="w-full flex flex-col items-center gap-4 text-center mb-2">
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tighter text-carbon text-center leading-none">
+        {/* ── 2. VISTA MÓVIL (& TABLET < 1024px) ── */}
+        <div className="flex lg:hidden w-full px-4 sm:px-6 flex-col justify-center relative z-20 py-6">
+          <div className="w-full mb-3 text-center">
+            <h2 className={`text-2xl sm:text-3xl font-black tracking-tight ${customSteps ? 'text-inherit' : 'text-carbon'}`}>
               {title} <span className="text-trebol">{titleGreen}</span>
             </h2>
-            <div className="flex items-center justify-center gap-1.5 bg-neutral-100/90 p-1.5 rounded-full border border-neutral-200/80 mt-1">
+          </div>
+
+          <div className="w-full mb-4 overflow-x-auto pb-2 scrollbar-none">
+            <div className="flex items-center justify-center gap-2 min-w-max mx-auto">
               {stepsList.map((st, i) => (
                 <button
-                  key={st.number}
+                  key={i}
                   onClick={() => setActiveStep(i)}
                   className={`py-1.5 px-3.5 rounded-full font-mono font-bold text-xs sm:text-sm transition-all cursor-pointer ${
                     activeStep === i
                       ? 'bg-trebol text-white shadow-sm'
+                      : customSteps
+                      ? 'bg-current/10 text-inherit opacity-70 hover:opacity-100'
                       : 'bg-transparent text-carbon/60 hover:text-carbon'
                   }`}
                 >
@@ -341,7 +362,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
             </div>
           </div>
 
-          {/* Detalles del Paso Móvil Sin Tarjeta (Cardless) */}
+          {/* Detalles del Paso Móvil */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep.number}
@@ -349,15 +370,15 @@ export default function Process({ customSteps, title = "Metodología", titleGree
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -14, scale: 0.98 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full flex flex-col gap-4"
+              className={`w-full flex flex-col gap-4 p-6 rounded-3xl ${customSteps ? 'bg-current/10 border border-current/20 text-inherit' : ''}`}
             >
-              <div className="flex items-center justify-between border-b border-neutral-200/80 pb-3">
+              <div className={`flex items-center justify-between border-b pb-3 ${customSteps ? 'border-current/15' : 'border-neutral-200/80'}`}>
                 <div className="flex items-center gap-3">
                   <span className="text-3xl sm:text-4xl font-black text-trebol font-mono leading-none">
                     {currentStep.number}.
                   </span>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-black tracking-tight text-carbon">
+                    <h3 className={`text-xl sm:text-2xl font-black tracking-tight ${customSteps ? 'text-inherit' : 'text-carbon'}`}>
                       {currentStep.title}
                     </h3>
                     <div className="text-xs sm:text-sm text-trebol font-mono font-semibold mt-0.5">
@@ -371,19 +392,23 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-carbon/85 font-normal leading-relaxed">
+              <p className={`text-sm sm:text-base font-normal leading-relaxed ${customSteps ? 'opacity-90' : 'text-carbon/85'}`}>
                 {currentStep.description}
               </p>
 
               <div className="space-y-2">
-                <div className="text-xs uppercase tracking-wider font-mono text-carbon/60 font-bold">
+                <div className={`text-xs uppercase tracking-wider font-mono font-bold ${customSteps ? 'opacity-75' : 'text-carbon/60'}`}>
                   Tecnología & Entregables Clave:
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {currentStep.tecnologias.map((tech, i) => (
+                  {(currentStep.tecnologias || []).map((tech, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 rounded-full bg-neutral-100/90 border border-neutral-200 text-xs text-carbon font-mono font-medium shadow-sm flex items-center gap-1.5"
+                      className={`px-3 py-1.5 rounded-full text-xs font-mono font-medium shadow-sm flex items-center gap-1.5 ${
+                        customSteps
+                          ? 'bg-current/15 border border-current/20 text-inherit'
+                          : 'bg-neutral-100/90 border border-neutral-200 text-carbon'
+                      }`}
                     >
                       <CheckCircle2 size={13} className="text-trebol shrink-0" />
                       {tech}
@@ -392,8 +417,8 @@ export default function Process({ customSteps, title = "Metodología", titleGree
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-neutral-200/80 flex items-center justify-between">
-                <span className="text-xs text-carbon/60 font-mono font-medium">Entregable:</span>
+              <div className={`pt-3 border-t flex items-center justify-between ${customSteps ? 'border-current/15' : 'border-neutral-200/80'}`}>
+                <span className={`text-xs font-mono font-medium ${customSteps ? 'opacity-70' : 'text-carbon/60'}`}>Entregable:</span>
                 <span className="text-sm text-trebol font-mono font-bold flex items-center gap-2">
                   {currentStep.metrica}
                 </span>

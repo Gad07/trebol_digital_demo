@@ -202,6 +202,7 @@ export function ProposalCalculator() {
               </button>
             </form>
           ) : (
+            <div className="space-y-4 text-center py-6">
               <div className="w-12 h-12 bg-trebol rounded-full flex items-center justify-center mx-auto text-white mb-2">
                 <CheckCircle2 size={24} />
               </div>

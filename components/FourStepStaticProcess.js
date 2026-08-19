@@ -112,19 +112,29 @@ function TrebolSVG({ activeIndex }) {
   );
 }
 
-export default function FourStepStaticProcess() {
+export default function FourStepStaticProcess({ sec }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  const activeStepsList = (sec && sec.items && sec.items.length > 0 ? sec.items : steps).map((st, i) => ({
+    number: st.number || `0${i + 1}`,
+    title: st.title || steps[i % 4].title,
+    tagline: st.tagline || steps[i % 4].tagline,
+    description: st.description || st.desc || steps[i % 4].description,
+    tecnologias: st.tecnologias || steps[i % 4].tecnologias,
+    icon: steps[i % 4].icon,
+    metrica: st.metrica || steps[i % 4].metrica,
+  }));
 
   // Auto-cycle every 4s
   useEffect(() => {
     if (paused) return;
-    const t = setTimeout(() => setActive((a) => (a + 1) % steps.length), 4000);
+    const t = setTimeout(() => setActive((a) => (a + 1) % activeStepsList.length), 4000);
     return () => clearTimeout(t);
-  }, [active, paused]);
+  }, [active, paused, activeStepsList.length]);
 
-  const step = steps[active];
-  const StepIcon = step.icon;
+  const step = activeStepsList[active] || activeStepsList[0];
+  const StepIcon = step.icon || Users;
 
   return (
     <section className="relative w-full bg-white text-carbon border-t border-carbon/10 overflow-hidden py-20 md:py-28">
@@ -145,13 +155,20 @@ export default function FourStepStaticProcess() {
               ✦ Metodología Trébol
             </span>
             <h2 className="text-4xl md:text-6xl font-black text-carbon tracking-tighter leading-[0.92]">
-              Cómo <span className="text-trebol">trabajamos.</span>
+              {sec && sec.title ? (
+                sec.title
+              ) : (
+                <>Cómo <span className="text-trebol">trabajamos.</span></>
+              )}
             </h2>
+            {sec && sec.subtitle && (
+              <p className="text-sm font-mono text-carbon/60 mt-2">{sec.subtitle}</p>
+            )}
           </div>
 
           {/* Step tabs */}
           <div className="flex gap-2">
-            {steps.map((s, i) => (
+            {activeStepsList.map((s, i) => (
               <button
                 key={i}
                 onClick={() => { setActive(i); setPaused(true); }}
