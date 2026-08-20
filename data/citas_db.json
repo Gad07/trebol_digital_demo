@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cita_ejemplo_1",
+    "nombre": "Carlos Mendoza",
+    "email": "carlos@grupoindustrialb2b.com",
+    "telefono": "+52 55 1234 5678",
+    "empresa": "Grupo Industrial B2B",
+    "host_nombre": "Gadiel Palma",
+    "fecha": "Vie 22 Ago",
+    "hora": "10:00 AM",
+    "mensaje": "Interesado en implementar Agentes Conversacionales de IA y migración web a Next.js.",
+    "notas": "Cliente potencial de alto valor. Se presentó demo de IA en la primera llamada. Solicita propuesta técnica y de costos.",
+    "proxima_reunion": "Mar 26 Ago · 11:00 AM",
+    "status": "confirmed"
+  },
+  {
+    "id": "cita_ejemplo_2",
+    "nombre": "Valeria Sotomayor",
+    "email": "valeria@logisticacdmx.com",
+    "telefono": "+52 55 9876 5432",
+    "empresa": "Logística CDMX",
+    "host_nombre": "Sandra Cuevas",
+    "fecha": "Lun 25 Ago",
+    "hora": "03:00 PM",
+    "mensaje": "Busca rediseño de embudo publicitario y aceleración de cultura organizacional para su equipo.",
+    "notas": "Se revisaron los embudos actuales. Le interesan las campañas de aceleración B2B. Pendiente de enviar cotización formal.",
+    "proxima_reunion": "Jue 28 Ago · 04:00 PM",
+    "status": "confirmed"
+  }
+]

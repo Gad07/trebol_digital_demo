@@ -196,7 +196,7 @@ async function initMySQL() {
   `);
   console.log('✅ Tarjeta ejecutiva secundaria (sandra-cuevas) insertada exitosamente.');
 
-  // Tabla Citas / Agendamientos (Estilo Calendly)
+  // Tabla Citas / Agendamientos (Estilo Calendly & CRM)
   await connection.query(`
     CREATE TABLE IF NOT EXISTS citas (
       id VARCHAR(255) PRIMARY KEY,
@@ -208,10 +208,80 @@ async function initMySQL() {
       fecha VARCHAR(50) NOT NULL,
       hora VARCHAR(50) NOT NULL,
       mensaje TEXT,
+      notas TEXT,
+      proxima_reunion VARCHAR(255),
       status VARCHAR(50) DEFAULT 'confirmed',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
+
+  // Asegurar columnas notas y proxima_reunion si la tabla ya existía
+  try { await connection.query('ALTER TABLE citas ADD COLUMN notas TEXT;'); } catch (e) {}
+  try { await connection.query('ALTER TABLE citas ADD COLUMN proxima_reunion VARCHAR(255);'); } catch (e) {}
+
+  // Insertar 2 citas de ejemplo para seguimiento CRM si no existen
+  const [existingCitas] = await connection.query("SELECT id FROM citas WHERE id IN ('cita_ejemplo_1', 'cita_ejemplo_2')");
+  if (existingCitas.length === 0) {
+    await connection.query(`
+      INSERT INTO citas (id, nombre, email, telefono, empresa, host_nombre, fecha, hora, mensaje, notas, proxima_reunion, status)
+      VALUES 
+      (
+        'cita_ejemplo_1',
+        'Carlos Mendoza',
+        'carlos@grupoindustrialb2b.com',
+        '+52 55 1234 5678',
+        'Grupo Industrial B2B',
+        'Gadiel Palma',
+        'Vie 22 Ago',
+        '10:00 AM',
+        'Interesado en implementar Agentes Conversacionales de IA y migración web a Next.js.',
+        'Cliente potencial de alto valor. Se presentó demo de IA en la primera llamada. Solicita propuesta técnica y de costos.',
+        'Mar 26 Ago · 11:00 AM',
+        'confirmed'
+      ),
+      (
+        'cita_ejemplo_2',
+        'Valeria Sotomayor',
+        'valeria@logisticacdmx.com',
+        '+52 55 9876 5432',
+        'Logística CDMX',
+        'Sandra Cuevas',
+        'Lun 25 Ago',
+        '03:00 PM',
+        'Busca rediseño de embudo publicitario y aceleración de cultura organizacional para su equipo.',
+        'Se revisaron los embudos actuales. Le interesan las campañas de aceleración B2B. Pendiente de enviar cotización formal.',
+        'Jue 28 Ago · 04:00 PM',
+        'confirmed'
+      );
+    `);
+    console.log('✅ 2 Citas de ejemplo con seguimiento CRM insertadas exitosamente.');
+  }
+
+  // Tabla Usuarios & Roles (RBAC)
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS usuarios (
+      id VARCHAR(255) PRIMARY KEY,
+      username VARCHAR(100) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255),
+      role VARCHAR(50) NOT NULL DEFAULT 'editor_contenido',
+      permissions TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+
+  const [existingUsers] = await connection.query("SELECT id FROM usuarios WHERE username IN ('admin', 'editor', 'ventas')");
+  if (existingUsers.length === 0) {
+    await connection.query(`
+      INSERT INTO usuarios (id, username, password, name, email, role, permissions)
+      VALUES 
+      ('usr_superadmin', 'admin', 'admin', 'Gadiel Palma', 'gadiel@treboldigital.com', 'super_admin', '["manage_users","edit_landings","edit_blogs","edit_casos","edit_tarjetas","manage_crm","manage_popups"]'),
+      ('usr_editor', 'editor', 'editor123', 'Sandra Cuevas', 'sandra@treboldigital.com', 'editor_contenido', '["edit_landings","edit_blogs","edit_casos"]'),
+      ('usr_ventas', 'ventas', 'ventas123', 'Agente de Ventas CRM', 'ventas@treboldigital.com', 'agente_crm', '["manage_crm","edit_tarjetas"]');
+    `);
+    console.log('✅ Usuarios RBAC predeterminados creados (admin, editor, ventas).');
+  }
 
   console.log('✅ Base de datos y tablas creadas exitosamente en XAMPP MySQL.');
   await connection.end();
