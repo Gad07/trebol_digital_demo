@@ -988,7 +988,7 @@ export default function AdminPage() {
                   }`}
                 >
                   <User2 size={15} />
-                  <span>Tarjetas (.vcf)</span>
+                  <span>Directorio Ejecutivo</span>
                 </button>
 
                 <button
@@ -3710,17 +3710,17 @@ export default function AdminPage() {
                             {currentTarjeta.firstName} {currentTarjeta.lastName}
                           </h2>
                           <span className="text-xs font-mono text-neutral-400">
-                            Ruta pública: <strong className="text-trebol">/tarjeta/{currentTarjeta.slug}</strong>
+                            Ruta pública: <strong className="text-trebol">/directorio/{currentTarjeta.slug}</strong>
                           </span>
                         </div>
 
                         <div className="flex items-center gap-2">
                           <Link
-                            href={`/tarjeta/${currentTarjeta.slug}`}
+                            href={`/directorio/${currentTarjeta.slug}`}
                             target="_blank"
                             className="px-4 py-2.5 rounded-xl bg-hueso border border-neutral-200 text-carbon hover:text-trebol text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
                           >
-                            <span>Ver Tarjeta en Vivo</span>
+                            <span>Ver Perfil en Vivo</span>
                             <ExternalLink size={14} />
                           </Link>
 
