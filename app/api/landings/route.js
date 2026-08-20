@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getBlogsFromDB, saveBlogsToDB } from '@/lib/db';
+import { getLandingsFromDB, saveLandingsToDB } from '@/lib/db';
 
 export async function GET() {
-  const blogs = await getBlogsFromDB();
-  return NextResponse.json(blogs);
+  const landings = await getLandingsFromDB();
+  return NextResponse.json(landings);
 }
 
 export async function POST(req) {
@@ -12,7 +12,7 @@ export async function POST(req) {
     if (!Array.isArray(body)) {
       return NextResponse.json({ error: 'Payload debe ser un array' }, { status: 400 });
     }
-    await saveBlogsToDB(body);
+    await saveLandingsToDB(body);
     return NextResponse.json({ ok: true, count: body.length });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

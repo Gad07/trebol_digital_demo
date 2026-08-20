@@ -37,6 +37,22 @@ function OriginalAnimatedTrebolLogo({ className = "w-12 h-12" }) {
 }
 
 export function getThemeClasses(themeStyle) {
+  if (themeStyle === 'v2' || themeStyle === 'cinematic' || themeStyle === 'dark_cinematic') {
+    return {
+      wrapper: 'bg-black text-white font-sans selection:bg-trebol selection:text-white',
+      sectionBg: 'bg-black',
+      sectionBgAlt: 'bg-[#090a0f]',
+      heroBg: 'from-black via-black/90 via-70% to-transparent',
+      accentText: 'text-trebol font-bold drop-shadow-[0_0_20px_rgba(92,158,49,0.5)]',
+      badge: 'inline-block px-5 py-2 bg-white/5 backdrop-blur-3xl border border-white/10 text-white/80 font-mono font-bold tracking-widest uppercase rounded-full text-xs shadow-[0_0_20px_rgba(255,255,255,0.05)]',
+      buttonPrimary: 'bg-white text-black hover:bg-trebol hover:text-white font-extrabold shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(92,158,49,0.5)] rounded-full transition-all duration-500 cursor-pointer',
+      buttonSecondary: 'bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:bg-white/10 font-bold rounded-full transition-all cursor-pointer',
+      card: 'bg-white/5 backdrop-blur-xl border border-white/10 hover:border-trebol shadow-[0_0_40px_rgba(0,0,0,0.8)] rounded-3xl transition-all',
+      border: 'border-white/10',
+      heading: 'font-sans font-black tracking-tighter text-white',
+      glowColor: 'bg-trebol/30'
+    };
+  }
   if (themeStyle === 'dark' || themeStyle === 'darkmode') {
     return {
       wrapper: 'bg-[#14161A] text-slate-100 font-sans',

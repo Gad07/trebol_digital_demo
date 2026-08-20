@@ -1,27 +1,18 @@
 import { NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-
-const DB_PATH = join(process.cwd(), 'data', 'casos_db.json');
-
-function readCasos() {
-  try { return JSON.parse(readFileSync(DB_PATH, 'utf-8')); }
-  catch (e) { return []; }
-}
-
-function writeCasos(data) {
-  writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
-}
+import { getCasosFromDB, saveCasosToDB } from '@/lib/db';
 
 export async function GET() {
-  return NextResponse.json(readCasos());
+  const casos = await getCasosFromDB();
+  return NextResponse.json(casos);
 }
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    if (!Array.isArray(body)) return NextResponse.json({ error: 'Payload debe ser un array' }, { status: 400 });
-    writeCasos(body);
+    if (!Array.isArray(body)) {
+      return NextResponse.json({ error: 'Payload debe ser un array' }, { status: 400 });
+    }
+    await saveCasosToDB(body);
     return NextResponse.json({ ok: true, count: body.length });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

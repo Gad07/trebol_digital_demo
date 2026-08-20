@@ -112,11 +112,10 @@ export default function AgendaPage() {
                   <div key={p.id} className="flex items-center flex-1">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black transition-all ${
-                          paso >= p.id
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black transition-all ${paso >= p.id
                             ? 'bg-trebol text-white shadow-lg'
                             : 'bg-carbon/10 text-carbon/40'
-                        }`}
+                          }`}
                       >
                         {paso > p.id ? <CheckCircle2 size={18} /> : p.id}
                       </div>
@@ -141,7 +140,7 @@ export default function AgendaPage() {
                       className="flex flex-col gap-10"
                     >
                       <h2 className="text-3xl md:text-4xl font-extrabold text-carbon tracking-tight">Cuéntanos de ti.</h2>
-                      
+
                       <div className="flex flex-col border-b-2 border-carbon/10 pb-4 focus-within:border-trebol transition-colors">
                         <input
                           type="text"
@@ -194,11 +193,10 @@ export default function AgendaPage() {
                               type="button"
                               key={ind}
                               onClick={() => setForm({ ...form, industria: ind })}
-                              className={`text-base font-medium px-5 py-2.5 rounded-full border transition-all duration-300 ${
-                                form.industria === ind
+                              className={`text-base font-medium px-5 py-2.5 rounded-full border transition-all duration-300 ${form.industria === ind
                                   ? 'bg-trebol text-white border-trebol shadow-md'
                                   : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
-                              }`}
+                                }`}
                             >
                               {ind}
                             </button>
@@ -226,11 +224,10 @@ export default function AgendaPage() {
                             type="button"
                             key={d}
                             onClick={() => toggleDesafio(d)}
-                            className={`flex items-center gap-4 w-full text-left p-5 rounded-2xl border transition-all duration-300 ${
-                              form.desafios.includes(d)
+                            className={`flex items-center gap-4 w-full text-left p-5 rounded-2xl border transition-all duration-300 ${form.desafios.includes(d)
                                 ? 'bg-trebol text-white border-trebol shadow-md'
                                 : 'bg-white/60 border-carbon/10 text-carbon/80 hover:border-carbon/30'
-                            }`}
+                              }`}
                           >
                             <span className="text-xl font-light">{d}</span>
                           </button>
@@ -263,11 +260,10 @@ export default function AgendaPage() {
                                     type="button"
                                     key={slot}
                                     onClick={() => setForm({ ...form, diaHora: val })}
-                                    className={`text-base font-semibold px-6 py-3 rounded-full border transition-all duration-300 ${
-                                      form.diaHora === val
+                                    className={`text-base font-semibold px-6 py-3 rounded-full border transition-all duration-300 ${form.diaHora === val
                                         ? 'bg-trebol text-white border-trebol shadow-md'
                                         : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
-                                    }`}
+                                      }`}
                                   >
                                     {slot}
                                   </button>
@@ -290,7 +286,7 @@ export default function AgendaPage() {
                       className="flex flex-col gap-8"
                     >
                       <h2 className="text-3xl md:text-4xl font-extrabold text-carbon tracking-tight">Confirma tu sesión.</h2>
-                      
+
                       <div className="bg-white/70 backdrop-blur-md rounded-3xl p-8 border border-white/80 flex flex-col gap-4 text-lg">
                         <div className="flex justify-between border-b border-carbon/10 pb-3">
                           <span className="text-carbon/60 font-light">Nombre</span>

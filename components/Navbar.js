@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   ArrowUpRight,
+  QrCode,
 } from 'lucide-react';
 
 // ── ISOTIPO OFICIAL TRÉBOL DIGITAL (PNG) ──
@@ -32,21 +33,21 @@ function TrebolLogoSVG({ className = "w-6 h-6", variant = "color" }) {
 const solucionesItems = [
   {
     title: 'Marketing Estratégico',
-    desc: 'Posicionamiento, redes sociales y campañas de alto impacto',
+    desc: 'Posicionamiento, redes sociales, pauta y adquisición de clientes',
     href: '/soluciones/marketing-estrategico',
     icon: Target,
   },
   {
-    title: 'Desarrollo Web & Apps',
-    desc: 'Plataformas web corporativas, tiendas online y portales a la medida',
-    href: '/soluciones/desarrollo-web',
-    icon: Globe,
-  },
-  {
-    title: 'IA Aplicada al Negocio',
-    desc: 'Capacitación a tu equipo, implementación de IA y asistentes inteligentes',
+    title: 'IA Aplicada & Agentes',
+    desc: 'Automatización de procesos, chatbots 24/7 y análisis predictivo',
     href: '/soluciones/ia-aplicada',
     icon: Bot,
+  },
+  {
+    title: 'Desarrollo Web & Apps',
+    desc: 'Sitios en Next.js, SEO técnico, velocidad y diseño de alta conversión',
+    href: '/soluciones/desarrollo-web',
+    icon: Globe,
   },
   {
     title: 'Desarrollo Organizacional',

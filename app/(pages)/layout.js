@@ -1,17 +1,7 @@
-import dynamic from 'next/dynamic';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-
 /**
- * Shared layout for all interior pages (non-homepage).
- * Wraps children with the main Navbar and Footer.
+ * Shared layout for interior pages group.
+ * Global Navbar and Footer are rendered once in root layout (app/layout.js).
  */
 export default function PagesLayout({ children }) {
-  return (
-    <>
-      <Navbar />
-      {children}
-      <Footer />
-    </>
-  );
+  return <>{children}</>;
 }

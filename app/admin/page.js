@@ -14,7 +14,10 @@ import {
 } from 'lucide-react';
 import { COLOR_PRESETS, DEFAULT_POPUPS_LIST } from '../../components/PopupSystem';
 import DynamicLandingRenderer from '../../components/DynamicLandingRenderer';
-import DEFAULT_BLOGS_LIST from '../../data/blogs_db.json';
+const DEFAULT_BLOGS_LIST = [];
+const DEFAULT_LANDINGS_LIST = [];
+const DEFAULT_CASOS_LIST = [];
+const DEFAULT_TESTIMONIOS_LIST = [];
 
 const RESERVED_SYSTEM_ROUTES = [
   '/', '/admin', '/metodo', '/agenda', '/casos-de-exito',
@@ -22,10 +25,6 @@ const RESERVED_SYSTEM_ROUTES = [
   '/soluciones/desarrollo-web', '/soluciones/desarrollo-organizacional',
   '/insights/blog', '/politica-de-privacidad', '/terminos-y-condiciones'
 ];
-
-import DEFAULT_LANDINGS_LIST from '../../data/landings_db.json';
-import DEFAULT_CASOS_LIST from '../../data/casos_db.json';
-import DEFAULT_TESTIMONIOS_LIST from '../../data/testimonios_db.json';
 
 const CASOS_CATEGORIAS = ['Marketing Estratégico', 'IA Aplicada', 'Desarrollo Organizacional', 'Desarrollo Web', 'ERP & Apps', 'Consultoría B2B'];
 
@@ -109,7 +108,25 @@ export default function AdminPage() {
   const [testimoniosSaving, setTestimoniosSaving] = useState(false);
   const [testimoniosLoading, setTestimoniosLoading] = useState(true);
 
+  // Tarjetas Ejecutivas
+  const [tarjetasList, setTarjetasList] = useState([]);
+  const [selectedTarjetaId, setSelectedTarjetaId] = useState('');
+  const [tarjetaSaved, setTarjetaSaved] = useState(false);
+  const [tarjetaSaving, setTarjetaSaving] = useState(false);
+  const [tarjetasLoading, setTarjetasLoading] = useState(true);
+
   useEffect(() => {
+    // Cargar tarjetas desde servidor
+    fetch('/api/tarjetas')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setTarjetasList(data);
+          setSelectedTarjetaId(data[0].id);
+        }
+      })
+      .catch((e) => console.warn('Error al cargar tarjetas:', e))
+      .finally(() => setTarjetasLoading(false));
     try {
       const auth = sessionStorage.getItem('trebol_admin_authenticated');
       if (auth === 'true') setIsAuthenticated(true);
@@ -732,6 +749,73 @@ export default function AdminPage() {
     }
   };
 
+  // ════════════════════════════════════════════════════════════
+  // TARJETAS EJECUTIVAS FUNCTIONS
+  // ════════════════════════════════════════════════════════════
+  const currentTarjeta = tarjetasList.find((t) => t.id === selectedTarjetaId || t.slug === selectedTarjetaId) || tarjetasList[0];
+
+  const updateCurrentTarjeta = (fields) => {
+    if (!currentTarjeta) return;
+    const updated = { ...currentTarjeta, ...fields };
+    const newList = tarjetasList.map((t) => (t.id === currentTarjeta.id ? updated : t));
+    setTarjetasList(newList);
+  };
+
+  const createNewTarjeta = () => {
+    const timestamp = Date.now();
+    const newTarjeta = {
+      id: `tarjeta_${timestamp}`,
+      slug: `ejecutivo-${timestamp.toString().slice(-4)}`,
+      firstName: 'NUEVO',
+      lastName: 'EJECUTIVO',
+      title: 'DIRECTOR DE ESTRATEGIA',
+      company: 'TRÉBOL DIGITAL',
+      bio: 'Escribe aquí la introducción ejecutiva del perfil.',
+      phone: '+52 55 0000 0000',
+      email: 'ejecutivo@treboldigital.com',
+      website: 'treboldigital.com',
+      websiteUrl: 'https://treboldigital.com',
+      whatsappUrl: 'https://wa.me/525500000000',
+      photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95',
+      semblanzaP1: 'Resumen de la trayectoria profesional y áreas de especialización.',
+      semblanzaP2: 'Logros destacados y acompañamiento técnico a organizaciones.',
+      citaTexto: 'Frase ejecutiva o visión estratégica.',
+      status: 'published'
+    };
+    const newList = [newTarjeta, ...tarjetasList];
+    setTarjetasList(newList);
+    setSelectedTarjetaId(newTarjeta.id);
+  };
+
+  const deleteCurrentTarjeta = async (idOrSlug) => {
+    try {
+      await fetch(`/api/tarjetas/${idOrSlug}`, { method: 'DELETE' });
+      const newList = tarjetasList.filter((t) => t.id !== idOrSlug && t.slug !== idOrSlug);
+      setTarjetasList(newList);
+      setSelectedTarjetaId(newList[0]?.id || '');
+    } catch (e) {
+      console.warn('Error al eliminar tarjeta:', e);
+    }
+  };
+
+  const saveTarjetaToServer = async () => {
+    if (!currentTarjeta) return;
+    setTarjetaSaving(true);
+    try {
+      await fetch('/api/tarjetas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentTarjeta)
+      });
+      setTarjetaSaved(true);
+      setTimeout(() => setTarjetaSaved(false), 2500);
+    } catch (e) {
+      console.warn('Error al guardar tarjeta en servidor:', e);
+    } finally {
+      setTarjetaSaving(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-hueso text-carbon font-sans selection:bg-trebol selection:text-white">
       {!isAuthenticated ? (
@@ -812,82 +896,83 @@ export default function AdminPage() {
         /* DASHBOARD ADMIN CON MAQUETADOR MODULAR DE SECCIONES */
         <div className="min-h-screen flex flex-col bg-hueso font-sans">
           
-          <header className="bg-white/95 backdrop-blur-xl border-b border-neutral-200/90 px-6 py-3.5 sticky top-0 z-50 shadow-sm">
-            <div className="max-w-[1500px] mx-auto flex flex-wrap items-center justify-between gap-4">
+          <header className="bg-white/95 backdrop-blur-xl border-b border-neutral-200/90 px-6 py-3 sticky top-0 z-50 shadow-sm">
+            <div className="max-w-[1700px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-3">
               
-              {/* Brand & Logo PNG Original */}
-              <div className="flex items-center gap-3">
-                <div className="shrink-0">
+              {/* Brand Logo & User Info */}
+              <div className="flex items-center gap-3 self-start xl:self-auto">
+                <div className="shrink-0 relative">
                   <img
                     src="/images/TREBOL_01.png"
-                    alt="Trébol Digital Admin Logo"
-                    className="w-10 h-10 object-contain hover:rotate-180 transition-transform duration-700 ease-in-out cursor-pointer drop-shadow-sm"
+                    alt="Trébol Logo"
+                    className="w-9 h-9 object-contain hover:rotate-180 transition-transform duration-700 ease-in-out cursor-pointer drop-shadow-sm"
                   />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5"></span>
                 </div>
                 <div>
-                  <h1 className="font-black text-carbon text-lg tracking-tight">Configuraciones de página</h1>
-                  <p className="text-xs font-mono text-neutral-500 font-bold mt-0.5">
-                    Bienvenido <span className="text-trebol">@{email ? email.split('@')[0] : 'admin'}</span>
+                  <h1 className="font-black text-carbon text-base tracking-tight leading-tight">Trébol Admin</h1>
+                  <p className="text-[11px] font-mono text-neutral-500 font-bold">
+                    Panel Ejecutivo <span className="text-trebol font-extrabold">@{email ? email.split('@')[0] : 'admin'}</span>
                   </p>
                 </div>
               </div>
 
-              {/* Pestañas Admin */}
-              <div className="flex items-center bg-hueso/80 p-1.5 rounded-2xl border border-neutral-200 font-mono text-xs shadow-inner">
+              {/* Contenedor de Pestañas Navegables */}
+              <div className="w-full xl:w-auto overflow-x-auto no-scrollbar flex items-center bg-neutral-100/90 p-1.5 rounded-2xl border border-neutral-200/90 font-mono text-xs shadow-inner gap-1 shrink-0">
                 <button
                   onClick={() => setActiveTab('popups')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'popups'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/60'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <Sliders size={15} />
-                  <span>Editor de Popups</span>
+                  <span>Popups</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('landings')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'landings'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/60'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <Layout size={15} />
-                  <span>Maquetador de Landings</span>
+                  <span>Landings</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('blogs')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'blogs'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/60'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <BookOpen size={15} />
-                  <span>Editor de Blog</span>
+                  <span>Blog</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('casos')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'casos'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/60'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <Award size={15} />
-                  <span>Casos de Éxito</span>
+                  <span>Casos</span>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('testimonios')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'testimonios'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/60'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <Quote size={15} />
@@ -895,35 +980,47 @@ export default function AdminPage() {
                 </button>
 
                 <button
+                  onClick={() => setActiveTab('tarjetas')}
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+                    activeTab === 'tarjetas'
+                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
+                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
+                  }`}
+                >
+                  <User2 size={15} />
+                  <span>Tarjetas (.vcf)</span>
+                </button>
+
+                <button
                   onClick={() => setActiveTab('leads')}
-                  className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === 'leads'
                       ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-400 hover:text-carbon'
+                      : 'text-neutral-500 hover:text-carbon hover:bg-white/80'
                   }`}
                 >
                   <MessageSquare size={15} />
-                  <span>Leads & CRM</span>
+                  <span>Leads</span>
                 </button>
               </div>
 
-              {/* Acciones */}
-              <div className="flex items-center gap-3">
+              {/* Acciones Rápidas */}
+              <div className="flex items-center gap-2.5 self-end xl:self-auto shrink-0">
                 <Link
-                  href="/soluciones/ia-aplicada"
+                  href="/"
                   target="_blank"
-                  className="px-4 py-2 rounded-xl bg-hueso border border-neutral-200 text-carbon/80 hover:text-trebol font-mono text-xs font-bold flex items-center gap-1.5 transition-all hover:bg-white shadow-sm"
+                  className="px-3.5 py-2 rounded-xl bg-hueso border border-neutral-200 text-carbon/80 hover:text-trebol font-mono text-xs font-bold flex items-center gap-1.5 transition-all hover:bg-white shadow-sm"
                 >
-                  <Globe size={15} />
-                  <span>Ver Sitio Web</span>
-                  <ExternalLink size={13} />
+                  <Globe size={14} />
+                  <span>Ver Sitio</span>
+                  <ExternalLink size={12} />
                 </Link>
 
                 <button
                   onClick={handleLogout}
-                  className="px-3.5 py-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 font-mono text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors"
+                  className="px-3.5 py-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white font-mono text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors"
                 >
-                  <LogOut size={15} />
+                  <LogOut size={14} />
                   <span>Salir</span>
                 </button>
               </div>
@@ -3544,6 +3641,259 @@ export default function AdminPage() {
                   </div>
                 </main>
                 )}
+              </div>
+            )}
+
+            {/* MÓDULO TARJETAS EJECUTIVAS */}
+            {activeTab === 'tarjetas' && (
+              <div className="flex-1 flex flex-col md:flex-row">
+                <aside className="w-full md:w-72 bg-white border-r border-neutral-200/80 p-5 space-y-4 shadow-sm shrink-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10.5px] font-mono font-bold text-neutral-400 uppercase tracking-wider">
+                      Tarjetas Ejecutivas ({tarjetasList.length})
+                    </span>
+                    <button
+                      onClick={createNewTarjeta}
+                      className="p-1.5 rounded-xl bg-trebol/10 text-trebol hover:bg-trebol hover:text-white transition-all cursor-pointer"
+                      title="Crear Nueva Tarjeta"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+
+                  <div className="space-y-2 max-h-[75vh] overflow-y-auto pr-1">
+                    {tarjetasList.length === 0 ? (
+                      <div className="p-4 rounded-2xl bg-hueso border border-dashed border-neutral-300 text-center space-y-2">
+                        <p className="text-[11px] text-neutral-400 font-mono">No hay tarjetas creadas</p>
+                        <button
+                          onClick={createNewTarjeta}
+                          className="px-3 py-1.5 rounded-xl bg-trebol text-white font-mono text-[10px] font-bold cursor-pointer hover:bg-carbon transition-all"
+                        >
+                          + Crear Tarjeta
+                        </button>
+                      </div>
+                    ) : (
+                      tarjetasList.map((t) => (
+                        <div
+                          key={t.id || t.slug}
+                          onClick={() => setSelectedTarjetaId(t.id || t.slug)}
+                          className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                            (selectedTarjetaId === t.id || selectedTarjetaId === t.slug || currentTarjeta?.id === t.id)
+                              ? 'bg-trebol/10 border-trebol text-trebol shadow-sm font-extrabold'
+                              : 'bg-hueso/60 border-neutral-200 text-carbon hover:bg-white'
+                          }`}
+                        >
+                          <div className="truncate space-y-0.5">
+                            <span className="text-xs block truncate font-bold">{t.firstName} {t.lastName}</span>
+                            <span className="text-[10px] font-mono text-neutral-500 block truncate">
+                              /{t.slug}
+                            </span>
+                          </div>
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-white border border-neutral-200 text-trebol font-bold shrink-0">
+                            SQL
+                          </span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </aside>
+
+                {/* EDITOR FORMULARIO TARJETA */}
+                <div className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-h-[85vh]">
+                  {currentTarjeta ? (
+                    <div className="max-w-4xl mx-auto space-y-6">
+                      
+                      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Editor de Tarjeta Ejecutiva</span>
+                          <h2 className="text-2xl font-black text-carbon">
+                            {currentTarjeta.firstName} {currentTarjeta.lastName}
+                          </h2>
+                          <span className="text-xs font-mono text-neutral-400">
+                            Ruta pública: <strong className="text-trebol">/tarjeta/{currentTarjeta.slug}</strong>
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/tarjeta/${currentTarjeta.slug}`}
+                            target="_blank"
+                            className="px-4 py-2.5 rounded-xl bg-hueso border border-neutral-200 text-carbon hover:text-trebol text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
+                          >
+                            <span>Ver Tarjeta en Vivo</span>
+                            <ExternalLink size={14} />
+                          </Link>
+
+                          <button
+                            onClick={saveTarjetaToServer}
+                            disabled={tarjetaSaving}
+                            className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md inline-flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Save size={14} />
+                            <span>{tarjetaSaving ? 'Guardando...' : tarjetaSaved ? '¡Guardado!' : 'Guardar en MySQL'}</span>
+                          </button>
+
+                          <button
+                            onClick={() => deleteCurrentTarjeta(currentTarjeta.id)}
+                            className="p-2.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer"
+                            title="Eliminar Tarjeta"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-3xl border border-neutral-200 shadow-sm">
+                        
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">URL Slug (ej. gabriel-paz o tu-nombre)</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.slug || ''}
+                            onChange={(e) => updateCurrentTarjeta({ slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">URL de Foto de Retrato</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.photoUrl || ''}
+                            onChange={(e) => updateCurrentTarjeta({ photoUrl: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Primer Nombre</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.firstName || ''}
+                            onChange={(e) => updateCurrentTarjeta({ firstName: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Apellido (Se muestra en itálica verde)</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.lastName || ''}
+                            onChange={(e) => updateCurrentTarjeta({ lastName: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Cargo / Puesto</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.title || ''}
+                            onChange={(e) => updateCurrentTarjeta({ title: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Empresa</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.company || ''}
+                            onChange={(e) => updateCurrentTarjeta({ company: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="md:col-span-2 space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Biografía de Presentación</label>
+                          <textarea
+                            rows={3}
+                            value={currentTarjeta.bio || ''}
+                            onChange={(e) => updateCurrentTarjeta({ bio: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Correo Electrónico</label>
+                          <input
+                            type="email"
+                            value={currentTarjeta.email || ''}
+                            onChange={(e) => updateCurrentTarjeta({ email: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Teléfono / WhatsApp</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.phone || ''}
+                            onChange={(e) => updateCurrentTarjeta({ phone: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Sitio Web (Texto visible)</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.website || ''}
+                            onChange={(e) => updateCurrentTarjeta({ website: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Enlace WhatsApp (URL completa)</label>
+                          <input
+                            type="text"
+                            value={currentTarjeta.whatsappUrl || ''}
+                            onChange={(e) => updateCurrentTarjeta({ whatsappUrl: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="md:col-span-2 space-y-1 border-t border-neutral-100 pt-4">
+                          <label className="text-xs font-mono font-bold text-trebol uppercase">Semblanza Ejecutiva - Párrafo 1</label>
+                          <textarea
+                            rows={3}
+                            value={currentTarjeta.semblanzaP1 || ''}
+                            onChange={(e) => updateCurrentTarjeta({ semblanzaP1: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="md:col-span-2 space-y-1">
+                          <label className="text-xs font-mono font-bold text-trebol uppercase">Semblanza Ejecutiva - Párrafo 2</label>
+                          <textarea
+                            rows={3}
+                            value={currentTarjeta.semblanzaP2 || ''}
+                            onChange={(e) => updateCurrentTarjeta({ semblanzaP2: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="md:col-span-2 space-y-1">
+                          <label className="text-xs font-mono font-bold text-trebol uppercase">Cita / Visión Estratégica (Quote Box)</label>
+                          <textarea
+                            rows={2}
+                            value={currentTarjeta.citaTexto || ''}
+                            onChange={(e) => updateCurrentTarjeta({ citaTexto: e.target.value })}
+                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-serif italic focus:border-trebol focus:bg-white focus:outline-none"
+                          />
+                        </div>
+
+                      </div>
+
+                    </div>
+                  ) : (
+                    <div className="text-center py-20 font-mono text-xs text-neutral-400">
+                      Selecciona una tarjeta ejecutiva a la izquierda o crea una nueva.
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
