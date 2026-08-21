@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rec-1",
+    "tipo": "Plantilla",
+    "formato": ".XLSX",
+    "descargas": "1,420 descargas",
+    "titulo": "Calendario Editorial Mensual",
+    "desc": "Organiza todo tu contenido del mes en un sistema simple y efectivo. Incluye columnas para canal, formato, tema, copy y estado.",
+    "tags": ["Marketing", "Contenido", "Redes"],
+    "downloadUrl": "#"
+  },
+  {
+    "id": "rec-2",
+    "tipo": "Guía Práctica",
+    "formato": ".PDF",
+    "descargas": "2,100 descargas",
+    "titulo": "Cómo Usar ChatGPT en tu Empresa",
+    "desc": "Guía de 30 páginas con prompts probados, casos de uso reales y un plan de implementación por área de negocio.",
+    "tags": ["IA", "Productividad", "Prompts"],
+    "downloadUrl": "#"
+  },
+  {
+    "id": "rec-3",
+    "tipo": "Checklist",
+    "formato": ".NOTION",
+    "descargas": "980 descargas",
+    "titulo": "Auditoría de Presencia Digital",
+    "desc": "47 puntos de revisión para evaluar el estado actual de tu negocio digital: web, redes, SEO, contenido y conversión.",
+    "tags": ["Marketing", "Diagnóstico"],
+    "downloadUrl": "#"
+  },
+  {
+    "id": "rec-4",
+    "tipo": "Framework",
+    "formato": ".PDF",
+    "descargas": "1,850 descargas",
+    "titulo": "Plan Estratégico a 90 Días",
+    "desc": "Marco de trabajo para definir objetivos, métricas, acciones y responsables. El mismo que usamos con nuestros clientes.",
+    "tags": ["Estrategia", "Planeación"],
+    "downloadUrl": "#"
+  }
+]

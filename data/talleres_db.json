@@ -1,0 +1,59 @@
+[
+  {
+    "id": "tal-1",
+    "titulo": "IA para no técnicos: Herramientas que cambian tu negocio",
+    "tipo": "Taller Intensivo",
+    "modalidad": "Online en Vivo",
+    "duracion": "4 Horas",
+    "fecha": "15 Agosto, 2026",
+    "hora": "10:00 AM – 2:00 PM (CST)",
+    "precio": "Gratuito",
+    "cupos": "Quedan 5 lugares",
+    "desc": "Aprende a utilizar ChatGPT, Gemini, Make y agentes IA en la operación diaria de tu empresa. Cero código.",
+    "imagen": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80",
+    "temas": [
+      "Panorama IA 2026 & Herramientas Clave",
+      "ChatGPT & Claude para automatización operativa",
+      "Construcción de tu primer flujo en Make (30 min)",
+      "Entrenamiento de Agentes IA de atención y ventas"
+    ]
+  },
+  {
+    "id": "tal-2",
+    "titulo": "Marketing Digital para PYMEs: De 0 a Estrategia en 1 Día",
+    "tipo": "Workshop Presencial",
+    "modalidad": "Presencial · Toluca",
+    "duracion": "6 Horas",
+    "fecha": "22 Agosto, 2026",
+    "hora": "9:00 AM – 3:00 PM (CST)",
+    "precio": "$1,500 MXN",
+    "cupos": "Quedan 3 lugares",
+    "desc": "Estructura tu marca, crea contenido que vende y lanza campañas de Google Ads rentables con resultados medibles.",
+    "imagen": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80",
+    "temas": [
+      "Buyer Persona & Propuesta de Valor Única",
+      "Calendario Editorial & Copywriting de Conversión",
+      "SEO Local Google Maps & Optimización GMB",
+      "Campañas Básicas de Google Ads B2B/B2C"
+    ]
+  },
+  {
+    "id": "tal-3",
+    "titulo": "Comunicación Interna Efectiva para Equipos en Crecimiento",
+    "tipo": "Programa In-Company",
+    "modalidad": "Presencial u Online",
+    "duracion": "3 Horas",
+    "fecha": "A Convenir",
+    "hora": "Horario flexible",
+    "precio": "A Medida",
+    "cupos": "Hasta 30 personas",
+    "desc": "Taller práctico para mejorar la coordinación del equipo, reducir reuniones innecesarias y mejorar la claridad de roles.",
+    "imagen": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80",
+    "temas": [
+      "Diagnóstico de Comunicación Interdepartamental",
+      "Matriz RACI y Claridad de Responsabilidades",
+      "Reuniones Efectivas: Metodología 15 Minutos",
+      "Cultura de Transparencia y Retroalimentación"
+    ]
+  }
+]

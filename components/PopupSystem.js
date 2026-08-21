@@ -101,6 +101,39 @@ export const DEFAULT_POPUPS_LIST = [
     buttonBg: '#5C9E43',
     buttonTextColor: '#FFFFFF',
     bulletIconColor: '#5C9E43',
+  },
+  {
+    id: 'popup-promo-bg',
+    name: 'Promoción Exclusiva (Fondo BG Red)',
+    isEnabled: true,
+    position: 'center',
+    displayTrigger: 'delay',
+    delaySeconds: 3,
+    targetPages: 'all',
+    persistence: 'always',
+
+    badgeText: 'PROMOCIÓN EXCLUSIVA',
+    title: 'Nuevo Título Promocional',
+    subtitle: 'Descripción personalizada para tu nueva campaña.',
+    showBullets: false,
+    
+    showCtaButton: true,
+    ctaText: 'Solicitar Información',
+    ctaUrl: 'https://wa.me/525564929081?text=Hola,%20quisiera%20solicitar%20informaci%C3%B3n.',
+    
+    imageUrl: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80',
+    showImage: true,
+    imagePosition: 'full-bg',
+    useImageGradientOverlay: true,
+
+    showCountdown: false,
+    bgColor: '#8B0000',
+    textColor: '#FFFFFF',
+    subtitleColor: '#E2E8F0',
+    badgeBg: '#5C9E43',
+    badgeTextColor: '#FFFFFF',
+    buttonBg: '#5C9E43',
+    buttonTextColor: '#FFFFFF',
   }
 ];
 
@@ -111,13 +144,24 @@ export default function PopupSystem() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('trebol_popups_list_v2');
+      const saved = localStorage.getItem('trebol_popups_list_v3');
       if (saved) {
         setPopupsList(JSON.parse(saved));
       }
     } catch (e) {
       console.warn('Error loading popups list', e);
     }
+
+    // Listener para disparo manual desde el panel de administración
+    const handlePreview = (e) => {
+      const popupData = e.detail;
+      if (popupData) {
+        setActivePopup({ ...popupData, isEnabled: true });
+        setCountdown((popupData.countdownMinutes || 15) * 60);
+      }
+    };
+    window.addEventListener('trebol:preview-popup', handlePreview);
+    return () => window.removeEventListener('trebol:preview-popup', handlePreview);
   }, []);
 
   // Lógica de Triggers: Buscar ÚNICAMENTE EL ÚNICO POPUP ACTIVO
@@ -208,7 +252,7 @@ export default function PopupSystem() {
   const pos = activePopup.position || 'center';
   const isLeftSplit = activePopup.showImage && activePopup.imagePosition === 'left-split';
   const isRightSplit = activePopup.showImage && activePopup.imagePosition === 'right-split';
-  const isFullBackground = activePopup.showImage && activePopup.imagePosition === 'full-background';
+  const isFullBackground = activePopup.showImage && (activePopup.imagePosition === 'full-bg' || activePopup.imagePosition === 'full-background');
   const isTopBanner = activePopup.showImage && activePopup.imagePosition === 'top-banner';
   const currentBgColor = activePopup.bgColor || '#FFFFFF';
 
@@ -222,14 +266,14 @@ export default function PopupSystem() {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            style={{ backgroundColor: currentBgColor }}
+            style={{ backgroundColor: isFullBackground ? 'transparent' : currentBgColor }}
             className={`rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.3)] border border-white/20 relative overflow-hidden transition-all duration-300 w-full ${
               (isLeftSplit || isRightSplit) ? 'max-w-3xl flex flex-col md:flex-row' : 'max-w-lg'
             }`}
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center cursor-pointer transition-colors z-40 backdrop-blur-sm"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center cursor-pointer transition-colors z-40 backdrop-blur-sm"
             >
               <X size={16} />
             </button>
@@ -242,11 +286,11 @@ export default function PopupSystem() {
                   style={{ backgroundImage: `url(${activePopup.imageUrl})` }}
                 />
                 <div
-                  className="absolute inset-0 z-0 backdrop-blur-md"
+                  className="absolute inset-0 z-0 backdrop-blur-[2px]"
                   style={{
-                    background: activePopup.useImageGradientOverlay
-                      ? `linear-gradient(to bottom, rgba(15,23,42,0.4), ${currentBgColor}e6)`
-                      : 'rgba(15,23,42,0.6)'
+                    background: activePopup.useImageGradientOverlay !== false
+                      ? 'linear-gradient(to right, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.65) 50%, rgba(15, 23, 42, 0.15) 100%)'
+                      : 'rgba(15, 23, 42, 0.5)'
                   }}
                 />
               </>

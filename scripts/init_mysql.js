@@ -281,7 +281,39 @@ async function initMySQL() {
       ('usr_ventas', 'ventas', 'ventas123', 'Agente de Ventas CRM', 'ventas@treboldigital.com', 'agente_crm', '["manage_crm","edit_tarjetas"]');
     `);
     console.log('✅ Usuarios RBAC predeterminados creados (admin, editor, ventas).');
-  }
+  // Tabla Recursos Descargables
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS recursos (
+      id VARCHAR(255) PRIMARY KEY,
+      tipo VARCHAR(100),
+      formato VARCHAR(50),
+      descargas VARCHAR(100),
+      titulo VARCHAR(255) NOT NULL,
+      desc_texto TEXT,
+      tags TEXT,
+      download_url VARCHAR(255),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+
+  // Tabla Cursos & Talleres
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS talleres (
+      id VARCHAR(255) PRIMARY KEY,
+      titulo VARCHAR(255) NOT NULL,
+      tipo VARCHAR(100),
+      modalidad VARCHAR(100),
+      duracion VARCHAR(100),
+      fecha VARCHAR(100),
+      hora VARCHAR(100),
+      precio VARCHAR(100),
+      cupos VARCHAR(100),
+      desc_texto TEXT,
+      imagen VARCHAR(255),
+      temas TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
 
   console.log('✅ Base de datos y tablas creadas exitosamente en XAMPP MySQL.');
   await connection.end();

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Download, ArrowUpRight, FileText, Table, BookOpen, CheckCircle2, Sparkles, FileSpreadsheet, Check, Share2, Eye, Filter } from 'lucide-react';
@@ -75,19 +75,32 @@ const recursos = [
 ];
 
 export default function RecursosPage() {
+  const [recursosList, setRecursosList] = useState(recursos);
   const [downloadedItem, setDownloadedItem] = useState(null);
   const [filter, setFilter] = useState('Todos');
 
+  useEffect(() => {
+    fetch('/api/recursos')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setRecursosList(data);
+      })
+      .catch((e) => console.warn('Error al cargar recursos:', e));
+  }, []);
+
   const handleDownload = (rec) => {
     setDownloadedItem(rec.titulo);
+    if (rec.downloadUrl && rec.downloadUrl !== '#') {
+      window.open(rec.downloadUrl, '_blank');
+    }
     setTimeout(() => setDownloadedItem(null), 3500);
   };
 
   const categories = ['Todos', 'Marketing', 'IA', 'Estrategia', 'Analytics'];
 
   const filteredRecursos = filter === 'Todos'
-    ? recursos
-    : recursos.filter(r => r.tags.some(t => t.toLowerCase() === filter.toLowerCase()));
+    ? recursosList
+    : recursosList.filter(r => (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase()));
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
@@ -195,10 +208,10 @@ export default function RecursosPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredRecursos.map((rec, idx) => {
-            const Icon = rec.icon;
+            const Icon = rec.icon || (rec.formato === '.XLSX' || rec.formato === '.SLIDES' ? Table : (rec.tipo === 'Guía Práctica' || rec.tipo === 'E-book' ? BookOpen : (rec.tipo === 'Checklist' ? CheckCircle2 : FileText)));
             return (
               <motion.div
-                key={rec.titulo}
+                key={rec.id || rec.titulo}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
@@ -231,7 +244,7 @@ export default function RecursosPage() {
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 mb-8">
-                    {rec.tags.map((tag) => (
+                    {(rec.tags || []).map((tag) => (
                       <span key={tag} className="text-xs font-mono bg-hueso border border-neutral-200 text-carbon/70 font-medium px-3 py-1 rounded-full">
                         #{tag}
                       </span>

@@ -10,7 +10,7 @@ import {
   Type, Sparkles, Layout, Plus, Trash2, MapPin, Compass, AlertCircle, X,
   FileText, Search, ExternalLink, Cpu, Star, Award, Newspaper, EyeOff, Layers,
   HelpCircle, MessageCircle, ChevronDown, ChevronUp, ShieldCheck, BookOpen,
-  AlignLeft, Quote, List, Save, Tag, Calendar, User2, Link2, Bold, Italic, Mail
+  AlignLeft, Quote, List, Save, Tag, Calendar, User2, Link2, Bold, Italic, Mail, Download, GraduationCap
 } from 'lucide-react';
 import { COLOR_PRESETS, DEFAULT_POPUPS_LIST } from '../../components/PopupSystem';
 import DynamicLandingRenderer from '../../components/DynamicLandingRenderer';
@@ -74,13 +74,13 @@ export default function AdminPage() {
 
   // Estado Global Dashboard
   const [activeTab, setActiveTab] = useState('popups');
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   // Popups
   const [popupsList, setPopupsList] = useState(DEFAULT_POPUPS_LIST);
   const [selectedPopupId, setSelectedPopupId] = useState('popup-1');
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [conflictWarning, setConflictWarning] = useState('');
-  const [previewDevice, setPreviewDevice] = useState('desktop');
 
   // Landings
   const [landingsList, setLandingsList] = useState(DEFAULT_LANDINGS_LIST);
@@ -133,6 +133,98 @@ export default function AdminPage() {
     role: 'editor_contenido',
     permissions: ['edit_landings', 'edit_blogs', 'edit_casos']
   });
+
+  // Recursos Descargables
+  const [recursosList, setRecursosList] = useState([]);
+  const [recursosLoading, setRecursosLoading] = useState(true);
+  const [recursoModalOpen, setRecursoModalOpen] = useState(false);
+  const [recursoForm, setRecursoForm] = useState({ id: '', tipo: 'Plantilla', formato: '.PDF', descargas: '1,000+ descargas', titulo: '', desc: '', tags: 'Marketing, Estrategia', downloadUrl: '#' });
+
+  // Cursos & Talleres
+  const [talleresList, setTalleresList] = useState([]);
+  const [talleresLoading, setTalleresLoading] = useState(true);
+  const [tallerModalOpen, setTallerModalOpen] = useState(false);
+  const [tallerForm, setTallerForm] = useState({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+
+  const reloadRecursos = () => {
+    fetch('/api/recursos')
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setRecursosList(data); })
+      .catch((e) => console.warn('Error al cargar recursos:', e))
+      .finally(() => setRecursosLoading(false));
+  };
+
+  const handleSaveRecurso = async (e) => {
+    e.preventDefault();
+    if (!recursoForm.titulo) return;
+    const tagsArr = typeof recursoForm.tags === 'string' ? recursoForm.tags.split(',').map(t => t.trim()).filter(Boolean) : (recursoForm.tags || []);
+    const payload = { ...recursoForm, tags: tagsArr };
+    try {
+      const res = await fetch('/api/recursos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setRecursoModalOpen(false);
+        setRecursoForm({ id: '', tipo: 'Plantilla', formato: '.PDF', descargas: '1,000+ descargas', titulo: '', desc: '', tags: 'Marketing, Estrategia', downloadUrl: '#' });
+        reloadRecursos();
+      }
+    } catch (err) {
+      console.warn('Error al guardar recurso:', err);
+    }
+  };
+
+  const handleDeleteRecurso = async (id) => {
+    if (!confirm('¿Estás seguro de eliminar este recurso descargable?')) return;
+    try {
+      await fetch(`/api/recursos/${id}`, { method: 'DELETE' });
+      setRecursosList((prev) => prev.filter((r) => r.id !== id));
+    } catch (err) {
+      console.warn('Error al eliminar recurso:', err);
+    }
+  };
+
+  const reloadTalleres = () => {
+    fetch('/api/talleres')
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setTalleresList(data); })
+      .catch((e) => console.warn('Error al cargar talleres:', e))
+      .finally(() => setTalleresLoading(false));
+  };
+
+  const handleSaveTaller = async (e) => {
+    e.preventDefault();
+    if (!tallerForm.titulo) return;
+    const temasArr = typeof tallerForm.temas === 'string' ? tallerForm.temas.split('\n').map(t => t.trim()).filter(Boolean) : (tallerForm.temas || []);
+    const payload = { ...tallerForm, temas: temasArr };
+    try {
+      const res = await fetch('/api/talleres', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setTallerModalOpen(false);
+        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+        reloadTalleres();
+      }
+    } catch (err) {
+      console.warn('Error al guardar taller:', err);
+    }
+  };
+
+  const handleDeleteTaller = async (id) => {
+    if (!confirm('¿Estás seguro de eliminar este taller o curso?')) return;
+    try {
+      await fetch(`/api/talleres/${id}`, { method: 'DELETE' });
+      setTalleresList((prev) => prev.filter((t) => t.id !== id));
+    } catch (err) {
+      console.warn('Error al eliminar taller:', err);
+    }
+  };
 
   const reloadUsers = () => {
     fetch('/api/users')
@@ -239,6 +331,8 @@ export default function AdminPage() {
   useEffect(() => {
     reloadCitas();
     reloadUsers();
+    reloadRecursos();
+    reloadTalleres();
     // Cargar tarjetas desde servidor
     fetch('/api/tarjetas')
       .then((r) => r.json())
@@ -262,8 +356,13 @@ export default function AdminPage() {
         }
       }
 
-      const savedList = localStorage.getItem('trebol_popups_list_v2');
-      if (savedList) setPopupsList(JSON.parse(savedList));
+      const savedList = localStorage.getItem('trebol_popups_list_v3');
+      if (savedList) {
+        setPopupsList(JSON.parse(savedList));
+      } else {
+        setPopupsList(DEFAULT_POPUPS_LIST);
+        try { localStorage.setItem('trebol_popups_list_v3', JSON.stringify(DEFAULT_POPUPS_LIST)); } catch (e) {}
+      }
 
       const savedLandings = localStorage.getItem('trebol_landings_list_v1');
       if (savedLandings) {
@@ -391,7 +490,7 @@ export default function AdminPage() {
 
     setPopupsList(newList);
     try {
-      localStorage.setItem('trebol_popups_list_v2', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 2500);
     } catch (e) {
@@ -602,7 +701,7 @@ export default function AdminPage() {
     setPopupsList(newList);
     setSelectedPopupId(newId);
     try {
-      localStorage.setItem('trebol_popups_list_v2', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
     } catch (e) { }
   };
 
@@ -660,7 +759,7 @@ export default function AdminPage() {
     setPopupsList(newList);
     setSelectedPopupId(newList[0]?.id || '');
     try {
-      localStorage.setItem('trebol_popups_list_v2', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
     } catch (e) { }
   };
 
@@ -1092,95 +1191,199 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Contenedor de Pestañas Navegables */}
-              <div className="w-full xl:w-auto overflow-x-auto no-scrollbar flex items-center bg-neutral-100/90 p-1.5 rounded-2xl border border-neutral-200/90 font-mono text-xs shadow-inner gap-1 shrink-0">
-                <button
-                  onClick={() => setActiveTab('popups')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'popups'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
-                    }`}
-                >
-                  <Sliders size={15} />
-                  <span>Popups</span>
-                </button>
+              {/* Contenedor de Menús Desplegables Agrupados */}
+              <div className="flex flex-wrap items-center gap-2 font-mono text-xs z-50">
 
-                <button
-                  onClick={() => setActiveTab('landings')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'landings'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
+                {/* 1. DESPLEGABLE: COMERCIAL & CRM */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'comercial' ? null : 'comercial')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                      ['leads', 'tarjetas'].includes(activeTab)
+                        ? 'bg-carbon text-white border-carbon shadow-md'
+                        : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
                     }`}
-                >
-                  <Layout size={15} />
-                  <span>Landings</span>
-                </button>
+                  >
+                    <Calendar size={15} className="text-trebol" />
+                    <span>Comercial & CRM</span>
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === 'comercial' ? 'rotate-180 text-trebol' : 'text-neutral-400'}`} />
+                  </button>
 
-                <button
-                  onClick={() => setActiveTab('blogs')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'blogs'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
-                    }`}
-                >
-                  <BookOpen size={15} />
-                  <span>Blog</span>
-                </button>
+                  {openDropdown === 'comercial' && (
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                      <button
+                        onClick={() => { setActiveTab('leads'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'leads' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Calendar size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Agenda & Citas CRM</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Leads, bitácora y reuniones</span>
+                        </div>
+                      </button>
 
-                <button
-                  onClick={() => setActiveTab('casos')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'casos'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
-                    }`}
-                >
-                  <Award size={15} />
-                  <span>Casos</span>
-                </button>
+                      <button
+                        onClick={() => { setActiveTab('tarjetas'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'tarjetas' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <User2 size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Directorio Ejecutivo</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Tarjetas y personal corporativo</span>
+                        </div>
+                      </button>
+                    </div>
+                  )}
+                </div>
 
-                <button
-                  onClick={() => setActiveTab('testimonios')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'testimonios'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
+                {/* 2. DESPLEGABLE: GESTIÓN DE CONTENIDOS */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'contenidos' ? null : 'contenidos')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                      ['blogs', 'casos', 'recursos', 'talleres', 'testimonios'].includes(activeTab)
+                        ? 'bg-carbon text-white border-carbon shadow-md'
+                        : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
                     }`}
-                >
-                  <Quote size={15} />
-                  <span>Testimonios</span>
-                </button>
+                  >
+                    <BookOpen size={15} className="text-trebol" />
+                    <span>Gestión de Contenidos</span>
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === 'contenidos' ? 'rotate-180 text-trebol' : 'text-neutral-400'}`} />
+                  </button>
 
-                <button
-                  onClick={() => setActiveTab('tarjetas')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'tarjetas'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
-                    }`}
-                >
-                  <User2 size={15} />
-                  <span>Directorio Ejecutivo</span>
-                </button>
+                  {openDropdown === 'contenidos' && (
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                      <button
+                        onClick={() => { setActiveTab('blogs'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'blogs' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <BookOpen size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Blog & Artículos</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Editoriales y publicaciones</span>
+                        </div>
+                      </button>
 
-                <button
-                  onClick={() => setActiveTab('leads')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'leads'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
-                    }`}
-                >
-                  <Calendar size={15} />
-                  <span>Agenda & Citas</span>
-                </button>
+                      <button
+                        onClick={() => { setActiveTab('casos'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'casos' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Award size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Casos de Éxito</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Portafolio y métricas B2B</span>
+                        </div>
+                      </button>
 
-                <button
-                  onClick={() => setActiveTab('users')}
-                  className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${activeTab === 'users'
-                      ? 'bg-trebol text-white shadow-md shadow-trebol/20 font-extrabold'
-                      : 'text-neutral-600 hover:text-carbon hover:bg-white/80'
+                      <button
+                        onClick={() => { setActiveTab('recursos'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'recursos' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Download size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Recursos Descargables</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Plantillas, guías y PDFs</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => { setActiveTab('talleres'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'talleres' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <GraduationCap size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Cursos & Talleres</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Workshops y capacitaciones</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => { setActiveTab('testimonios'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'testimonios' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Quote size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Testimonios</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Reseñas de clientes</span>
+                        </div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. DESPLEGABLE: CONVERSIÓN & SISTEMA */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'sistema' ? null : 'sistema')}
+                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                      ['landings', 'popups', 'users'].includes(activeTab)
+                        ? 'bg-carbon text-white border-carbon shadow-md'
+                        : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
                     }`}
-                >
-                  <ShieldCheck size={15} />
-                  <span>Usuarios & RBAC</span>
-                </button>
+                  >
+                    <Sliders size={15} className="text-trebol" />
+                    <span>Conversión & Sistema</span>
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === 'sistema' ? 'rotate-180 text-trebol' : 'text-neutral-400'}`} />
+                  </button>
+
+                  {openDropdown === 'sistema' && (
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                      <button
+                        onClick={() => { setActiveTab('landings'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'landings' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Layout size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Maquetador Landings</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Páginas de aterrizaje dinámicas</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => { setActiveTab('popups'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'popups' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Sliders size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Popups & Banners</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Ofertas y avisos flotantes</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => { setActiveTab('users'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'users' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <ShieldCheck size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Usuarios & RBAC</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Roles y permisos del sistema</span>
+                        </div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
               </div>
 
               {/* Acciones Rápidas */}
@@ -1324,14 +1527,32 @@ export default function AdminPage() {
                             />
                           </div>
 
-                          <button
-                            onClick={() => updateCurrentPopup({ isEnabled: !currentPopup.isEnabled })}
-                            className={`px-4 py-2.5 rounded-2xl font-black font-mono text-xs transition-all cursor-pointer flex items-center gap-2 shadow-md shrink-0 ${currentPopup.isEnabled ? 'bg-trebol text-white shadow-trebol/20' : 'bg-neutral-200 text-neutral-600 border border-neutral-300'
-                              }`}
-                          >
-                            {currentPopup.isEnabled ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
-                            <span>{currentPopup.isEnabled ? 'POPUP ACTIVO' : 'INACTIVO'}</span>
-                          </button>
+                          <div className="flex items-center gap-2 flex-nowrap">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                try {
+                                  const updated = popupsList.map((p) => p.id === currentPopup.id ? currentPopup : p);
+                                  localStorage.setItem('trebol_popups_list_v3', JSON.stringify(updated));
+                                  window.dispatchEvent(new CustomEvent('trebol:preview-popup', { detail: currentPopup }));
+                                } catch (e) {
+                                  console.warn('Error al disparar popup:', e);
+                                }
+                              }}
+                              className="px-3 py-2 rounded-2xl font-black font-mono text-xs bg-carbon text-white hover:bg-trebol transition-all cursor-pointer flex items-center gap-1.5 shadow-md shrink-0"
+                            >
+                              <Play size={14} className="text-trebol" />
+                              <span>Disparar Popup</span>
+                            </button>
+
+                            <button
+                              onClick={() => updateCurrentPopup({ isEnabled: !currentPopup.isEnabled })}
+                              className={`px-3 py-2 rounded-2xl font-black font-mono text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-md shrink-0 ${currentPopup.isEnabled ? 'bg-trebol text-white shadow-trebol/20' : 'bg-neutral-200 text-neutral-600 border border-neutral-300'}`}
+                            >
+                              {currentPopup.isEnabled ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
+                              <span>{currentPopup.isEnabled ? 'ACTIVO' : 'INACTIVO'}</span>
+                            </button>
+                          </div>
                         </div>
 
                         {/* Config Ubicación */}
@@ -1509,64 +1730,200 @@ export default function AdminPage() {
                                 </div>
                               </div>
                             )}
-                          </div>
-                        </div>
 
-                      </div>
-
-                      {/* Previa Popups */}
-                      <div className="lg:col-span-5 sticky top-24 space-y-4">
-                        <div className="bg-white border border-neutral-200/90 rounded-[2.2rem] p-5 md:p-6 shadow-xl space-y-4 relative overflow-hidden">
-                          <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
-                            <div className="flex items-center gap-2">
-                              <span className="w-2.5 h-2.5 rounded-full bg-trebol animate-ping" />
-                              <h3 className="font-extrabold text-carbon text-sm tracking-tight">Vista Previa Real-Time</h3>
-                            </div>
-                            <div className="flex items-center bg-hueso p-1 rounded-xl border border-neutral-200 text-[10px] font-mono">
-                              <button
-                                onClick={() => setPreviewDevice('desktop')}
-                                className={`px-2.5 py-1 rounded-lg font-bold cursor-pointer ${previewDevice === 'desktop' ? 'bg-white text-carbon shadow-sm' : 'text-neutral-400'}`}
-                              >
-                                PC
-                              </button>
-                              <button
-                                onClick={() => setPreviewDevice('mobile')}
-                                className={`px-2.5 py-1 rounded-lg font-bold cursor-pointer ${previewDevice === 'mobile' ? 'bg-white text-carbon shadow-sm' : 'text-neutral-400'}`}
-                              >
-                                Móvil
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className={`mx-auto transition-all duration-300 ${previewDevice === 'mobile' ? 'max-w-[280px]' : 'w-full'}`}>
-                            <div
-                              style={{ backgroundColor: currentPopup.bgColor || '#FFFFFF' }}
-                              className="rounded-3xl border border-neutral-200/80 shadow-xl p-5 relative overflow-hidden font-sans space-y-4 min-h-[300px]"
-                            >
+                            {/* BULLETS */}
+                            <div className="pt-3 border-t border-neutral-100 space-y-2">
                               <div className="flex items-center justify-between">
-                                <span style={{ backgroundColor: currentPopup.badgeBg || '#5C9E43', color: currentPopup.badgeTextColor || '#FFFFFF' }} className="px-2.5 py-0.5 rounded-full font-mono text-[9px] font-black uppercase">
-                                  {currentPopup.badgeText}
-                                </span>
-                                <X size={14} className="text-neutral-400" />
+                                <label className="font-bold text-carbon/80 font-mono">Puntos de Beneficio (Bullets)</label>
+                                <button
+                                  type="button"
+                                  onClick={() => updateCurrentPopup({ showBullets: currentPopup.showBullets === false ? true : false })}
+                                  className={`text-[10px] font-mono font-bold px-3 py-1 rounded-xl cursor-pointer transition-all ${
+                                    currentPopup.showBullets !== false ? 'bg-trebol/20 text-trebol border border-trebol/30' : 'bg-neutral-100 text-neutral-500 border border-neutral-200'
+                                  }`}
+                                >
+                                  {currentPopup.showBullets !== false ? '● BULLETS VISIBLES' : '○ SIN BULLETS'}
+                                </button>
                               </div>
-                              <h4 style={{ color: currentPopup.textColor || '#1A1C1A' }} className="text-base font-black leading-tight">
-                                {currentPopup.title}
-                              </h4>
-                              <p style={{ color: currentPopup.subtitleColor || '#4A5568' }} className="text-xs font-light leading-relaxed">
-                                {currentPopup.subtitle}
-                              </p>
-                              {currentPopup.showCtaButton !== false && currentPopup.ctaText && (
-                                <div style={{ backgroundColor: currentPopup.buttonBg || '#5C9E43', color: currentPopup.buttonTextColor || '#FFFFFF' }} className="py-3 px-4 rounded-xl font-extrabold text-xs text-center shadow-md">
-                                  {currentPopup.ctaText}
+
+                              {currentPopup.showBullets !== false && (
+                                <div className="space-y-2">
+                                  <input
+                                    type="text"
+                                    value={currentPopup.bullet1 || ''}
+                                    onChange={(e) => updateCurrentPopup({ bullet1: e.target.value })}
+                                    placeholder="Punto 1 de beneficio..."
+                                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 font-sans text-xs focus:border-trebol focus:outline-none"
+                                  />
+                                  <input
+                                    type="text"
+                                    value={currentPopup.bullet2 || ''}
+                                    onChange={(e) => updateCurrentPopup({ bullet2: e.target.value })}
+                                    placeholder="Punto 2 de beneficio..."
+                                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 font-sans text-xs focus:border-trebol focus:outline-none"
+                                  />
+                                  <input
+                                    type="text"
+                                    value={currentPopup.bullet3 || ''}
+                                    onChange={(e) => updateCurrentPopup({ bullet3: e.target.value })}
+                                    placeholder="Punto 3 de beneficio (opcional)..."
+                                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 font-sans text-xs focus:border-trebol focus:outline-none"
+                                  />
+                                </div>
+                              )}
+                            </div>
+
+                            {/* CUENTA REGRESIVA */}
+                            <div className="pt-3 border-t border-neutral-100 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <label className="font-bold text-carbon/80 font-mono">Cuenta Regresiva (Expira en...)</label>
+                                <button
+                                  type="button"
+                                  onClick={() => updateCurrentPopup({ showCountdown: !currentPopup.showCountdown })}
+                                  className={`text-[10px] font-mono font-bold px-3 py-1 rounded-xl cursor-pointer transition-all ${
+                                    currentPopup.showCountdown ? 'bg-trebol/20 text-trebol border border-trebol/30' : 'bg-neutral-100 text-neutral-500 border border-neutral-200'
+                                  }`}
+                                >
+                                  {currentPopup.showCountdown ? '● ACTIVA' : '○ DESACTIVADA'}
+                                </button>
+                              </div>
+
+                              {currentPopup.showCountdown && (
+                                <div className="flex items-center gap-3">
+                                  <label className="font-bold text-carbon/60 font-mono text-[10px] shrink-0">Minutos:</label>
+                                  <input
+                                    type="number"
+                                    min="1"
+                                    max="60"
+                                    value={currentPopup.countdownMinutes || 15}
+                                    onChange={(e) => updateCurrentPopup({ countdownMinutes: parseInt(e.target.value) || 15 })}
+                                    className="w-24 bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 font-mono text-xs focus:border-trebol focus:outline-none"
+                                  />
+                                  <span className="text-[10px] text-neutral-400 font-light">ej. 15 = "Expira en 15:00"</span>
                                 </div>
                               )}
                             </div>
                           </div>
+                        </div>
 
+                      </div>
+
+                      {/* COLUMNA DERECHA: 3. Imagen & Banner del Popup */}
+                      <div className="lg:col-span-5 sticky top-24">
+                        <div className="bg-white p-5 rounded-2xl border border-neutral-200/80 space-y-4 shadow-sm text-xs">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-trebol">
+                              <ImageIcon size={18} />
+                              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-carbon">
+                                3. Imagen & Banner Destacado (Opcional)
+                              </h3>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => updateCurrentPopup({ showImage: !currentPopup.showImage })}
+                              className={`text-[10px] font-mono font-bold px-3 py-1 rounded-xl cursor-pointer ${currentPopup.showImage !== false ? 'bg-trebol/20 text-trebol border border-trebol/30' : 'bg-neutral-100 text-neutral-500 border border-neutral-200'}`}
+                            >
+                              {currentPopup.showImage !== false ? '● IMAGEN VISIBLE' : '○ SIN IMAGEN'}
+                            </button>
+                          </div>
+
+                          {currentPopup.showImage !== false && (
+                            <div className="space-y-3">
+                              <div>
+                                <label className="font-bold text-carbon/80 block mb-1 font-mono">URL de la Imagen / Banner:</label>
+                                <input
+                                  type="text"
+                                  value={currentPopup.imageUrl || ''}
+                                  onChange={(e) => updateCurrentPopup({ imageUrl: e.target.value })}
+                                  placeholder="https://images.unsplash.com/... o /images/banner.jpg"
+                                  className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 font-mono text-xs focus:border-trebol focus:outline-none"
+                                />
+                              </div>
+
+                              {currentPopup.imageUrl && (
+                                <div className="rounded-2xl overflow-hidden border border-neutral-200 relative h-40 shadow-sm">
+                                  <img
+                                    src={currentPopup.imageUrl}
+                                    alt="Vista previa imagen popup"
+                                    className="w-full h-full object-cover"
+                                  />
+                                  <span className="absolute bottom-2 right-2 text-[9px] font-mono font-black bg-black/60 text-white px-2 py-0.5 rounded-full uppercase">
+                                    {currentPopup.imagePosition || 'right-split'}
+                                  </span>
+                                </div>
+                              )}
+
+                              <div>
+                                <label className="font-bold text-carbon/80 block mb-1 font-mono">Posición y Layout de la Imagen:</label>
+                                <div className="grid grid-cols-2 gap-2 font-mono text-[11px]">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateCurrentPopup({ imagePosition: 'right-split' })}
+                                    className={`p-2.5 rounded-xl border text-center font-bold cursor-pointer transition-all ${
+                                      (currentPopup.imagePosition || 'right-split') === 'right-split'
+                                        ? 'bg-trebol text-white border-trebol shadow-md'
+                                        : 'bg-hueso text-carbon border-neutral-200 hover:border-neutral-300'
+                                    }`}
+                                  >Derecha</button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => updateCurrentPopup({ imagePosition: 'left-split' })}
+                                    className={`p-2.5 rounded-xl border text-center font-bold cursor-pointer transition-all ${
+                                      currentPopup.imagePosition === 'left-split'
+                                        ? 'bg-trebol text-white border-trebol shadow-md'
+                                        : 'bg-hueso text-carbon border-neutral-200 hover:border-neutral-300'
+                                    }`}
+                                  >Izquierda</button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => updateCurrentPopup({ imagePosition: 'top-banner' })}
+                                    className={`p-2.5 rounded-xl border text-center font-bold cursor-pointer transition-all ${
+                                      currentPopup.imagePosition === 'top-banner'
+                                        ? 'bg-trebol text-white border-trebol shadow-md'
+                                        : 'bg-hueso text-carbon border-neutral-200 hover:border-neutral-300'
+                                    }`}
+                                  >Arriba (Banner)</button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => updateCurrentPopup({ imagePosition: 'full-bg' })}
+                                    className={`p-2.5 rounded-xl border text-center font-bold cursor-pointer transition-all ${
+                                      currentPopup.imagePosition === 'full-bg'
+                                        ? 'bg-trebol text-white border-trebol shadow-md'
+                                        : 'bg-hueso text-carbon border-neutral-200 hover:border-neutral-300'
+                                    }`}
+                                  >Fondo (BG)</button>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center justify-between pt-2 border-t border-neutral-100">
+                                <div>
+                                  <label className="font-bold text-carbon/80 block font-mono">Degradado de Imagen:</label>
+                                  <span className="text-[10px] text-neutral-400 font-light block">Degradado lateral sobre bordes</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => updateCurrentPopup({ useImageGradientOverlay: currentPopup.useImageGradientOverlay === false ? true : false })}
+                                  className={`text-[10px] font-mono font-bold px-3 py-1.5 rounded-xl cursor-pointer transition-all ${
+                                    currentPopup.useImageGradientOverlay !== false ? 'bg-trebol text-white shadow-sm' : 'bg-neutral-100 text-neutral-500 border border-neutral-200'
+                                  }`}
+                                >
+                                  {currentPopup.useImageGradientOverlay !== false ? '● ACTIVO' : '○ INACTIVO'}
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
 
                     </div>
+
+
+
+
                   </main>
                 )}
               </div>
@@ -4581,6 +4938,448 @@ export default function AdminPage() {
               </div>
             )}
 
+            {/* MÓDULO 7: RECURSOS DESCARGABLES */}
+            {activeTab === 'recursos' && (
+              <div className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-h-[88vh]">
+                <div className="max-w-7xl mx-auto space-y-6">
+                  
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Insights & Recursos</span>
+                      <h2 className="text-2xl font-black text-carbon">Recursos Descargables</h2>
+                      <p className="text-xs font-mono text-neutral-400">
+                        Administra plantillas, guías PDF, checklists y frameworks publicados en /insights/recursos.
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setRecursoForm({ id: '', tipo: 'Plantilla', formato: '.PDF', descargas: '1,000+ descargas', titulo: '', desc: '', tags: 'Marketing, Estrategia', downloadUrl: '#' });
+                        setRecursoModalOpen(true);
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
+                    >
+                      <Plus size={15} />
+                      <span>+ Crear Nuevo Recurso</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {recursosLoading ? (
+                      <div className="col-span-full p-12 text-center font-mono text-xs text-neutral-400">
+                        Cargando recursos descargables...
+                      </div>
+                    ) : recursosList.length === 0 ? (
+                      <div className="col-span-full p-12 text-center space-y-2 font-mono">
+                        <Download size={32} className="text-neutral-300 mx-auto" />
+                        <p className="text-xs text-neutral-500 font-bold">No hay recursos registrados aún.</p>
+                      </div>
+                    ) : (
+                      recursosList.map((rec) => (
+                        <div key={rec.id} className="bg-white border border-neutral-200 rounded-3xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between font-mono text-[10px]">
+                              <span className="px-2.5 py-0.5 rounded-full bg-trebol/10 text-trebol font-bold border border-trebol/20">
+                                {rec.tipo}
+                              </span>
+                              <span className="font-bold text-neutral-400">{rec.formato}</span>
+                            </div>
+                            <h3 className="font-bold text-carbon text-base leading-snug">{rec.titulo}</h3>
+                            <p className="text-xs text-neutral-500 font-light line-clamp-3 leading-relaxed">{rec.desc}</p>
+                          </div>
+
+                          <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
+                            <span className="text-[10px] text-neutral-400 font-bold">{rec.descargas || '1,000 descargas'}</span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => {
+                                  setRecursoForm({
+                                    id: rec.id,
+                                    tipo: rec.tipo || 'Plantilla',
+                                    formato: rec.formato || '.PDF',
+                                    descargas: rec.descargas || '1,000+ descargas',
+                                    titulo: rec.titulo || '',
+                                    desc: rec.desc || '',
+                                    tags: Array.isArray(rec.tags) ? rec.tags.join(', ') : rec.tags || '',
+                                    downloadUrl: rec.downloadUrl || rec.download_url || '#'
+                                  });
+                                  setRecursoModalOpen(true);
+                                }}
+                                className="p-2 rounded-xl text-neutral-600 hover:bg-neutral-100 transition-colors cursor-pointer"
+                                title="Editar Recurso"
+                              >
+                                <Settings size={14} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteRecurso(rec.id)}
+                                className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                                title="Eliminar Recurso"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* MODAL RECURSOS */}
+                  {recursoModalOpen && (
+                    <div className="fixed inset-0 bg-carbon/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                      <div className="bg-white border border-neutral-200 rounded-[2.5rem] p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-5 relative">
+                        <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
+                          <div>
+                            <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Editor de Recursos</span>
+                            <h3 className="text-xl font-black text-carbon">{recursoForm.id ? 'Editar Recurso' : 'Nuevo Recurso Descargable'}</h3>
+                          </div>
+                          <button onClick={() => setRecursoModalOpen(false)} className="p-2 rounded-full hover:bg-neutral-100 text-neutral-400">
+                            <X size={18} />
+                          </button>
+                        </div>
+
+                        <form onSubmit={handleSaveRecurso} className="space-y-4 font-sans text-xs">
+                          <div className="space-y-1">
+                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Título del Recurso *</label>
+                            <input
+                              type="text"
+                              required
+                              placeholder="ej. Calendario Editorial Mensual 2026"
+                              value={recursoForm.titulo}
+                              onChange={(e) => setRecursoForm({ ...recursoForm, titulo: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 font-mono">
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Tipo de Contenido</label>
+                              <input
+                                type="text"
+                                placeholder="ej. Plantilla, Guía, Checklist"
+                                value={recursoForm.tipo}
+                                onChange={(e) => setRecursoForm({ ...recursoForm, tipo: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Formato de Archivo</label>
+                              <input
+                                type="text"
+                                placeholder="ej. .PDF, .XLSX, .NOTION"
+                                value={recursoForm.formato}
+                                onChange={(e) => setRecursoForm({ ...recursoForm, formato: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Descripción Resumida</label>
+                            <textarea
+                              rows={3}
+                              placeholder="Describe el valor y utilidad práctica de este recurso..."
+                              value={recursoForm.desc}
+                              onChange={(e) => setRecursoForm({ ...recursoForm, desc: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 font-mono">
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Etiquetas (separadas por coma)</label>
+                              <input
+                                type="text"
+                                placeholder="Marketing, IA, Estrategia"
+                                value={recursoForm.tags}
+                                onChange={(e) => setRecursoForm({ ...recursoForm, tags: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">URL de Descarga / Enlace</label>
+                              <input
+                                type="text"
+                                placeholder="https://..."
+                                value={recursoForm.downloadUrl}
+                                onChange={(e) => setRecursoForm({ ...recursoForm, downloadUrl: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="pt-3 border-t border-neutral-100 flex items-center justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setRecursoModalOpen(false)}
+                              className="px-4 py-2.5 rounded-xl border border-neutral-200 text-carbon hover:bg-neutral-100 font-mono text-xs font-bold transition-colors cursor-pointer"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              type="submit"
+                              className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md cursor-pointer"
+                            >
+                              Guardar Recurso
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+            )}
+
+            {/* MÓDULO 8: CURSOS & TALLERES */}
+            {activeTab === 'talleres' && (
+              <div className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-h-[88vh]">
+                <div className="max-w-7xl mx-auto space-y-6">
+                  
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Capacitación & Workshops</span>
+                      <h2 className="text-2xl font-black text-carbon">Cursos & Talleres Prácticos</h2>
+                      <p className="text-xs font-mono text-neutral-400">
+                        Administra los talleres en vivo, programas in-company y capacitaciones de /insights/talleres.
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+                        setTallerModalOpen(true);
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
+                    >
+                      <Plus size={15} />
+                      <span>+ Crear Nuevo Taller</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {talleresLoading ? (
+                      <div className="col-span-full p-12 text-center font-mono text-xs text-neutral-400">
+                        Cargando cursos y talleres...
+                      </div>
+                    ) : talleresList.length === 0 ? (
+                      <div className="col-span-full p-12 text-center space-y-2 font-mono">
+                        <GraduationCap size={32} className="text-neutral-300 mx-auto" />
+                        <p className="text-xs text-neutral-500 font-bold">No hay talleres registrados aún.</p>
+                      </div>
+                    ) : (
+                      talleresList.map((tal) => (
+                        <div key={tal.id} className="bg-white border border-neutral-200 rounded-3xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between font-mono text-[10px]">
+                              <span className="px-2.5 py-0.5 rounded-full bg-trebol/10 text-trebol font-bold border border-trebol/20">
+                                {tal.tipo}
+                              </span>
+                              <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">{tal.precio}</span>
+                            </div>
+                            <h3 className="font-bold text-carbon text-lg leading-snug">{tal.titulo}</h3>
+                            <p className="text-xs text-neutral-500 font-light leading-relaxed">{tal.desc}</p>
+
+                            <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-neutral-600 pt-2 border-t border-neutral-100">
+                              <span>Fecha: {tal.fecha}</span>
+                              <span>Hora: {tal.hora}</span>
+                              <span>Modalidad: {tal.modalidad}</span>
+                              <span>Duración: {tal.duracion}</span>
+                            </div>
+                          </div>
+
+                          <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
+                            <span className="text-[10px] text-trebol font-bold">{tal.cupos}</span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => {
+                                  setTallerForm({
+                                    id: tal.id,
+                                    titulo: tal.titulo || '',
+                                    tipo: tal.tipo || 'Workshop',
+                                    modalidad: tal.modalidad || 'Online en Vivo',
+                                    duracion: tal.duracion || '4 Horas',
+                                    fecha: tal.fecha || 'A Convenir',
+                                    hora: tal.hora || '10:00 AM',
+                                    precio: tal.precio || 'Gratuito',
+                                    cupos: tal.cupos || 'Cupos limitados',
+                                    desc: tal.desc || '',
+                                    imagen: tal.imagen || '',
+                                    temas: Array.isArray(tal.temas) ? tal.temas.join('\n') : tal.temas || ''
+                                  });
+                                  setTallerModalOpen(true);
+                                }}
+                                className="p-2 rounded-xl text-neutral-600 hover:bg-neutral-100 transition-colors cursor-pointer"
+                                title="Editar Taller"
+                              >
+                                <Settings size={14} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteTaller(tal.id)}
+                                className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                                title="Eliminar Taller"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* MODAL TALLERES */}
+                  {tallerModalOpen && (
+                    <div className="fixed inset-0 bg-carbon/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                      <div className="bg-white border border-neutral-200 rounded-[2.5rem] p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto">
+                        <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
+                          <div>
+                            <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Editor de Capacitaciones</span>
+                            <h3 className="text-xl font-black text-carbon">{tallerForm.id ? 'Editar Taller' : 'Nuevo Taller o Workshop'}</h3>
+                          </div>
+                          <button onClick={() => setTallerModalOpen(false)} className="p-2 rounded-full hover:bg-neutral-100 text-neutral-400">
+                            <X size={18} />
+                          </button>
+                        </div>
+
+                        <form onSubmit={handleSaveTaller} className="space-y-4 font-sans text-xs">
+                          <div className="space-y-1">
+                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Nombre del Taller / Curso *</label>
+                            <input
+                              type="text"
+                              required
+                              placeholder="ej. IA para no técnicos: Herramientas que cambian tu negocio"
+                              value={tallerForm.titulo}
+                              onChange={(e) => setTallerForm({ ...tallerForm, titulo: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 font-mono">
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Tipo de Programa</label>
+                              <input
+                                type="text"
+                                placeholder="Taller Intensivo, Workshop, Program In-Company"
+                                value={tallerForm.tipo}
+                                onChange={(e) => setTallerForm({ ...tallerForm, tipo: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Modalidad</label>
+                              <input
+                                type="text"
+                                placeholder="Online en Vivo / Presencial CDMX"
+                                value={tallerForm.modalidad}
+                                onChange={(e) => setTallerForm({ ...tallerForm, modalidad: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-2 font-mono">
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[9px]">Duración</label>
+                              <input
+                                type="text"
+                                placeholder="4 Horas"
+                                value={tallerForm.duracion}
+                                onChange={(e) => setTallerForm({ ...tallerForm, duracion: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[9px]">Fecha</label>
+                              <input
+                                type="text"
+                                placeholder="15 Agosto, 2026"
+                                value={tallerForm.fecha}
+                                onChange={(e) => setTallerForm({ ...tallerForm, fecha: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[9px]">Hora</label>
+                              <input
+                                type="text"
+                                placeholder="10:00 AM – 2:00 PM"
+                                value={tallerForm.hora}
+                                onChange={(e) => setTallerForm({ ...tallerForm, hora: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 font-mono">
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Precio</label>
+                              <input
+                                type="text"
+                                placeholder="Gratuito / $1,500 MXN"
+                                value={tallerForm.precio}
+                                onChange={(e) => setTallerForm({ ...tallerForm, precio: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="font-bold text-carbon/70 uppercase text-[10px]">Cupos / Disponibilidad</label>
+                              <input
+                                type="text"
+                                placeholder="Quedan 5 lugares"
+                                value={tallerForm.cupos}
+                                onChange={(e) => setTallerForm({ ...tallerForm, cupos: e.target.value })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Descripción Principal</label>
+                            <textarea
+                              rows={2}
+                              placeholder="Describe el objetivo práctico del taller..."
+                              value={tallerForm.desc}
+                              onChange={(e) => setTallerForm({ ...tallerForm, desc: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="space-y-1 font-mono">
+                            <label className="font-bold text-carbon/70 uppercase text-[10px]">Temario / Módulos (un tema por línea)</label>
+                            <textarea
+                              rows={3}
+                              placeholder="Panorama IA 2026&#10;ChatGPT para automatización&#10;Construcción de flujo Make"
+                              value={tallerForm.temas}
+                              onChange={(e) => setTallerForm({ ...tallerForm, temas: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="pt-3 border-t border-neutral-100 flex items-center justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setTallerModalOpen(false)}
+                              className="px-4 py-2.5 rounded-xl border border-neutral-200 text-carbon hover:bg-neutral-100 font-mono text-xs font-bold transition-colors cursor-pointer"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              type="submit"
+                              className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md cursor-pointer"
+                            >
+                              Guardar Taller
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

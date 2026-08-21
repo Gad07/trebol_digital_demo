@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -73,7 +73,17 @@ const stats = [
 ];
 
 export default function TalleresPage() {
+  const [talleresList, setTalleresList] = useState(talleres);
   const [expandedSyllabus, setExpandedSyllabus] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/talleres')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setTalleresList(data);
+      })
+      .catch((e) => console.warn('Error al cargar talleres:', e));
+  }, []);
 
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
@@ -161,7 +171,7 @@ export default function TalleresPage() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {talleres.map((taller, idx) => (
+            {talleresList.map((taller, idx) => (
               <motion.div
                 key={taller.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -210,7 +220,7 @@ export default function TalleresPage() {
                         className="w-full text-xs font-mono font-bold uppercase tracking-wider text-carbon hover:text-trebol flex items-center justify-between bg-hueso/80 border border-neutral-200/60 p-3 rounded-2xl cursor-pointer transition-all duration-300 hover:bg-white"
                       >
                         <span className="flex items-center gap-2">
-                          Temario ({taller.temas.length} Módulos)
+                          Temario ({(taller.temas || []).length} Módulos)
                         </span>
                         <ChevronDown size={16} className={`text-trebol transition-transform duration-300 ${expandedSyllabus === taller.id ? 'rotate-180' : ''}`} />
                       </button>
@@ -223,7 +233,7 @@ export default function TalleresPage() {
                             exit={{ opacity: 0, height: 0 }}
                             className="space-y-2 mt-3 bg-hueso/60 p-4 rounded-2xl border border-neutral-200/60"
                           >
-                            {taller.temas.map((t, i) => (
+                            {(taller.temas || []).map((t, i) => (
                               <div key={i} className="flex items-start gap-2 text-xs text-carbon/80 font-medium">
                                 <CheckCircle2 size={14} className="text-trebol shrink-0 mt-0.5" />
                                 <span>{t}</span>

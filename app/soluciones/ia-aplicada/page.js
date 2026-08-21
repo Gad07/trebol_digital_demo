@@ -2043,7 +2043,7 @@ export default function IAAplicadaPage() {
               </div>
               <h3 className="text-xl font-bold text-carbon">Integración con tus Sistemas</h3>
               <p className="text-carbon/70 text-sm font-light leading-relaxed">
-                Se conecta directamente a tus bases de datos SQL, CRM (HubSpot, Salesforce), ERP (SAP) y APIs sin alterar tu operación actual.
+                Conexión fluida e inteligente con las bases de datos, sistemas de gestión y plataformas operativas existentes en tu empresa sin alterar tu infraestructura actual.
               </p>
             </div>
 
@@ -2073,13 +2073,13 @@ export default function IAAplicadaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16">
             <div className="lg:col-span-7">
               <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-                Las 4 áreas donde la IA <span className="text-trebol">revoluciona tu empresa</span>
+                Las 4 áreas donde <span className="text-trebol">Trébol implementa IA</span> en tu empresa
               </h2>
             </div>
 
             <div className="lg:col-span-5">
               <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
-                Visualiza cómo la Inteligencia Artificial aplicada a tu negocio conecta tus procesos para hacerlos más eficientes, rápidos y autónomos.
+                Conoce cómo Trébol Digital diseña e integra agentes e infraestructura de Inteligencia Artificial para hacer tus operaciones más eficientes, rápidas y autónomas.
               </p>
             </div>
           </div>

@@ -262,6 +262,82 @@ export default function DesarrolloWebPage() {
             );
           })}
         </div>
+
+        {/* PANEL ADMINISTRADOR AUTOGESTIONABLE & MEDIBLE (DIFERENCIADOR) */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-14 bg-white border-2 border-trebol/40 rounded-[3rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(92,158,49,0.12)] relative overflow-hidden"
+        >
+          {/* Subtle green ambient glow */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-trebol/10 rounded-full blur-[100px] pointer-events-none" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
+
+            {/* COLUMNA 1 (IZQUIERDA): TÍTULO, DESCRIPCIÓN & DISTINTIVOS CLAVE */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-trebol/10 border border-trebol/30 text-trebol text-xs font-mono font-bold uppercase tracking-wider">
+                <Sparkles size={14} />
+                <span>Diferenciador Trébol</span>
+              </div>
+
+              <h3 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-tight">
+                Panel Administrador <br />
+                <span className="text-trebol">Autogestionable & Medible</span>
+              </h3>
+              
+              <p className="text-sm md:text-base text-carbon/75 font-light leading-relaxed font-sans">
+                Independencia total para tu equipo. Tu sitio cuenta con su propio panel autogestionable para actualizar textos, cambiar imágenes, lanzar banners o popups promocionales, modificar catálogos y publicar artículos o avisos en tiempo real sin depender de un desarrollador web.
+              </p>
+            </div>
+
+            {/* COLUMNA 2 (DERECHA): CHECKLISTS DE BENEFICIOS */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5 font-sans">
+              <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-hueso/70 border border-neutral-200/80 shadow-xs hover:border-trebol/50 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <Check size={16} strokeWidth={3} />
+                </div>
+                <div>
+                  <p className="font-bold text-carbon text-sm">Actualización de Textos e Imágenes</p>
+                  <p className="text-xs text-carbon/60 mt-1 leading-snug">Edita copys, títulos, testimonios y banners al instante.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-hueso/70 border border-neutral-200/80 shadow-xs hover:border-trebol/50 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <Check size={16} strokeWidth={3} />
+                </div>
+                <div>
+                  <p className="font-bold text-carbon text-sm">Gestión de Catálogo & Publicaciones</p>
+                  <p className="text-xs text-carbon/60 mt-1 leading-snug">Crea, edita o pausa productos, categorías y noticias.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-hueso/70 border border-neutral-200/80 shadow-xs hover:border-trebol/50 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <Check size={16} strokeWidth={3} />
+                </div>
+                <div>
+                  <p className="font-bold text-carbon text-sm">Banners, Popups & Promociones</p>
+                  <p className="text-xs text-carbon/60 mt-1 leading-snug">Lanza campañas de conversión y ofertas en segundos.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-hueso/70 border border-neutral-200/80 shadow-xs hover:border-trebol/50 transition-colors">
+                <div className="w-7 h-7 rounded-lg bg-trebol text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <Check size={16} strokeWidth={3} />
+                </div>
+                <div>
+                  <p className="font-bold text-carbon text-sm">Control Total 100% Autogestionable</p>
+                  <p className="text-xs text-carbon/60 mt-1 leading-snug">Sin mensualidades forzosas ni demoras por cambios.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
       </section>
 
       {/* ── 3. SECCIÓN MOCKUPS COMPARATIVOS ADAPTABLES (POR TIPO DE PROYECTO) ── */}
