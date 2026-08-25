@@ -501,30 +501,30 @@ const techStack = [
   {
     icon: Users,
     badge: 'CAPACITACIÓN',
-    name: 'Capacitación a Equipos',
-    desc: 'Talleres 100% prácticos e interactivos para que tus colaboradores dominen las herramientas de IA en su trabajo diario sin depender de técnicos.',
+    name: 'Capacitación Práctica a Equipos',
+    desc: 'Formamos a tus colaboradores mediante talleres 100% aplicados para que adopten la IA en su trabajo diario sin curvas de aprendizaje complejas.',
     highlight: 'Cero curva de aprendizaje'
   },
   {
-    icon: Cpu,
-    badge: 'A MEDIDA',
-    name: 'Implementación a Medida',
-    desc: 'Configuración y puesta en marcha de asistentes de IA personalizados con los protocolos, datos y tono de voz exacto de tu empresa.',
-    highlight: 'Adaptado a tu negocio'
+    icon: Bot,
+    badge: 'DESARROLLO A MEDIDA',
+    name: 'Agentes & Flujos Personalizados',
+    desc: 'Diseñamos e implementamos asistentes y automatizaciones entrenadas con las reglas, protocolos y el tono de voz exacto de tu negocio.',
+    highlight: 'Entrenado con tus reglas'
   },
   {
-    icon: Zap,
-    badge: 'AUTOMATIZACIÓN',
-    name: 'Uso Práctico & Conexión Total',
-    desc: 'Integración fluida con WhatsApp, correo y tus sistemas actuales para eliminar horas de trabajo manual repetitivo.',
-    highlight: 'Ahorro inmediato de tiempo'
+    icon: Sliders,
+    badge: 'AUTONOMÍA TOTAL',
+    name: 'Gobierno & Cero Dependencia',
+    desc: 'Te entregamos la infraestructura documentada, guías de operación y el control absoluto para que evoluciones la tecnología de forma autónoma.',
+    highlight: 'Control 100% de tu empresa'
   },
   {
     icon: ShieldCheck,
-    badge: 'AUTONOMÍA',
-    name: 'Autonomía & Gobierno de IA',
-    desc: 'Te entregamos el control total, documentación y entrenamiento para que tu equipo administre y evolucione la tecnología sin depender de nosotros.',
-    highlight: '100% Autonomía garantizada'
+    badge: 'SEGURIDAD & PRIVACIDAD',
+    name: 'Protección de Datos Empresariales',
+    desc: 'Construimos entornos seguros con cifrado de nivel bancario para garantizar que la información confidencial de tu empresa nunca se exponga.',
+    highlight: 'Privacidad & Cifrado garantizado'
   }
 ];
 
@@ -2041,9 +2041,9 @@ export default function IAAplicadaPage() {
               <div className="w-12 h-12 rounded-2xl bg-trebol/10 text-trebol font-mono font-black flex items-center justify-center text-xl">
                 02
               </div>
-              <h3 className="text-xl font-bold text-carbon">Integración con tus Sistemas</h3>
+              <h3 className="text-xl font-bold text-carbon">Conexión Multicanal</h3>
               <p className="text-carbon/70 text-sm font-light leading-relaxed">
-                Conexión fluida e inteligente con las bases de datos, sistemas de gestión y plataformas operativas existentes en tu empresa sin alterar tu infraestructura actual.
+                Conexión instantánea y fluida con tu WhatsApp Business, correo corporativo, CRM y bases de datos en tiempo real.
               </p>
             </div>
 
@@ -2051,9 +2051,9 @@ export default function IAAplicadaPage() {
               <div className="w-12 h-12 rounded-2xl bg-trebol/10 text-trebol font-mono font-black flex items-center justify-center text-xl">
                 03
               </div>
-              <h3 className="text-xl font-bold text-carbon">Multiplicador de Productividad</h3>
+              <h3 className="text-xl font-bold text-carbon">Ejecución 24/7 Sin Error</h3>
               <p className="text-carbon/70 text-sm font-light leading-relaxed">
-                Elimina hasta el 95% del trabajo administrativo repetitivo permitiendo a tu equipo mayor enfoque en ventas de alto valor estratégico.
+                Operación continua que elimina hasta el 95% del trabajo administrativo repetitivo, permitiendo respuesta inmediata a clientes.
               </p>
             </div>
           </div>
@@ -2070,97 +2070,103 @@ export default function IAAplicadaPage() {
       >
         <div className="max-w-[1400px] w-full mx-auto">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end mb-16">
-            <div className="lg:col-span-7">
-              <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-                Las 4 áreas donde <span className="text-trebol">Trébol implementa IA</span> en tu empresa
-              </h2>
-            </div>
-
-            <div className="lg:col-span-5">
-              <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
-                Conoce cómo Trébol Digital diseña e integra agentes e infraestructura de Inteligencia Artificial para hacer tus operaciones más eficientes, rápidas y autónomas.
-              </p>
-            </div>
-          </div>
-
-          {/* SWITCHES / PESTAÑAS DE SELECCIÓN DE ÁREA (4 OPCIONES EN UNA SOLA LÍNEA DE IGUAL ANCHO) */}
-          <div className="w-full max-w-5xl mx-auto mb-10 overflow-x-auto pb-2">
-            <div className="grid grid-cols-4 gap-2 md:gap-3 min-w-[640px] md:min-w-0">
-              {pilarServices.map((sol, idx) => {
-                const Icon = sol.icon;
-                const isActive = activeAreaTab === idx;
-                const shortLabels = ['Ventas & Atención', 'Operaciones & Procesos', 'Decisiones & Dirección', 'Soporte & Manuales'];
-                return (
-                  <button
-                    key={sol.id}
-                    onClick={() => {
-                      setActiveAreaTab(idx);
-                      stopAudio();
-                      setShowTutorial(false);
-                      setIsExplainingExample(false);
-                      setSelectedDfdIndex(idx);
-                      setTimeout(() => {
-                        const el = document.getElementById('diagrama-canvas-area');
-                        if (el) {
-                          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                      }, 50);
-                    }}
-                    className={`w-full py-3.5 px-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm text-center truncate ${isActive
-                      ? 'bg-trebol text-white shadow-[0_0_25px_rgba(132,198,56,0.5)] ring-2 ring-trebol'
-                      : 'bg-white text-carbon/80 border border-neutral-200 hover:border-trebol hover:text-trebol'
-                      }`}
-                  >
-                    <Icon size={18} className={`shrink-0 ${isActive ? 'text-white' : 'text-trebol'}`} />
-                    <span className="truncate">{shortLabels[idx]}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* TARJETA ÚNICA INTERACTIVA CON SWITCH DE ÁREAS */}
+          {/* TARJETA UNIFICADA MAESTRA DE LAS 4 ÁREAS DE IA (TODO DENTRO DE LA MISMA CAJA) */}
           {(() => {
             const currentSol = pilarServices[activeAreaTab];
             const Icon = currentSol.icon;
+            const shortLabels = ['Ventas & Atención', 'Operaciones & Procesos', 'Decisiones & Dirección', 'Soporte & Manuales'];
+
             return (
-              <motion.div
-                key={activeAreaTab}
+              <div
                 id="diagrama-canvas-area"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className={`max-w-[1400px] mx-auto p-8 md:p-12 rounded-[2.5rem] bg-white border border-neutral-200/80 shadow-2xl space-y-8 transition-all duration-500 ${showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
+                className={`max-w-[1400px] mx-auto rounded-[2.5rem] md:rounded-[3rem] bg-neutral-50/70 border-2 border-neutral-200/90 shadow-2xl p-6 md:p-10 space-y-8 relative overflow-hidden transition-all duration-500 ${showTutorial && (currentTargetId === 'soluciones' || currentTargetId?.startsWith('dfd-'))
                   ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.9)] bg-white pointer-events-auto'
                   : ''
                   }`}
               >
-                {/* Encabezado de la Tarjeta Seleccionada */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol shrink-0">
-                      <Icon size={32} />
-                    </div>
-                    <div>
-                      <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block mb-1">
-                        {currentSol.badge}
-                      </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-carbon tracking-tight">
-                        {currentSol.title}
-                      </h3>
+                {/* 1. ENCABEZADO DE LA SECCIÓN INTEGRADO DENTRO DE LA CAJA */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center border-b border-neutral-200/80 pb-8">
+                  <div className="lg:col-span-7">
+                    <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+                      Las 4 áreas donde <span className="text-trebol">Trébol implementa IA</span> en tu empresa
+                    </h2>
+                  </div>
+
+                  <div className="lg:col-span-5">
+                    <p className="text-base md:text-lg text-carbon/75 font-normal leading-relaxed font-sans">
+                      Conoce cómo Trébol Digital diseña e integra agentes e infraestructura de Inteligencia Artificial para hacer tus operaciones más eficientes, rápidas y autónomas.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 2. BARRA DE PESTAÑAS DE NAVEGACIÓN (CONECTORA DIRECTA DE ÁREAS) */}
+                <div className="relative z-10">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {pilarServices.map((sol, idx) => {
+                      const isActive = activeAreaTab === idx;
+                      return (
+                        <button
+                          key={sol.id}
+                          onClick={() => {
+                            setActiveAreaTab(idx);
+                            stopAudio();
+                            setShowTutorial(false);
+                            setIsExplainingExample(false);
+                            setSelectedDfdIndex(idx);
+                          }}
+                          className={`w-full py-3.5 px-4 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2.5 text-center truncate cursor-pointer relative ${isActive
+                            ? 'bg-trebol text-white shadow-lg ring-2 ring-trebol scale-[1.01] z-10'
+                            : 'bg-white text-carbon/70 border border-neutral-200/80 hover:border-trebol hover:text-trebol'
+                            }`}
+                        >
+                          <span className={`w-7 h-7 rounded-xl text-xs md:text-sm font-mono font-black flex items-center justify-center shrink-0 shadow-sm ${isActive ? 'bg-white/20 text-white' : 'bg-trebol/10 text-trebol'}`}>
+                            {idx + 1}
+                          </span>
+                          <span className="truncate font-sans font-bold">{shortLabels[idx]}</span>
+
+                          {/* Muesca conectora en flecha apuntando a la caja de flujo */}
+                          {isActive && (
+                            <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-trebol hidden md:block z-20" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3. CAJA INTERIOR DE CONTENIDO Y FLUJO DFD CONECTADO */}
+                <motion.div
+                  key={activeAreaTab}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="bg-white rounded-[2rem] p-6 md:p-8 border border-neutral-200/90 shadow-lg space-y-6 relative"
+                >
+
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-neutral-100 pb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol shrink-0 shadow-sm">
+                        <span className="font-mono font-black text-xl md:text-2xl text-trebol">0{activeAreaTab + 1}</span>
+                      </div>
+                      <div>
+                        <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block mb-0.5">
+                          {currentSol.badge}
+                        </span>
+                        <h3 className="text-2xl md:text-3xl font-bold text-carbon tracking-tight font-sans">
+                          {currentSol.title}
+                        </h3>
+                      </div>
                     </div>
                   </div>
 
-                </div>
+                  <p className="text-carbon/80 text-base md:text-lg leading-relaxed font-normal font-sans">
+                    {currentSol.desc}
+                  </p>
 
-                <p className="text-carbon/70 text-base md:text-lg leading-relaxed font-light">
-                  {currentSol.desc}
-                </p>
-
-                {/* CANVAS DE DIAGRAMA DE NODOS ESTILO n8n OFICIAL (ÚNICO Y EXCLUSIVO POR CADA ÁREA) */}
-                <RenderAreaWorkflowCanvas activeAreaTab={activeAreaTab} currentSol={currentSol} externalActiveStep={dfdActiveStep} />
-              </motion.div>
+                  {/* CANVAS DE DIAGRAMA DE NODOS ESTILO n8n */}
+                  <RenderAreaWorkflowCanvas activeAreaTab={activeAreaTab} currentSol={currentSol} externalActiveStep={dfdActiveStep} />
+                </motion.div>
+              </div>
             );
           })()}
 
@@ -2518,67 +2524,7 @@ export default function IAAplicadaPage() {
         </div>
       </section>
 
-
-
-      {/* ── SECCIÓN 4: PILARES Y CAPACIDADES DE IA EN TU NEGOCIO ── */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-hueso border-b border-neutral-200/80">
-        <div className="max-w-[1400px] w-full mx-auto">
-
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-              Cómo integramos la IA en <span className="text-trebol">tu infraestructura actual</span>
-            </h2>
-            <p className="text-carbon/70 text-base md:text-lg font-light leading-relaxed">
-              Conectamos la Inteligencia Artificial más potente del mundo con tus canales de trabajo (WhatsApp, correo, CRM y ERP) garantizando capacitación práctica y autonomía total.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {techStack.map((tech, i) => {
-              const IconComp = tech.icon || Cpu;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="p-7 md:p-8 rounded-[2.2rem] bg-white border border-neutral-200/90 shadow-md hover:shadow-xl hover:border-trebol/60 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
-                >
-                  {/* ÍCONO COMO MARCA DE AGUA SÓLIDA EN EL BACKGROUND (SIN SOLAPAMIENTO DE OPACIDAD) */}
-                  <div className="absolute -bottom-6 -right-6 text-[#e5f2e0] group-hover:text-[#d3eabf] transition-all duration-300 transform group-hover:scale-110 pointer-events-none z-0">
-                    <IconComp size={140} strokeWidth={1.2} />
-                  </div>
-
-                  <div className="space-y-4 relative z-10">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-mono font-extrabold text-trebol uppercase tracking-widest">
-                        ● {tech.badge}
-                      </span>
-                    </div>
-
-                    <h4 className="text-xl font-extrabold text-carbon tracking-tight leading-snug group-hover:text-trebol transition-colors">
-                      {tech.name}
-                    </h4>
-
-                    <p className="text-slate-700 text-sm md:text-[14.5px] font-normal leading-relaxed">
-                      {tech.desc}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center gap-2 text-xs font-mono font-extrabold text-trebol relative z-10">
-                    <CheckCircle2 size={16} className="text-trebol shrink-0" />
-                    <span>{tech.highlight}</span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── SECCIÓN 5: ROADMAP METODOLÓGICO EN 4 ETAPAS ── */}
+      {/* ── SECCIÓN: CÓMO IMPLEMENTAMOS IA EN 4 PASOS ESTRUCTURADOS ── */}
       <section
         id="metodologia"
         className={`py-24 md:py-32 px-6 md:px-12 bg-white border-b border-neutral-200/80 transition-all duration-500 ${showTutorial && currentTargetId === 'metodologia'
@@ -2595,7 +2541,7 @@ export default function IAAplicadaPage() {
               </h2>
             </div>
             <div className="lg:col-span-5">
-              <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed">
+              <p className="text-lg md:text-xl text-carbon/70 font-light leading-relaxed font-sans">
                 Brindamos seguridad, entrenamiento riguroso y seguimiento continuo en cada etapa del desarrollo.
               </p>
             </div>
@@ -2615,10 +2561,10 @@ export default function IAAplicadaPage() {
                   <div className="text-4xl font-black text-trebol font-mono mb-6">
                     {stepItem.paso}
                   </div>
-                  <h3 className="text-2xl font-bold text-carbon tracking-tight mb-4">
+                  <h3 className="text-2xl font-bold text-carbon tracking-tight mb-4 font-sans">
                     {stepItem.titulo}
                   </h3>
-                  <p className="text-carbon/70 text-base leading-relaxed font-light mb-6">
+                  <p className="text-carbon/70 text-base leading-relaxed font-light mb-6 font-sans">
                     {stepItem.desc}
                   </p>
                 </div>
@@ -2628,6 +2574,68 @@ export default function IAAplicadaPage() {
                 </div>
               </motion.div>
             ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── SECCIÓN: PILARES Y ENTREGABLES DE IMPLEMENTACIÓN ── */}
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-hueso border-b border-neutral-200/80">
+        <div className="max-w-[1400px] w-full mx-auto">
+
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              Pilares y entregables de <span className="text-trebol">nuestra implementación</span>
+            </h2>
+            <p className="text-carbon/70 text-base md:text-lg font-light leading-relaxed font-sans">
+              Garantizamos capacitación a tus colaboradores, desarrollo personalizado a medida y soberanía tecnológica total sobre tus datos.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {techStack.map((tech, i) => {
+              const IconComp = tech.icon || Cpu;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="p-7 md:p-8 rounded-[2.2rem] bg-white border border-neutral-200/90 shadow-md hover:shadow-2xl hover:border-trebol/60 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+                >
+                  {/* ÍCONO COMO MARCA DE AGUA ELEGANTE EN EL BACKGROUND CON ROTACIÓN SUAVE */}
+                  <div className="absolute -bottom-7 -right-7 text-trebol/[0.10] group-hover:text-trebol/[0.22] transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-6 pointer-events-none z-0">
+                    <IconComp size={150} strokeWidth={1.2} />
+                  </div>
+
+                  <div className="space-y-4 relative z-10">
+                    {/* ENCABEZADO CON ÍCONO DESTACADO Y BADGE */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/20 flex items-center justify-center text-trebol shadow-sm group-hover:bg-trebol group-hover:text-white transition-all duration-300">
+                        <IconComp size={22} />
+                      </div>
+                      <span className="text-[11px] font-mono font-extrabold text-trebol bg-trebol/10 px-3 py-1 rounded-full uppercase tracking-wider">
+                        ● {tech.badge}
+                      </span>
+                    </div>
+
+                    <h4 className="text-xl font-extrabold text-carbon tracking-tight leading-snug group-hover:text-trebol transition-colors font-sans">
+                      {tech.name}
+                    </h4>
+
+                    <p className="text-slate-700 text-sm md:text-[14.5px] font-normal leading-relaxed font-sans">
+                      {tech.desc}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center gap-2 text-xs font-mono font-extrabold text-trebol relative z-10">
+                    <CheckCircle2 size={16} className="text-trebol shrink-0" />
+                    <span>{tech.highlight}</span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>

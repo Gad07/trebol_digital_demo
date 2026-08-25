@@ -403,13 +403,16 @@ function FullImage({ src, alt, fit = "cover" }) {
 }
 
 // ── CONTENIDO 1: REDES SOCIALES (1. IMAGEN DE VECTEEZY) ────────────────────
+// ── CONTENIDO 1: REDES SOCIALES (VISTA REALISTA PERFIL DE TRÉBOL DIGITAL) ──
 function RedesSocialesContent() {
   return (
-    <FullImage
-      src="https://static.vecteezy.com/system/resources/thumbnails/024/834/856/small_2x/3d-illustration-icon-of-blue-smartphone-and-social-media-free-png.png"
-      alt="Coordinación de Redes Sociales 3D Icon"
-      fit="contain"
-    />
+    <div className="w-full h-full bg-[#f0f2f5] overflow-y-auto scrollbar-none relative text-left">
+      <img
+        src="/images/gestion_redes_facebook.png"
+        alt="Gestión de Redes Sociales - Perfil Oficial Trébol Digital"
+        className="w-full h-auto object-cover object-top block"
+      />
+    </div>
   );
 }
 
@@ -700,17 +703,17 @@ const canalesDinamicos = [
   {
     id: 'redes-sociales',
     nombre: 'Gestión de Redes Sociales',
-    subtitulo: 'Te llevamos y coordinamos tus redes sociales',
-    descripcion: 'Diseñamos, creamos y coordinamos la presencia estratégica de tu marca en plataformas digitales. Publicaciones continuas, producción visual de alto impacto y pauta optimizada para conectar con tu audiencia.',
+    subtitulo: 'Gestionamos tus redes sociales para construir la operación de tus contenidos totalmente alineada a los objetivos comerciales de tu negocio',
+    descripcion: 'Gestionamos tus redes sociales para construir la operación de tus contenidos totalmente alineada a los objetivos comerciales de tu negocio.',
     beneficios: [
       'Coordinación editorial y publicación de contenido continuo',
       'Producción de video vertical (Reels/TikTok) y carruseles',
       'Gestión de comunidad, respuesta a prospectos y pauta segmentada'
     ],
-    titleClass: 'text-[#0081FB]',
-    buttonClass: 'bg-[#0081FB] text-white hover:bg-white hover:text-black',
-    iconClass: 'text-[#0081FB]',
-    glowBg: 'from-[#0081FB]/40 via-blue-500/30 to-sky-400/35',
+    titleClass: 'text-[#84C638]',
+    buttonClass: 'bg-[#84C638] text-black hover:bg-white',
+    iconClass: 'text-[#84C638]',
+    glowBg: 'from-[#84C638]/40 via-emerald-500/35 to-lime-400/30',
     align: 'right'
   },
   {

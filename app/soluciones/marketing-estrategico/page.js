@@ -295,7 +295,7 @@ function BrandEcosystemShowcase() {
       title: 'Redes Sociales Corporativas',
       subtitle: 'Instagram, Facebook & LinkedIn B2B',
       icon: Share2,
-      desc: 'Construimos una operación de contenidos con estética profesional, carruseles educativos, reels de alto impacto y campañas publicitarias (Paid Media) orientadas a la captación de leads calificados.',
+      desc: 'Gestionamos tus redes sociales para construir la operación de tus contenidos totalmente alineada a los objetivos comerciales de tu negocio.',
       features: [
         'Diseño gráfico y línea visual consistente en todos los canales',
         'Parrillas estratégicas semanales & publicación programada',
@@ -437,11 +437,13 @@ function BrandEcosystemShowcase() {
 
                   {/* MOCKUP 2: INSTAGRAM / REDES IMAGEN COMPLETA PURA */}
                   {currentChannel.type === 'instagram' && (
-                    <img
-                      src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop"
-                      alt="Redes Sociales Corporativas"
-                      className="w-full h-full object-cover block"
-                    />
+                    <div className="w-full h-full overflow-y-auto scrollbar-none bg-[#f0f2f5]">
+                      <img
+                        src="/images/gestion_redes_facebook.png"
+                        alt="Redes Sociales Corporativas Trébol Digital"
+                        className="w-full h-auto object-cover object-top block"
+                      />
+                    </div>
                   )}
 
                   {/* MOCKUP 3: PLATAFORMA WEB IMAGEN COMPLETA PURA */}
@@ -655,27 +657,7 @@ export default function MarketingEstrategicoPage() {
         </div>
       </section>
 
-      {/* ── 02 · EMBUDO ANIMADO DFD ────────────────────────────────────── */}
-      <section id="embudo" className="w-full max-w-[1300px] mx-auto px-6 md:px-12 py-16 relative z-10 border-t border-carbon/10">
-        <div className="space-y-8">
-
-          <div className="text-center max-w-6xl mx-auto space-y-2">
-            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
-              No necesitas publicar más.<br /><span className="text-trebol">Necesitas conectar tu marketing con ventas.</span>
-            </h2>
-            <br />
-            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed max-w-2xl mx-auto font-sans">
-              Muchas empresas invierten en publicidad o redes, pero pierden oportunidades porque cada parte funciona de forma aislada. Trébol conecta todo el proceso.
-            </p>
-          </div>
-
-          {/* COMPONENTE DFD ANIMADO */}
-          <AnimatedProcessDFD />
-
-        </div>
-      </section>
-
-      {/* ── 03 · DUALIDAD DEL MODELO ────────────────────────────────────── */}
+      {/* ── 02 · DUALIDAD DEL MODELO ────────────────────────────────────── */}
       <section className="w-full max-w-[1300px] mx-auto px-6 md:px-12 py-16 relative z-10 border-t border-carbon/10">
         <div className="space-y-10">
 
@@ -703,7 +685,12 @@ export default function MarketingEstrategicoPage() {
                   Trabajamos temporalmente tu marketing para diseñar, implementar y optimizar la infraestructura necesaria. Generamos un Modelo de Implementación de Marketing Completo.
                 </p>
                 <ul className="space-y-2.5 pt-3 border-t border-neutral-100">
-                  {["Diseño de embudo y landing pages", "Configuración de pauta en Google y Meta", "Puesta a punto de CRM y WhatsApp", "Generación de Modelo Completo"].map((item, i) => (
+                  {[
+                    "Diseño de embudo y landing pages",
+                    "Configuración de pauta en Google y Meta",
+                    "Puesta a punto de CRM y WhatsApp",
+                    "Generación de Modelo Completo: -Gestión de redes sociales"
+                  ].map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-sm md:text-base font-semibold text-carbon font-sans">
                       <CheckCircle2 size={16} className="text-trebol shrink-0" />
                       <span>{item}</span>
@@ -761,6 +748,26 @@ export default function MarketingEstrategicoPage() {
               No queremos hacerte dependiente de Trébol. Nuestro objetivo es dejar capacidad instalada en tu empresa.
             </p>
           </div>
+
+        </div>
+      </section>
+
+      {/* ── 03 · EMBUDO ANIMADO DFD ────────────────────────────────────── */}
+      <section id="embudo" className="w-full max-w-[1300px] mx-auto px-6 md:px-12 py-16 relative z-10 border-t border-carbon/10">
+        <div className="space-y-8">
+
+          <div className="text-center max-w-6xl mx-auto space-y-2">
+            <h2 className="text-3xl md:text-5xl font-black text-carbon tracking-tight leading-[1.12]">
+              No necesitas publicar más.<br /><span className="text-trebol">Necesitas conectar tu marketing con ventas.</span>
+            </h2>
+            <br />
+            <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed max-w-2xl mx-auto font-sans">
+              Muchas empresas invierten en publicidad o redes, pero pierden oportunidades porque cada parte funciona de forma aislada. Trébol conecta todo el proceso.
+            </p>
+          </div>
+
+          {/* COMPONENTE DFD ANIMADO */}
+          <AnimatedProcessDFD />
 
         </div>
       </section>
@@ -874,17 +881,17 @@ export default function MarketingEstrategicoPage() {
                 Gestión de redes sociales <span className="text-trebol">con estrategia comercial.</span>
               </h2>
               <p className="text-base md:text-lg lg:text-xl text-carbon/80 font-medium leading-relaxed font-sans">
-                No gestionamos redes para perseguir tendencias o memes sin métricas de guía. Construimos una operación de contenidos alineada con los objetivos comerciales de tu negocio.
+                Gestionamos tus redes sociales para construir la operación de tus contenidos totalmente alineada a los objetivos comerciales de tu negocio.
               </p>
             </div>
 
             {/* FOTO / SECCIÓN GRÁFICA DE IMPACTO */}
             <div className="lg:col-span-6">
-              <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-200/80">
+              <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-200/80 max-h-[380px] overflow-y-auto scrollbar-none">
                 <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80"
+                  src="/images/gestion_redes_facebook.png"
                   alt="Estrategia de Redes Sociales y Marketing Trébol"
-                  className="w-full h-[340px] object-cover"
+                  className="w-full h-auto object-cover object-top block"
                 />
               </div>
             </div>
