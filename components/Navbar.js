@@ -291,15 +291,7 @@ export default function Navbar() {
               Método
             </Link>
 
-            <Link
-              href="/casos-de-exito"
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname === '/casos-de-exito'
-                ? 'bg-[#2D2E2D] text-white shadow-sm'
-                : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
-                }`}
-            >
-              Casos de éxito
-            </Link>
+
 
             {/* Insights Dropdown */}
             <div
@@ -496,14 +488,7 @@ export default function Navbar() {
                   Método
                 </Link>
 
-                <Link
-                  href="/casos-de-exito"
-                  onClick={() => setMenuOpen(false)}
-                  className={`px-5 py-3 text-base font-bold rounded-2xl transition-colors ${pathname === '/casos-de-exito' ? 'bg-[#5C9E43]/10 text-[#5C9E43]' : 'text-[#2D2E2D] hover:bg-gray-50'
-                    }`}
-                >
-                  Casos de éxito
-                </Link>
+
 
                 <div className="flex flex-col">
                   <button
