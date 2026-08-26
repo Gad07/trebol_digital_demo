@@ -315,6 +315,15 @@ async function initMySQL() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
 
+  // Tabla Configuración Global
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS config (
+      clave VARCHAR(100) PRIMARY KEY,
+      valor LONGTEXT,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `);
+
   console.log('✅ Base de datos y tablas creadas exitosamente en XAMPP MySQL.');
   await connection.end();
 }

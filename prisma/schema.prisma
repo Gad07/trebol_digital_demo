@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Blog {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  titulo         String
+  categoria      String?
+  subtitulo      String?
+  resumen        String?
+  autor          String?  @default("Trébol Digital")
+  fecha          String?
+  tiempo_lectura String?  @default("5 min")
+  imagen_url     String?
+  destacado      Boolean  @default(false)
+  contenido      Json?    @default("[]")
+  status         String?  @default("published")
+  created_at     DateTime @default(now())
+
+  @@map("blogs")
+}
+
+model Caso {
+  id          String   @id @default(uuid())
+  slug        String?
+  titulo      String
+  categoria   String?
+  cliente     String?
+  resultado   String?
+  imagen_url  String?
+  descripcion String?
+  status      String?  @default("published")
+  created_at  DateTime @default(now())
+
+  @@map("casos")
+}
+
+model Testimonio {
+  id         String   @id @default(uuid())
+  nombre     String
+  cargo      String?
+  empresa    String?
+  texto      String
+  avatar     String?
+  rating     Int?     @default(5)
+  status     String?  @default("published")
+  created_at DateTime @default(now())
+
+  @@map("testimonios")
+}
+
+model Landing {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  title            String
+  theme_style      String?  @default("v2")
+  status           String?  @default("published")
+  meta_title       String?
+  meta_description String?
+  sections         Json?    @default("[]")
+  created_at       DateTime @default(now())
+
+  @@map("landings")
+}
+
+model Tarjeta {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  first_name   String
+  last_name    String
+  title        String?
+  company      String?
+  bio          String?
+  phone        String?
+  email        String?
+  website      String?
+  website_url  String?
+  whatsapp_url String?
+  photo_url    String?
+  semblanza_p1 String?
+  semblanza_p2 String?
+  cita_texto   String?
+  status       String?  @default("published")
+  created_at   DateTime @default(now())
+
+  @@map("tarjetas")
+}
+
+model Cita {
+  id              String   @id @default(uuid())
+  nombre          String
+  email           String
+  telefono        String?
+  empresa         String?
+  host_nombre     String?
+  fecha           String
+  hora            String
+  mensaje         String?
+  notas           String?
+  proxima_reunion String?
+  status          String?  @default("confirmed")
+  created_at      DateTime @default(now())
+
+  @@map("citas")
+}
+
+model Usuario {
+  id          String   @id @default(uuid())
+  username    String   @unique
+  password    String
+  name        String
+  email       String?
+  role        String   @default("editor_contenido")
+  permissions Json?    @default("[]")
+  created_at  DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Recurso {
+  id           String   @id @default(uuid())
+  tipo         String?
+  formato      String?
+  descargas    String?
+  titulo       String
+  desc_texto   String?
+  tags         Json?    @default("[]")
+  download_url String?
+  created_at   DateTime @default(now())
+
+  @@map("recursos")
+}
+
+model Taller {
+  id         String   @id @default(uuid())
+  titulo     String
+  tipo       String?
+  modalidad  String?
+  duracion   String?
+  fecha      String?
+  hora       String?
+  precio     String?
+  cupos      String?
+  desc_texto String?
+  imagen     String?
+  temas      Json?    @default("[]")
+  created_at DateTime @default(now())
+
+  @@map("talleres")
+}
+
+model Config {
+  clave      String   @id
+  valor      Json
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("config")
+}

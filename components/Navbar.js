@@ -204,6 +204,16 @@ export default function Navbar() {
               Inicio
             </Link>
 
+            <Link
+              href="/nosotros"
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${pathname === '/nosotros'
+                ? 'bg-[#2D2E2D] text-white shadow-sm'
+                : 'text-[#2D2E2D]/80 hover:text-[#5C9E43] hover:bg-white/60'
+                }`}
+            >
+              Nosotros
+            </Link>
+
             {/* Soluciones Dropdown */}
             <div
               className="relative"
@@ -434,6 +444,15 @@ export default function Navbar() {
                     }`}
                 >
                   Inicio
+                </Link>
+
+                <Link
+                  href="/nosotros"
+                  onClick={() => setMenuOpen(false)}
+                  className={`px-5 py-3 text-base font-bold rounded-2xl transition-colors ${pathname === '/nosotros' ? 'bg-[#5C9E43]/10 text-[#5C9E43]' : 'text-[#2D2E2D] hover:bg-gray-50'
+                    }`}
+                >
+                  Nosotros
                 </Link>
 
                 <div className="flex flex-col">

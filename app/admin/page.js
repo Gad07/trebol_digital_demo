@@ -20,7 +20,7 @@ const DEFAULT_CASOS_LIST = [];
 const DEFAULT_TESTIMONIOS_LIST = [];
 
 const RESERVED_SYSTEM_ROUTES = [
-  '/', '/admin', '/metodo', '/agenda', '/casos-de-exito',
+  '/', '/admin', '/metodo', '/agenda', '/casos-de-exito', '/nosotros',
   '/soluciones/ia-aplicada', '/soluciones/marketing-estrategico',
   '/soluciones/desarrollo-web', '/soluciones/desarrollo-organizacional',
   '/insights/blog', '/politica-de-privacidad', '/terminos-y-condiciones'
@@ -146,6 +146,18 @@ export default function AdminPage() {
   const [tallerModalOpen, setTallerModalOpen] = useState(false);
   const [tallerForm, setTallerForm] = useState({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
 
+  // Banner & Cinta de Clientes
+  const [clientesForm, setClientesForm] = useState({
+    tituloPrefix: 'Empresas que impulsan',
+    tituloMiddle: 'su crecimiento con',
+    tituloHighlight: 'Trébol Digital.',
+    subtitulo: 'Conoce cómo ayudamos a empresas en crecimiento a escalar sus ventas, optimizar su operación e implementar Inteligencia Artificial con resultados medibles desde el primer mes.',
+    logos: []
+  });
+  const [clientesLoading, setClientesLoading] = useState(true);
+  const [clientesSaving, setClientesSaving] = useState(false);
+  const [clientesSaved, setClientesSaved] = useState(false);
+
   const reloadRecursos = () => {
     fetch('/api/recursos')
       .then((r) => r.json())
@@ -224,6 +236,75 @@ export default function AdminPage() {
     } catch (err) {
       console.warn('Error al eliminar taller:', err);
     }
+  };
+
+  const reloadClientes = () => {
+    fetch('/api/clientes')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data) {
+          setClientesForm({
+            tituloPrefix: data.tituloPrefix || 'Empresas que impulsan',
+            tituloMiddle: data.tituloMiddle || 'su crecimiento con',
+            tituloHighlight: data.tituloHighlight || 'Trébol Digital.',
+            subtitulo: data.subtitulo || '',
+            logos: Array.isArray(data.logos) ? data.logos : []
+          });
+        }
+      })
+      .catch((e) => console.warn('Error al cargar datos de clientes:', e))
+      .finally(() => setClientesLoading(false));
+  };
+
+  const handleSaveClientes = async (e) => {
+    if (e) e.preventDefault();
+    setClientesSaving(true);
+    try {
+      const res = await fetch('/api/clientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clientesForm)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setClientesSaved(true);
+        setTimeout(() => setClientesSaved(false), 3000);
+      }
+    } catch (err) {
+      console.warn('Error al guardar clientes:', err);
+    } finally {
+      setClientesSaving(false);
+    }
+  };
+
+  const handleAddLogoItem = () => {
+    setClientesForm((prev) => ({
+      ...prev,
+      logos: [
+        ...prev.logos,
+        {
+          id: `logo_${Date.now()}`,
+          name: 'NUEVA EMPRESA',
+          category: 'General',
+          logoUrl: ''
+        }
+      ]
+    }));
+  };
+
+  const handleUpdateLogoItem = (index, field, value) => {
+    setClientesForm((prev) => {
+      const updatedLogos = [...prev.logos];
+      updatedLogos[index] = { ...updatedLogos[index], [field]: value };
+      return { ...prev, logos: updatedLogos };
+    });
+  };
+
+  const handleDeleteLogoItem = (index) => {
+    setClientesForm((prev) => ({
+      ...prev,
+      logos: prev.logos.filter((_, i) => i !== index)
+    }));
   };
 
   const reloadUsers = () => {
@@ -333,6 +414,7 @@ export default function AdminPage() {
     reloadUsers();
     reloadRecursos();
     reloadTalleres();
+    reloadClientes();
     // Cargar tarjetas desde servidor
     fetch('/api/tarjetas')
       .then((r) => r.json())
@@ -1319,6 +1401,19 @@ export default function AdminPage() {
                         <div>
                           <span className="font-bold text-xs block">Testimonios</span>
                           <span className="text-[10px] text-neutral-400 font-light block">Reseñas de clientes</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => { setActiveTab('clientes'); setOpenDropdown(null); }}
+                        className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
+                          activeTab === 'clientes' ? 'bg-trebol/10 text-trebol font-bold' : 'hover:bg-neutral-50 text-carbon'
+                        }`}
+                      >
+                        <Globe size={16} className="text-trebol shrink-0" />
+                        <div>
+                          <span className="font-bold text-xs block">Banner & Cinta Clientes</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Título "Empresas..." y logos</span>
                         </div>
                       </button>
                     </div>
@@ -4933,6 +5028,202 @@ export default function AdminPage() {
                       </div>
                     </div>
                   )}
+
+                </div>
+              </div>
+            )}
+
+            {/* MÓDULO 6: BANNER & LOGOS DE CLIENTES */}
+            {activeTab === 'clientes' && (
+              <div className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-h-[88vh]">
+                <div className="max-w-6xl mx-auto space-y-8">
+                  
+                  {/* Encabezado con Botón Guardar */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Home & Casos de Éxito</span>
+                      <h2 className="text-2xl font-black text-carbon">Banner & Cinta Marquee de Clientes</h2>
+                      <p className="text-xs font-mono text-neutral-400">Edita el título principal "Empresas que impulsan..." y administra la lista de logos de marcas.</p>
+                    </div>
+                    <button
+                      onClick={handleSaveClientes}
+                      disabled={clientesSaving}
+                      className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm transition-all cursor-pointer shadow-lg ${
+                        clientesSaved
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-carbon text-white hover:bg-trebol'
+                      }`}
+                    >
+                      {clientesSaving ? (
+                        <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                      ) : clientesSaved ? (
+                        <>
+                          <CheckCircle2 size={16} />
+                          <span>¡Guardado con éxito!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Save size={16} />
+                          <span>Guardar Cambios</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* SECCIÓN 1: EDICIÓN DEL TÍTULO Y SUBTÍTULO */}
+                  <div className="bg-white rounded-3xl p-6 md:p-8 border border-neutral-200 shadow-sm space-y-6">
+                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3">
+                      <Type size={18} className="text-trebol" />
+                      <h3 className="font-bold text-lg text-carbon">Título Principal & Textos de Encabezado</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-xs font-mono font-bold text-neutral-500 mb-1">Prefijo del Título</label>
+                        <input
+                          type="text"
+                          value={clientesForm.tituloPrefix}
+                          onChange={(e) => setClientesForm({ ...clientesForm, tituloPrefix: e.target.value })}
+                          placeholder="Empresas que impulsan"
+                          className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-bold text-carbon focus:border-trebol focus:bg-white transition-all outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-mono font-bold text-neutral-500 mb-1">Conector Intermedio</label>
+                        <input
+                          type="text"
+                          value={clientesForm.tituloMiddle}
+                          onChange={(e) => setClientesForm({ ...clientesForm, tituloMiddle: e.target.value })}
+                          placeholder="su crecimiento con"
+                          className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-bold text-carbon focus:border-trebol focus:bg-white transition-all outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-mono font-bold text-trebol mb-1">Texto Destacado (Verde Trébol)</label>
+                        <input
+                          type="text"
+                          value={clientesForm.tituloHighlight}
+                          onChange={(e) => setClientesForm({ ...clientesForm, tituloHighlight: e.target.value })}
+                          placeholder="Trébol Digital."
+                          className="w-full px-4 py-2.5 bg-trebol/5 border border-trebol/30 rounded-xl text-sm font-bold text-trebol focus:border-trebol focus:bg-white transition-all outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono font-bold text-neutral-500 mb-1">Subtítulo (Página Casos de Éxito)</label>
+                      <textarea
+                        rows={2}
+                        value={clientesForm.subtitulo}
+                        onChange={(e) => setClientesForm({ ...clientesForm, subtitulo: e.target.value })}
+                        placeholder="Descripción o subtítulo explicativo de resultados..."
+                        className="w-full px-4 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-carbon focus:border-trebol focus:bg-white transition-all outline-none"
+                      />
+                    </div>
+
+                    {/* Previsualización en Vivo del Título */}
+                    <div className="p-5 rounded-2xl bg-neutral-900 text-white space-y-2">
+                      <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest block">Vista Previa del Encabezado</span>
+                      <h4 className="text-xl md:text-2xl font-black leading-tight">
+                        {clientesForm.tituloPrefix}{' '}
+                        {clientesForm.tituloMiddle} <span className="text-trebol">{clientesForm.tituloHighlight}</span>
+                      </h4>
+                    </div>
+                  </div>
+
+                  {/* SECCIÓN 2: LISTA DE MARCAS Y LOGOS DEL MARQUEE */}
+                  <div className="bg-white rounded-3xl p-6 md:p-8 border border-neutral-200 shadow-sm space-y-6">
+                    <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
+                      <div className="flex items-center gap-2">
+                        <ImageIcon size={18} className="text-trebol" />
+                        <div>
+                          <h3 className="font-bold text-lg text-carbon">Logos de Clientes en la Cinta Marquee</h3>
+                          <p className="text-xs text-neutral-400">Puedes agregar la URL directa de la imagen del logo o dejarla vacía para usar la marca tipográfica.</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleAddLogoItem}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-trebol/10 text-trebol font-bold text-xs hover:bg-trebol hover:text-white transition-all cursor-pointer"
+                      >
+                        <Plus size={16} />
+                        <span>Agregar Marca</span>
+                      </button>
+                    </div>
+
+                    {clientesForm.logos.length === 0 ? (
+                      <div className="text-center py-10 border-2 border-dashed border-neutral-200 rounded-2xl">
+                        <p className="text-neutral-400 text-sm">No hay marcas registradas. Haz clic en "Agregar Marca".</p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {clientesForm.logos.map((logoItem, idx) => (
+                          <div key={logoItem.id || idx} className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200 space-y-3 relative group">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-[11px] font-mono font-bold text-neutral-400"># {idx + 1}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteLogoItem(idx)}
+                                className="p-1 text-neutral-400 hover:text-red-600 transition-colors cursor-pointer"
+                                title="Eliminar cliente"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3">
+                              <div>
+                                <label className="block text-[11px] font-mono font-semibold text-neutral-500 mb-1">Nombre Empresa</label>
+                                <input
+                                  type="text"
+                                  value={logoItem.name}
+                                  onChange={(e) => handleUpdateLogoItem(idx, 'name', e.target.value)}
+                                  placeholder="NEXO INDUSTRIAL"
+                                  className="w-full px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs font-bold text-carbon focus:border-trebol outline-none"
+                                />
+                              </div>
+
+                              <div>
+                                <label className="block text-[11px] font-mono font-semibold text-neutral-500 mb-1">Categoría / Rubro</label>
+                                <input
+                                  type="text"
+                                  value={logoItem.category}
+                                  onChange={(e) => handleUpdateLogoItem(idx, 'category', e.target.value)}
+                                  placeholder="Logística & Retail"
+                                  className="w-full px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs text-carbon focus:border-trebol outline-none"
+                                />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-mono font-semibold text-neutral-500 mb-1">URL del Logo / Imagen (PNG/SVG)</label>
+                              <input
+                                type="text"
+                                value={logoItem.logoUrl || ''}
+                                onChange={(e) => handleUpdateLogoItem(idx, 'logoUrl', e.target.value)}
+                                placeholder="https://ejemplo.com/logo.png (Opcional)"
+                                className="w-full px-3 py-1.5 bg-white border border-neutral-200 rounded-lg text-xs font-mono text-carbon focus:border-trebol outline-none"
+                              />
+                            </div>
+
+                            {/* Previsualización del Logo */}
+                            <div className="pt-2 border-t border-neutral-200/60 flex items-center justify-between">
+                              <span className="text-[10px] font-mono text-neutral-400">Previsualización:</span>
+                              <div className="h-8 flex items-center justify-end px-3 py-1 bg-white border border-neutral-200 rounded-lg">
+                                {logoItem.logoUrl ? (
+                                  <img src={logoItem.logoUrl} alt={logoItem.name} className="h-6 w-auto object-contain" />
+                                ) : (
+                                  <span className="font-extrabold text-xs text-carbon tracking-wider uppercase">{logoItem.name}</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
                 </div>
               </div>

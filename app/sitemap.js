@@ -28,6 +28,12 @@ export default function sitemap() {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/nosotros`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/#contacto`,
       lastModified: now,
       changeFrequency: 'monthly',
