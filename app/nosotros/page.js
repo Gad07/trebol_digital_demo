@@ -765,11 +765,11 @@ export default function NosotrosPage() {
                       className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg flex flex-col md:flex-row min-h-[350px]"
                     >
                       {testimonios[activeTestimonio]?.clienteImg && (
-                        <div className="relative w-full md:w-2/5 h-64 md:h-auto shrink-0 overflow-hidden">
+                        <div className="relative w-full md:w-2/5 h-64 md:h-auto shrink-0 overflow-hidden bg-neutral-100 flex items-center justify-center">
                           <img
                             src={testimonios[activeTestimonio]?.clienteImg}
                             alt={testimonios[activeTestimonio]?.cliente}
-                            className="absolute inset-0 w-full h-full object-cover"
+                            className="w-full h-full object-cover object-top md:object-center transition-transform duration-500"
                           />
                         </div>
                       )}
