@@ -488,9 +488,27 @@ export default function AdminPage() {
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          setTestimoniosList(data);
-          setSelectedTestimonioId(data[0].id);
-          try { localStorage.setItem('trebol_testimonios_list_v1', JSON.stringify(data)); } catch (e) { }
+          const normalized = data.map((t) => {
+            const clienteName = t.cliente || t.nombre || t.name || t.autor || 'Cliente Trébol';
+            const quoteText = t.quote || t.texto || t.testimonio || t.contenido || t.descripcion || t.comentario || t.mensaje || '';
+            const imgUrl = t.clienteImg || t.avatar || t.imagen_url || t.imagenUrl || t.foto || '';
+            return {
+              ...t,
+              id: t.id,
+              cliente: clienteName,
+              nombre: clienteName,
+              cargo: t.cargo || t.puesto || t.role || '',
+              empresa: t.empresa || t.company || '',
+              quote: quoteText,
+              texto: quoteText,
+              clienteImg: imgUrl,
+              avatar: imgUrl,
+              rating: Number(t.rating) || 5
+            };
+          });
+          setTestimoniosList(normalized);
+          if (normalized[0]?.id) setSelectedTestimonioId(normalized[0].id);
+          try { localStorage.setItem('trebol_testimonios_list_v1', JSON.stringify(normalized)); } catch (e) { }
         }
       })
       .catch((e) => console.warn('No se pudieron cargar los testimonios:', e))
@@ -1027,7 +1045,15 @@ export default function AdminPage() {
 
   const updateCurrentTestimonio = (updatedFields) => {
     if (!currentTestimonio) return;
-    const updated = testimoniosList.map((t) => (t.id === selectedTestimonioId ? { ...t, ...updatedFields } : t));
+    const patch = { ...updatedFields };
+    if (updatedFields.cliente !== undefined) patch.nombre = updatedFields.cliente;
+    if (updatedFields.nombre !== undefined) patch.cliente = updatedFields.nombre;
+    if (updatedFields.quote !== undefined) patch.texto = updatedFields.quote;
+    if (updatedFields.texto !== undefined) patch.quote = updatedFields.texto;
+    if (updatedFields.clienteImg !== undefined) patch.avatar = updatedFields.clienteImg;
+    if (updatedFields.avatar !== undefined) patch.clienteImg = updatedFields.avatar;
+
+    const updated = testimoniosList.map((t) => (t.id === selectedTestimonioId ? { ...t, ...patch } : t));
     setTestimoniosList(updated);
     try { localStorage.setItem('trebol_testimonios_list_v1', JSON.stringify(updated)); } catch (e) { }
   };
@@ -1036,13 +1062,17 @@ export default function AdminPage() {
     const newTestimonio = {
       id: `testimonio-${Date.now()}`,
       cliente: 'Nuevo Cliente',
+      nombre: 'Nuevo Cliente',
       cargo: 'Director General',
       empresa: 'Empresa Cliente',
       quote: 'Excelente experiencia de trabajo con Trébol Digital. Resultados tangibles desde el primer mes.',
+      texto: 'Excelente experiencia de trabajo con Trébol Digital. Resultados tangibles desde el primer mes.',
       clienteImg: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
       rating: 5,
       casoId: '',
-      visible: true
+      visible: true,
+      status: 'published'
     };
     const newList = [...testimoniosList, newTestimonio];
     setTestimoniosList(newList);
