@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 const DEFAULT_SVGS = {
   'NEXO INDUSTRIAL': (
@@ -85,7 +85,26 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
       .catch(() => {});
   }, []);
 
-  const duplicatedLogos = [...logosList, ...logosList, ...logosList];
+  // Adaptación dinámica de lista duplicada según la cantidad de logos (1, 2, 3, 4, 5...)
+  const { duplicatedLogos, marqueeDuration } = useMemo(() => {
+    const count = logosList.length;
+    if (count === 0) return { duplicatedLogos: [], marqueeDuration: '30s' };
+
+    const repeatTimes = Math.max(4, Math.ceil(24 / count));
+    const list = [];
+    for (let i = 0; i < repeatTimes; i++) {
+      list.push(...logosList);
+    }
+
+    const durationSeconds = Math.max(20, Math.min(60, list.length * 2.2));
+
+    return {
+      duplicatedLogos: list,
+      marqueeDuration: `${durationSeconds}s`
+    };
+  }, [logosList]);
+
+  if (!logosList || logosList.length === 0) return null;
 
   return (
     <section id="section-clientes" className={`relative z-10 w-full py-24 md:py-32 px-6 md:px-12 overflow-visible ${isLanding ? 'bg-transparent text-inherit' : 'bg-white text-carbon'}`}>
@@ -99,7 +118,7 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
         </div>
       )}
 
-      {/* CINTA DESLIZANTE DE LOGOS MARQUEE */}
+      {/* CINTA DESLIZANTE DE LOGOS MARQUEE DINÁMICA */}
       <div className="relative w-full overflow-hidden py-6 z-10">
 
         {/* Máscaras de degradado a los lados */}
@@ -110,29 +129,47 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
           </>
         )}
 
-        <div className="flex w-max animate-marquee space-x-16 md:space-x-24 items-center">
+        <div
+          className="flex w-max animate-marquee space-x-16 md:space-x-24 items-center"
+          style={{ animationDuration: marqueeDuration }}
+        >
           {duplicatedLogos.map((client, idx) => {
             const svgKey = (client.name || '').trim().toUpperCase();
             const fallbackSvg = DEFAULT_SVGS[svgKey];
+            const hasLogoImg = Boolean(client.logoUrl);
 
             return (
               <div
                 key={`${client.name || client.id}-${idx}`}
-                className={`flex items-center gap-3 transition-all duration-300 cursor-pointer shrink-0 ${
+                className={`flex items-center gap-3.5 transition-all duration-300 cursor-pointer shrink-0 ${
                   isLanding ? 'opacity-80 hover:opacity-100 hover:text-trebol' : 'text-carbon/50 hover:text-trebol opacity-70 hover:opacity-100'
                 }`}
               >
-                {client.logoUrl ? (
+                {/* 1. IMAGEN DE LOGO (SI EXISTE) */}
+                {hasLogoImg && (
                   <img
                     src={client.logoUrl}
                     alt={client.name || 'Logo cliente'}
                     className="h-8 md:h-10 w-auto object-contain max-w-[160px] grayscale hover:grayscale-0 transition-all"
                   />
-                ) : fallbackSvg ? (
+                )}
+
+                {/* 2. SVG FALLBACK (SI NO HAY LOGOURL E IMAGEN) */}
+                {!hasLogoImg && fallbackSvg && (
                   <div className="scale-110 md:scale-125">
                     {fallbackSvg}
                   </div>
-                ) : (
+                )}
+
+                {/* 3. NOMBRE DE LA EMPRESA (SI EXISTE JUNTO A LA IMAGEN) */}
+                {hasLogoImg && client.name && (
+                  <span className="font-extrabold tracking-tight text-sm md:text-lg uppercase">
+                    {client.name}
+                  </span>
+                )}
+
+                {/* 4. NOMBRE DE LA EMPRESA SOLO (SI NO HAY NI LOGOURL NI SVG) */}
+                {!hasLogoImg && !fallbackSvg && client.name && (
                   <span className="font-extrabold tracking-wider text-base md:text-xl uppercase border-b-2 border-trebol/40 pb-0.5">
                     {client.name}
                   </span>
@@ -146,10 +183,10 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
       <style jsx>{`
         @keyframes marquee {
           0% { transform: translateX(0%); }
-          100% { transform: translateX(-33.333%); }
+          100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 30s linear infinite;
+          animation: marquee linear infinite;
         }
         .animate-marquee:hover {
           animation-play-state: paused;
@@ -158,4 +195,3 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
     </section>
   );
 }
-
