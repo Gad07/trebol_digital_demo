@@ -49,6 +49,9 @@ export const metadata = {
   authors: [{ name: "Trébol Digital", url: SITE_URL }],
   creator: "Trébol Digital",
   publisher: "Trébol Digital",
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  },
   openGraph: {
     type: "website",
     locale: "es_MX",
@@ -140,6 +143,90 @@ const jsonLd = {
   priceRange: "$$",
 };
 
+const siteNavigationJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Trébol Digital",
+      alternateName: "Trébol Digital México",
+      description: "Estrategia Digital, Inteligencia Artificial, Marketing y Desarrollo Organizacional en México",
+      publisher: {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: "Trébol Digital",
+        url: SITE_URL,
+        logo: `${SITE_URL}/images/TREBOL_01.png`
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${SITE_URL}/#sitelinks`,
+      name: "Secciones Principales de Trébol Digital",
+      itemListElement: [
+        {
+          "@type": "SiteNavigationElement",
+          position: 1,
+          name: "Nosotros",
+          description: "Conoce la historia, filosofía y equipo multidisciplinario de Trébol Digital.",
+          url: `${SITE_URL}/nosotros`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 2,
+          name: "Desarrollo Web",
+          description: "Plataformas web serverless en Next.js, aplicaciones a la medida y optimización UX/UI.",
+          url: `${SITE_URL}/soluciones/desarrollo-web`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 3,
+          name: "Inteligencia Artificial",
+          description: "Agentes de atención y ventas 24/7, automatización de procesos operativos e IA.",
+          url: `${SITE_URL}/soluciones/ia-aplicada`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 4,
+          name: "Marketing Estratégico",
+          description: "Embudos de captación B2B/B2C, pauta publicitaria rentable y posicionamiento SEO local.",
+          url: `${SITE_URL}/soluciones/marketing-estrategico`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 5,
+          name: "Desarrollo Organizacional",
+          description: "Alineación estratégica de equipos, cultura de autonomía operativa y capacitación.",
+          url: `${SITE_URL}/soluciones/desarrollo-organizacional`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 6,
+          name: "Casos de Éxito",
+          description: "Historias de éxito y resultados medibles de nuestros clientes.",
+          url: `${SITE_URL}/casos-de-exito`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 7,
+          name: "Insights & Blog",
+          description: "Artículos prácticos, guías de automatización e inteligencia artificial.",
+          url: `${SITE_URL}/insights`
+        },
+        {
+          "@type": "SiteNavigationElement",
+          position: 8,
+          name: "Agendar Cita",
+          description: "Reserva una sesión de diagnóstico estratégico gratuito con nuestros especialistas.",
+          url: `${SITE_URL}/agenda`
+        }
+      ]
+    }
+  ]
+};
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PopupSystem from "../components/PopupSystem";
@@ -154,6 +241,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationJsonLd) }}
         />
       </head>
       <body className={`${manrope.className} antialiased`}>
