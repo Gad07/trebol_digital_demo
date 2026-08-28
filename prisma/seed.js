@@ -196,6 +196,41 @@ async function main() {
   }
   console.log('✅ Cursos & talleres sembrados exitosamente.');
 
+  // Mini Blogs / Artículos Insights
+  const blogsData = require('../data/blogs_db.json');
+  for (const b of blogsData) {
+    await prisma.blog.upsert({
+      where: { slug: b.slug },
+      update: {
+        titulo: b.titulo,
+        categoria: b.categoria,
+        subtitulo: b.subtitulo,
+        resumen: b.resumen || b.extracto,
+        autor: b.autor || 'Trébol Digital',
+        fecha: b.fecha,
+        tiempo_lectura: b.tiempoLectura || b.tiempo || '5 min',
+        imagen_url: b.imagenUrl || b.imagen || '',
+        destacado: Boolean(b.destacado),
+        status: b.status || 'published'
+      },
+      create: {
+        id: b.id,
+        slug: b.slug,
+        titulo: b.titulo,
+        categoria: b.categoria,
+        subtitulo: b.subtitulo,
+        resumen: b.resumen || b.extracto,
+        autor: b.autor || 'Trébol Digital',
+        fecha: b.fecha,
+        tiempo_lectura: b.tiempoLectura || b.tiempo || '5 min',
+        imagen_url: b.imagenUrl || b.imagen || '',
+        destacado: Boolean(b.destacado),
+        status: b.status || 'published'
+      }
+    });
+  }
+  console.log('✅ Mini blogs sembrados exitosamente en la base de datos.');
+
   console.log('✨ Sembrado Prisma completado exitosamente.');
 }
 

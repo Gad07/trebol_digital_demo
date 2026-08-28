@@ -5,52 +5,16 @@
   "subtitulo": "Conoce cómo ayudamos a empresas en crecimiento a escalar sus ventas, optimizar su operación e implementar Inteligencia Artificial con resultados medibles desde el primer mes.",
   "logos": [
     {
-      "id": "logo_1",
-      "name": "NEXO INDUSTRIAL",
-      "category": "Logística & Cadena de Suministro",
-      "logoUrl": ""
+      "id": "logo_suga",
+      "name": "SUGA",
+      "category": "Fabricación y distribución de suministros industriales",
+      "logoUrl": "https://www.suga.mx/assets/img/logo/Logo_02_sf.png"
     },
     {
-      "id": "logo_2",
-      "name": "INNOVA RETAIL",
-      "category": "E-Commerce & Retail",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_3",
-      "name": "FINOVA CAPITAL",
-      "category": "Fintech & Banca",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_4",
-      "name": "ALTURA REAL ESTATE",
-      "category": "Desarrollos Inmobiliarios",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_5",
-      "name": "SALUDPLUS",
-      "category": "Red de Salud & Clínicas",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_6",
-      "name": "VANTAGE TECH",
-      "category": "Software & Cloud",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_7",
-      "name": "TERRANOVA AGRO",
-      "category": "Agroindustria B2B",
-      "logoUrl": ""
-    },
-    {
-      "id": "logo_8",
-      "name": "KRATOS GROUP",
-      "category": "Manufactura Avanzada",
-      "logoUrl": ""
+      "id": "logo_circulo",
+      "name": "CÍRCULO DE EMPRESARIOS",
+      "category": "Asociación Empresarial",
+      "logoUrl": "https://circulodeempresarios.com.mx/assets/img/ciempre/logo-color-sf-01.png"
     }
   ]
 }

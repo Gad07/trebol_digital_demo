@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import OrgStructureCanvas from '@/components/OrgStructureCanvas';
 import Contact from '@/components/Contact';
-import ClientLogosBanner from '@/components/ClientLogosBanner';
 
 const raciItems = [
   {
@@ -467,8 +466,6 @@ export default function DesarrolloOrgPage() {
         </div>
       </section>
 
-      {/* ── CLIENTES / LOGOS MARQUEE ────────── */}
-      <ClientLogosBanner />
 
       {/* ── Contact CTA (mismo estilo que Home) ────────── */}
       <Contact />

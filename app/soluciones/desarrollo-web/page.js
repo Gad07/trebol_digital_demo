@@ -17,7 +17,6 @@ import { BrutalistMockup } from '../../../components/desarrollo-web/mockups/Brut
 import { LuxuryMockup } from '../../../components/desarrollo-web/mockups/LuxuryMockup';
 import { SpeedometerGauge, LighthouseGauge, ConversionGauge } from '../../../components/desarrollo-web/PerformanceGauges';
 import Contact from '@/components/Contact';
-import ClientLogosBanner from '@/components/ClientLogosBanner';
 
 const webIncludedServices = [
   {
@@ -831,8 +830,6 @@ export default function DesarrolloWebPage() {
         </div>
       </section>
 
-      {/* ── 9. CLIENTES / LOGOS MARQUEE ── */}
-      <ClientLogosBanner />
 
       {/* ── 10. Contact CTA ── */}
       <div id="contacto">

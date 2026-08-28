@@ -55,14 +55,8 @@ const DEFAULT_SVGS = {
 };
 
 const DEFAULT_LOGOS = [
-  { id: '1', name: 'NEXO INDUSTRIAL', category: 'Logística & Cadena de Suministro', logoUrl: '' },
-  { id: '2', name: 'INNOVA RETAIL', category: 'E-Commerce & Retail', logoUrl: '' },
-  { id: '3', name: 'FINOVA CAPITAL', category: 'Fintech & Banca', logoUrl: '' },
-  { id: '4', name: 'ALTURA REAL ESTATE', category: 'Desarrollos Inmobiliarios', logoUrl: '' },
-  { id: '5', name: 'SALUDPLUS', category: 'Red de Salud & Clínicas', logoUrl: '' },
-  { id: '6', name: 'VANTAGE TECH', category: 'Software & Cloud', logoUrl: '' },
-  { id: '7', name: 'TERRANOVA AGRO', category: 'Agroindustria B2B', logoUrl: '' },
-  { id: '8', name: 'KRATOS GROUP', category: 'Manufactura Avanzada', logoUrl: '' }
+  { id: 'logo_suga', name: 'SUGA', category: 'Fabricación y distribución de suministros industriales', logoUrl: 'https://www.suga.mx/assets/img/logo/Logo_02_sf.png' },
+  { id: 'logo_circulo', name: 'CÍRCULO DE EMPRESARIOS', category: 'Asociación Empresarial', logoUrl: 'https://circulodeempresarios.com.mx/assets/img/ciempre/logo-color-sf-01.png' }
 ];
 
 export default function ClientLogosBanner({ isLanding, hideTitle = false }) {

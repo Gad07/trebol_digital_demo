@@ -389,52 +389,61 @@ function YouTubeVideo({ videoId, title, scaleClass = "w-[120%] h-[100%]", isActi
   );
 }
 
-// ── REPRODUCTOR DE IMAGEN A PANTALLA COMPLETA ─────────────────────────────
-function FullImage({ src, alt, fit = "cover" }) {
+// ── REPRODUCTOR DE IMAGEN A PANTALLA COMPLETA EDGE-TO-EDGE ─────────────────
+function FullImage({ src, alt, position = "object-top" }) {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-neutral-950 flex items-center justify-center select-none">
+    <div className="w-full h-full relative overflow-hidden bg-black flex items-center justify-center select-none">
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full ${fit === 'contain' ? 'object-contain p-4' : 'object-cover'} object-center block`}
+        className={`w-full h-full object-cover ${position} block`}
       />
     </div>
   );
 }
 
-// ── CONTENIDO 1: REDES SOCIALES (1. IMAGEN DE VECTEEZY) ────────────────────
-// ── CONTENIDO 1: REDES SOCIALES (VISTA REALISTA PERFIL DE TRÉBOL DIGITAL) ──
+// ── CONTENIDO 1: REDES SOCIALES (LINKEDIN OFICIAL /REDES/LINKENDLN.PNG) ──
 function RedesSocialesContent() {
   return (
-    <div className="w-full h-full bg-[#f0f2f5] overflow-y-auto scrollbar-none relative text-left">
-      <img
-        src="/images/gestion_redes_facebook.png"
-        alt="Gestión de Redes Sociales - Perfil Oficial Trébol Digital"
-        className="w-full h-auto object-cover object-top block"
-      />
-    </div>
-  );
-}
-
-// ── CONTENIDO 2: GESTIÓN & OPTIMIZACIÓN WEB (2. VIDEO YOUTUBE SHORTS VERTICAL) ──
-function WebOptimContent({ isActive }) {
-  return <YouTubeVideo videoId="CzQ1f09Br2w" title="Gestión y Optimización Web Video" scaleClass="w-[115%] h-[100%]" isActive={isActive} />;
-}
-
-// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL APLICADA (IMAGEN DE IA APLICADA) ──
-function IAContent() {
-  return (
     <FullImage
-      src="https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1000&auto=format&fit=crop"
-      alt="Inteligencia Artificial Aplicada 3D Graphic"
-      fit="cover"
+      src="/redes/linkendln.png"
+      alt="Gestión de Redes Sociales LinkedIn"
+      position="object-top"
     />
   );
 }
 
-// ── CONTENIDO 4: CAPACITACIÓN & ACOMPAÑAMIENTO (4. VIDEO YOUTUBE EN LAPTOP) ────
-function CapacitacionContent({ isActive }) {
-  return <YouTubeVideo videoId="Ctd6BTuZmjA" title="Capacitación y Acompañamiento Video" scaleClass="w-[110%] h-[100%]" isActive={isActive} />;
+// ── CONTENIDO 2: GESTIÓN & OPTIMIZACIÓN WEB (/REDES/OPTIMIZACIPON.PNG) ──
+function WebOptimContent() {
+  return (
+    <FullImage
+      src="/redes/optimizacipon.png"
+      alt="Gestión & Optimización Web"
+      position="object-top"
+    />
+  );
+}
+
+// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL APLICADA (/REDES/IA.PNG) ──
+function IAContent() {
+  return (
+    <FullImage
+      src="/redes/IA.png"
+      alt="Inteligencia Artificial Aplicada"
+      position="object-top"
+    />
+  );
+}
+
+// ── CONTENIDO 4: CAPACITACIÓN & ACOMPAÑAMIENTO (/REDES/CAPACITACIÓN.PNG) ────
+function CapacitacionContent() {
+  return (
+    <FullImage
+      src="/redes/capacitaci%C3%B3n.png"
+      alt="Capacitación & Acompañamiento"
+      position="object-cover object-center"
+    />
+  );
 }
 
 // ── MOCKUP DE TELÉFONO 3D HYPER-REALISTA IPHONE 15 PRO ─────────────────────
@@ -710,10 +719,10 @@ const canalesDinamicos = [
       'Producción de video vertical (Reels/TikTok) y carruseles',
       'Gestión de comunidad, respuesta a prospectos y pauta segmentada'
     ],
-    titleClass: 'text-[#84C638]',
-    buttonClass: 'bg-[#84C638] text-black hover:bg-white',
-    iconClass: 'text-[#84C638]',
-    glowBg: 'from-[#84C638]/40 via-emerald-500/35 to-lime-400/30',
+    titleClass: 'text-[#8DC63F]',
+    buttonClass: 'bg-[#8DC63F] text-black hover:bg-[#5C9E43] hover:text-white',
+    iconClass: 'text-[#8DC63F]',
+    glowBg: 'from-[#8DC63F]/45 via-[#5C9E43]/40 to-[#8DC63F]/20',
     align: 'right'
   },
   {
@@ -726,10 +735,10 @@ const canalesDinamicos = [
       'Mantenimiento técnico, seguridad y actualizaciones sin pausas',
       'Optimización de tasa de conversión (CRO) y SEO en buscadores'
     ],
-    titleClass: 'text-[#F4B400]',
-    buttonClass: 'bg-[#F4B400] text-black hover:bg-white',
-    iconClass: 'text-[#F4B400]',
-    glowBg: 'from-[#F4B400]/40 via-amber-500/35 to-yellow-400/30',
+    titleClass: 'text-[#8DC63F]',
+    buttonClass: 'bg-[#8DC63F] text-black hover:bg-[#5C9E43] hover:text-white',
+    iconClass: 'text-[#8DC63F]',
+    glowBg: 'from-[#8DC63F]/45 via-[#5C9E43]/40 to-[#8DC63F]/20',
     align: 'left'
   },
   {
@@ -742,10 +751,10 @@ const canalesDinamicos = [
       'Selección de Tipos de IA: Agentes 24/7, IA Generativa y Analítica Predictiva',
       'Automatización guiada de la mano: prospección, cotizaciones y CRM'
     ],
-    titleClass: 'text-[#00F2FE]',
-    buttonClass: 'bg-[#00F2FE] text-black hover:bg-white',
-    iconClass: 'text-[#00F2FE]',
-    glowBg: 'from-[#00F2FE]/40 via-cyan-500/35 to-sky-400/30',
+    titleClass: 'text-[#8DC63F]',
+    buttonClass: 'bg-[#8DC63F] text-black hover:bg-[#5C9E43] hover:text-white',
+    iconClass: 'text-[#8DC63F]',
+    glowBg: 'from-[#8DC63F]/45 via-[#5C9E43]/40 to-[#8DC63F]/20',
     align: 'right'
   },
   {
@@ -758,10 +767,10 @@ const canalesDinamicos = [
       'Documentación técnica, manuales y guías paso a paso',
       'Acompañamiento continuo y evolución digital de tu organización'
     ],
-    titleClass: 'text-[#84C638]',
-    buttonClass: 'bg-[#84C638] text-black hover:bg-white',
-    iconClass: 'text-[#84C638]',
-    glowBg: 'from-[#84C638]/40 via-emerald-500/35 to-lime-400/30',
+    titleClass: 'text-[#8DC63F]',
+    buttonClass: 'bg-[#8DC63F] text-black hover:bg-[#5C9E43] hover:text-white',
+    iconClass: 'text-[#8DC63F]',
+    glowBg: 'from-[#8DC63F]/45 via-[#5C9E43]/40 to-[#8DC63F]/20',
     align: 'left'
   },
 ];
@@ -960,11 +969,11 @@ export default function CanalesScrollytelling() {
 
   return (
     <div id="canales-scrollytelling-wrapper" className="w-full relative">
-      <section ref={containerRef} className="relative h-screen min-h-[600px] w-full bg-[#24252a] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
+      <section ref={containerRef} className="relative h-screen min-h-[600px] w-full bg-[#141514] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
 
-        {/* Background Glow Dinámico de la Marca */}
+        {/* Background Glow Dinámico Verde Trébol Oficial */}
         <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-          <div className={`w-[50rem] h-[50rem] rounded-full blur-[180px] bg-gradient-to-tr ${current.glowBg} transition-all duration-1000 opacity-40`} />
+          <div className={`w-[55rem] h-[55rem] rounded-full blur-[140px] bg-gradient-to-tr ${current.glowBg} transition-all duration-700 opacity-65`} />
         </div>
 
         {/* ── NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA ────── */}

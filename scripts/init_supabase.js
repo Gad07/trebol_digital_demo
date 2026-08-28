@@ -137,12 +137,29 @@ async function initSupabaseSeed() {
     }
   ];
 
-  console.log('📦 Sembrando datos iniciales en Supabase (Usuarios RBAC)...');
-  const { error: errorUsuarios } = await supabase.from('usuarios').upsert(usuarios, { onConflict: 'id' });
-  if (errorUsuarios) {
-    console.error('❌ Error sembrando usuarios:', errorUsuarios.message);
+  // Seed Mini Blogs
+  const blogsData = require('../data/blogs_db.json');
+  const blogs = blogsData.map(b => ({
+    id: b.id,
+    slug: b.slug,
+    titulo: b.titulo,
+    categoria: b.categoria,
+    subtitulo: b.subtitulo,
+    resumen: b.resumen || b.extracto,
+    autor: b.autor || 'Trébol Digital',
+    fecha: b.fecha,
+    tiempo_lectura: b.tiempoLectura || b.tiempo || '5 min',
+    imagen_url: b.imagenUrl || b.imagen || '',
+    destacado: Boolean(b.destacado),
+    status: b.status || 'published'
+  }));
+
+  console.log('📦 Sembrando datos iniciales en Supabase (Mini Blogs)...');
+  const { error: errorBlogs } = await supabase.from('blogs').upsert(blogs, { onConflict: 'id' });
+  if (errorBlogs) {
+    console.error('❌ Error sembrando blogs en Supabase:', errorBlogs.message);
   } else {
-    console.log('✅ Usuarios RBAC sembrados correctamente en Supabase.');
+    console.log('✅ Mini blogs sembrados correctamente en Supabase.');
   }
 
   console.log('✨ Inicialización de sembrado en Supabase completada con éxito.');

@@ -5,60 +5,76 @@ import Image from 'next/image';
 import { Star, ArrowUpRight, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import Process from '@/components/Process';
 import Contact from '@/components/Contact';
-import ClientLogosBanner from '@/components/ClientLogosBanner';
 
-const testimonials = [
+const DEFAULT_TESTIMONIALS = [
   {
-    name: 'Mariana R.',
-    company: 'Studio Mara · Fotografía',
-    text: 'El método Trébol nos dio claridad total desde el día uno. En 3 meses teníamos un sitio que convierte y redes que hablan por solas.',
+    id: 'testimonio-1787778466458',
+    name: 'SUGA',
+    company: 'Fabricación y distribución de suministros industriales',
+    text: 'Nos ayudaron con la actualización de nuestra página web. Hoy tenemos una presencia digital más sólida y profesional.',
     stars: 5,
-    avatar: 'M',
+    avatar: 'https://www.suga.mx/assets/img/logo/Logo_02_sf.png'
   },
   {
-    name: 'Carlos V.',
-    company: 'InnovaTech · SaaS B2B',
-    text: 'Pasamos de 0 a 340 leads en 60 días siguiendo el proceso. No es magia, es metodología. La transferencia de conocimiento fue clave.',
+    id: 'testimonio-1787778387946',
+    name: 'CÍRCULO DE EMPRESARIOS',
+    company: 'Asociación Empresarial',
+    text: 'Gracias a las aportaciones de Trébol Digital y por el valor agregado para hacer que nuestro proyecto creciera.',
     stars: 5,
-    avatar: 'C',
-  },
-  {
-    name: 'Sofía L.',
-    company: 'Boutique Ámbar · E-Commerce',
-    text: 'Lo que más valoro es que nos enseñaron a operar solos. Hoy gestionamos nuestro marketing con autonomía total. Eso no lo da cualquiera.',
-    stars: 5,
-    avatar: 'S',
-  },
-  {
-    name: 'Diego M.',
-    company: 'Constructora Horizonte · B2B',
-    text: 'El diagnóstico inicial fue tan preciso que identificaron en 2 horas lo que nosotros no habíamos visto en 2 años. Resultados inmediatos.',
-    stars: 5,
-    avatar: 'D',
-  },
+    avatar: 'https://circulodeempresarios.com.mx/assets/img/ciempre/logo-color-sf-01.png'
+  }
 ];
 
 function TestimonialsCarousel() {
+  const [items, setItems] = useState(DEFAULT_TESTIMONIALS);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [dir, setDir] = useState(1);
 
   useEffect(() => {
-    if (paused) return;
+    fetch('/api/testimonios')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data
+            .filter((t) => t.visible !== false && t.status !== 'draft')
+            .map((t, idx) => ({
+              id: t.id || `testimonio_${idx}`,
+              name: t.nombre || t.cliente || t.name || 'Cliente Trébol',
+              company: t.cargo ? `${t.cargo}${t.empresa ? ` · ${t.empresa}` : ''}` : (t.empresa || ''),
+              text: t.texto || t.quote || t.testimonio || t.comentario || '',
+              stars: Number(t.rating || t.estrellas || 5) || 5,
+              avatar: t.avatar || t.clienteImg || t.imagen_url || ''
+            }))
+            .filter((t) => Boolean(t.text));
+
+          if (mapped.length > 0) {
+            setItems(mapped);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (paused || items.length <= 1) return;
     const t = setInterval(() => {
       setDir(1);
-      setCurrent(c => (c + 1) % testimonials.length);
+      setCurrent(c => (c + 1) % items.length);
     }, 5000);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, items.length]);
 
   const go = (next) => {
+    if (items.length === 0) return;
     setDir(next > current ? 1 : -1);
-    setCurrent((next + testimonials.length) % testimonials.length);
+    setCurrent((next + items.length) % items.length);
     setPaused(true);
   };
 
-  const t = testimonials[current];
+  if (!items || items.length === 0) return null;
+
+  const t = items[current] || items[0];
 
   return (
     <section className="w-full bg-hueso py-24 md:py-32 px-6 md:px-12">
@@ -88,8 +104,8 @@ function TestimonialsCarousel() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Fixed-height container — NEVER changes size regardless of content */}
-          <div className="relative h-[340px] md:h-[300px] overflow-hidden">
+          {/* Fixed-height container */}
+          <div className="relative min-h-[300px] md:min-h-[260px] overflow-hidden">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div
               key={current}
@@ -98,35 +114,41 @@ function TestimonialsCarousel() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: dir * -60 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 bg-white/70 backdrop-blur-xl border border-white/60 rounded-[2rem] p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col justify-between"
+              className="relative bg-white/80 backdrop-blur-xl border border-white/80 rounded-[2rem] p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col justify-between"
             >
               <Quote size={40} className="text-trebol/10 absolute top-6 right-8" />
 
               <div>
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
-                  {[...Array(t.stars)].map((_, s) => (
+                  {[...Array(t.stars || 5)].map((_, s) => (
                     <Star key={s} size={14} className="fill-trebol text-trebol" />
                   ))}
                 </div>
 
                 {/* Quote text */}
-                <p className="text-carbon/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed max-w-4xl line-clamp-4">
-                  "{t.text}"
+                <p className="text-carbon/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed max-w-4xl">
+                  &ldquo;{t.text}&rdquo;
                 </p>
               </div>
 
               {/* Author */}
-              <div className="flex items-center gap-4 border-t border-carbon/10 pt-5 mt-4">
-                <div className="w-10 h-10 rounded-full bg-trebol flex items-center justify-center text-white font-black text-sm shrink-0">
-                  {t.avatar}
-                </div>
+              <div className="flex items-center gap-4 border-t border-carbon/10 pt-5 mt-6">
+                {t.avatar && (t.avatar.startsWith('http') || t.avatar.startsWith('/')) ? (
+                  <div className="w-12 h-12 rounded-full bg-white p-1.5 border border-carbon/10 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
+                    <img src={t.avatar} alt={t.name} className="w-full h-full object-contain" />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-trebol flex items-center justify-center text-white font-black text-base shrink-0 shadow-xs">
+                    {t.avatar || (t.name ? t.name.charAt(0) : 'T')}
+                  </div>
+                )}
                 <div>
-                  <p className="font-bold text-carbon text-sm leading-none mb-0.5">{t.name}</p>
-                  <p className="text-carbon/50 text-xs font-mono">{t.company}</p>
+                  <p className="font-bold text-carbon text-base leading-none mb-1">{t.name}</p>
+                  {t.company && <p className="text-carbon/60 text-xs font-mono">{t.company}</p>}
                 </div>
-                <div className="ml-auto text-[10px] font-mono text-carbon/30 uppercase tracking-widest">
-                  {current + 1} / {testimonials.length}
+                <div className="ml-auto text-[10px] font-mono text-carbon/40 uppercase tracking-widest">
+                  {current + 1} / {items.length}
                 </div>
               </div>
             </motion.div>
@@ -134,34 +156,38 @@ function TestimonialsCarousel() {
           </div>
 
           {/* Navigation arrows */}
-          <div className="flex items-center gap-3 mt-6 justify-center">
-            <button
-              onClick={() => go(current - 1)}
-              className="w-11 h-11 rounded-full border border-carbon/20 flex items-center justify-center text-carbon/50 hover:border-trebol hover:text-trebol transition-all cursor-pointer"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            {/* Dots */}
-            <div className="flex items-center gap-1.5 mx-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => go(i)}
-                  className={`rounded-full transition-all duration-300 cursor-pointer ${
-                    i === current
-                      ? 'w-6 h-2 bg-trebol'
-                      : 'w-2 h-2 bg-carbon/20 hover:bg-carbon/40'
-                  }`}
-                />
-              ))}
+          {items.length > 1 && (
+            <div className="flex items-center gap-3 mt-6 justify-center">
+              <button
+                onClick={() => go(current - 1)}
+                className="w-11 h-11 rounded-full border border-carbon/20 flex items-center justify-center text-carbon/50 hover:border-trebol hover:text-trebol transition-all cursor-pointer"
+                title="Testimonio anterior"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              {/* Dots */}
+              <div className="flex items-center gap-1.5 mx-2">
+                {items.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => go(i)}
+                    className={`rounded-full transition-all duration-300 cursor-pointer ${
+                      i === current
+                        ? 'w-6 h-2 bg-trebol'
+                        : 'w-2 h-2 bg-carbon/20 hover:bg-carbon/40'
+                    }`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => go(current + 1)}
+                className="w-11 h-11 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-trebol transition-all cursor-pointer"
+                title="Siguiente testimonio"
+              >
+                <ChevronRight size={18} />
+              </button>
             </div>
-            <button
-              onClick={() => go(current + 1)}
-              className="w-11 h-11 rounded-full bg-carbon text-white flex items-center justify-center hover:bg-trebol transition-all cursor-pointer"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
+          )}
         </div>
       </div>
     </section>
@@ -280,8 +306,6 @@ export default function MetodoPage() {
         </div>
       </section>
 
-      {/* ── CLIENTES / LOGOS ────────────────────────── */}
-      <ClientLogosBanner />
 
       {/* ── CONTACT ───────────────────────────────────── */}
       <Contact />

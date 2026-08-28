@@ -29,31 +29,22 @@ import Contact from '@/components/Contact';
 
 const DEFAULT_RESEÑAS = [
   {
-    id: 'resena_1',
-    cliente: 'Carlos Mendoza',
-    cargo: 'Director de Operaciones',
-    empresa: 'Logística Nexo Industrial',
-    quote: 'Trébol Digital transformó nuestra captación B2B. En 60 días reducimos nuestro costo de adquisición en un 42% e integramos agentes de IA que atienden consultas de clientes 24/7 sin fallas.',
+    id: 'testimonio-1787778466458',
+    cliente: 'SUGA',
+    cargo: 'Fabricación y distribución de suministros industriales',
+    empresa: '',
+    quote: 'Nos ayudaron con la actualización de nuestra página web. Hoy tenemos una presencia digital más sólida y profesional.',
     rating: 5,
-    clienteImg: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80'
+    clienteImg: 'https://www.suga.mx/assets/img/logo/Logo_02_sf.png'
   },
   {
-    id: 'resena_2',
-    cliente: 'Valeria Sotomayor',
-    cargo: 'CEO & Fundadora',
-    empresa: 'Innova Retail Latam',
-    quote: 'Lo que más valoramos de Trébol es su filosofía de autonomía. Nos capacitaron y desarrollaron una plataforma en Next.js tan sólida que nuestro equipo controla todo internamente sin depender de agencias.',
+    id: 'testimonio-1787778387946',
+    cliente: 'CÍRCULO DE EMPRESARIOS',
+    cargo: 'Asociación Empresarial',
+    empresa: '',
+    quote: 'Gracias a las aportaciones de Trébol Digital y por el valor agregado para hacer que nuestro proyecto creciera.',
     rating: 5,
-    clienteImg: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'
-  },
-  {
-    id: 'resena_3',
-    cliente: 'Roberto Garza',
-    cargo: 'Director Comercial',
-    empresa: 'Finova Capital Group',
-    quote: 'La combinación entre embudos de venta de alta precisión e Inteligencia Artificial multiplicó por 3 nuestra tasa de conversión de agendamientos calificados. Excelentes profesionales.',
-    rating: 5,
-    clienteImg: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+    clienteImg: 'https://circulodeempresarios.com.mx/assets/img/ciempre/logo-color-sf-01.png'
   }
 ];
 
@@ -184,7 +175,7 @@ export default function NosotrosPage() {
       .then((data) => {
         if (Array.isArray(data)) setCasos(data.filter((c) => c.visible !== false));
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoadingCasos(false));
 
     fetch('/api/testimonios')
@@ -243,7 +234,7 @@ export default function NosotrosPage() {
           }
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoadingTestimonios(false));
 
     fetch('/api/clientes')
@@ -256,7 +247,7 @@ export default function NosotrosPage() {
           if (data.subtitulo !== undefined) setHeaderSubtitulo(data.subtitulo);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const SelectedIcon = selectedDisciplina.icon;
@@ -276,7 +267,7 @@ export default function NosotrosPage() {
         </div>
 
         <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center z-10 space-y-8">
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: -10 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
@@ -329,7 +320,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section id="historia" className="relative w-full py-24 md:py-36 px-5 sm:px-8 md:px-12 bg-white border-b border-carbon/10 overflow-hidden">
         <div className="relative w-full max-w-[1300px] mx-auto z-10 space-y-12">
-          
+
           <div className="space-y-3">
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-carbon tracking-tight leading-[0.95]">
               Trébol nació en 2017. <br />
@@ -343,7 +334,7 @@ export default function NosotrosPage() {
               <div className="p-8 sm:p-10 bg-hueso rounded-[2.5rem] border border-carbon/10 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-3 h-full bg-trebol" />
                 <p className="font-semibold text-carbon text-lg sm:text-xl leading-relaxed">
-                  Trébol Digital nació de una idea sencilla: ayudar a las empresas a aprovechar mejor las oportunidades que ofrecía el mundo digital, el internet y las redes sociales.
+                  Trébol Digital nació de una idea sencilla: ayudar a las empresas a aprovechar mejor las oportunidades que ofrecía el mundo digital: el internet y las redes sociales.
                 </p>
               </div>
 
@@ -352,7 +343,7 @@ export default function NosotrosPage() {
                   Nueve años después, esa idea evoluciona.
                 </p>
                 <p className="text-carbon/80 text-base sm:text-lg font-light leading-relaxed">
-                  Hoy combinamos experiencia en marketing, estrategia, tecnología, desarrollo web, inteligencia artificial y desarrollo organizacional para resolver problemas reales de negocio desde una perspectiva integral.
+                  No implementamos herramientas sólo porque están de moda. Priorizamos entender el modelo de negocio, la segmentación, las personas, los procesos y los objetivos de cada organización para después construir la solución adecuada.
                 </p>
               </div>
 
@@ -361,7 +352,7 @@ export default function NosotrosPage() {
                   Nuestra filosofía de implementación:
                 </p>
                 <p className="text-carbon/80 text-base sm:text-lg font-light leading-relaxed">
-                  No creemos en implementar herramientas sólo porque están de moda. Creemos en entender primero a las personas, los procesos y los objetivos de cada organización para después construir la solución adecuada.
+                  No implementamos herramientas sólo porque están de moda. Priorizamos entender el modelo de negocio, la segmentación, las personas, los procesos y los objetivos de cada organización para después construir la solución adecuada.
                 </p>
               </div>
 
@@ -406,7 +397,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-hueso py-20 md:py-32 px-5 sm:px-8 md:px-12 border-b border-carbon/10 relative z-10">
         <div className="max-w-[1300px] mx-auto space-y-12">
-          
+
           {/* Encabezado Conciso */}
           <div className="space-y-3">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-carbon tracking-tight leading-tight">
@@ -427,15 +418,13 @@ export default function NosotrosPage() {
                   <button
                     key={disc.id}
                     onClick={() => setSelectedDisciplina(disc)}
-                    className={`p-3.5 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer min-h-[110px] ${
-                      isSelected
-                        ? 'bg-carbon text-hueso border-trebol shadow-lg scale-105 z-10'
-                        : 'bg-white text-carbon border-carbon/10 hover:border-trebol/40'
-                    }`}
+                    className={`p-3.5 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-center gap-2 cursor-pointer min-h-[110px] ${isSelected
+                      ? 'bg-carbon text-hueso border-trebol shadow-lg scale-105 z-10'
+                      : 'bg-white text-carbon border-carbon/10 hover:border-trebol/40'
+                      }`}
                   >
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                      isSelected ? 'bg-trebol text-white' : 'bg-hueso text-trebol'
-                    }`}>
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${isSelected ? 'bg-trebol text-white' : 'bg-hueso text-trebol'
+                      }`}>
                       <IconComp size={18} />
                     </div>
                     <h3 className={`font-bold text-xs ${isSelected ? 'text-white' : 'text-carbon'}`}>
@@ -490,9 +479,9 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-white py-20 md:py-32 px-5 sm:px-8 md:px-12 border-b border-carbon/10 relative z-10">
         <div className="max-w-[1300px] mx-auto z-10">
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
+
             {/* Columna Izquierda: Editorial & Narrativa */}
             <div className="lg:col-span-5 space-y-6">
               <div className="space-y-3">
@@ -584,7 +573,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-hueso py-20 md:py-32 px-5 sm:px-8 md:px-12 border-b border-carbon/10 relative z-10">
         <div className="max-w-[1300px] mx-auto space-y-12">
-          
+
           <div className="space-y-3 max-w-3xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-carbon tracking-tight leading-tight">
               Nuestro Enfoque <span className="text-trebol">& Valores</span>
@@ -651,7 +640,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-white py-20 md:py-32 px-5 sm:px-8 md:px-12 border-b border-carbon/10 relative z-10">
         <div className="max-w-[1300px] mx-auto space-y-12">
-          
+
           <div className="space-y-4 max-w-3xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-carbon tracking-tight leading-tight">
               Forma de <span className="text-trebol">Trabajar</span>
@@ -688,11 +677,10 @@ export default function NosotrosPage() {
                   <button
                     key={step.num}
                     onClick={() => setActiveStep(idx)}
-                    className={`p-3.5 rounded-2xl border text-left transition-all duration-300 flex flex-col justify-between cursor-pointer ${
-                      isActive
-                        ? 'bg-carbon text-hueso border-trebol shadow-md scale-105 z-10'
-                        : 'bg-hueso text-carbon border-carbon/10 hover:border-trebol/40'
-                    }`}
+                    className={`p-3.5 rounded-2xl border text-left transition-all duration-300 flex flex-col justify-between cursor-pointer ${isActive
+                      ? 'bg-carbon text-hueso border-trebol shadow-md scale-105 z-10'
+                      : 'bg-hueso text-carbon border-carbon/10 hover:border-trebol/40'
+                      }`}
                   >
                     <span className={`text-xs font-mono font-black ${isActive ? 'text-trebol' : 'text-carbon/40'}`}>
                       {step.num}
@@ -729,7 +717,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-hueso py-20 md:py-32 px-5 sm:px-8 md:px-12 border-b border-carbon/10 relative z-10">
         <div className="max-w-[1300px] mx-auto space-y-12">
-          
+
           <div className="space-y-3 max-w-3xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-carbon tracking-tight leading-tight">
               Clientes & <span className="text-trebol">Casos de Éxito</span>
@@ -828,7 +816,7 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       <section className="w-full bg-carbon text-hueso py-28 md:py-44 px-5 sm:px-8 md:px-12 relative z-10 overflow-hidden">
         <div className="max-w-[1150px] mx-auto text-center space-y-12 relative z-10">
-          
+
           <div className="space-y-4">
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.88]">
               Tenemos mucho por <span className="text-trebol">construir.</span>

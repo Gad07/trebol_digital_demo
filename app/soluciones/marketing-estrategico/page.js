@@ -12,8 +12,8 @@ import {
   CircleDollarSign
 } from 'lucide-react';
 import Contact from '@/components/Contact';
-import ClientLogosBanner from '@/components/ClientLogosBanner';
 import { PhoneFrame } from '@/components/CanalesScrollytelling';
+import FacebookFeedMockup from '@/components/FacebookFeedMockup';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPONENTE DFD ANIMADO (DIAGRAMA DE FLUJO DE DATOS EN TIEMPO REAL)
@@ -437,13 +437,7 @@ function BrandEcosystemShowcase() {
 
                   {/* MOCKUP 2: INSTAGRAM / REDES IMAGEN COMPLETA PURA */}
                   {currentChannel.type === 'instagram' && (
-                    <div className="w-full h-full overflow-y-auto scrollbar-none bg-[#f0f2f5]">
-                      <img
-                        src="/images/gestion_redes_facebook.png"
-                        alt="Redes Sociales Corporativas Trébol Digital"
-                        className="w-full h-auto object-cover object-top block"
-                      />
-                    </div>
+                    <FacebookFeedMockup />
                   )}
 
                   {/* MOCKUP 3: PLATAFORMA WEB IMAGEN COMPLETA PURA */}
@@ -887,12 +881,8 @@ export default function MarketingEstrategicoPage() {
 
             {/* FOTO / SECCIÓN GRÁFICA DE IMPACTO */}
             <div className="lg:col-span-6">
-              <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-200/80 max-h-[380px] overflow-y-auto scrollbar-none">
-                <img
-                  src="/images/gestion_redes_facebook.png"
-                  alt="Estrategia de Redes Sociales y Marketing Trébol"
-                  className="w-full h-auto object-cover object-top block"
-                />
+              <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-neutral-200/80 h-[380px] overflow-y-auto scrollbar-none">
+                <FacebookFeedMockup />
               </div>
             </div>
           </div>
@@ -1213,8 +1203,6 @@ export default function MarketingEstrategicoPage() {
         </div>
       </section>
 
-      {/* ── CLIENTES / LOGOS MARQUEE ────────────────────────────────────────── */}
-      <ClientLogosBanner />
 
       {/* ── Contact Form Component ─────────────────────────────────────── */}
       <Contact />

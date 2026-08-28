@@ -502,8 +502,8 @@ const techStack = [
     icon: Users,
     badge: 'CAPACITACIÓN',
     name: 'Capacitación Práctica a Equipos',
-    desc: 'Formamos a tus colaboradores mediante talleres 100% aplicados para que adopten la IA en su trabajo diario sin curvas de aprendizaje complejas.',
-    highlight: 'Cero curva de aprendizaje'
+    desc: 'Talleres 100% prácticos y guiados para que tu equipo aprenda a usar la IA en sus tareas cotidianas desde el primer día, sin complicaciones técnicas.',
+    highlight: 'Adopción práctica desde el día 1'
   },
   {
     icon: Bot,

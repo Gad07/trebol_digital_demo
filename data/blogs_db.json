@@ -1,0 +1,344 @@
+[
+  {
+    "id": "blog-1",
+    "slug": "ia-en-tu-negocio-hoy",
+    "plantilla": "feature",
+    "titulo": "5 formas de usar IA en tu negocio hoy mismo",
+    "subtitulo": "Herramientas prácticas de Inteligencia Artificial para implementar esta semana",
+    "categoria": "Inteligencia Artificial",
+    "tiempo": "8 min",
+    "tiempoLectura": "8 min",
+    "fecha": "22 julio, 2026",
+    "autor": "Trébol Digital",
+    "autorBio": "Expertos en marketing y desarrollo tecnológico.",
+    "extracto": "La inteligencia artificial ya no es exclusiva para grandes corporativos. Te mostramos 5 herramientas prácticas que puedes implementar esta semana sin presupuesto millonario.",
+    "resumen": "La inteligencia artificial ya no es exclusiva para grandes corporativos. Te mostramos 5 herramientas prácticas que puedes implementar esta semana sin presupuesto millonario.",
+    "imagen": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1800&q=80",
+    "destacado": true,
+    "status": "published",
+    "contenido": [
+      { "tipo": "subtitulo", "texto": "1. Automatiza tu atención al cliente con ChatGPT" },
+      { "tipo": "parrafo", "texto": "Configura un asistente de IA que responda preguntas frecuentes de tus clientes 24/7. Herramientas como ChatGPT, Claude o Gemini pueden entrenarse con la información de tu negocio para dar respuestas precisas y en el tono de tu marca." },
+      { "tipo": "subtitulo", "texto": "2. Genera contenido con ayuda de la IA" },
+      { "tipo": "parrafo", "texto": "No se trata de que la IA escriba por ti, sino de que te ayude a estructurar ideas, crear borradores y superar el bloqueo creativo. Puedes generar el 80% del contenido con IA y darle el 20% de tu toque humano." },
+      { "tipo": "subtitulo", "texto": "3. Automatiza flujos repetitivos con Make o Zapier" },
+      { "tipo": "parrafo", "texto": "Conecta tus herramientas para que trabajen juntas sin intervención manual. Por ejemplo: cuando llega un lead en tu formulario web, que automáticamente se agregue a tu CRM y dispare un correo." },
+      { "tipo": "subtitulo", "texto": "4. Analiza datos con IA sin ser experto" },
+      { "tipo": "parrafo", "texto": "Herramientas como Julius AI o ChatGPT con Code Interpreter te permiten subir una hoja de cálculo y hacer preguntas en lenguaje natural obteniendo respuestas visuales en segundos." },
+      { "tipo": "subtitulo", "texto": "5. Crea imágenes y videos con IA para tus redes" },
+      { "tipo": "parrafo", "texto": "Midjourney, DALL-E o Canva AI te permiten crear imágenes profesionales para tus publicaciones sin necesidad de diseñador." }
+    ],
+    "content": {
+      "introduccion": "La inteligencia artificial ya no es exclusiva para grandes corporativos. Hoy cualquier empresa puede implementar soluciones inteligentes que ahorren tiempo y aumenten sus ventas.",
+      "secciones": [
+        {
+          "subtitulo": "1. Automatiza tu atención al cliente con ChatGPT",
+          "texto": "Configura un asistente de IA que responda preguntas frecuentes de tus clientes 24/7. Herramientas como ChatGPT, Claude o Gemini pueden entrenarse con la información de tu negocio para dar respuestas precisas y en el tono de tu marca.",
+          "fraseDestacada": "Un asistente de IA bien entrenado resuelve hasta el 70% de las dudas de tus prospectos al instante.",
+          "bullets": [
+            "Atención 24/7 sin retrasos en WhatsApp y web",
+            "Calificación previa de prospectos antes de pasarlos a ventas",
+            "Integración directa con tu catálogo y preguntas frecuentes"
+          ]
+        },
+        {
+          "subtitulo": "2. Genera contenido con ayuda de la IA",
+          "texto": "No se trata de que la IA escriba por ti, sino de que te ayude a estructurar ideas, crear borradores y superar el bloqueo creativo. Puedes generar el 80% del contenido con IA y darle el 20% de tu toque humano.",
+          "bullets": [
+            "Estructuración de posts para LinkedIn e Instagram",
+            "Redacción de correos comerciales y propuestas",
+            "Generación de guiones para video marketing"
+          ]
+        },
+        {
+          "subtitulo": "3. Automatiza flujos repetitivos con Make o Zapier",
+          "texto": "Conecta tus herramientas para que trabajen juntas sin intervención manual. Por ejemplo: cuando llega un lead en tu formulario web, que automáticamente se agregue a tu CRM y dispare un correo de bienvenida."
+        },
+        {
+          "subtitulo": "4. Analiza datos con IA sin ser experto",
+          "texto": "Herramientas como Julius AI o ChatGPT con Code Interpreter te permiten subir una hoja de cálculo y hacer preguntas en lenguaje natural obteniendo respuestas visuales y tendencias en segundos."
+        },
+        {
+          "subtitulo": "5. Crea imágenes y videos con IA para tus redes",
+          "texto": "Midjourney, DALL-E o Canva AI te permiten crear imágenes profesionales para tus publicaciones sin necesidad de diseñadores externos costosos para cada post rápido."
+        }
+      ],
+      "conclusion": "La clave no es usar todas las herramientas a la vez, sino elegir una sola que resuelva tu principal cuello de botella operativo esta misma semana.",
+      "ctaText": "Solicitar Asesoría en IA",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  },
+  {
+    "id": "blog-2",
+    "slug": "estrategia-de-contenido",
+    "plantilla": "guia",
+    "titulo": "Cómo construir una estrategia de contenido desde cero",
+    "subtitulo": "Paso a paso para conectar con tu audiencia y generar conversiones",
+    "categoria": "Marketing",
+    "tiempo": "10 min",
+    "tiempoLectura": "10 min",
+    "fecha": "15 julio, 2026",
+    "autor": "Trébol Digital",
+    "autorBio": "Expertos en marketing y desarrollo tecnológico.",
+    "extracto": "Un paso a paso para crear contenido que atraiga, conecte y convierta sin necesitar un equipo enorme ni presupuesto de agencia.",
+    "resumen": "Un paso a paso para crear contenido que atraiga, conecte y convierta sin necesitar un equipo enorme ni presupuesto de agencia.",
+    "imagen": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1800&q=80",
+    "destacado": true,
+    "status": "published",
+    "contenido": [
+      { "tipo": "parrafo", "texto": "Antes de escribir una sola palabra, necesitas saber exactamente a quién va dirigido tu contenido. Es una persona con un problema específico que tu negocio puede resolver." },
+      { "tipo": "paso", "numero": 1, "titulo": "Primero: define a quién le hablas", "texto": "Antes de escribir una sola palabra, necesitas saber exactamente a quién va dirigido tu contenido. Es una persona con un problema específico que tu negocio puede resolver.", "checklist": ["Investiga a tu cliente ideal", "Crea su perfil demográfico", "Identifica sus mayores frustraciones"] },
+      { "tipo": "paso", "numero": 2, "titulo": "Segundo: decide en qué canales vas a estar", "texto": "No necesitas estar en todos lados. Es mejor hacer bien 1 o 2 canales que hacer mal 5. Elige los canales donde está tu cliente ideal.", "checklist": ["LinkedIn para B2B", "Instagram/TikTok para B2C", "Email marketing para conversiones"] },
+      { "tipo": "paso", "numero": 3, "titulo": "Tercero: crea un calendario editorial", "texto": "La consistencia gana a la perfección. Un calendario editorial te ayuda a planificar, no improvisar.", "checklist": ["Define frecuencia de publicación", "Prepara contenido con 2 semanas de anticipación", "Mide y optimiza el rendimiento"] }
+    ],
+    "content": {
+      "introduccion": "Publicar sin estrategia es la forma más rápida de frustrarse. Aprende a crear un sistema sostenible de contenidos que genere prospectos todos los meses.",
+      "secciones": [
+        {
+          "subtitulo": "Paso 1: Define a quién le hablas (Tu cliente ideal)",
+          "texto": "Antes de escribir una sola palabra, necesitas saber exactamente a quién va dirigido tu contenido. Es una persona con un problema específico que tu negocio puede resolver con claridad.",
+          "bullets": [
+            "Investiga a tus 5 mejores clientes actuales",
+            "Identifica sus 3 mayores dolores y dudas frecuentes",
+            "Habla su mismo lenguaje sin tecnicismos innecesarios"
+          ]
+        },
+        {
+          "subtitulo": "Paso 2: Decide en qué canales vas a enfocarte",
+          "texto": "No necesitas estar en todas las redes sociales. Es preferible dominar 1 o 2 canales donde realmente esté tu comprador que desgastarte publicando en 5 sin resultados.",
+          "bullets": [
+            "LinkedIn para empresas y servicios B2B",
+            "Instagram y TikTok para marcas personales y consumo",
+            "Email marketing para nutrir y cerrar ventas"
+          ]
+        },
+        {
+          "subtitulo": "Paso 3: Crea un calendario editorial y mide",
+          "texto": "La consistencia supera al talento. Planifica tus temas con 2 semanas de anticipación para nunca quedarte sin qué publicar.",
+          "fraseDestacada": "El contenido no es para presumir lo que sabes, es para demostrar cómo resuelves los problemas de tu cliente."
+        }
+      ],
+      "conclusion": "Una estrategia de contenido no busca likes, busca crear relaciones de confianza que se traduzcan en clientes leales.",
+      "ctaText": "Diseñar mi Estrategia con Trébol",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  },
+  {
+    "id": "blog-3",
+    "slug": "seo-local-pymes",
+    "plantilla": "listicle",
+    "titulo": "SEO local: la guía definitiva para PYMEs",
+    "subtitulo": "Cómo posicionar tu negocio en Google Maps y búsquedas locales",
+    "categoria": "Marketing",
+    "tiempo": "12 min",
+    "tiempoLectura": "12 min",
+    "fecha": "8 julio, 2026",
+    "autor": "Trébol Digital",
+    "autorBio": "Equipo de estrategia digital.",
+    "extracto": "Cómo aparecer primero en Google cuando alguien busca tu servicio en tu ciudad. Guía completa con casos reales.",
+    "resumen": "Cómo aparecer primero en Google cuando alguien busca tu servicio en tu ciudad. Guía completa con casos reales.",
+    "imagen": "https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?auto=format&fit=crop&w=1800&q=80",
+    "destacado": false,
+    "status": "published",
+    "contenido": [
+      { "tipo": "parrafo", "texto": "El SEO local es la herramienta más poderosa y subestimada para negocios que atienden en una ubicación específica. Mientras todos compiten por palabras clave genéricas, tú puedes dominar las búsquedas de tu ciudad." },
+      { "tipo": "item", "numero": 1, "titulo": "Google Business Profile", "texto": "Completar tu perfil al 100% aumenta drásticamente tus posibilidades de aparecer en el map pack. Sube fotos nuevas cada semana.", "stat": "76%" },
+      { "tipo": "item", "numero": 2, "titulo": "Palabras clave locales", "texto": "En lugar de competir por 'abogado', compite por 'abogado laboral en Guadalajara'. Las keywords con ubicación tienen menos competencia.", "stat": "3x" },
+      { "tipo": "item", "numero": 3, "titulo": "Reseñas de clientes", "texto": "El 87% de los consumidores lee reseñas antes de decidirse. Responde a todas, tanto positivas como negativas.", "stat": "87%" },
+      { "tipo": "item", "numero": 4, "titulo": "Contenido geolocalizado", "texto": "Escribe sobre eventos locales, colabora con otros negocios de tu zona. El contenido localizado genera 2.5x más tráfico orgánico.", "stat": "2.5x" },
+      { "tipo": "item", "numero": 5, "titulo": "Backlinks locales", "texto": "Aparecer en directorios locales, páginas de cámaras de comercio y medios locales construye señales de confianza para Google.", "stat": "43%" }
+    ],
+    "content": {
+      "introduccion": "El SEO local es la herramienta más poderosa y subestimada para empresas con presencia geográfica definida. Descubre cómo captar clientes cuando buscan en Google cerca de ti.",
+      "secciones": [
+        {
+          "subtitulo": "1. Optimiza tu perfil de Google Business al 100%",
+          "texto": "Completar tu ficha de Google Maps con horarios precisos, fotos semanales y categorías correctas incrementa en un 76% las llamadas de clientes directos.",
+          "bullets": [
+            "Nombre comercial exacto y dirección verificada",
+            "Catálogo de servicios y productos con precios claros",
+            "Publicaciones periódicas de ofertas y novedades"
+          ]
+        },
+        {
+          "subtitulo": "2. Domina las palabras clave con intención local",
+          "texto": "En lugar de competir por términos genéricos globales, optimiza para búsquedas con tu ciudad o zona (ejemplo: 'consultoría empresarial en CDMX').",
+          "fraseDestacada": "Las búsquedas locales tienen una tasa de conversión 3 veces mayor porque el usuario ya tiene intención de compra inmediata."
+        },
+        {
+          "subtitulo": "3. Consigue y responde reseñas de manera activa",
+          "texto": "El 87% de los compradores revisa las opiniones de otros clientes antes de contactar. Crea un enlace directo de WhatsApp para pedir reseñas a tus clientes satisfechos."
+        }
+      ],
+      "conclusion": "Dominar el SEO de tu ciudad te garantiza un flujo constante de prospectos altamente calificados sin pagar por cada clic.",
+      "ctaText": "Auditar mi Posicionamiento Web",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  },
+  {
+    "id": "blog-4",
+    "slug": "cultura-empresarial",
+    "plantilla": "entrevista",
+    "titulo": "Por qué la cultura empresarial es tu mayor activo",
+    "subtitulo": "Construye una cultura que impulse el crecimiento de tu equipo",
+    "categoria": "Organizacional",
+    "tiempo": "7 min",
+    "tiempoLectura": "7 min",
+    "fecha": "1 julio, 2026",
+    "autor": "Ana Sofía Guerra",
+    "autorBio": "Consultora en cultura organizacional.",
+    "extracto": "Las empresas que crecen de forma sostenida tienen una cultura clara. Te explicamos cómo construirla aunque seas una PYME.",
+    "resumen": "Las empresas que crecen de forma sostenida tienen una cultura clara. Te explicamos cómo construirla aunque seas una PYME.",
+    "imagen": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1800&q=80",
+    "destacado": false,
+    "status": "published",
+    "entrevistado": {
+      "nombre": "Ana Sofía Guerra",
+      "rol": "Consultora en Cultura Organizacional",
+      "foto": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+    },
+    "contenido": [
+      { "tipo": "intro", "texto": "Hablamos con Ana Sofía Guerra sobre por qué las PYMEs deberían prestar atención a su cultura empresarial desde el día uno." },
+      { "tipo": "pregunta", "texto": "¿Por qué la cultura importa tanto en una PYME?" },
+      { "tipo": "respuesta", "texto": "Porque en una PYME no hay capas de gestión que absorban los problemas. Si la cultura es mala, se siente de inmediato. En una empresa de 10 personas, una persona tóxica representa el 10% del ambiente." },
+      { "tipo": "pullquote", "texto": "En una PYME, una persona tóxica representa el 10% del ambiente. En una corporación de 1000, es solo el 0.1%.", "autor": "Ana Sofía Guerra" },
+      { "tipo": "pregunta", "texto": "¿Cómo se empieza a construir cultura desde cero?" },
+      { "tipo": "respuesta", "texto": "Lo primero es aceptar que ya tienes cultura, te guste o no. Tus equipos ya tienen formas de trabajar, comunicarse y resolver conflictos. El primer paso es hacer consciente lo que ya existe." },
+      { "tipo": "pregunta", "texto": "¿Qué recomiendas con presupuesto limitado?" },
+      { "tipo": "respuesta", "texto": "Tres cosas gratis: define tus valores en una frase que cualquier miembro del equipo pueda recordar. Celebra los aciertos en público y corrige en privado. Pide retroalimentación semanal con una sola pregunta." }
+    ],
+    "content": {
+      "introduccion": "La cultura no es una mesa de ping-pong o café gratis; es el conjunto de comportamientos, decisiones y valores que tu equipo practica cuando nadie los está mirando.",
+      "secciones": [
+        {
+          "subtitulo": "¿Por qué la cultura importa tanto en una empresa mediana o pequeña?",
+          "texto": "En un equipo pequeño no hay filtros burocráticos. La energía, el compromiso y la claridad del liderazgo impactan directamente la productividad de cada miembro desde el primer día.",
+          "fraseDestacada": "En una empresa de 10 personas, un mal ambiente representa el 10% de toda la organización. Cuidar al equipo es cuidar el negocio.",
+          "bullets": [
+            "Retención del mejor talento sin competir únicamente en sueldo",
+            "Mayor autonomía y menor necesidad de micromanagement",
+            "Mejor servicio y trato al cliente final"
+          ]
+        },
+        {
+          "subtitulo": "Cómo alinear a tu equipo paso a paso",
+          "texto": "Define pocas reglas pero innegociables. Celebra los aciertos en público, corrige los errores en privado y establece reuniones 1 a 1 de 15 minutos para escuchar a tu gente.",
+          "bullets": [
+            "Claridad total en los objetivos de cada puesto",
+            "Cultura de feedback constructivo y rápido",
+            "Reconocimiento al esfuerzo y resultados"
+          ]
+        }
+      ],
+      "conclusion": "Una buena estrategia puede darte clientes hoy, pero solo una cultura sólida garantiza que tu empresa siga viva y creciendo en 10 años.",
+      "ctaText": "Consultoría en Desarrollo Organizacional",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  },
+  {
+    "id": "blog-5",
+    "slug": "automatizacion-sin-codigo",
+    "plantilla": "guia",
+    "titulo": "Automatización sin código: Make, Zapier y n8n explicados",
+    "subtitulo": "Elimina tareas repetitivas y optimiza tu tiempo",
+    "categoria": "Inteligencia Artificial",
+    "tiempo": "9 min",
+    "tiempoLectura": "9 min",
+    "fecha": "24 junio, 2026",
+    "autor": "Diego Ramírez",
+    "autorBio": "Ingeniero de automatización.",
+    "extracto": "Tres herramientas de automatización explicadas sin tecnicismos. Cuándo usar cada una y cómo empezar tu primer flujo.",
+    "resumen": "Tres herramientas de automatización explicadas sin tecnicismos. Cuándo usar cada una y cómo empezar tu primer flujo.",
+    "imagen": "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1800&q=80",
+    "destacado": false,
+    "status": "published",
+    "contenido": [
+      { "tipo": "parrafo", "texto": "La automatización no requiere saber programar. Con estas tres herramientas, cualquier persona puede conectar aplicaciones y eliminar tareas repetitivas en minutos." },
+      { "tipo": "paso", "numero": 1, "titulo": "Identifica procesos repetitivos", "texto": "Durante una semana, anota cada tarea que haces de forma repetitiva: enviar correos, actualizar hojas de cálculo, mover archivos.", "checklist": ["Tareas que haces +3 veces por semana", "Calcula el tiempo que te toma", "Pregúntate si necesita un humano"] },
+      { "tipo": "paso", "numero": 2, "titulo": "Elige la herramienta", "texto": "Cada herramienta tiene un superpoder diferente. Make es visual y potente. Zapier es el más fácil. n8n es ideal si necesitas control total.", "checklist": ["Make: flujos visuales complejos", "Zapier: fácil para empezar", "n8n: auto-hosteado"] },
+      { "tipo": "dato", "label": "Ahorro", "valor": "30h", "texto": "por semana es el ahorro promedio reportado por equipos que automatizan al menos 3 procesos clave." },
+      { "tipo": "paso", "numero": 3, "titulo": "Prueba tu primer flujo", "texto": "Empieza con algo pequeño: cuando recibas un correo con un adjunto, que se guarde automáticamente en Drive. Una vez que funcione, escala.", "checklist": ["Flujo simple de 2 pasos", "Prueba con datos reales", "Itera antes de escalar"] }
+    ],
+    "content": {
+      "introduccion": "Tu equipo no debería pasar horas copiando datos de una hoja de cálculo a otra. La automatización no-code te devuelve horas de productividad cada semana.",
+      "secciones": [
+        {
+          "subtitulo": "1. Zapier: La opción más intuitiva para principiantes",
+          "texto": "Ideal para conectar aplicaciones populares en pocos clics (ej. conectar tu formulario web con Google Sheets o enviar avisos automáticos a Slack).",
+          "bullets": [
+            "Miles de integraciones oficiales listas para usar",
+            "Configuración paso a paso en menos de 5 minutos",
+            "Excelente para flujos simples y directos"
+          ]
+        },
+        {
+          "subtitulo": "2. Make (Integromat): Potencia visual y lógica avanzada",
+          "texto": "Si necesitas flujos con condiciones complejas, iteraciones de listas o llamadas a APIs con IA, Make ofrece el mejor balance entre potencia y costo.",
+          "fraseDestacada": "Equipos que automatizan 3 procesos clave recuperan en promedio hasta 30 horas hombre a la semana."
+        },
+        {
+          "subtitulo": "3. n8n: Máxima privacidad y control de código abierto",
+          "texto": "Para empresas que manejan información confidencial y prefieren alojar sus propias automatizaciones en sus servidores privados."
+        }
+      ],
+      "conclusion": "No automatices procesos rotos: primero simplifica y estandariza el proceso humano, y luego pon a los robots a trabajar para ti.",
+      "ctaText": "Automatizar mis Procesos con Trébol",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  },
+  {
+    "id": "blog-6",
+    "slug": "metricas-que-importan",
+    "plantilla": "listicle",
+    "titulo": "Las métricas que realmente importan para tu negocio",
+    "subtitulo": "Separa las métricas de vanidad de los indicadores reales de crecimiento",
+    "categoria": "Estrategia",
+    "tiempo": "11 min",
+    "tiempoLectura": "11 min",
+    "fecha": "17 junio, 2026",
+    "autor": "Trébol Digital",
+    "autorBio": "Equipo de estrategia.",
+    "extracto": "No todas las métricas son iguales. Te enseñamos a separar los vanity metrics de los indicadores que realmente dicen si vas bien.",
+    "resumen": "No todas las métricas son iguales. Te enseñamos a separar los vanity metrics de los indicadores que realmente dicen si vas bien.",
+    "imagen": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=80",
+    "imagenUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=80",
+    "destacado": false,
+    "status": "published",
+    "contenido": [
+      { "tipo": "parrafo", "texto": "El mayor error que cometen los negocios al medir su desempeño es confundir actividad con progreso. Tener muchos seguidores no significa tener una marca fuerte. Recibir muchos correos no significa tener ventas." },
+      { "tipo": "parrafo", "texto": "Las vanity metrics son aquellas que se ven bien en informes pero no te ayudan a tomar decisiones. Ejemplos: seguidores en redes, visitas al sitio web, descargas de una app." },
+      { "tipo": "item", "numero": 1, "titulo": "CAC (Costo de Adquisición de Clientes)", "texto": "Cuánto te cuesta conseguir un nuevo cliente. Es vital saberlo para saber si tu marketing es rentable.", "stat": "CAC" },
+      { "tipo": "item", "numero": 2, "titulo": "LTV (Lifetime Value)", "texto": "Cuánto dinero genera un cliente a lo largo de su relación con tu negocio.", "stat": "LTV" },
+      { "tipo": "pullquote", "texto": "Lo que no se define no se puede medir. Lo que no se mide no se puede mejorar. Lo que no se mejora se degrada siempre.", "autor": "William Thomson Kelvin" },
+      { "tipo": "dato", "label": "Relación saludable", "valor": "3:1", "texto": "es la proporción mínima recomendada entre LTV y CAC. Si tu LTV es menor a 3 veces tu CAC, necesitas ajustes." },
+      { "tipo": "item", "numero": 3, "titulo": "Tasa de Conversión", "texto": "El porcentaje de visitas a tu web que realizan la acción deseada (ej. agendar una cita o comprar).", "stat": "Conv." }
+    ],
+    "content": {
+      "introduccion": "Tener 100,000 seguidores en redes no paga la nómina. Aprende a identificar las métricas que verdaderamente impactan en la rentabilidad y flujo de caja de tu empresa.",
+      "secciones": [
+        {
+          "subtitulo": "1. CAC vs. LTV: La fórmula reina de la rentabilidad",
+          "texto": "El Costo de Adquisición de Clientes (CAC) y el Valor de Vida del Cliente (LTV) deben guardar una relación saludable mínima de 3 a 1. Si ganar un cliente te cuesta $100, ese cliente debe dejarte al menos $300 a lo largo del tiempo.",
+          "bullets": [
+            "Calcula tu CAC sumando toda tu inversión de marketing y ventas dividida entre clientes nuevos",
+            "Mide el LTV sumando el ticket promedio multiplicado por la frecuencia de compra anual",
+            "Optimiza la retención para multiplicar tu margen sin gastar más en publicidad"
+          ]
+        },
+        {
+          "subtitulo": "2. Tasa de Conversión por etapa del embudo",
+          "texto": "No mires solo cuántos entran a tu web: mide cuántos pasan de visitantes a prospectos (Leads), y cuántos prospectos pasan a cotizaciones y cierres efectivos.",
+          "fraseDestacada": "Duplicar tu tasa de conversión reduce a la mitad tu costo de adquisición de clientes con el mismo presupuesto publicitario."
+        }
+      ],
+      "conclusion": "Menos reportes confusos y más tableros ejecutivos con las 3 métricas que mueven la aguja de tu negocio.",
+      "ctaText": "Diseñar mi Tablero de Métricas",
+      "ctaUrl": "https://wa.me/525564929081"
+    }
+  }
+]
