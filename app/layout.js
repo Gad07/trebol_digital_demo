@@ -15,7 +15,7 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const SITE_URL = "https://treboldigital.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://treboldigital.com.mx";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID;

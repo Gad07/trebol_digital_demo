@@ -1,4 +1,5 @@
 export default function robots() {
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://treboldigital.com.mx').replace(/\/$/, '');
   return {
     rules: [
       {
@@ -7,7 +8,7 @@ export default function robots() {
         disallow: ['/admin', '/api', '/_next'],
       },
     ],
-    sitemap: 'https://treboldigital.com/sitemap.xml',
-    host: 'https://treboldigital.com',
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

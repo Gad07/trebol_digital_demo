@@ -1,7 +1,7 @@
 import { getBlogsFromDB, getLandingsFromDB, getCasosFromDB, getTarjetasFromDB } from '@/lib/db';
 
 export default async function sitemap() {
-  const baseUrl = 'https://treboldigital.com';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://treboldigital.com.mx').replace(/\/$/, '');
   const now = new Date().toISOString();
 
   // Páginas estáticas principales
