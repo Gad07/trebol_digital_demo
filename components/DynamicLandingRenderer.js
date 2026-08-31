@@ -602,11 +602,10 @@ function PricingSection({ sec, themeStyle }) {
           {plans.map((p, i) => (
             <div
               key={i}
-              className={`p-8 md:p-12 border relative flex flex-col justify-between space-y-8 transition-all duration-300 ${
-                p.popular
-                  ? `${theme.buttonPrimary} border-emerald-400 scale-[1.02] shadow-2xl`
-                  : theme.card
-              }`}
+              className={`p-8 md:p-12 border relative flex flex-col justify-between space-y-8 transition-all duration-300 ${p.popular
+                ? `${theme.buttonPrimary} border-emerald-400 scale-[1.02] shadow-2xl`
+                : theme.card
+                }`}
             >
               {p.popular && (
                 <div className="absolute -top-4 right-8 bg-carbon text-white font-mono text-[10px] font-extrabold uppercase px-4 py-1.5 rounded-full tracking-widest shadow-md">
@@ -639,11 +638,10 @@ function PricingSection({ sec, themeStyle }) {
                 href={p.url || 'https://wa.me/525564929081'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-full py-4 font-bold text-sm text-center transition-all cursor-pointer block ${
-                  p.popular
-                    ? 'bg-white text-carbon hover:bg-hueso shadow-lg rounded-xl'
-                    : theme.buttonPrimary
-                }`}
+                className={`w-full py-4 font-bold text-sm text-center transition-all cursor-pointer block ${p.popular
+                  ? 'bg-white text-carbon hover:bg-hueso shadow-lg rounded-xl'
+                  : theme.buttonPrimary
+                  }`}
               >
                 {p.buttonText || 'Comenzar Ahora'}
               </a>
@@ -735,9 +733,8 @@ function FAQSection({ sec, themeStyle }) {
             return (
               <div
                 key={i}
-                className={`border transition-all overflow-hidden ${
-                  isOpen ? `${theme.card} border-current` : theme.card
-                }`}
+                className={`border transition-all overflow-hidden ${isOpen ? `${theme.card} border-current` : theme.card
+                  }`}
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? null : i)}

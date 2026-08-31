@@ -184,38 +184,46 @@ export default function Process({ customSteps, title = "Metodología", titleGree
       }
     };
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: '+=350%',
-        pin: true,
-        pinSpacing: true,
-        refreshPriority: -1,
-        scrub: 0.5,
-        invalidateOnRefresh: true,
-        onToggle: (self) => {
-          if (self.isActive) hideHeader();
-          else showHeader();
-        },
-        onEnter: hideHeader,
-        onLeave: showHeader,
-        onEnterBack: hideHeader,
-        onLeaveBack: showHeader,
-        onUpdate: (self) => {
-          if (self.isActive) hideHeader();
-          const p = self.progress;
-          if (p < 0.25) setActiveStep(0);
-          else if (p < 0.50) setActiveStep(1);
-          else if (p < 0.75) setActiveStep(2);
-          else setActiveStep(3);
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=350%',
+          pin: true,
+          pinSpacing: true,
+          refreshPriority: -1,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          onToggle: (self) => {
+            if (self.isActive) hideHeader();
+            else showHeader();
+          },
+          onEnter: hideHeader,
+          onLeave: showHeader,
+          onEnterBack: hideHeader,
+          onLeaveBack: showHeader,
+          onUpdate: (self) => {
+            if (self.isActive) hideHeader();
+            const p = self.progress;
+            if (p < 0.25) setActiveStep(0);
+            else if (p < 0.50) setActiveStep(1);
+            else if (p < 0.75) setActiveStep(2);
+            else setActiveStep(3);
+          }
         }
-      }
+      });
+    });
+
+    mm.add("(max-width: 1023px)", () => {
+      showHeader();
     });
 
     return () => {
       clearTimeout(timer);
-      tl.kill();
+      mm.revert();
       showHeader();
     };
   }, { scope: containerRef });
@@ -228,7 +236,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
       <section
         id={sectionId}
         ref={containerRef}
-        className={`relative w-full h-screen min-h-[550px] select-none overflow-visible flex flex-col justify-center z-20 border-none outline-none ${customSteps ? 'bg-transparent text-inherit' : 'bg-white text-carbon'}`}
+        className={`relative w-full lg:h-screen lg:min-h-[550px] py-12 lg:py-0 select-none overflow-visible flex flex-col justify-center z-20 border-none outline-none ${customSteps ? 'bg-transparent text-inherit' : 'bg-white text-carbon'}`}
       >
         {/* Luces Ambientales sobre Fondo Blanco */}
         <div className="absolute inset-0 pointer-events-none z-0">

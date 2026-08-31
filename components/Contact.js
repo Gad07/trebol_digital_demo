@@ -64,7 +64,7 @@ export default function Contact({ isLanding }) {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.35 }}
-            className={`pt-6 border-t grid grid-cols-3 gap-2 sm:gap-3 text-xs md:text-sm font-sans font-semibold ${isLanding ? 'border-current/15 opacity-85' : 'border-carbon/10 text-carbon/70'}`}
+            className={`pt-6 border-t grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs md:text-sm font-sans font-semibold ${isLanding ? 'border-current/15 opacity-85' : 'border-carbon/10 text-carbon/70'}`}
           >
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Clock size={16} className="text-trebol shrink-0" />

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Phone, Mail, Globe, Send, ArrowRight, UserCheck, Briefcase, 
+import {
+  Phone, Mail, Globe, Send, ArrowRight, UserCheck, Briefcase,
   ArrowUpRight, Sparkles, BookOpen, Clock, User2
 } from 'lucide-react';
 
@@ -37,7 +37,7 @@ export default function DirectorioPage() {
 
   return (
     <main className="min-h-screen bg-hueso text-carbon font-sans selection:bg-trebol selection:text-white flex flex-col justify-between">
-      
+
       {/* ─────────────────────────────────────────────────────────────
           1. HEADER DEL DIRECTORIO EJECUTIVO
          ───────────────────────────────────────────────────────────── */}
@@ -46,11 +46,11 @@ export default function DirectorioPage() {
           <Sparkles size={14} />
           <span>Equipo & Liderazgo Trébol</span>
         </div>
-        
+
         <h1 className="text-4xl sm:text-6xl font-black text-carbon tracking-tight mb-4">
           Directorio <span className="text-trebol italic font-serif font-normal">Ejecutivo</span>
         </h1>
-        
+
         <p className="text-base sm:text-xl text-carbon/70 font-light max-w-2xl mx-auto leading-relaxed">
           Conoce al equipo de consultores, estrategas e ingenieros detrás de Trébol Digital. Contacta directamente con nuestros especialistas.
         </p>
@@ -74,16 +74,16 @@ export default function DirectorioPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             {tarjetas.map((person) => (
-              <div 
+              <div
                 key={person.id || person.slug}
                 className="bg-white border border-neutral-200/90 rounded-[2.5rem] p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:border-trebol transition-all duration-300 group"
               >
                 <div className="space-y-6">
-                  
+
                   {/* Foto Retrato & Datos Principales */}
                   <div className="flex flex-col sm:flex-row gap-5 items-start">
                     <div className="relative w-full sm:w-36 h-48 sm:h-44 rounded-2xl overflow-hidden shrink-0 border border-neutral-200 bg-neutral-100">
-                      <img 
+                      <img
                         src={person.photoUrl || person.photo_url || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"}
                         alt={`${person.firstName || person.first_name} ${person.lastName || person.last_name}`}
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
@@ -94,7 +94,7 @@ export default function DirectorioPage() {
                       <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">
                         {person.company || "TRÉBOL DIGITAL"}
                       </span>
-                      
+
                       <h2 className="text-2xl sm:text-3xl font-black text-carbon leading-none">
                         {person.firstName || person.first_name} <span className="text-trebol italic font-serif font-normal">{person.lastName || person.last_name}</span>
                       </h2>
@@ -112,7 +112,7 @@ export default function DirectorioPage() {
                   {/* Filas de Contacto Rápido */}
                   <div className="space-y-2 pt-2 border-t border-neutral-100 font-mono text-xs">
                     {person.email && (
-                      <a 
+                      <a
                         href={`mailto:${person.email}`}
                         className="flex items-center justify-between p-2.5 rounded-xl bg-hueso hover:bg-neutral-200/70 transition-colors text-carbon"
                       >
@@ -125,7 +125,7 @@ export default function DirectorioPage() {
                     )}
 
                     {person.phone && (
-                      <a 
+                      <a
                         href={`tel:${person.phone}`}
                         className="flex items-center justify-between p-2.5 rounded-xl bg-hueso hover:bg-neutral-200/70 transition-colors text-carbon"
                       >
@@ -193,10 +193,10 @@ export default function DirectorioPage() {
                   <div className="group bg-white rounded-3xl border border-neutral-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-trebol transition-all duration-300 flex flex-col h-full cursor-pointer">
                     <div className="relative h-40 overflow-hidden bg-neutral-100">
                       {art.imagen || art.imagenUrl ? (
-                        <img 
-                          src={art.imagen || art.imagenUrl} 
-                          alt={art.titulo} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                        <img
+                          src={art.imagen || art.imagenUrl}
+                          alt={art.titulo}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-carbon/30">

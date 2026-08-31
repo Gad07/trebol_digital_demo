@@ -89,20 +89,20 @@ export default function TalleresPage() {
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden">
       {/* ── HERO ORIGINAL CENTRADO QUE ABARCA TODA LA PANTALLA ── */}
       <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10">
-        
+
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.8, 0.6] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-trebol/20 rounded-full blur-[110px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             className="absolute top-20 right-0 w-[28rem] h-[28rem] bg-trebol/10 rounded-full blur-[90px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             className="absolute -bottom-20 left-1/3 w-[35rem] h-[35rem] bg-trebol/15 rounded-full blur-[120px]"
@@ -111,7 +111,7 @@ export default function TalleresPage() {
 
         {/* Headline Container with Floating Glass Badge & Hero Description */}
         <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center z-10 space-y-6">
-          
+
           {/* Floating Glass Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: -6 }}
@@ -129,11 +129,11 @@ export default function TalleresPage() {
           </motion.div>
 
           {/* Massive Headline */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter break-words"
           >
             Aprende Haciendo. <br className="hidden sm:block" />
             Aplica en tu <span className="text-trebol">Empresa.</span>
@@ -144,7 +144,7 @@ export default function TalleresPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-2xl text-carbon/70 font-light max-w-3xl text-center leading-relaxed"
+            className="text-base sm:text-xl md:text-2xl text-carbon/70 font-light max-w-3xl text-center leading-relaxed"
           >
             Capacitaciones intensivas diseñadas para que tu equipo adquiera habilidades reales y las ejecute desde el primer día.
           </motion.p>
@@ -213,37 +213,37 @@ export default function TalleresPage() {
                     </div>
                   </div>
 
-                    {/* Temario Desplegable */}
-                    <div className="pt-3">
-                      <button
-                        onClick={() => setExpandedSyllabus(expandedSyllabus === taller.id ? null : taller.id)}
-                        className="w-full text-xs font-mono font-bold uppercase tracking-wider text-carbon hover:text-trebol flex items-center justify-between bg-hueso/80 border border-neutral-200/60 p-3 rounded-2xl cursor-pointer transition-all duration-300 hover:bg-white"
-                      >
-                        <span className="flex items-center gap-2">
-                          Temario ({(taller.temas || []).length} Módulos)
-                        </span>
-                        <ChevronDown size={16} className={`text-trebol transition-transform duration-300 ${expandedSyllabus === taller.id ? 'rotate-180' : ''}`} />
-                      </button>
+                  {/* Temario Desplegable */}
+                  <div className="pt-3">
+                    <button
+                      onClick={() => setExpandedSyllabus(expandedSyllabus === taller.id ? null : taller.id)}
+                      className="w-full text-xs font-mono font-bold uppercase tracking-wider text-carbon hover:text-trebol flex items-center justify-between bg-hueso/80 border border-neutral-200/60 p-3 rounded-2xl cursor-pointer transition-all duration-300 hover:bg-white"
+                    >
+                      <span className="flex items-center gap-2">
+                        Temario ({(taller.temas || []).length} Módulos)
+                      </span>
+                      <ChevronDown size={16} className={`text-trebol transition-transform duration-300 ${expandedSyllabus === taller.id ? 'rotate-180' : ''}`} />
+                    </button>
 
-                      <AnimatePresence>
-                        {expandedSyllabus === taller.id && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="space-y-2 mt-3 bg-hueso/60 p-4 rounded-2xl border border-neutral-200/60"
-                          >
-                            {(taller.temas || []).map((t, i) => (
-                              <div key={i} className="flex items-start gap-2 text-xs text-carbon/80 font-medium">
-                                <CheckCircle2 size={14} className="text-trebol shrink-0 mt-0.5" />
-                                <span>{t}</span>
-                              </div>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                    <AnimatePresence>
+                      {expandedSyllabus === taller.id && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="space-y-2 mt-3 bg-hueso/60 p-4 rounded-2xl border border-neutral-200/60"
+                        >
+                          {(taller.temas || []).map((t, i) => (
+                            <div key={i} className="flex items-start gap-2 text-xs text-carbon/80 font-medium">
+                              <CheckCircle2 size={14} className="text-trebol shrink-0 mt-0.5" />
+                              <span>{t}</span>
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
+                </div>
 
                 {/* Footer de Precio y CTA */}
                 <div className="p-8 pt-0 flex items-center justify-between border-t border-neutral-100 mt-4">

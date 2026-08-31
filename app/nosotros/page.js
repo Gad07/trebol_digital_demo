@@ -259,41 +259,48 @@ export default function NosotrosPage() {
       {/* ========================================================================= */}
       {/* HERO NOSOTROS */}
       {/* ========================================================================= */}
-      <section className="relative w-full min-h-screen min-h-[100dvh] flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso border-b border-carbon/10 overflow-hidden">
+      <section className="relative w-full h-screen h-[100dvh] min-h-[580px] flex items-center justify-center pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-10 md:pb-12 px-5 sm:px-8 md:px-12 bg-hueso border-b border-carbon/10 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <div className="absolute -top-40 -left-40 w-[38rem] h-[38rem] bg-trebol/20 rounded-full blur-[120px] opacity-70"></div>
           <div className="absolute top-20 right-0 w-[32rem] h-[32rem] bg-trebol/10 rounded-full blur-[100px] opacity-60"></div>
           <div className="absolute -bottom-20 left-1/3 w-[30rem] h-[30rem] bg-trebol/15 rounded-full blur-[110px] opacity-50"></div>
         </div>
 
-        <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center z-10 space-y-8">
+        <div className="relative w-full max-w-[1250px] mx-auto text-center flex flex-col items-center justify-center z-10 space-y-4 sm:space-y-5 md:space-y-6">
 
-          <motion.div
-            initial={{ opacity: 0, y: 20, rotate: -10 }}
-            animate={{ opacity: 1, y: 0, rotate: -2 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative mb-2 sm:absolute sm:-top-10 md:-top-12 lg:right-[15%] sm:right-2 z-20"
-          >
-            <div className="bg-white/60 backdrop-blur-md px-5 sm:px-6 py-2.5 sm:py-3 border border-white/80 shadow-xl rounded-full text-xs sm:text-sm md:text-lg text-carbon font-semibold">
-              Quiénes Somos & Casos de Éxito
-            </div>
-          </motion.div>
+          <div className="relative w-full flex flex-col items-center">
+            {/* Floating Glass Badge Original */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, rotate: -10 }}
+              animate={{ opacity: 1, y: [0, -5, 0], rotate: -2 }}
+              transition={{
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                opacity: { duration: 0.8, delay: 0.2 },
+                rotate: { duration: 0.8, delay: 0.2 }
+              }}
+              className="relative mb-3 sm:absolute sm:-top-8 md:-top-10 lg:-top-11 right-auto sm:right-4 md:right-8 lg:right-[10%] xl:right-[14%] z-20 inline-block"
+            >
+              <div className="bg-white/70 backdrop-blur-md px-5 sm:px-6 py-2 sm:py-2.5 border border-white/80 shadow-xl rounded-full text-xs sm:text-sm md:text-base text-carbon font-semibold">
+                Quiénes Somos & Casos de Éxito
+              </div>
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-[6.5rem] font-black text-carbon leading-[0.92] tracking-tighter"
-          >
-            {headerPrefix} {headerPrefix && <br className="hidden sm:block" />}
-            {headerMiddle} <span className="text-trebol">{headerHighlight}</span>
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] xl:text-[4.3rem] font-black text-carbon leading-[1.06] tracking-tight max-w-4xl mx-auto"
+            >
+              {headerPrefix} {headerPrefix && <br className="hidden sm:block" />}
+              {headerMiddle} <span className="text-trebol">{headerHighlight}</span>
+            </motion.h1>
+          </div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-2xl text-carbon/80 font-light leading-relaxed max-w-4xl mx-auto font-sans"
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-carbon/80 font-light leading-relaxed max-w-3xl mx-auto font-sans"
           >
             {headerSubtitulo}
           </motion.p>
@@ -301,12 +308,12 @@ export default function NosotrosPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="pt-2 flex flex-wrap justify-center gap-4"
+            transition={{ duration: 0.7, delay: 0.35 }}
+            className="pt-1 flex flex-wrap justify-center gap-4"
           >
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-2 bg-carbon text-hueso hover:bg-trebol font-bold px-9 py-4.5 rounded-full transition-all duration-300 shadow-xl text-base"
+              className="inline-flex items-center gap-2 bg-carbon text-hueso hover:bg-trebol font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-2xl transition-all duration-300 shadow-xl text-sm sm:text-base cursor-pointer"
             >
               Agendar Diagnóstico Gratuito
               <ArrowUpRight size={18} />

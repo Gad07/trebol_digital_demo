@@ -68,7 +68,7 @@ export default function InsightsPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="text-6xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.88] tracking-tighter mb-6 sm:mb-8 break-words"
           >
             Aprende con nosotros. <br />
             <span className="text-trebol">Crece por tu cuenta.</span>
@@ -78,7 +78,7 @@ export default function InsightsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-carbon/70 font-light max-w-2xl leading-relaxed"
+            className="text-base sm:text-xl md:text-3xl text-carbon/70 font-light max-w-3xl leading-relaxed"
           >
             Compartimos todo lo que sabemos sobre marketing, inteligencia artificial y estrategia para que tú y tu equipo puedan aplicarlo de inmediato.
           </motion.p>

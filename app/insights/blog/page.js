@@ -19,7 +19,7 @@ export default function BlogPage() {
           setArticulos(data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Categorías dinámicas derivadas de los artículos
@@ -48,9 +48,9 @@ export default function BlogPage() {
               opacity: { duration: 0.8, delay: 0.2 },
               rotate: { duration: 0.8, delay: 0.2 },
             }}
-            className="absolute -top-10 md:-top-12 lg:right-[15%] right-0 z-20"
+            className="relative mb-4 inline-block sm:absolute sm:-top-10 md:-top-12 lg:right-[15%] sm:right-2 z-20"
           >
-            <div className="bg-white/70 backdrop-blur-md px-6 py-3 border border-white shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
+            <div className="bg-white/70 backdrop-blur-md px-4 sm:px-6 py-2 sm:py-3 border border-white shadow-xl rounded-full text-xs sm:text-sm md:text-lg text-carbon font-semibold">
               Entérate de lo nuevo de Trébol
             </div>
           </motion.div>
@@ -59,7 +59,7 @@ export default function BlogPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.88] tracking-tighter mb-6 sm:mb-8 break-words"
           >
             Ideas que mueven <br />
             <span className="text-trebol">negocios reales.</span>
@@ -67,16 +67,15 @@ export default function BlogPage() {
 
           {/* Filtros de Categoría */}
           {!loading && (
-            <div className="flex flex-wrap justify-center gap-2.5">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5">
               {categorias.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`text-sm font-semibold px-5 py-2 rounded-full border transition-all duration-300 ${
-                    selectedCategory === cat
+                  className={`text-xs sm:text-sm font-semibold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border transition-all duration-300 cursor-pointer ${selectedCategory === cat
                       ? 'bg-carbon text-hueso border-carbon shadow-md'
                       : 'bg-white/80 border-gray-200 text-carbon/70 hover:border-trebol hover:text-trebol'
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -106,7 +105,7 @@ export default function BlogPage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="group bg-carbon text-hueso rounded-[3rem] p-10 md:p-16 shadow-2xl relative overflow-hidden"
+                className="group bg-carbon text-hueso rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 md:p-16 shadow-2xl relative overflow-hidden"
               >
                 <div className="absolute inset-0">
                   <img

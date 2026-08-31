@@ -71,6 +71,14 @@ export default function RedesSliderMockup() {
               alt={currentRed.name}
               className="w-full h-full object-cover object-top block"
               loading="eager"
+              style={{
+                imageRendering: '-webkit-optimize-contrast',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0.1px)',
+                WebkitFontSmoothing: 'antialiased',
+                filter: 'contrast(1.03) brightness(1.02)',
+              }}
             />
           </motion.div>
         </AnimatePresence>

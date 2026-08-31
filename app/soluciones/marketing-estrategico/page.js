@@ -422,7 +422,7 @@ function BrandEcosystemShowcase() {
           <div className="lg:col-span-7 flex justify-center items-center py-4">
 
             {/* CONTENEDOR DEL TELÉFONO USANDO EL COMPONENTE PHONEFRAME REALISTA DEL HOME CON IMAGEN COMPLETA */}
-            <div className="w-[300px] sm:w-[330px] md:w-[340px] h-[580px] sm:h-[620px] relative">
+            <div className="w-full max-w-[280px] sm:max-w-[330px] md:max-w-[340px] h-[540px] sm:h-[620px] relative mx-auto">
               <PhoneFrame>
                 <div className="w-full h-full bg-black text-white font-sans relative overflow-hidden">
 
@@ -487,7 +487,7 @@ export default function MarketingEstrategicoPage() {
     <main className="w-full bg-hueso text-carbon min-h-screen overflow-hidden lg:overflow-visible font-sans">
 
       {/* ── HERO EN 2 COLUMNAS ── */}
-      <section className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden lg:overflow-visible border-b border-carbon/10 flex items-center">
+      <section className="relative w-full h-screen h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
 
         {/* Background Hero Image with Crisp Right & Soft Left Gradient Fade */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">

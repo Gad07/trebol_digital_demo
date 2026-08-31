@@ -84,7 +84,7 @@ export default function AgendaPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="text-6xl md:text-8xl lg:text-[7rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] font-black text-carbon leading-[0.88] tracking-tighter mb-6 sm:mb-8 break-words"
           >
             Diagnóstico Digital <br />
             <span className="text-trebol">en 30 Minutos.</span>
@@ -94,7 +94,7 @@ export default function AgendaPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-carbon/70 font-light max-w-2xl mx-auto leading-relaxed mb-12"
+            className="text-base sm:text-xl md:text-2xl text-carbon/70 font-light max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-12"
           >
             Una sesión enfocada en entender tu negocio y darte claridad sobre qué pasos tomar primero. Sin venta disfrazada.
           </motion.p>
@@ -105,16 +105,18 @@ export default function AgendaPage() {
       <section className="w-full bg-hueso pb-32 px-6 md:px-12">
         <div className="max-w-[1000px] mx-auto">
           {!enviado ? (
-            <div className="bg-white/50 backdrop-blur-2xl border border-white/60 p-8 md:p-14 rounded-[3rem] shadow-[0_8px_32px_rgba(0,0,0,0.03)]">
+            <div className="bg-white/70 backdrop-blur-2xl border border-white/60 p-5 sm:p-8 md:p-14 rounded-[2.5rem] sm:rounded-[3rem] shadow-[0_8px_32px_rgba(0,0,0,0.03)]">
               {/* Stepper */}
               <div className="flex items-center justify-between mb-12 pb-8 border-b border-carbon/10">
                 {pasos.map((p, i) => (
-                  <div key={p.id} className="flex items-center flex-1">
+                  <div key={p.id} className="flex items-center flex-1 last:flex-none">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black transition-all ${paso >= p.id
-                            ? 'bg-trebol text-white shadow-lg'
-                            : 'bg-carbon/10 text-carbon/40'
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${paso === p.id
+                          ? 'bg-trebol text-white shadow-lg shadow-trebol/30'
+                          : paso > p.id
+                            ? 'bg-carbon text-white'
+                            : 'bg-white border border-carbon/20 text-carbon/40'
                           }`}
                       >
                         {paso > p.id ? <CheckCircle2 size={18} /> : p.id}
@@ -139,7 +141,7 @@ export default function AgendaPage() {
                       exit={{ opacity: 0, x: -20 }}
                       className="flex flex-col gap-10"
                     >
-                      <h2 className="text-3xl md:text-4xl font-extrabold text-carbon tracking-tight">Cuéntanos de ti.</h2>
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-carbon tracking-tight">Cuéntanos de ti.</h2>
 
                       <div className="flex flex-col border-b-2 border-carbon/10 pb-4 focus-within:border-trebol transition-colors">
                         <input
@@ -148,7 +150,7 @@ export default function AgendaPage() {
                           value={form.nombre}
                           onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                           placeholder="Tu nombre completo *"
-                          className="w-full bg-transparent text-2xl md:text-3xl text-carbon placeholder:text-carbon/20 outline-none font-light"
+                          className="w-full bg-transparent text-lg sm:text-2xl md:text-3xl text-carbon placeholder:text-carbon/20 outline-none font-light"
                         />
                       </div>
 
@@ -159,7 +161,7 @@ export default function AgendaPage() {
                           value={form.empresa}
                           onChange={(e) => setForm({ ...form, empresa: e.target.value })}
                           placeholder="Nombre de tu empresa *"
-                          className="w-full bg-transparent text-2xl md:text-3xl text-carbon placeholder:text-carbon/20 outline-none font-light"
+                          className="w-full bg-transparent text-lg sm:text-2xl md:text-3xl text-carbon placeholder:text-carbon/20 outline-none font-light"
                         />
                       </div>
 
@@ -194,8 +196,8 @@ export default function AgendaPage() {
                               key={ind}
                               onClick={() => setForm({ ...form, industria: ind })}
                               className={`text-base font-medium px-5 py-2.5 rounded-full border transition-all duration-300 ${form.industria === ind
-                                  ? 'bg-trebol text-white border-trebol shadow-md'
-                                  : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
+                                ? 'bg-trebol text-white border-trebol shadow-md'
+                                : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
                                 }`}
                             >
                               {ind}
@@ -225,8 +227,8 @@ export default function AgendaPage() {
                             key={d}
                             onClick={() => toggleDesafio(d)}
                             className={`flex items-center gap-4 w-full text-left p-5 rounded-2xl border transition-all duration-300 ${form.desafios.includes(d)
-                                ? 'bg-trebol text-white border-trebol shadow-md'
-                                : 'bg-white/60 border-carbon/10 text-carbon/80 hover:border-carbon/30'
+                              ? 'bg-trebol text-white border-trebol shadow-md'
+                              : 'bg-white/60 border-carbon/10 text-carbon/80 hover:border-carbon/30'
                               }`}
                           >
                             <span className="text-xl font-light">{d}</span>
@@ -261,8 +263,8 @@ export default function AgendaPage() {
                                     key={slot}
                                     onClick={() => setForm({ ...form, diaHora: val })}
                                     className={`text-base font-semibold px-6 py-3 rounded-full border transition-all duration-300 ${form.diaHora === val
-                                        ? 'bg-trebol text-white border-trebol shadow-md'
-                                        : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
+                                      ? 'bg-trebol text-white border-trebol shadow-md'
+                                      : 'bg-white/60 border-carbon/10 text-carbon/70 hover:border-trebol hover:text-trebol'
                                       }`}
                                   >
                                     {slot}

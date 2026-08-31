@@ -86,14 +86,24 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY || 0;
       setScrolled(y > 30);
     };
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
     handleScroll();
+    handleResize();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const hideNavbar = pathname?.startsWith('/v2') || pathname?.startsWith('/v3') || pathname?.startsWith('/admin');
@@ -105,12 +115,12 @@ export default function Navbar() {
 
   const { scrollY } = useScroll();
 
-  // Interpolación progresiva al hacer scroll (0 a 80px)
-  const rawPadTop = useTransform(scrollY, [0, 80], [0, 12]);
-  const rawPadSide = useTransform(scrollY, [0, 80], [0, 16]);
-  const rawRadius = useTransform(scrollY, [0, 80], [0, 9999]);
-  const rawPY = useTransform(scrollY, [0, 80], [14, 9]);
-  const rawPX = useTransform(scrollY, [0, 80], [40, 24]);
+  // Interpolación progresiva al hacer scroll adaptada a móvil y escritorio
+  const rawPadTop = useTransform(scrollY, [0, 80], [0, isMobile ? 8 : 12]);
+  const rawPadSide = useTransform(scrollY, [0, 80], [0, isMobile ? 10 : 16]);
+  const rawRadius = useTransform(scrollY, [0, 80], [isMobile ? 24 : 0, 9999]);
+  const rawPY = useTransform(scrollY, [0, 80], [isMobile ? 10 : 14, isMobile ? 8 : 9]);
+  const rawPX = useTransform(scrollY, [0, 80], [isMobile ? 16 : 40, isMobile ? 14 : 24]);
   const rawBg = useTransform(scrollY, [0, 80], ['rgba(255,255,255,0.92)', 'rgba(255,255,255,0.98)']);
   const rawBorder = useTransform(scrollY, [0, 80], ['rgba(229,231,235,0.4)', 'rgba(209,213,219,0.9)']);
   const rawShadow = useTransform(scrollY, [0, 80], [
@@ -425,7 +435,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full bg-white/98 backdrop-blur-2xl border-t border-gray-100 shadow-2xl rounded-b-3xl px-5 py-6 flex flex-col gap-6 lg:hidden overflow-hidden max-h-[85vh] overflow-y-auto"
+              className="w-full bg-white/98 backdrop-blur-2xl border border-gray-200/80 shadow-2xl rounded-3xl mt-1.5 px-5 py-6 flex flex-col gap-6 lg:hidden overflow-hidden max-h-[85vh] overflow-y-auto pointer-events-auto"
             >
               {/* Navigation Links */}
               <div className="flex flex-col gap-1.5 font-sans">

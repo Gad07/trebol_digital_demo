@@ -107,20 +107,20 @@ export default function RecursosPage() {
 
       {/* ── HERO CON BADGE, TITULAR, SUBTÍTULO Y FEATURE PILLS ── */}
       <section className="relative w-full flex flex-col items-center justify-start pt-36 md:pt-44 pb-20 px-6 md:px-12 bg-hueso overflow-hidden">
-        
+
         {/* Animated Green Ambient Light Blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0.8, 0.6] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -top-40 -left-40 w-[32rem] h-[32rem] bg-trebol/20 rounded-full blur-[110px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.7, 0.5] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             className="absolute top-20 right-0 w-[28rem] h-[28rem] bg-trebol/10 rounded-full blur-[90px]"
           />
-          <motion.div 
+          <motion.div
             animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             className="absolute -bottom-20 left-1/3 w-[35rem] h-[35rem] bg-trebol/15 rounded-full blur-[120px]"
@@ -129,7 +129,7 @@ export default function RecursosPage() {
 
         {/* Headline Container with Floating Glass Badge & Hero Description */}
         <div className="relative w-full max-w-[1400px] mx-auto text-center flex flex-col items-center justify-center z-10 space-y-6">
-          
+
           {/* Floating Glass Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, rotate: -6 }}
@@ -139,19 +139,19 @@ export default function RecursosPage() {
               opacity: { duration: 0.8, delay: 0.2 },
               rotate: { duration: 0.8, delay: 0.2 }
             }}
-            className="absolute -top-10 md:-top-12 lg:right-[14%] right-0 z-20"
+            className="relative mb-4 inline-block sm:absolute sm:-top-10 md:-top-12 lg:right-[14%] sm:right-2 z-20"
           >
-            <div className="bg-white/50 backdrop-blur-md px-6 py-3 border border-white/70 shadow-xl rounded-full text-sm md:text-lg text-carbon font-semibold">
+            <div className="bg-white/70 backdrop-blur-md px-4 sm:px-6 py-2 sm:py-3 border border-white/70 shadow-xl rounded-full text-xs sm:text-sm md:text-lg text-carbon font-semibold">
               Plantillas y herramientas 100% gratuitas
             </div>
           </motion.div>
 
           {/* Massive Headline */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-5xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-black text-carbon leading-[0.95] md:leading-[0.9] tracking-tighter break-words"
           >
             Herramientas Listas para <br className="hidden md:block" />
             Usar en tu <span className="text-trebol">Empresa.</span>
@@ -162,7 +162,7 @@ export default function RecursosPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-2xl text-carbon/70 font-light max-w-3xl text-center leading-relaxed"
+            className="text-base sm:text-xl md:text-2xl text-carbon/70 font-light max-w-3xl text-center leading-relaxed"
           >
             Plantillas, guías, frameworks y tableros en Excel, PDF y Notion diseñados para implementar hoy mismo. Sin costo.
           </motion.p>
@@ -195,11 +195,10 @@ export default function RecursosPage() {
                 key={cat}
                 onClick={() => setFilter(cat)}
                 whileTap={{ scale: 0.96 }}
-                className={`px-6 py-2.5 rounded-full text-[11px] font-mono font-bold uppercase tracking-[0.15em] transition-all duration-200 cursor-pointer border ${
-                  filter === cat
+                className={`px-6 py-2.5 rounded-full text-[11px] font-mono font-bold uppercase tracking-[0.15em] transition-all duration-200 cursor-pointer border ${filter === cat
                     ? 'bg-carbon text-white border-carbon shadow-md'
                     : 'bg-white text-carbon/60 border-carbon/15 hover:border-carbon/40 hover:text-carbon'
-                }`}
+                  }`}
               >
                 {cat}
               </motion.button>
@@ -207,62 +206,62 @@ export default function RecursosPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredRecursos.map((rec, idx) => {
-            const Icon = rec.icon || (rec.formato === '.XLSX' || rec.formato === '.SLIDES' ? Table : (rec.tipo === 'Guía Práctica' || rec.tipo === 'E-book' ? BookOpen : (rec.tipo === 'Checklist' ? CheckCircle2 : FileText)));
-            return (
-              <motion.div
-                key={rec.id || rec.titulo}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ delay: idx * 0.08, duration: 0.5 }}
-                className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/50 transition-all duration-500 flex flex-col justify-between relative overflow-hidden"
-              >
-
-                {/* Círculo decorativo esquina superior derecha (solo visible en hover) */}
-                <div className="absolute -top-7 -right-7 w-[125px] h-[125px] rounded-full bg-trebol opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 pointer-events-none z-10 flex items-center justify-center">
-                  <Icon size={34} className="text-white stroke-[1.8] -translate-x-3 translate-y-3" />
-                </div>
-
-                <div className="relative z-10">
-                  {/* Formato Badge */}
-                  <div className="flex items-center mb-6">
-                    <span className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-carbon text-white tracking-widest uppercase shadow-sm">
-                      {rec.formato}
-                    </span>
-                  </div>
-
-                  {/* Título */}
-                  <h3 className="text-2xl font-black text-trebol mb-3 leading-tight">
-                    {rec.titulo}
-                  </h3>
-
-                  {/* Descripción */}
-                  <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed mb-6">
-                    {rec.desc}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-8">
-                    {(rec.tags || []).map((tag) => (
-                      <span key={tag} className="text-xs font-mono bg-hueso border border-neutral-200 text-carbon/70 font-medium px-3 py-1 rounded-full">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Botón Descargar */}
-                <button
-                  onClick={() => handleDownload(rec)}
-                  className="w-full inline-flex items-center justify-center gap-2.5 bg-carbon group-hover:bg-trebol text-white font-bold px-6 py-4 rounded-2xl transition-all duration-300 text-sm shadow-md cursor-pointer whitespace-nowrap"
+            {filteredRecursos.map((rec, idx) => {
+              const Icon = rec.icon || (rec.formato === '.XLSX' || rec.formato === '.SLIDES' ? Table : (rec.tipo === 'Guía Práctica' || rec.tipo === 'E-book' ? BookOpen : (rec.tipo === 'Checklist' ? CheckCircle2 : FileText)));
+              return (
+                <motion.div
+                  key={rec.id || rec.titulo}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ delay: idx * 0.08, duration: 0.5 }}
+                  className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/50 transition-all duration-500 flex flex-col justify-between relative overflow-hidden"
                 >
-                  <Download size={16} />
-                  Descargar recurso gratis
-                </button>
-              </motion.div>
-            );
-          })}
+
+                  {/* Círculo decorativo esquina superior derecha (solo visible en hover) */}
+                  <div className="absolute -top-7 -right-7 w-[125px] h-[125px] rounded-full bg-trebol opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 pointer-events-none z-10 flex items-center justify-center">
+                    <Icon size={34} className="text-white stroke-[1.8] -translate-x-3 translate-y-3" />
+                  </div>
+
+                  <div className="relative z-10">
+                    {/* Formato Badge */}
+                    <div className="flex items-center mb-6">
+                      <span className="text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-carbon text-white tracking-widest uppercase shadow-sm">
+                        {rec.formato}
+                      </span>
+                    </div>
+
+                    {/* Título */}
+                    <h3 className="text-2xl font-black text-trebol mb-3 leading-tight">
+                      {rec.titulo}
+                    </h3>
+
+                    {/* Descripción */}
+                    <p className="text-sm md:text-base text-carbon/70 font-light leading-relaxed mb-6">
+                      {rec.desc}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-8">
+                      {(rec.tags || []).map((tag) => (
+                        <span key={tag} className="text-xs font-mono bg-hueso border border-neutral-200 text-carbon/70 font-medium px-3 py-1 rounded-full">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Botón Descargar */}
+                  <button
+                    onClick={() => handleDownload(rec)}
+                    className="w-full inline-flex items-center justify-center gap-2.5 bg-carbon group-hover:bg-trebol text-white font-bold px-6 py-4 rounded-2xl transition-all duration-300 text-sm shadow-md cursor-pointer whitespace-nowrap"
+                  >
+                    <Download size={16} />
+                    Descargar recurso gratis
+                  </button>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

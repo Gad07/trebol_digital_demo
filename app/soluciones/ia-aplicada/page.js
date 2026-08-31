@@ -1903,7 +1903,7 @@ export default function IAAplicadaPage() {
       {/* ───────────────────────────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className={`relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
+        className={`relative w-full h-screen h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
           ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-hueso text-carbon pointer-events-auto'
           : ''
           }`}
@@ -1923,15 +1923,15 @@ export default function IAAplicadaPage() {
           />
         </div>
 
-        <div className="max-w-[1350px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <div className="max-w-[1350px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
 
           {/* COLUMNA IZQUIERDA: TITULAR (MAX 2 LÍNEAS), DESCRIPCIÓN Y CTAS */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="lg:col-span-7 space-y-3.5 sm:space-y-4 md:space-y-5 text-left">
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 90, damping: 14 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-black text-carbon leading-[1.1] tracking-tight max-w-4xl"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[3.9rem] font-black text-carbon leading-[1.08] tracking-tight max-w-4xl"
             >
               Inteligencia Artificial aplicada: <span className="text-trebol">capacitación e implementación.</span>
             </motion.h1>
@@ -1940,7 +1940,7 @@ export default function IAAplicadaPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="text-base md:text-xl text-carbon/80 font-light leading-relaxed max-w-xl font-sans"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-carbon/80 font-light leading-relaxed max-w-xl font-sans"
             >
               Capacitamos a tu equipo e implementamos soluciones prácticas de inteligencia artificial para elevar la productividad, automatizar ventas y operaciones, y darte autonomía total.
             </motion.p>
@@ -1949,23 +1949,23 @@ export default function IAAplicadaPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-1"
             >
               <button
                 onClick={startTutorialManual}
-                className="px-7 py-3.5 rounded-2xl bg-trebol text-white font-bold text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-trebol text-white font-bold text-xs sm:text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
               >
-                Iniciar Tour con TREBOT <ArrowUpRight size={18} />
+                Iniciar Tour con TREBOT <ArrowUpRight size={17} />
               </button>
 
               <button
                 onClick={toggleAudio}
-                className={`px-5 py-3.5 rounded-2xl border font-bold text-sm md:text-base transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer ${muted
+                className={`px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border font-bold text-xs sm:text-sm md:text-base transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer ${muted
                   ? 'bg-neutral-800 text-rose-300 border-rose-500/40 hover:bg-neutral-700'
                   : 'bg-white text-carbon border-neutral-300 hover:border-trebol hover:text-trebol'
                   }`}
               >
-                {muted ? <VolumeX size={18} className="text-rose-500" /> : <Volume2 size={18} className="text-trebol" />}
+                {muted ? <VolumeX size={17} className="text-rose-500" /> : <Volume2 size={17} className="text-trebol" />}
                 <span>{muted ? 'Activar Voz del Bot' : 'Silenciar Bot'}</span>
               </button>
             </motion.div>
@@ -1975,16 +1975,16 @@ export default function IAAplicadaPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.35 }}
-              className="pt-4 flex flex-wrap items-center gap-6 text-xs font-mono text-carbon/70"
+              className="pt-2 flex flex-wrap items-center gap-5 text-[11px] sm:text-xs font-mono text-carbon/70"
             >
-              <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-trebol" /> Privacidad & Cifrado</span>
-              <span className="flex items-center gap-2"><Target size={16} className="text-trebol" /> Resultados Medibles</span>
-              <span className="flex items-center gap-2"><Cpu size={16} className="text-trebol" /> Modelos Propietarios</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck size={15} className="text-trebol" /> Privacidad & Cifrado</span>
+              <span className="flex items-center gap-1.5"><Target size={15} className="text-trebol" /> Resultados Medibles</span>
+              <span className="flex items-center gap-1.5"><Cpu size={15} className="text-trebol" /> Modelos Propietarios</span>
             </motion.div>
           </div>
 
           {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA (RESPONSIVA & AGRANDADA EN PANTALLAS GRANDES) */}
-          <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-[360px] lg:min-h-[460px] xl:min-h-[540px] pt-8 lg:pt-0">
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-0 pt-4 lg:pt-0">
             <div
               onMouseEnter={() => setIsTrebotHovered(true)}
               onMouseLeave={() => setIsTrebotHovered(false)}

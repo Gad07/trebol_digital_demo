@@ -435,10 +435,10 @@ export default function PopupSystem() {
 
   // 2. RENDERIZADO SI ES POSICIÓN FLOTANTE (bottom-right / bottom-left / bottom-bar)
   const posClass = pos === 'bottom-right'
-    ? 'bottom-6 right-6 max-w-sm'
+    ? 'bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:max-w-sm'
     : pos === 'bottom-left'
-    ? 'bottom-6 left-6 max-w-sm'
-    : 'bottom-6 left-6 right-6 max-w-4xl mx-auto';
+    ? 'bottom-4 left-4 right-4 sm:right-auto sm:left-6 sm:max-w-sm'
+    : 'bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 max-w-4xl mx-auto';
 
   return (
     <AnimatePresence>

@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen min-h-[100dvh] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
+    <section className="relative w-full h-screen h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
 
       {/* Background Hero Image - 100% Crisp & Clean with Responsive Blend */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -38,12 +38,12 @@ export default function Hero() {
       <div className="max-w-[1350px] mx-auto relative z-10 w-full">
 
         {/* CONTENIDO PRINCIPAL DEL HERO */}
-        <div className="max-w-3xl space-y-6 text-left">
+        <div className="max-w-3xl space-y-3.5 sm:space-y-4 md:space-y-5 text-left">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 90, damping: 14 }}
-            className="text-4xl md:text-6xl lg:text-[4.5rem] font-black text-carbon leading-[1.05] tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.8rem] xl:text-[4.2rem] font-black text-carbon leading-[1.06] tracking-tight"
           >
             Tu negocio tiene potencial. <br />
             Trébol lo convierte en <span className="text-trebol">crecimiento real.</span>
@@ -53,7 +53,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="text-base md:text-xl text-carbon/80 font-light leading-relaxed max-w-2xl font-sans"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-carbon/80 font-light leading-relaxed max-w-2xl font-sans"
           >
             Integramos estrategia digital, inteligencia artificial y desarrollo organizacional para que tu empresa venda mejor, se organice mejor y compita en el mundo de hoy sin perder el enfoque humano.
           </motion.p>
@@ -62,18 +62,18 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-1"
           >
             <a
               href="#section-contact"
-              className="px-7 py-3.5 rounded-2xl bg-trebol text-white font-bold text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
+              className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-trebol text-white font-bold text-xs sm:text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
             >
-              Solicita tu diagnóstico gratuito <ArrowUpRight size={18} />
+              Solicita tu diagnóstico gratuito <ArrowUpRight size={17} />
             </a>
 
             <a
               href="#que-es-trebol"
-              className="px-7 py-3.5 rounded-2xl bg-white border border-neutral-300 text-carbon font-semibold text-sm md:text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
+              className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white border border-neutral-300 text-carbon font-semibold text-xs sm:text-sm md:text-base hover:border-trebol hover:text-trebol transition-all duration-300 shadow-sm flex items-center justify-center gap-2"
             >
               Descubre cómo funciona ↓
             </a>
@@ -83,7 +83,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
-            className="text-xs font-mono text-white sm:text-carbon/60 flex items-center gap-2 pt-1 font-semibold sm:font-normal drop-shadow-sm sm:drop-shadow-none"
+            className="text-[11px] sm:text-xs font-mono text-carbon/70 sm:text-carbon/60 flex items-center gap-2 pt-0.5 font-semibold sm:font-normal"
           >
             <span>30 minutos · Sin costo · Identificamos oportunidades para tu negocio</span>
           </motion.div>

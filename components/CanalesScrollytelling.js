@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { ArrowUpRight, Globe, CheckCircle2 } from 'lucide-react';
+import RedesSliderMockup from './RedesSliderMockup';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -392,28 +393,36 @@ function YouTubeVideo({ videoId, title, scaleClass = "w-[120%] h-[100%]", isActi
 // ── REPRODUCTOR DE IMAGEN A PANTALLA COMPLETA EDGE-TO-EDGE ─────────────────
 function FullImage({ src, alt, position = "object-top" }) {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-black flex items-center justify-center select-none">
+    <div className="w-full h-full relative overflow-hidden bg-black flex items-center justify-center select-none isolate">
       <img
         src={src}
         alt={alt}
         className={`w-full h-full object-cover ${position} block`}
+        style={{
+          imageRendering: '-webkit-optimize-contrast',
+          WebkitBackfaceVisibility: 'hidden',
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(0.1px)',
+          WebkitFontSmoothing: 'antialiased',
+          filter: 'contrast(1.03) brightness(1.02)',
+        }}
       />
     </div>
   );
 }
 
-// ── CONTENIDO 1: REDES SOCIALES (LINKEDIN OFICIAL /REDES/LINKENDLN.PNG) ──
+// ── CONTENIDO 1: REDES SOCIALES (IMAGEN DE WHATSAPP /REDES/WHATSAPP.PNG) ──
 function RedesSocialesContent() {
   return (
     <FullImage
-      src="/redes/linkendln.png"
-      alt="Gestión de Redes Sociales LinkedIn"
+      src="/redes/whatsapp.png"
+      alt="Gestión de WhatsApp & Redes Sociales"
       position="object-top"
     />
   );
 }
 
-// ── CONTENIDO 2: GESTIÓN & OPTIMIZACIÓN WEB (/REDES/OPTIMIZACIPON.PNG) ──
+// ── CONTENIDO 2: GESTIÓN & OPTIMIZACIÓN WEB (IMAGEN DEL USUARIO: /REDES/OPTIMIZACIPON.PNG) ──
 function WebOptimContent() {
   return (
     <FullImage
@@ -424,7 +433,7 @@ function WebOptimContent() {
   );
 }
 
-// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL APLICADA (/REDES/IA.PNG) ──
+// ── CONTENIDO 3: INTELIGENCIA ARTIFICIAL APLICADA (IMAGEN DEL USUARIO: /REDES/IA.PNG) ──
 function IAContent() {
   return (
     <FullImage
@@ -775,8 +784,6 @@ const canalesDinamicos = [
   },
 ];
 
-
-
 export default function CanalesScrollytelling() {
   const containerRef = useRef(null);
   const floatingDeviceRef = useRef(null);
@@ -795,11 +802,14 @@ export default function CanalesScrollytelling() {
   const [activeIndex, setActiveIndex] = useState(0);
   const current = canalesDinamicos[activeIndex] || canalesDinamicos[0];
 
+  const [mobileTab, setMobileTab] = useState(0);
+  const currentMobile = canalesDinamicos[mobileTab] || canalesDinamicos[0];
+
   useGSAP(() => {
-    if (!containerRef.current || !floatingDeviceRef.current || !posLeftRef.current || !posRightRef.current || !posFinalRef.current) return;
+    if (!containerRef.current) return;
 
     const getCoords = (rect) => {
-      if (!containerRef.current) return { x: 0, y: 0, width: 0, height: 0 };
+      if (!containerRef.current || !rect) return { x: 0, y: 0, width: 0, height: 0 };
       const cRect = containerRef.current.getBoundingClientRect();
       return {
         x: rect.left - cRect.left,
@@ -808,29 +818,6 @@ export default function CanalesScrollytelling() {
         height: rect.height,
       };
     };
-
-    // Estado Inicial: Izquierda (Google) — Teléfono vertical (Valores dinámicos basados en funciones)
-    gsap.set(floatingDeviceRef.current, {
-      x: () => getCoords(posLeftRef.current.getBoundingClientRect()).x,
-      y: () => getCoords(posLeftRef.current.getBoundingClientRect()).y,
-      width: () => getCoords(posLeftRef.current.getBoundingClientRect()).width,
-      height: () => getCoords(posLeftRef.current.getBoundingClientRect()).height,
-      borderRadius: '2.5rem',
-      transformOrigin: 'center center',
-      transformStyle: 'preserve-3d',
-      '--light-angle': '180deg',
-      '--screen-light-angle': '45deg',
-      '--back-light-angle': '135deg',
-      '--light-opacity': 0.15,
-      '--shine-offset': '-50%'
-    });
-
-    if (blackScreenRef.current) {
-      gsap.set(blackScreenRef.current, { opacity: 0 });
-    }
-
-    gsap.set(infoRef0.current, { opacity: 1, y: 0 });
-    gsap.set([infoRef1.current, infoRef2.current, infoRef3.current], { opacity: 0, y: 35 });
 
     const hideHeader = () => {
       const header = document.querySelector('header');
@@ -851,95 +838,122 @@ export default function CanalesScrollytelling() {
       }
     };
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: '+=500%',
-        scrub: 0.5,
-        pin: true,
-        pinSpacing: true,
-        refreshPriority: 1,
-        invalidateOnRefresh: true, // Fuerza a GSAP a recalcular las funciones de posición al cambiar el tamaño de ventana
-        onToggle: (self) => {
-          if (self.isActive) hideHeader();
-          else {
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      if (!floatingDeviceRef.current || !posLeftRef.current || !posRightRef.current || !posFinalRef.current) return;
+
+      // Estado Inicial: Izquierda (Google) — Teléfono vertical
+      gsap.set(floatingDeviceRef.current, {
+        x: () => getCoords(posLeftRef.current?.getBoundingClientRect()).x,
+        y: () => getCoords(posLeftRef.current?.getBoundingClientRect()).y,
+        width: () => getCoords(posLeftRef.current?.getBoundingClientRect()).width,
+        height: () => getCoords(posLeftRef.current?.getBoundingClientRect()).height,
+        borderRadius: '2.5rem',
+        transformOrigin: 'center center',
+        transformStyle: 'preserve-3d',
+        '--light-angle': '180deg',
+        '--screen-light-angle': '45deg',
+        '--back-light-angle': '135deg',
+        '--light-opacity': 0.15,
+        '--shine-offset': '-50%'
+      });
+
+      if (blackScreenRef.current) {
+        gsap.set(blackScreenRef.current, { opacity: 0 });
+      }
+
+      if (infoRef0.current) gsap.set(infoRef0.current, { opacity: 1, y: 0 });
+      if (infoRef1.current && infoRef2.current && infoRef3.current) {
+        gsap.set([infoRef1.current, infoRef2.current, infoRef3.current], { opacity: 0, y: 35 });
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=500%',
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
+          refreshPriority: 1,
+          invalidateOnRefresh: true,
+          onToggle: (self) => {
+            if (self.isActive) hideHeader();
+            else {
+              showHeader();
+              setActiveIndex(-1);
+            }
+          },
+          onEnter: hideHeader,
+          onLeave: () => {
             showHeader();
             setActiveIndex(-1);
-          }
-        },
-        onEnter: hideHeader,
-        onLeave: () => {
-          showHeader();
-          setActiveIndex(-1);
-        },
-        onLeaveBack: () => {
-          showHeader();
-          setActiveIndex(-1);
-        },
-        onUpdate: (self) => {
-          if (!self.isActive) {
+          },
+          onLeaveBack: () => {
+            showHeader();
             setActiveIndex(-1);
-            return;
-          }
-          hideHeader();
-          const p = self.progress;
-          if (p < 0.25) setActiveIndex(0);
-          else if (p < 0.50) setActiveIndex(1);
-          else if (p < 0.75) setActiveIndex(2);
-          else if (p < 1.0) setActiveIndex(3);
-          else setActiveIndex(-1);
+          },
+          onUpdate: (self) => {
+            if (!self.isActive) {
+              setActiveIndex(-1);
+              return;
+            }
+            hideHeader();
+            const p = self.progress;
+            if (p < 0.25) setActiveIndex(0);
+            else if (p < 0.50) setActiveIndex(1);
+            else if (p < 0.75) setActiveIndex(2);
+            else if (p < 1.0) setActiveIndex(3);
+            else setActiveIndex(-1);
+          },
         },
-      },
+      });
+
+      // TRANSICIÓN 1: Google → Meta
+      tl.to(floatingDeviceRef.current, {
+        x: () => getCoords(posRightRef.current?.getBoundingClientRect()).x,
+        y: () => getCoords(posRightRef.current?.getBoundingClientRect()).y,
+        rotateY: 360,
+        duration: 1.5,
+        force3D: true,
+        ease: 'power2.inOut',
+      }, 0)
+        .to(infoRef0.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.2)
+        .to(infoRef1.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.7);
+
+      // TRANSICIÓN 2: Meta → TikTok
+      tl.to(floatingDeviceRef.current, {
+        x: () => getCoords(posLeftRef.current?.getBoundingClientRect()).x,
+        y: () => getCoords(posLeftRef.current?.getBoundingClientRect()).y,
+        rotateY: 720,
+        duration: 1.5,
+        force3D: true,
+        ease: 'power2.inOut',
+      }, 1.8)
+        .to(infoRef1.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 2.0)
+        .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
+
+      // TRANSICIÓN 3: TikTok → Dashboard Laptop
+      tl.to(floatingDeviceRef.current, {
+        x: () => getCoords(posFinalRef.current?.getBoundingClientRect()).x,
+        y: () => getCoords(posFinalRef.current?.getBoundingClientRect()).y,
+        width: () => getCoords(posFinalRef.current?.getBoundingClientRect()).width,
+        height: () => getCoords(posFinalRef.current?.getBoundingClientRect()).height,
+        rotateY: 1080,
+        borderRadius: '0.75rem',
+        duration: 1.8,
+        force3D: true,
+        ease: 'power3.inOut',
+      }, 3.6)
+        .to(infoRef2.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 3.8)
+        .to(infoRef3.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 4.3);
     });
 
-    // ==========================================
-    // TRANSICIÓN 1: Izquierda → Derecha (Google → Meta)
-    // Giro 360° en 3D con bordes curvados perfectos
-    // ==========================================
-    tl.to(floatingDeviceRef.current, {
-      x: () => getCoords(posRightRef.current.getBoundingClientRect()).x,
-      y: () => getCoords(posRightRef.current.getBoundingClientRect()).y,
-      rotateY: 360,
-      duration: 1.5,
-      force3D: true,
-      ease: 'power2.inOut',
-    }, 0)
-      .to(infoRef0.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.2)
-      .to(infoRef1.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.7);
+    mm.add("(max-width: 767px)", () => {
+      showHeader();
+    });
 
-    // ==========================================
-    // TRANSICIÓN 2: Derecha → Izquierda (Meta → TikTok)
-    // ==========================================
-    tl.to(floatingDeviceRef.current, {
-      x: () => getCoords(posLeftRef.current.getBoundingClientRect()).x,
-      y: () => getCoords(posLeftRef.current.getBoundingClientRect()).y,
-      rotateY: 720,
-      duration: 1.5,
-      force3D: true,
-      ease: 'power2.inOut',
-    }, 1.8)
-      .to(infoRef1.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 2.0)
-      .to(infoRef2.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.5);
-
-    // ==========================================
-    // TRANSICIÓN 3: Izquierda → Derecha Final (TikTok → Dashboard Laptop)
-    // ==========================================
-    tl.to(floatingDeviceRef.current, {
-      x: () => getCoords(posFinalRef.current.getBoundingClientRect()).x,
-      y: () => getCoords(posFinalRef.current.getBoundingClientRect()).y,
-      width: () => getCoords(posFinalRef.current.getBoundingClientRect()).width,
-      height: () => getCoords(posFinalRef.current.getBoundingClientRect()).height,
-      rotateY: 1080,
-      borderRadius: '0.75rem',
-      duration: 1.8,
-      force3D: true,
-      ease: 'power3.inOut',
-    }, 3.6)
-      .to(infoRef2.current, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 3.8)
-      .to(infoRef3.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 4.3);
-
-    // ── MOUSE MOVE ONLY FOR BACK COVER LIGHTING (TAPA) ──
     const onMouseMove = (e) => {
       if (!floatingDeviceRef.current || !backLightRef.current) return;
       const rect = floatingDeviceRef.current.getBoundingClientRect();
@@ -952,7 +966,7 @@ export default function CanalesScrollytelling() {
               rgba(255, 255, 255, 0.2) ${pctX - 12}%,
               rgba(255, 255, 255, 0) ${pctX - 6}%,
               rgba(255, 255, 255, 0.38) ${pctX}%,
-              rgba(255, 255, 255, 0) ${pctX + 6}%,
+              rgba(255, 255, 255, 0.15) ${pctX + 6}%,
               rgba(255, 255, 255, 0.15) ${pctX + 12}%,
               rgba(255, 255, 255, 0) ${pctX + 35}%
               )
@@ -963,20 +977,22 @@ export default function CanalesScrollytelling() {
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
+      mm.revert();
       showHeader();
     };
   }, { scope: containerRef });
 
   return (
     <div id="canales-scrollytelling-wrapper" className="w-full relative">
-      <section ref={containerRef} className="relative h-screen min-h-[600px] w-full bg-[#141514] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
+      {/* ── 1. VISTA DESKTOP (PINNED SCROLLYTELLING >= 768px) ── */}
+      <section ref={containerRef} className="hidden md:block relative h-screen min-h-[600px] w-full bg-[#141514] text-white overflow-hidden select-none" style={{ perspective: '1200px' }}>
 
         {/* Background Glow Dinámico Verde Trébol Oficial */}
         <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
           <div className={`w-[55rem] h-[55rem] rounded-full blur-[140px] bg-gradient-to-tr ${current.glowBg} transition-all duration-700 opacity-65`} />
         </div>
 
-        {/* ── NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA ────── */}
+        {/* NAVEGACIÓN Y TÍTULOS CON COLORES IDENTIFICATIVOS DE CADA MARCA */}
         <div className="absolute inset-0 z-10 pointer-events-none p-4 sm:p-8 md:p-12 lg:p-16 max-w-[1400px] mx-auto relative h-full">
           {canalesDinamicos.map((canal, idx) => {
             const refMap = [infoRef0, infoRef1, infoRef2, infoRef3];
@@ -1035,7 +1051,7 @@ export default function CanalesScrollytelling() {
         </div>
 
         {/* DISPOSITIVO FLOTANTE ANIMADO CON VOLUMEN Y PROFUNDIDAD REALISTA EN 3D */}
-        <div className="hidden md:block absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
+        <div className="absolute inset-0 z-30 pointer-events-none" style={{ perspective: '1200px' }}>
           <div
             ref={floatingDeviceRef}
             className="absolute top-0 left-0 overflow-visible"
@@ -1047,7 +1063,7 @@ export default function CanalesScrollytelling() {
             {/* Pantalla Negra Overlay para la transición */}
             <div ref={blackScreenRef} className="absolute inset-0 bg-black z-50 pointer-events-none opacity-0 rounded-[2.5rem]" />
 
-            {/* Contenido con Mockup 3D optimizado (Ambos marcos persisten en el DOM para evitar desmontaje) */}
+            {/* Contenido con Mockup 3D optimizado */}
             <div
               style={{
                 position: 'absolute',
@@ -1088,6 +1104,76 @@ export default function CanalesScrollytelling() {
           </div>
         </div>
 
+      </section>
+
+      {/* ── 2. VISTA MÓVIL OPTIMIZADA (< 768px): INTERACTIVA, ÁGIL Y SIN BLOQUEOS DE SCROLL ── */}
+      <section className="block md:hidden w-full bg-[#141514] text-white py-16 px-5 relative overflow-hidden">
+        {/* Glow de fondo móvil */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full blur-[100px] bg-emerald-500/20 pointer-events-none" />
+
+        <div className="max-w-md mx-auto space-y-6 relative z-10">
+
+          {/* Header móvil */}
+          <div className="text-center space-y-2">
+            <span className="text-[11px] font-mono font-bold text-[#84C638] uppercase tracking-wider block">
+              Ecosistema Integral
+            </span>
+            <h2 className="text-3xl font-black tracking-tight leading-tight">
+              Canales que <span className="text-[#84C638]">Convierten.</span>
+            </h2>
+          </div>
+
+          {/* Selector de pestañas móvil */}
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center">
+            {canalesDinamicos.map((canal, idx) => (
+              <button
+                key={canal.id}
+                onClick={() => setMobileTab(idx)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold font-mono transition-all shrink-0 cursor-pointer ${mobileTab === idx
+                    ? 'bg-[#84C638] text-white shadow-lg'
+                    : 'bg-white/10 text-neutral-300 hover:bg-white/15'
+                  }`}
+              >
+                {canal.nombre}
+              </button>
+            ))}
+          </div>
+
+          {/* Tarjeta de contenido activo móvil */}
+          <div className="bg-[#1e201e] border border-neutral-700/80 rounded-3xl p-6 space-y-5 shadow-2xl">
+            <div className="space-y-2">
+              <h3 className={`text-2xl font-black tracking-tight ${currentMobile.titleClass}`}>
+                {currentMobile.nombre}
+              </h3>
+              <p className="text-sm font-semibold text-white">
+                {currentMobile.subtitulo}
+              </p>
+              <p className="text-xs text-neutral-300 font-light leading-relaxed">
+                {currentMobile.descripcion}
+              </p>
+            </div>
+
+            <ul className="space-y-2 text-xs font-mono text-neutral-300 border-t border-white/10 pt-4">
+              {currentMobile.beneficios.map((b, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className={`${currentMobile.iconClass} shrink-0`} />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="pt-2">
+              <Link
+                href="/agenda"
+                className={`w-full py-3.5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg ${currentMobile.buttonClass}`}
+              >
+                <span>Agendar Diagnóstico Gratuito</span>
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </section>
     </div>
   );

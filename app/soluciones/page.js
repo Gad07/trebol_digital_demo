@@ -54,7 +54,7 @@ export default function SolucionesPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="text-6xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.85] tracking-tighter mb-8"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-black text-carbon leading-[0.88] tracking-tighter mb-6 sm:mb-8 break-words"
           >
             Evolución digital <br />
             <span className="text-trebol">integral.</span>
@@ -64,7 +64,7 @@ export default function SolucionesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-3xl text-carbon/70 font-light max-w-3xl leading-relaxed"
+            className="text-base sm:text-xl md:text-3xl text-carbon/70 font-light max-w-3xl leading-relaxed"
           >
             Un modelo diseñado para empresas que buscan evolucionar a través de la tecnología, la estrategia y el talento humano.
           </motion.p>
@@ -74,21 +74,21 @@ export default function SolucionesPage() {
       {/* ── Soluciones (Editorial Sticky Layout V1) ───── */}
       <section className="w-full bg-hueso pb-32 px-6 md:px-12 relative">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
-          
+
           {/* Columna Izquierda: Sticky Card */}
           <div className="md:col-span-5 relative z-10">
-            <div className="sticky top-32 p-10 md:p-14 bg-trebol border border-white/20 rounded-[3rem] shadow-[0_8px_32px_rgba(92,158,49,0.3)] overflow-hidden relative">
+            <div className="sticky top-32 p-8 sm:p-10 md:p-14 bg-trebol border border-white/20 rounded-[2.5rem] sm:rounded-[3rem] shadow-[0_8px_32px_rgba(92,158,49,0.3)] overflow-hidden relative">
               <div className="absolute -top-32 -right-32 w-80 h-80 bg-white/20 blur-[80px] rounded-full pointer-events-none" />
 
               <motion.h2
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8 relative z-10"
+                className="text-3xl sm:text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-6 sm:mb-8 relative z-10"
               >
                 Nuestras <br /> Soluciones.
               </motion.h2>
-              <p className="text-xl text-white/90 font-light max-w-sm leading-relaxed relative z-10">
+              <p className="text-base sm:text-xl text-white/90 font-light max-w-sm leading-relaxed relative z-10">
                 Estrategia, inteligencia artificial, desarrollo organizacional y web en un solo acompañamiento.
               </p>
             </div>

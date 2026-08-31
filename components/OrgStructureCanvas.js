@@ -250,13 +250,18 @@ export default function OrgStructureCanvas() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-trebol/10 rounded-full blur-[110px] pointer-events-none" />
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-neutral-100 bg-neutral-50/80 backdrop-blur-sm relative z-10">
-          <div className="flex items-center gap-3">
-            <div className={`w-3.5 h-3.5 rounded-full ${isAfter ? 'bg-trebol' : 'bg-rose-500'} shadow-sm animate-pulse`} />
-            <span className="text-xs text-neutral-500">
-              Estado: <strong className="text-carbon">{isAfter ? 'Organigrama RACI Sincronizado (Ventas, Mkt & IT)' : 'Estructura Caótica / Desalineada'}</strong>
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-6 md:px-10 py-3 sm:py-4 border-b border-neutral-100 bg-neutral-50/80 backdrop-blur-sm relative z-10">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full ${isAfter ? 'bg-trebol' : 'bg-rose-500'} shadow-sm animate-pulse`} />
+            <span className="text-[11px] sm:text-xs text-neutral-500">
+              Estado: <strong className="text-carbon">{isAfter ? 'Organigrama RACI Sincronizado' : 'Estructura Caótica'}</strong>
             </span>
           </div>
+        </div>
+
+        {/* Mobile Swipe Hint */}
+        <div className="block sm:hidden px-4 py-1.5 bg-neutral-100/90 text-[10px] font-mono text-carbon/60 text-center border-b border-neutral-200">
+          ↔ Desliza horizontalmente para explorar el organigrama
         </div>
 
         {/* Canvas body con desplazamiento horizontal responsivo en pantallas pequeñas */}
