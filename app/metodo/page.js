@@ -198,7 +198,7 @@ export default function MetodoPage() {
   return (
     <main className="w-full bg-hueso text-carbon min-h-screen">
       {/* ── HERO EN PANTALLA COMPLETA CON FOTOGRAFÍA Y DEGRADADO ── */}
-      <section className="relative w-full h-screen h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
+      <section className="relative w-full min-h-[100dvh] h-auto md:h-screen md:h-[100dvh] min-h-[560px] pt-24 sm:pt-28 pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center">
 
         {/* Background Hero Image with Crisp Right & Soft Left Gradient Fade */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">

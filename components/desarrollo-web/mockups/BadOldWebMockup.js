@@ -3,7 +3,7 @@ import { AlertTriangle, Download, RefreshCw, MessageSquare, AlertOctagon, Shoppi
 
 export function BadOldWebMockup({ type = 'corporativa', styleName = 'Página Básica' }) {
   return (
-    <div className="w-full bg-[#e3e8f0] text-[#111] font-sans select-none overflow-x-hidden min-h-full flex flex-col justify-between border-2 border-red-400 relative">
+    <div className="w-full h-full min-h-full flex-1 bg-[#e3e8f0] text-[#111] font-sans select-none overflow-hidden flex flex-col justify-between border-2 border-red-400 relative">
       {/* Obsolete Header Banner */}
       <div className="bg-[#002266] text-white p-2 text-[11px] font-serif flex items-center justify-between border-b-2 border-yellow-400">
         <div className="flex items-center gap-2">

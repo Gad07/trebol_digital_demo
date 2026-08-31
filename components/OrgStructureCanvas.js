@@ -259,14 +259,70 @@ export default function OrgStructureCanvas() {
           </div>
         </div>
 
-        {/* Mobile Swipe Hint */}
-        <div className="block sm:hidden px-4 py-1.5 bg-neutral-100/90 text-[10px] font-mono text-carbon/60 text-center border-b border-neutral-200">
-          ↔ Desliza horizontalmente para explorar el organigrama
+        {/* Mobile View: Vertical Structured Hierarchy (md:hidden) */}
+        <div className="block md:hidden p-4 space-y-3 font-sans">
+          {DEPARTMENTS.map((dept) => {
+            const Icon = dept.icon;
+            const raci = RACI_LABELS[dept.id];
+            const chaosReason = CHAOS_LABELS[dept.id];
+
+            return (
+              <motion.div
+                key={dept.id}
+                layout
+                className={`p-4 rounded-2xl border-2 transition-all ${
+                  isAfter
+                    ? 'bg-white border-trebol/30 shadow-sm'
+                    : 'bg-rose-50/50 border-rose-200 shadow-sm'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                      isAfter ? 'bg-trebol/10 text-trebol' : 'bg-rose-100 text-rose-600'
+                    }`}>
+                      <Icon size={16} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-carbon leading-tight">{dept.label}</h4>
+                      <p className="text-[10px] text-neutral-500 font-light">{dept.desc}</p>
+                    </div>
+                  </div>
+                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full ${
+                    isAfter ? 'bg-trebol/10 text-trebol' : 'bg-rose-100 text-rose-700'
+                  }`}>
+                    {isAfter ? 'SINCRONIZADO' : 'FRICCIÓN'}
+                  </span>
+                </div>
+
+                {isAfter ? (
+                  <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-neutral-100 font-mono text-[9.5px]">
+                    <div className="bg-neutral-50 p-1.5 rounded-lg">
+                      <span className="text-trebol font-bold">[R]</span> {raci.r}
+                    </div>
+                    <div className="bg-neutral-50 p-1.5 rounded-lg">
+                      <span className="text-carbon font-bold">[A]</span> {raci.a}
+                    </div>
+                    <div className="bg-neutral-50 p-1.5 rounded-lg">
+                      <span className="text-neutral-500 font-bold">[C]</span> {raci.c}
+                    </div>
+                    <div className="bg-neutral-50 p-1.5 rounded-lg">
+                      <span className="text-neutral-400 font-bold">[I]</span> {raci.i}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="pt-2 border-t border-rose-100 text-[10.5px] text-rose-700 font-medium flex items-center gap-1.5">
+                    <span>⚠️ {chaosReason}</span>
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Canvas body con desplazamiento horizontal responsivo en pantallas pequeñas */}
-        <div className="w-full overflow-x-auto">
-          <div ref={canvasRef} className="relative w-full min-w-[650px] md:min-w-full overflow-hidden" style={{ minHeight: 540 }}>
+        {/* Desktop Canvas View (hidden md:block) */}
+        <div className="hidden md:block w-full overflow-hidden">
+          <div ref={canvasRef} className="relative w-full overflow-hidden" style={{ minHeight: 540 }}>
             {/* SVG overlay */}
             <svg
               className="absolute inset-0 pointer-events-none"

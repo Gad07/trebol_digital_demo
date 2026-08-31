@@ -39,14 +39,16 @@ export function BrutalistMockup({ compact = false }) {
         </div>
       </div>
 
-      {/* ── GIANT TITLE TEXT — full bleed ── */}
-      <div className="absolute inset-0 flex items-start justify-center" style={{ paddingTop: '11%' }}>
+      {/* ── GIANT TITLE TEXT — full bleed & horizontally centered, placed below header ── */}
+      <div className="absolute top-[22%] left-0 right-0 w-full flex items-center justify-center text-center z-10 pointer-events-none">
         <h1
-          className="font-black uppercase text-black leading-none text-center w-full"
+          className="font-black uppercase text-black leading-none text-center select-none"
           style={{
-            fontSize: 'clamp(5rem, 18vw, 14rem)',
-            letterSpacing: '-0.03em',
-            lineHeight: 0.88,
+            fontSize: '175px',
+            letterSpacing: '-0.04em',
+            lineHeight: 0.82,
+            width: '100%',
+            textAlign: 'center',
           }}
         >
           CAPTURE
@@ -54,14 +56,14 @@ export function BrutalistMockup({ compact = false }) {
       </div>
 
       {/* ── FOREGROUND IMAGE — centered, overlapping the text ── */}
-      <div className="absolute inset-0 flex items-end justify-center z-20" style={{ transform: 'translateY(8%)' }}>
+      <div className="absolute inset-0 flex items-end justify-center z-20 pointer-events-none" style={{ transform: 'translateY(6%)' }}>
         <img
           src="https://i.ibb.co/twxtSM4G/269182220-11246726.png"
           alt="Studio foreground element"
           className="object-contain object-bottom pointer-events-none"
           style={{
-            height: '92%',
-            maxWidth: '60%',
+            height: '88%',
+            maxWidth: '55%',
           }}
         />
       </div>

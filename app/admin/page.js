@@ -438,12 +438,12 @@ export default function AdminPage() {
         }
       }
 
-      const savedList = localStorage.getItem('trebol_popups_list_v3');
+      const savedList = localStorage.getItem('trebol_popups_list_v4');
       if (savedList) {
         setPopupsList(JSON.parse(savedList));
       } else {
         setPopupsList(DEFAULT_POPUPS_LIST);
-        try { localStorage.setItem('trebol_popups_list_v3', JSON.stringify(DEFAULT_POPUPS_LIST)); } catch (e) {}
+        try { localStorage.setItem('trebol_popups_list_v4', JSON.stringify(DEFAULT_POPUPS_LIST)); } catch (e) {}
       }
 
       const savedLandings = localStorage.getItem('trebol_landings_list_v1');
@@ -590,7 +590,7 @@ export default function AdminPage() {
 
     setPopupsList(newList);
     try {
-      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v4', JSON.stringify(newList));
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 2500);
     } catch (e) {
@@ -801,7 +801,7 @@ export default function AdminPage() {
     setPopupsList(newList);
     setSelectedPopupId(newId);
     try {
-      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v4', JSON.stringify(newList));
     } catch (e) { }
   };
 
@@ -859,7 +859,7 @@ export default function AdminPage() {
     setPopupsList(newList);
     setSelectedPopupId(newList[0]?.id || '');
     try {
-      localStorage.setItem('trebol_popups_list_v3', JSON.stringify(newList));
+      localStorage.setItem('trebol_popups_list_v4', JSON.stringify(newList));
     } catch (e) { }
   };
 
@@ -1280,10 +1280,10 @@ export default function AdminPage() {
         </div>
       ) : (
         /* DASHBOARD ADMIN CON MAQUETADOR MODULAR DE SECCIONES */
-        <div className="min-h-screen flex flex-col bg-hueso font-sans">
+        <div className="min-h-screen flex flex-col bg-hueso font-sans overflow-x-hidden">
 
           <header className="bg-white/95 backdrop-blur-xl border-b border-neutral-200/90 px-6 py-3 sticky top-0 z-50 shadow-sm">
-            <div className="max-w-[1700px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-3">
+            <div className="max-w-[1700px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-3 overflow-x-hidden">
 
               {/* Brand Logo & User Info */}
               <div className="flex items-center gap-3 self-start xl:self-auto">
@@ -1304,7 +1304,7 @@ export default function AdminPage() {
               </div>
 
               {/* Contenedor de Menús Desplegables Agrupados */}
-              <div className="flex flex-wrap items-center gap-2 font-mono text-xs z-50">
+              <div className="flex flex-wrap items-center gap-2 font-mono text-xs z-50 max-w-full overflow-x-auto pb-1">
 
                 {/* 1. DESPLEGABLE: COMERCIAL & CRM */}
                 <div className="relative">
@@ -1658,7 +1658,7 @@ export default function AdminPage() {
                               onClick={() => {
                                 try {
                                   const updated = popupsList.map((p) => p.id === currentPopup.id ? currentPopup : p);
-                                  localStorage.setItem('trebol_popups_list_v3', JSON.stringify(updated));
+                                  localStorage.setItem('trebol_popups_list_v4', JSON.stringify(updated));
                                   window.dispatchEvent(new CustomEvent('trebol:preview-popup', { detail: currentPopup }));
                                 } catch (e) {
                                   console.warn('Error al disparar popup:', e);

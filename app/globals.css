@@ -28,6 +28,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -35,9 +37,9 @@ body {
   color: var(--color-carbon);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
   max-width: 100%;
-  overflow-x: clip;
-  /* Evita que el desbordamiento rompa position: sticky en móviles */
+  overflow-x: hidden;
 }
 
 /* Glass panel utility */

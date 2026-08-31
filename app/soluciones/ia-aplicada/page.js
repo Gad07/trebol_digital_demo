@@ -799,20 +799,20 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
       {flowAnimationCSS}
 
       {/* HEADER DE CONTROL E INFORMACIÓN DEL WORKFLOW */}
-      <div className="flex flex-wrap items-center justify-between border-b border-neutral-800/80 pb-4 mb-6 gap-4 relative z-10">
-        <div className="flex items-center gap-3">
-          <span className="px-2.5 py-1 rounded-lg bg-trebol text-carbon text-xs font-black font-mono shadow-md flex items-center gap-1.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-neutral-800/80 pb-3 mb-4 sm:mb-6 gap-2 sm:gap-4 relative z-10">
+        <div className="flex items-center gap-2.5">
+          <span className="hidden sm:inline-flex px-2.5 py-1 rounded-lg bg-trebol text-carbon text-xs font-black font-mono shadow-md items-center gap-1.5 shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-carbon animate-pulse" />
             PROCESO DE IA
           </span>
-          <span className="font-mono font-extrabold text-white text-sm tracking-tight">
+          <span className="font-mono font-extrabold text-white text-xs sm:text-sm tracking-tight leading-snug">
             {activeAreaTab === 0 && 'Atención y Agendamiento Automatizado en WhatsApp & Web'}
             {activeAreaTab === 1 && 'Lectura Inteligente de Documentos → Registro Contable'}
             {activeAreaTab === 2 && 'Consolidación de Datos → Análisis IA → Reporte a Dirección'}
             {activeAreaTab === 3 && 'Consulta de Manuales → Respuesta Inteligente → Solución'}
           </span>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="hidden sm:flex items-center gap-2.5 shrink-0">
           <span className="text-[11px] font-mono font-bold text-trebol bg-trebol/10 border border-trebol/30 px-3 py-1 rounded-full flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-trebol animate-ping" />
             ● Flujo Activo
@@ -823,8 +823,78 @@ function RenderAreaWorkflowCanvas({ activeAreaTab, currentSol, externalActiveSte
         </div>
       </div>
 
-      {/* CANVAS DFD SEGÚN EL ÁREA SELECCIONADA */}
-      <div className="w-full overflow-x-auto flex justify-center py-4 relative z-10">
+      {/* ── MOBILE FLOW PIPELINE (block md:hidden) ── */}
+      <div className="block md:hidden space-y-3 py-2 relative z-10 font-sans">
+        {[
+          // Área 0: Ventas & Atención
+          [
+            { title: 'Recepción de Mensajes', sub: 'WhatsApp / Web 24/7', icon: MessageSquare, bg: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' },
+            { title: 'Análisis de Intención IA', sub: 'Comprensión & Catálogo', icon: Cpu, bg: 'bg-purple-500/20 border-purple-500/40 text-purple-400' },
+            { title: '¿Prospecto Calificado?', sub: 'Filtro de Interés', icon: GitFork, bg: 'bg-emerald-600 border-emerald-500 text-white' },
+            { title: 'Agendamiento en Calendario', sub: 'Notificación a tu Equipo (Sí)', icon: Calendar, bg: 'bg-orange-500/20 border-orange-500/40 text-orange-400' },
+            { title: 'Seguimiento Autónomo', sub: 'Envío de Información (No)', icon: Send, bg: 'bg-sky-500/20 border-sky-500/40 text-sky-400' }
+          ],
+          // Área 1: Operaciones
+          [
+            { title: 'Recepción de Documento', sub: 'PDF / XML / Correo', icon: FileText, bg: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' },
+            { title: 'Lectura Inteligente OCR', sub: 'Extracción de Datos', icon: Cpu, bg: 'bg-purple-500/20 border-purple-500/40 text-purple-400' },
+            { title: 'Validación SAT & Reglas', sub: 'Comprobación Fiscal', icon: CheckCircle2, bg: 'bg-amber-500/20 border-amber-500/40 text-amber-400' },
+            { title: 'Registro Contable ERP', sub: 'Carga Automática (Válido)', icon: Database, bg: 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400' },
+            { title: 'Notificación a Finanzas', sub: 'Confirmación Inmediata', icon: Send, bg: 'bg-sky-500/20 border-sky-500/40 text-sky-400' }
+          ],
+          // Área 2: Decisiones & BI
+          [
+            { title: 'Base de Datos de Ventas', sub: 'Sincronización Periódica', icon: Database, bg: 'bg-sky-500/20 border-sky-500/40 text-sky-400' },
+            { title: 'Unión & Limpieza', sub: 'Consolidación IA', icon: Layers, bg: 'bg-amber-500/20 border-amber-500/40 text-amber-400' },
+            { title: 'Análisis de Tendencias', sub: 'Proyección de Ingresos', icon: BarChart3, bg: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' },
+            { title: 'Generación de Reporte', sub: 'Tablero Ejecutivo', icon: TrendingUp, bg: 'bg-indigo-500/20 border-indigo-500/40 text-indigo-400' },
+            { title: 'Resumen a WhatsApp', sub: 'Reporte para Director', icon: Send, bg: 'bg-emerald-500 border-emerald-400 text-white' }
+          ],
+          // Área 3: Soporte & Manuales
+          [
+            { title: 'Pregunta Entrante', sub: 'Cliente o Colaborador', icon: MessageSquare, bg: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' },
+            { title: 'Consulta en Manuales', sub: 'Base de Conocimiento', icon: Search, bg: 'bg-sky-500/20 border-sky-500/40 text-sky-400' },
+            { title: 'Respuesta Inteligente IA', sub: 'Redacción Precisa', icon: Bot, bg: 'bg-purple-500/20 border-purple-500/40 text-purple-400' },
+            { title: '¿Certeza > 90%?', sub: 'Filtro de Certeza', icon: GitFork, bg: 'bg-emerald-600 border-emerald-500 text-white' },
+            { title: 'Respuesta al Cliente', sub: 'Resolución Inmediata', icon: CheckCircle2, bg: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' }
+          ]
+        ][activeAreaTab]?.map((node, idx) => {
+          const isLast = idx === 4;
+          const IconComp = node.icon;
+
+          return (
+            <div key={idx} className="flex flex-col items-center">
+              <motion.div
+                onClick={() => handleNodeClick(idx)}
+                whileTap={{ scale: 0.97 }}
+                className={`w-full p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 relative ${getNodeClasses(idx)}`}
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center border shrink-0 ${node.bg}`}>
+                    <IconComp className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-extrabold text-slate-100 leading-tight">{node.title}</div>
+                    <div className="text-[10px] text-slate-400 font-mono mt-0.5">{node.sub}</div>
+                  </div>
+                </div>
+
+                <span className="text-emerald-400 font-black text-sm shrink-0">✓</span>
+              </motion.div>
+
+              {!isLast && (
+                <div className="flex flex-col items-center my-1">
+                  <div className="w-0.5 h-3 bg-gradient-to-b from-trebol to-trebol/40" />
+                  <div className="w-1.5 h-1.5 rotate-45 border-r-2 border-b-2 border-trebol -mt-0.5" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── DESKTOP CANVAS DFD (hidden md:flex) ── */}
+      <div className="hidden md:flex w-full overflow-x-auto justify-center py-4 relative z-10">
         {/* ÁREA 0: VENTAS & ATENCIÓN */}
         {activeAreaTab === 0 && (
           <div className="relative mx-auto" style={{ height: 420, minWidth: 760 }}>
@@ -1301,6 +1371,7 @@ export default function IAAplicadaPage() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [muted, setMuted] = useState(false);
   const currentAudioRef = useRef(null);
+  const sequenceIdRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1337,6 +1408,7 @@ export default function IAAplicadaPage() {
   const estimatedSavings = (hoursSavedMonth * 180).toLocaleString('es-MX');
 
   const stopAudio = useCallback(() => {
+    sequenceIdRef.current += 1;
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
@@ -1598,24 +1670,40 @@ export default function IAAplicadaPage() {
 
   // Función para ejecutar la locución paso a paso NODO POR NODO en el canvas DFD
   const playDfdNodeSequence = useCallback(async (dfdIdx) => {
+    stopAudio();
+    const currentSeqId = ++sequenceIdRef.current;
+
     setSelectedDfdIndex(dfdIdx);
     setActiveAreaTab(dfdIdx);
     setDfdActiveStep(-1);
 
     setTimeout(() => {
-      const el = document.getElementById(`dfd-area-${dfdIdx}`) || document.getElementById('soluciones');
+      const el = document.getElementById('diagrama-canvas-area') || document.getElementById('soluciones');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 60);
 
-    const nodes = DFD_NODE_STEPS[dfdIdx] || DFD_NODE_STEPS[0];
+    // 1. Hablar resumen general del área seleccionada
+    const areaExplanation = DFD_EXPLANATIONS[dfdIdx]?.speech || pilarServices[dfdIdx]?.desc;
+    if (areaExplanation) {
+      await speak(areaExplanation);
+    }
+    if (sequenceIdRef.current !== currentSeqId) return;
+
+    // 2. Explicar los 5 nodos del flujo uno por uno
+    const nodes = pilarServices[dfdIdx]?.n8nNodes || [];
     for (let i = 0; i < nodes.length; i++) {
+      if (sequenceIdRef.current !== currentSeqId) return;
       setDfdActiveStep(i);
-      await speak(nodes[i].text);
-      await new Promise((r) => setTimeout(r, 400));
+      const nodeText = `Paso ${i + 1}: ${nodes[i].title}. ${nodes[i].sub}`;
+      await speak(nodeText);
+      if (sequenceIdRef.current !== currentSeqId) return;
+      await new Promise((r) => setTimeout(r, 350));
     }
 
-    setDfdActiveStep(-1);
-  }, [speak]);
+    if (sequenceIdRef.current === currentSeqId) {
+      setDfdActiveStep(-1);
+    }
+  }, [speak, stopAudio]);
 
   // Selección manual de un nodo específico en el DFD
   const selectDfdSingleNode = useCallback(async (nodeIdx) => {
@@ -1625,9 +1713,9 @@ export default function IAAplicadaPage() {
       setSelectedDfdIndex(currentTab);
     }
     setDfdActiveStep(nodeIdx);
-    const nodeData = DFD_NODE_STEPS[currentTab]?.[nodeIdx];
+    const nodeData = pilarServices[currentTab]?.n8nNodes?.[nodeIdx];
     if (nodeData) {
-      await speak(nodeData.text);
+      await speak(`Paso ${nodeIdx + 1}: ${nodeData.title}. ${nodeData.sub}`);
     }
   }, [selectedDfdIndex, activeAreaTab, showTutorial, speak, stopAudio]);
 
@@ -1635,21 +1723,19 @@ export default function IAAplicadaPage() {
   useEffect(() => {
     if (showTutorial) {
       const timer = setTimeout(() => {
-        let targetId = TUTORIAL_STEPS[tutorialStep]?.targetId;
-        if (tutorialStep === 2) {
-          targetId = `dfd-area-${activeAreaTab}`;
-        }
-        if (tutorialStep === 3) {
-          targetId = 'master-transform-card';
-        }
-        const el = document.getElementById(targetId) || document.getElementById('transformacion');
+        let targetId = 'diagrama-canvas-area';
+        if (tutorialStep === 0) targetId = 'hero';
+        if (tutorialStep === 1) targetId = 'que-es-ia';
+        if (tutorialStep >= 2) targetId = 'diagrama-canvas-area';
+
+        const el = document.getElementById(targetId) || document.getElementById('soluciones');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 80);
       return () => clearTimeout(timer);
     }
-  }, [showTutorial, tutorialStep, activeAreaTab]);
+  }, [showTutorial, tutorialStep]);
 
   // Manejar el cambio manual de pasos en el tutorial
   const nextTutorialStep = useCallback(() => {
@@ -1692,147 +1778,138 @@ export default function IAAplicadaPage() {
               onClick={closeTutorial}
             />
 
-            {/* TREBOT MASCOTA EN 3D CON TARJETA Y DIÁLOGO — SOLO EN PASOS 2, 3, 4 (EL HERO BOT CUBRE EL PASO 1) */}
+            {/* TREBOT MASCOTA EN 3D CON TARJETA Y DIÁLOGO — VISIBLE EN MÓVIL Y DESKTOP */}
             {tutorialStep > 0 && (
               <motion.div
                 key={tutorialStep}
-                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 40, scale: 0.9 }}
+                exit={{ opacity: 0, y: 30, scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 90, damping: 15 }}
-                className={`fixed bottom-4 md:bottom-8 right-2 md:right-6 lg:right-10 flex-col md:flex-row-reverse z-[10000] flex items-center gap-4 md:gap-5 pointer-events-auto select-none transition-all duration-500 ease-in-out max-w-xl px-2 md:px-4`}
+                className="fixed bottom-3 sm:bottom-6 left-3 right-3 md:left-auto md:right-6 lg:right-10 z-[10000] flex flex-col md:flex-row-reverse items-center md:items-end gap-3 md:gap-5 pointer-events-auto select-none max-w-lg md:max-w-xl mx-auto"
               >
-                {/* TREBOT SVG 3D ALINEADO TOTALMENTE A LA DERECHA */}
-                <div className="relative drop-shadow-[0_30px_60px_rgba(132,198,56,0.75)] shrink-0">
-                  <TrebotSVG
-                    isSpeaking={isSpeaking}
-                    isHovered={isSpeaking || tutorialStep === 0}
-                    isModal={true}
-                    size={220}
-                    armPose={isExplainingExample ? 'point-left' : tutorialStep === 0 ? 'wave' : 'rest'}
-                    eyeExpression={isSpeaking ? 'wink' : 'circle'}
-                  />
+                {/* TREBOT SVG 3D: Grande y llamativo */}
+                <div className="relative drop-shadow-[0_25px_50px_rgba(132,198,56,0.85)] shrink-0 self-end md:self-auto -mb-10 md:mb-0 mr-1 md:mr-0 z-20">
+                  <div className="md:hidden">
+                    <TrebotSVG
+                      isSpeaking={isSpeaking}
+                      isHovered={isSpeaking || tutorialStep === 0}
+                      isModal={true}
+                      size={175}
+                      armPose={isExplainingExample ? 'point-left' : tutorialStep === 0 ? 'wave' : 'rest'}
+                      eyeExpression={isSpeaking ? 'wink' : 'circle'}
+                    />
+                  </div>
+                  <div className="hidden md:block">
+                    <TrebotSVG
+                      isSpeaking={isSpeaking}
+                      isHovered={isSpeaking || tutorialStep === 0}
+                      isModal={true}
+                      size={240}
+                      armPose={isExplainingExample ? 'point-left' : tutorialStep === 0 ? 'wave' : 'rest'}
+                      eyeExpression={isSpeaking ? 'wink' : 'circle'}
+                    />
+                  </div>
                 </div>
 
                 {/* TARJETA DE DIÁLOGO DE TREBOT Y CONTROLES DEL TOUR */}
-                <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
-                  <div className="flex items-center justify-between gap-3 border-b border-[#2d302d] pb-3">
-                    <h4 className="text-sm md:text-base font-black text-white flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-trebol shrink-0" />
-                      {isExplainingExample
-                        ? exampleSelectedArea !== null
-                          ? EXAMPLE_AREAS[exampleSelectedArea]?.title
-                          : 'Elige un área para ver en acción'
-                        : TUTORIAL_STEPS[tutorialStep]?.title}
+                <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-3.5 sm:p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-2.5 sm:space-y-4 max-w-md w-full relative z-10">
+                  <div className="flex items-center justify-between gap-2 sm:gap-3 border-b border-[#2d302d] pb-2 sm:pb-3">
+                    <h4 className="text-xs sm:text-sm md:text-base font-black text-white flex items-center gap-1.5 truncate pr-1">
+                      <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-trebol shrink-0" />
+                      {/* En móvil: título limpio sin redundancias */}
+                      <span className="sm:hidden truncate text-xs">
+                        {isExplainingExample || tutorialStep === 2
+                          ? 'Selecciona un área para que TREBOT la explique:'
+                          : TUTORIAL_STEPS[tutorialStep]?.title}
+                      </span>
+                      {/* En desktop: título completo */}
+                      <span className="hidden sm:inline truncate">
+                        {isExplainingExample
+                          ? `Área 0${activeAreaTab + 1}: ${pilarServices[activeAreaTab]?.badge}`
+                          : TUTORIAL_STEPS[tutorialStep]?.title}
+                      </span>
                     </h4>
 
-                    {/* BOTÓN DE CONTROL DE AUDIO DEL BOT */}
-                    <button
-                      onClick={toggleAudio}
-                      className={`px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${muted
-                        ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
-                        : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
-                        }`}
-                      title={muted ? 'Activar audio del bot' : 'Quitar audio del bot'}
-                    >
-                      {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
-                      <span className="hidden sm:inline">{muted ? 'Audio Silenciado' : 'Voz Activada'}</span>
-                    </button>
+                    {/* BOTONES DE CONTROL: AUDIO Y CERRAR */}
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={toggleAudio}
+                        className={`p-1.5 sm:px-3 sm:py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer ${muted
+                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                          : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                          }`}
+                        title={muted ? 'Activar audio del bot' : 'Quitar audio del bot'}
+                      >
+                        {muted ? <VolumeX size={13} /> : <Volume2 size={13} className="animate-pulse" />}
+                        <span className="hidden sm:inline">{muted ? 'Silenciado' : 'Voz'}</span>
+                      </button>
+
+                      <button
+                        onClick={closeTutorial}
+                        className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all cursor-pointer"
+                        title="Cerrar tour"
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
                   </div>
 
-                  {/* CASO 1: EN PASO 3 (INDEX 2) - PREGUNTA INICIAL "¿TE GUSTARÍA QUE TE EXPLIQUE UN EJEMPLO?" */}
-                  {tutorialStep === 2 && !isExplainingExample && (
-                    <div className="space-y-2.5 pt-2 border-t border-[#2d302d]">
-                      <div className="space-y-2">
-                        <button
-                          onClick={handleExplainExample}
-                          className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center justify-between cursor-pointer"
-                        >
-                          <span>¡Sí, explícame un ejemplo!</span>
-                          <ArrowRight size={15} />
-                        </button>
-
-                        <button
-                          onClick={() => playStep(3)}
-                          className="w-full px-4 py-2.5 rounded-2xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center justify-between cursor-pointer"
-                        >
-                          <span>No, continuar</span>
-                          <ChevronRight size={15} className="text-neutral-500" />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* CASO 2: EL USUARIO DIJO "SÍ" Y AHORA ELIGE CUÁL DE LAS 4 ÁREAS VER */}
-                  {isExplainingExample && exampleSelectedArea === null && (
-                    <div className="space-y-2.5 pt-1 border-t border-[#2d302d]">
-                      <p className="text-xs text-neutral-300 font-semibold">
-                        Selecciona el área que deseas ver en acción:
+                  {/* CASO: PASO DE EJEMPLOS O EXPLICACIÓN (OPCIONES NUMERADAS 1, 2, 3, 4) */}
+                  {(tutorialStep === 2 || isExplainingExample) && (
+                    <div className="space-y-2.5 sm:space-y-3 pt-0.5">
+                      <p className="hidden sm:block text-xs text-neutral-300 font-medium">
+                        Selecciona un área para que TREBOT la explique:
                       </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {EXAMPLE_AREAS.map((area) => (
-                          <button
-                            key={area.id}
-                            onClick={() => handleSelectExampleArea(area.id)}
-                            className="p-2.5 rounded-xl bg-[#1a1d1a] hover:bg-[#232723] border border-[#2d302d] hover:border-trebol/60 text-left transition-all group cursor-pointer flex flex-col justify-between"
-                          >
-                            <div className="flex items-center justify-between gap-1 mb-1">
-                              <span className="text-xs font-bold text-white group-hover:text-trebol transition-colors">
-                                {area.shortTitle}
-                              </span>
-                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-trebol border border-trebol/20">
-                                {area.badge}
-                              </span>
-                            </div>
-                            <span className="text-[10px] text-neutral-400 leading-tight">
-                              {area.description}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between pt-1">
-                        <button
-                          onClick={() => playStep(3)}
-                          className="px-3 py-1.5 rounded-xl bg-transparent hover:bg-white/5 text-neutral-400 hover:text-white text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer"
-                        >
-                          <span>Saltar al paso final</span>
-                          <ChevronRight size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  )}
 
-                  {/* CASO 3: EL USUARIO SELECCIONÓ UN ÁREA ESPECÍFICA Y ESTÁ VIENDO SU EXPLICACIÓN */}
-                  {isExplainingExample && exampleSelectedArea !== null && (
-                    <div className="space-y-3 pt-1 border-t border-[#2d302d]">
-                      <div className="p-3 rounded-2xl bg-trebol/10 border border-trebol/30 space-y-1">
+                      {/* BOTONES CIRCULARES 1, 2, 3, 4 */}
+                      <div className="flex items-center justify-center gap-3 sm:gap-3 py-1">
+                        {[0, 1, 2, 3].map((idx) => {
+                          const isSelected = activeAreaTab === idx;
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => {
+                                setIsExplainingExample(true);
+                                playDfdNodeSequence(idx);
+                              }}
+                              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full font-mono font-black text-sm sm:text-base flex items-center justify-center transition-all cursor-pointer ${
+                                isSelected
+                                  ? 'bg-trebol text-slate-950 ring-4 ring-trebol/40 scale-110 shadow-[0_0_20px_rgba(132,198,56,0.8)]'
+                                  : 'bg-[#242724] text-neutral-300 border border-neutral-700 hover:border-trebol hover:text-trebol'
+                              }`}
+                            >
+                              0{idx + 1}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* EXPLICACIÓN EN VIVO DEL ÁREA SELECCIONADA (Solo en Desktop para no saturar en móvil) */}
+                      <div className="hidden sm:block p-3 rounded-2xl bg-trebol/10 border border-trebol/30 text-left space-y-1">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-black text-trebol">
-                            {EXAMPLE_AREAS[exampleSelectedArea]?.badge}: Diagrama en Vivo
+                          <span className="text-xs font-black text-trebol font-sans">
+                            {pilarServices[activeAreaTab]?.badge}
                           </span>
                           <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-trebol text-slate-950 font-bold">
-                            Activo
+                            ● Activo
                           </span>
                         </div>
-                        <p className="text-[11px] text-neutral-300 leading-relaxed">
-                          {EXAMPLE_AREAS[exampleSelectedArea]?.description}
+                        <p className="text-[11px] sm:text-xs text-neutral-200 leading-relaxed font-light font-sans">
+                          {pilarServices[activeAreaTab]?.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-2 pt-1">
-                        <button
-                          onClick={handleResetExampleSelection}
-                          className="px-3.5 py-2.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center gap-1.5 cursor-pointer"
-                        >
-                          <Sparkles size={13} className="text-trebol" />
-                          <span>Elegir otro ejemplo</span>
-                        </button>
-
+                      {/* CONTROLES DE AVANCE */}
+                      <div className="flex items-center justify-between pt-0.5 sm:pt-1">
+                        <span className="text-[10px] font-mono text-neutral-400">
+                          Toca 01, 02, 03 o 04
+                        </span>
                         <button
                           onClick={handleFinishExample}
-                          className="px-4 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
+                          className="px-4 py-2 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 cursor-pointer"
                         >
-                          <span>Siguiente paso ➔</span>
+                          <span>Siguiente ➔</span>
                         </button>
                       </div>
                     </div>
@@ -1840,7 +1917,10 @@ export default function IAAplicadaPage() {
 
                   {/* BOTONES DE CONTROL PARA LOS DEMÁS PASOS (0, 1 Y 3) */}
                   {!isExplainingExample && tutorialStep !== 2 && (
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <div className="flex items-center justify-between gap-2 pt-1">
+                      <span className="text-[10px] font-mono text-neutral-400">
+                        Paso {tutorialStep + 1} de {TUTORIAL_STEPS.length}
+                      </span>
                       <button
                         onClick={() => {
                           if (tutorialStep === TUTORIAL_STEPS.length - 1) {
@@ -1851,17 +1931,9 @@ export default function IAAplicadaPage() {
                             nextTutorialStep();
                           }
                         }}
-                        className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
+                        className="px-4 py-2 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 cursor-pointer"
                       >
                         {TUTORIAL_STEPS[tutorialStep]?.buttonText}
-                      </button>
-
-                      <button
-                        onClick={closeTutorial}
-                        className="p-2 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-[#2d302d] text-slate-400 hover:text-white cursor-pointer"
-                        title="Saltar Tour"
-                      >
-                        <X size={14} />
                       </button>
                     </div>
                   )}
@@ -1872,9 +1944,9 @@ export default function IAAplicadaPage() {
         )}
       </AnimatePresence>
 
-      {/* BOTÓN FLOTANTE SOLO VISIBLE FUERA DEL HERO Y ANTES DEL FOOTER */}
-      {!showTutorial && showFloatingButton && (
-        <div className="fixed bottom-6 right-6 z-30 flex items-center gap-2.5">
+      {/* BOTÓN FLOTANTE PARA INICIAR/PAUSAR TOUR DE TREBOT (SOLO EN PANTALLAS SM O MAYORES PARA NO SATURAR MÓVILES) */}
+      {!showTutorial && (
+        <div className="hidden sm:flex fixed bottom-6 right-6 z-[9990] items-center gap-2">
           <button
             onClick={toggleAudio}
             className={`p-3.5 rounded-full shadow-2xl border transition-all duration-300 cursor-pointer ${muted
@@ -1899,11 +1971,11 @@ export default function IAAplicadaPage() {
       )}
 
       {/* ───────────────────────────────────────────────────────────────────────── */}
-      {/* HERO SECTION COMPLETO EN 2 COLUMNAS (PANTALLA COMPLETA 100DVH) */}
+      {/* HERO SECTION COMPLETO EN 2 COLUMNAS (RESPONSIVO EN MÓVIL Y 100DVH EN DESKTOP) */}
       {/* ───────────────────────────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className={`relative w-full h-screen h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-6 sm:pb-8 md:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
+        className={`relative w-full min-h-[100dvh] h-auto lg:h-screen lg:h-[100dvh] min-h-[580px] pt-20 sm:pt-24 md:pt-28 pb-8 sm:pb-10 px-5 sm:px-8 md:px-12 bg-hueso overflow-hidden border-b border-carbon/10 flex items-center transition-all duration-500 ${showTutorial && currentTargetId === 'hero'
           ? 'z-[9999] relative ring-4 ring-trebol shadow-[0_0_100px_rgba(132,198,56,0.8)] rounded-3xl bg-hueso text-carbon pointer-events-auto'
           : ''
           }`}
@@ -1992,14 +2064,14 @@ export default function IAAplicadaPage() {
               className="relative group cursor-pointer flex flex-col items-center lg:items-end justify-end overflow-visible"
             >
               {/* RESPLANDOR AMBIENTAL Y SOMBRA AURA DETRÁS DE TREBOT */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] lg:w-[32rem] lg:h-[32rem] xl:w-[40rem] xl:h-[40rem] 2xl:w-[48rem] 2xl:h-[48rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] xl:blur-[130px] pointer-events-none z-0 animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] sm:w-[22rem] sm:h-[22rem] lg:w-[32rem] lg:h-[32rem] xl:w-[40rem] xl:h-[40rem] 2xl:w-[48rem] 2xl:h-[48rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] xl:blur-[130px] pointer-events-none z-0 animate-pulse" />
 
               {/* CABEZA Y CUERPO DE TREBOT CON SALUDO EN VOZ Y HOVER */}
               <div className="relative z-10 overflow-visible">
                 <TrebotSVG
                   isSpeaking={isSpeaking}
                   isHovered={isTrebotHovered || isSpeaking}
-                  className="w-[300px] sm:w-[360px] md:w-[400px] lg:w-[460px] xl:w-[540px] 2xl:w-[620px] aspect-[1/1.15]"
+                  className="w-[180px] min-[400px]:w-[220px] sm:w-[320px] md:w-[400px] lg:w-[460px] xl:w-[540px] 2xl:w-[620px] aspect-[1/1.15]"
                 />
               </div>
             </div>
@@ -2099,9 +2171,9 @@ export default function IAAplicadaPage() {
                   </div>
                 </div>
 
-                {/* 2. BARRA DE PESTAÑAS DE NAVEGACIÓN (CONECTORA DIRECTA DE ÁREAS) */}
-                <div className="relative z-10">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {/* 2. BARRA DE PESTAÑAS DE NAVEGACIÓN (Solo en desktop) */}
+                <div className="relative z-10 hidden md:block">
+                  <div className="grid grid-cols-4 gap-3">
                     {pilarServices.map((sol, idx) => {
                       const isActive = activeAreaTab === idx;
                       return (
@@ -2114,15 +2186,15 @@ export default function IAAplicadaPage() {
                             setIsExplainingExample(false);
                             setSelectedDfdIndex(idx);
                           }}
-                          className={`w-full py-3.5 px-4 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2.5 text-center truncate cursor-pointer relative ${isActive
+                          className={`w-full py-2.5 sm:py-3.5 px-2.5 sm:px-4 rounded-2xl text-[11px] sm:text-xs md:text-sm font-bold transition-all duration-300 flex items-center justify-start gap-2 text-left cursor-pointer relative ${isActive
                             ? 'bg-trebol text-white shadow-lg ring-2 ring-trebol scale-[1.01] z-10'
                             : 'bg-white text-carbon/70 border border-neutral-200/80 hover:border-trebol hover:text-trebol'
                             }`}
                         >
-                          <span className={`w-7 h-7 rounded-xl text-xs md:text-sm font-mono font-black flex items-center justify-center shrink-0 shadow-sm ${isActive ? 'bg-white/20 text-white' : 'bg-trebol/10 text-trebol'}`}>
+                          <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-xl text-[10.5px] sm:text-xs md:text-sm font-mono font-black flex items-center justify-center shrink-0 shadow-sm ${isActive ? 'bg-white/20 text-white' : 'bg-trebol/10 text-trebol'}`}>
                             {idx + 1}
                           </span>
-                          <span className="truncate font-sans font-bold">{shortLabels[idx]}</span>
+                          <span className="font-sans font-bold leading-tight line-clamp-2">{shortLabels[idx]}</span>
 
                           {/* Muesca conectora en flecha apuntando a la caja de flujo */}
                           {isActive && (

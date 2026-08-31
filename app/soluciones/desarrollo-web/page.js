@@ -351,49 +351,54 @@ export default function DesarrolloWebPage() {
           </p>
         </div>
 
-        {/* Modalidad Selector Tabs - 3 Project Types */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        {/* Modalidad Selector Tabs - 3 Project Types: Círculos con números en móvil, botones completos en desktop */}
+        <div className="flex items-center justify-center gap-3 md:grid md:grid-cols-3 md:gap-4 mb-6 md:mb-10">
           {projectTypes.map((m, idx) => (
             <button
               key={m.id}
               onClick={() => setActiveMode(idx)}
-              className={`p-4 md:p-5 rounded-2xl font-bold text-sm md:text-base transition-all text-center border flex items-center justify-center h-16 cursor-pointer ${activeMode === idx
-                ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-[1.02]'
+              className={`p-2.5 md:p-5 rounded-full md:rounded-2xl font-bold transition-all text-center border flex items-center justify-center cursor-pointer ${activeMode === idx
+                ? 'bg-carbon text-hueso shadow-xl border-2 border-trebol scale-105 md:scale-[1.02]'
                 : 'bg-white text-carbon/70 border-neutral-200 hover:border-trebol/50 shadow-sm'
                 }`}
             >
-              <span className="font-black leading-tight">{m.label}</span>
+              {/* Número en círculo en móvil */}
+              <span className="md:hidden w-9 h-9 rounded-full flex items-center justify-center font-mono font-black text-sm">
+                {idx + 1}
+              </span>
+              {/* Etiqueta completa en desktop */}
+              <span className="hidden md:inline font-black leading-tight text-sm md:text-base">{m.label}</span>
             </button>
           ))}
         </div>
 
         {/* CONTENEDOR MARCO NAVEGADOR MACOS CON WEBS REALES */}
-        <div className="bg-[#0b0c0e] text-neutral-100 rounded-[3.5rem] p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
+        <div className="bg-[#0b0c0e] text-neutral-100 rounded-3xl sm:rounded-[3.5rem] p-4 sm:p-6 md:p-10 shadow-2xl border border-trebol/30 relative overflow-hidden flex flex-col items-center">
 
           {/* Header Bar Browser MacOS */}
-          <div className="w-full flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4 mb-6">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500/90 shadow-sm" />
-              <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
-              <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-trebol shadow-sm" />
-              <span className="text-[10px] sm:text-xs font-mono text-neutral-400 ml-1 sm:ml-2 truncate max-w-[180px] sm:max-w-none">
+          <div className="w-full flex items-center justify-between gap-2 border-b border-white/10 pb-3 mb-4 sm:mb-6">
+            <div className="flex items-center gap-1.5 sm:gap-3">
+              <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500/90 shadow-sm" />
+              <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
+              <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-trebol shadow-sm" />
+              <span className="text-[9.5px] sm:text-xs font-mono text-neutral-400 ml-1 truncate max-w-[140px] sm:max-w-none">
                 treboldigital.com/demo — {projectTypes[activeMode].label}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] sm:text-xs font-mono text-trebol font-bold bg-trebol/10 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-trebol/30">
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-[9px] sm:text-xs font-mono text-trebol font-bold bg-trebol/10 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border border-trebol/30">
                 ◄ Desliza para comparar ►
               </span>
             </div>
           </div>
 
           {/* VIEWPORT INTERACTIVO CON MOCKUPS ADAPTABLES SEGÚN EL TIPO DE PROYECTO */}
-          <div className="relative w-full h-[460px] sm:h-[550px] md:h-[650px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
+          <div className="relative w-full h-[270px] min-[380px]:h-[300px] min-[440px]:h-[340px] sm:h-[480px] md:h-[650px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
 
             {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
             <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
-              <div className="w-[1000px] md:w-full h-full origin-top-left transform scale-[0.4] min-[420px]:scale-[0.5] sm:scale-[0.75] md:scale-100 relative z-0">
+              <div className="w-[1000px] h-[850px] md:h-full origin-top-left transform scale-[0.32] min-[380px]:scale-[0.36] min-[440px]:scale-[0.42] sm:scale-[0.7] md:scale-100 relative z-0 flex flex-col">
                 {renderModernMockup(activeMode)}
               </div>
             </div>
@@ -403,7 +408,7 @@ export default function DesarrolloWebPage() {
               className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
               style={{ width: `${sliderPos}%` }}
             >
-              <div className="w-[1000px] md:w-full h-full origin-top-left transform scale-[0.4] min-[420px]:scale-[0.5] sm:scale-[0.75] md:scale-100 relative z-10">
+              <div className="w-[1000px] h-[850px] md:h-full origin-top-left transform scale-[0.32] min-[380px]:scale-[0.36] min-[440px]:scale-[0.42] sm:scale-[0.7] md:scale-100 relative z-10 flex flex-col">
                 <BadOldWebMockup type={projectTypes[activeMode].id} styleName={projectTypes[activeMode].label} />
               </div>
             </div>
@@ -423,11 +428,11 @@ export default function DesarrolloWebPage() {
               className="absolute top-0 bottom-0 w-1 bg-white pointer-events-none z-20 shadow-[0_0_20px_rgba(255,255,255,1)]"
               style={{ left: `${sliderPos}%` }}
             >
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-carbon/95 text-white text-[9px] sm:text-[11px] font-mono font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-2xl border-2 border-trebol flex items-center gap-1.5 z-40 pointer-events-none max-w-[90vw] truncate">
-                <span>↔ Desliza para comparar antes y después</span>
+              <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-carbon/95 text-white text-[8.5px] sm:text-[11px] font-mono font-bold px-2.5 sm:px-4 py-1 sm:py-2 rounded-full shadow-2xl border-2 border-trebol flex items-center gap-1 z-40 pointer-events-none max-w-[85vw] truncate">
+                <span>↔ Desliza para comparar</span>
               </div>
-              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-carbon font-bold flex items-center justify-center shadow-2xl border-2 border-trebol">
-                <MoveHorizontal size={18} className="text-carbon" />
+              <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-white text-carbon font-bold flex items-center justify-center shadow-2xl border-2 border-trebol">
+                <MoveHorizontal size={16} className="text-carbon" />
               </div>
             </div>
 

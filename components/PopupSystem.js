@@ -61,81 +61,7 @@ export const COLOR_PRESETS = [
   }
 ];
 
-export const DEFAULT_POPUPS_LIST = [
-  {
-    id: 'popup-1',
-    name: 'Diagnóstico IA (Centro)',
-    isEnabled: true,
-    position: 'center',          // 'center', 'bottom-right', 'bottom-left', 'bottom-bar'
-    displayTrigger: 'delay',     // 'delay', 'scroll', 'exit-intent', 'instant'
-    delaySeconds: 4,
-    scrollThreshold: 40,
-    targetPages: 'all',          // 'all' o cualquier ruta personalizada ej. '/soluciones/ia-aplicada'
-    persistence: 'always',
-
-    badgeText: 'OFERTA EXCLUSIVA DE IA',
-    title: 'Diagnóstico Gratuito de IA para tu Empresa',
-    subtitle: 'Analizamos tus procesos actuales y te mostramos cómo ahorrar hasta 15 horas semanales con Inteligencia Artificial.',
-    bullet1: 'Evaluación directa de tus procesos operativos actuales',
-    bullet2: 'Propuesta de automatización sin compromiso',
-    bullet3: 'Demostración en vivo adaptada a tu sector',
-    showBullets: true,
-    
-    showCtaButton: true,
-    ctaText: 'Solicitar Diagnóstico por WhatsApp',
-    ctaUrl: 'https://wa.me/525564929081?text=Hola,%20quisiera%20solicitar%20el%20Diagn%C3%B3stico%20Gratuito%20de%20IA.',
-    whatsappPhone: '+52 55 6492 9081',
-    
-    imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
-    showImage: true,
-    imagePosition: 'right-split',
-    useImageGradientOverlay: true,
-
-    showCountdown: true,
-    countdownMinutes: 15,
-    bgColor: '#FFFFFF',
-    textColor: '#1A1C1A',
-    subtitleColor: '#4A5568',
-    badgeBg: '#5C9E43',
-    badgeTextColor: '#FFFFFF',
-    buttonBg: '#5C9E43',
-    buttonTextColor: '#FFFFFF',
-    bulletIconColor: '#5C9E43',
-  },
-  {
-    id: 'popup-promo-bg',
-    name: 'Promoción Exclusiva (Fondo BG Red)',
-    isEnabled: true,
-    position: 'center',
-    displayTrigger: 'delay',
-    delaySeconds: 3,
-    targetPages: 'all',
-    persistence: 'always',
-
-    badgeText: 'PROMOCIÓN EXCLUSIVA',
-    title: 'Nuevo Título Promocional',
-    subtitle: 'Descripción personalizada para tu nueva campaña.',
-    showBullets: false,
-    
-    showCtaButton: true,
-    ctaText: 'Solicitar Información',
-    ctaUrl: 'https://wa.me/525564929081?text=Hola,%20quisiera%20solicitar%20informaci%C3%B3n.',
-    
-    imageUrl: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1200&q=80',
-    showImage: true,
-    imagePosition: 'full-bg',
-    useImageGradientOverlay: true,
-
-    showCountdown: false,
-    bgColor: '#8B0000',
-    textColor: '#FFFFFF',
-    subtitleColor: '#E2E8F0',
-    badgeBg: '#5C9E43',
-    badgeTextColor: '#FFFFFF',
-    buttonBg: '#5C9E43',
-    buttonTextColor: '#FFFFFF',
-  }
-];
+export const DEFAULT_POPUPS_LIST = [];
 
 export default function PopupSystem() {
   const [popupsList, setPopupsList] = useState(DEFAULT_POPUPS_LIST);
@@ -144,7 +70,12 @@ export default function PopupSystem() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('trebol_popups_list_v3');
+      // Limpiar versiones antiguas del localStorage
+      localStorage.removeItem('trebol_popups_list_v1');
+      localStorage.removeItem('trebol_popups_list_v2');
+      localStorage.removeItem('trebol_popups_list_v3');
+
+      const saved = localStorage.getItem('trebol_popups_list_v4');
       if (saved) {
         setPopupsList(JSON.parse(saved));
       }
@@ -260,14 +191,14 @@ export default function PopupSystem() {
   if (pos === 'center') {
     return (
       <AnimatePresence>
-        <div className="fixed inset-0 z-[99990] flex items-center justify-center p-4 md:p-6 bg-slate-950/70 backdrop-blur-md font-sans">
+        <div className="fixed inset-0 z-[99990] flex items-center justify-center p-3 md:p-6 bg-slate-950/70 backdrop-blur-md font-sans">
           <motion.div
             initial={{ scale: 0.92, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             style={{ backgroundColor: isFullBackground ? 'transparent' : currentBgColor }}
-            className={`rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.3)] border border-white/20 relative overflow-hidden transition-all duration-300 w-full ${
+            className={`rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.3)] border border-white/20 relative overflow-hidden transition-all duration-300 w-full max-h-[90dvh] ${
               (isLeftSplit || isRightSplit) ? 'max-w-3xl flex flex-col md:flex-row' : 'max-w-lg'
             }`}
           >
@@ -298,7 +229,7 @@ export default function PopupSystem() {
 
             {/* CASO: IZQUIERDA SPLIT */}
             {isLeftSplit && activePopup.imageUrl && (
-              <div className="md:w-1/2 relative min-h-[260px] md:min-h-full overflow-hidden bg-neutral-100">
+              <div className="hidden md:block md:w-1/2 relative min-h-full overflow-hidden bg-neutral-100">
                 <img
                   src={activePopup.imageUrl}
                   alt="Modal Visual"
@@ -315,8 +246,8 @@ export default function PopupSystem() {
 
             {/* CONTENIDO TEXTO */}
             <div
-              className={`p-7 md:p-9 space-y-5 relative z-10 flex-1 flex flex-col justify-center ${
-                (isLeftSplit || isRightSplit) ? 'md:w-1/2' : 'w-full'
+              className={`p-5 md:p-9 space-y-4 md:space-y-5 relative z-10 flex-1 flex flex-col justify-center overflow-y-auto ${
+                (isLeftSplit || isRightSplit) ? 'w-full md:w-1/2' : 'w-full'
               }`}
             >
               {isTopBanner && activePopup.imageUrl && (
@@ -413,7 +344,7 @@ export default function PopupSystem() {
 
             {/* CASO: DERECHA SPLIT */}
             {isRightSplit && activePopup.imageUrl && (
-              <div className="md:w-1/2 relative min-h-[260px] md:min-h-full overflow-hidden bg-neutral-100">
+              <div className="hidden md:block md:w-1/2 relative min-h-full overflow-hidden bg-neutral-100">
                 <img
                   src={activePopup.imageUrl}
                   alt="Modal Visual"
