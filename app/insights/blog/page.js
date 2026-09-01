@@ -4,22 +4,27 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Clock, BookOpen } from 'lucide-react';
 import Contact from '@/components/Contact';
-import defaultBlogs from '@/data/blogs_db.json';
 
 export default function BlogPage() {
-  const [articulos, setArticulos] = useState(defaultBlogs || []);
+  const [articulos, setArticulos] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/blogs')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setArticulos(data);
+        } else {
+          setArticulos([]);
         }
       })
-      .catch(() => { });
+      .catch((e) => {
+        console.warn('Error al cargar blogs desde DB:', e);
+        setArticulos([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   // Categorías dinámicas derivadas de los artículos

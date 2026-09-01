@@ -6,66 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, ArrowUpRight, Calendar, Clock, MapPin, Sparkles, Award, Users, ChevronDown, CheckCircle2, Ticket } from 'lucide-react';
 import Contact from '@/components/Contact';
 
-const talleres = [
-  {
-    id: 1,
-    titulo: 'IA para no técnicos: Herramientas que cambian tu negocio',
-    tipo: 'Taller Intensivo',
-    modalidad: 'Online en Vivo',
-    duracion: '4 Horas',
-    fecha: '15 Agosto, 2026',
-    hora: '10:00 AM – 2:00 PM (CST)',
-    precio: 'Gratuito',
-    cupos: 'Quedan 5 lugares',
-    desc: 'Aprende a utilizar ChatGPT, Gemini, Make y agentes IA en la operación diaria de tu empresa. Cero código.',
-    imagen: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80',
-    temas: [
-      'Panorama IA 2026 & Herramientas Clave',
-      'ChatGPT & Claude para automatización operativa',
-      'Construcción de tu primer flujo en Make (30 min)',
-      'Entrenamiento de Agentes IA de atención y ventas'
-    ],
-  },
-  {
-    id: 2,
-    titulo: 'Marketing Digital para PYMEs: De 0 a Estrategia en 1 Día',
-    tipo: 'Workshop Presencial',
-    modalidad: 'Presencial · Toluca',
-    duracion: '6 Horas',
-    fecha: '22 Agosto, 2026',
-    hora: '9:00 AM – 3:00 PM (CST)',
-    precio: '$1,500 MXN',
-    cupos: 'Quedan 3 lugares',
-    desc: 'Estructura tu marca, crea contenido que vende y lanza campañas de Google Ads rentables con resultados medibles.',
-    imagen: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80',
-    temas: [
-      'Buyer Persona & Propuesta de Valor Única',
-      'Calendario Editorial & Copywriting de Conversión',
-      'SEO Local Google Maps & Optimización GMB',
-      'Campañas Básicas de Google Ads B2B/B2C'
-    ],
-  },
-  {
-    id: 3,
-    titulo: 'Comunicación Interna Efectiva para Equipos en Crecimiento',
-    tipo: 'Programa In-Company',
-    modalidad: 'Presencial u Online',
-    duracion: '3 Horas',
-    fecha: 'A Convenir',
-    hora: 'Horario flexible',
-    precio: 'A Medida',
-    cupos: 'Hasta 30 personas',
-    desc: 'Taller práctico para mejorar la coordinación del equipo, reducir reuniones innecesarias y mejorar la claridad de roles.',
-    imagen: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80',
-    temas: [
-      'Auditoría & Diagnóstico de canales internos',
-      'Protocolos de comunicación asíncrona',
-      'Matriz de asignación de decisiones (RACI)',
-      'Cultura de retroalimentación de alto impacto'
-    ],
-  },
-];
-
 const stats = [
   { valor: '100%', etiqueta: 'Práctico & Sin Paja', icon: Award },
   { valor: '+250', etiqueta: 'Profesionales Capacitados', icon: Users },
@@ -73,16 +13,25 @@ const stats = [
 ];
 
 export default function TalleresPage() {
-  const [talleresList, setTalleresList] = useState(talleres);
+  const [talleresList, setTalleresList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [expandedSyllabus, setExpandedSyllabus] = useState(null);
 
   useEffect(() => {
     fetch('/api/talleres')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setTalleresList(data);
+        if (Array.isArray(data)) {
+          setTalleresList(data);
+        } else {
+          setTalleresList([]);
+        }
       })
-      .catch((e) => console.warn('Error al cargar talleres:', e));
+      .catch((e) => {
+        console.warn('Error al cargar talleres desde DB:', e);
+        setTalleresList([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -170,20 +119,40 @@ export default function TalleresPage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {talleresList.map((taller, idx) => (
-              <motion.div
-                key={taller.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ delay: idx * 0.12, duration: 0.5 }}
-                className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/40 transition-all duration-500 flex flex-col justify-between"
-              >
-                <div className="space-y-6">
-                  {/* Header Badges (Tipo, Fecha, Modalidad) */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono border-b border-neutral-100 pb-4">
-                    <span className="font-bold uppercase tracking-widest px-3 py-1 bg-carbon text-white rounded-full">
+          {loading ? (
+            <div className="grid lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white/80 rounded-[2.5rem] p-8 border border-neutral-200/80 shadow-sm animate-pulse h-96 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="w-24 h-6 bg-neutral-200 rounded-full" />
+                    <div className="w-4/5 h-8 bg-neutral-200 rounded-xl" />
+                    <div className="w-full h-20 bg-neutral-200 rounded-xl" />
+                  </div>
+                  <div className="w-full h-12 bg-neutral-200 rounded-2xl" />
+                </div>
+              ))}
+            </div>
+          ) : talleresList.length === 0 ? (
+            <div className="text-center py-20 bg-white/50 border border-neutral-200/60 rounded-[2.5rem] p-8 space-y-3">
+              <GraduationCap size={42} className="text-trebol/40 mx-auto" />
+              <h3 className="text-xl font-bold text-carbon">No hay talleres registrados en este momento</h3>
+              <p className="text-sm text-carbon/60 font-mono">Los programas de capacitación se actualizan desde el panel de administración.</p>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-3 gap-8">
+              {talleresList.map((taller, idx) => (
+                <motion.div
+                  key={taller.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ delay: idx * 0.12, duration: 0.5 }}
+                  className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/40 transition-all duration-500 flex flex-col justify-between"
+                >
+                  <div className="space-y-6">
+                    {/* Header Badges (Tipo, Fecha, Modalidad) */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono border-b border-neutral-100 pb-4">
+                      <span className="font-bold uppercase tracking-widest px-3 py-1 bg-carbon text-white rounded-full">
                       {taller.tipo}
                     </span>
                     <span className="font-bold text-carbon/70 flex items-center gap-1">
@@ -252,17 +221,39 @@ export default function TalleresPage() {
                     <p className="text-2xl font-black text-carbon font-mono">{taller.precio}</p>
                   </div>
 
-                  <Link
-                    href="/agenda"
-                    className="inline-flex items-center gap-2 bg-carbon group-hover:bg-trebol text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-300 text-sm shadow-md cursor-pointer whitespace-nowrap"
-                  >
-                    <span>Reservar</span>
-                    <ArrowUpRight size={16} />
-                  </Link>
+                  {(() => {
+                    const targetUrl = taller.reservarUrl || taller.reservar_url || '/agenda';
+                    const isExternal = targetUrl.startsWith('http://') || targetUrl.startsWith('https://') || targetUrl.startsWith('//') || targetUrl.includes('wa.me');
+
+                    if (isExternal) {
+                      return (
+                        <a
+                          href={targetUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 bg-carbon group-hover:bg-trebol text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-300 text-sm shadow-md cursor-pointer whitespace-nowrap"
+                        >
+                          <span>Reservar</span>
+                          <ArrowUpRight size={16} />
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        href={targetUrl}
+                        className="inline-flex items-center gap-2 bg-carbon group-hover:bg-trebol text-white font-bold px-6 py-3.5 rounded-2xl transition-all duration-300 text-sm shadow-md cursor-pointer whitespace-nowrap"
+                      >
+                        <span>Reservar</span>
+                        <ArrowUpRight size={16} />
+                      </Link>
+                    );
+                  })()}
                 </div>
               </motion.div>
             ))}
           </div>
+        )}
         </div>
       </section>
 

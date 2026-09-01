@@ -3,7 +3,7 @@ import { ShoppingBag, ArrowRight, Heart, Star, ChevronRight } from 'lucide-react
 
 export function LuxuryMockup({ compact = false }) {
   return (
-    <div className="w-full h-full min-h-[520px] bg-[#F5F3EF] text-[#111] font-sans select-none overflow-hidden flex flex-col">
+    <div className="w-full h-full min-h-0 bg-[#F5F3EF] text-[#111] font-sans select-none overflow-hidden flex flex-col">
 
       {/* ── TOP BAR ── */}
       <div className="bg-[#111] text-white text-[9px] font-mono font-bold uppercase tracking-widest text-center py-1.5 shrink-0">

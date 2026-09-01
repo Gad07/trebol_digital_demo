@@ -5,77 +5,9 @@ import { motion } from 'framer-motion';
 import { Download, ArrowUpRight, FileText, Table, BookOpen, CheckCircle2, Sparkles, FileSpreadsheet, Check, Share2, Eye, Filter } from 'lucide-react';
 import Contact from '@/components/Contact';
 
-const recursos = [
-  {
-    icon: Table,
-    tipo: 'Plantilla',
-    formato: '.XLSX',
-    descargas: '1,420 descargas',
-    titulo: 'Calendario Editorial Mensual',
-    desc: 'Organiza todo tu contenido del mes en un sistema simple y efectivo. Incluye columnas para canal, formato, tema, copy y estado.',
-    tags: ['Marketing', 'Contenido', 'Redes'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-  {
-    icon: BookOpen,
-    tipo: 'Guía Práctica',
-    formato: '.PDF',
-    descargas: '2,100 descargas',
-    titulo: 'Cómo Usar ChatGPT en tu Empresa',
-    desc: 'Guía de 30 páginas con prompts probados, casos de uso reales y un plan de implementación por área de negocio.',
-    tags: ['IA', 'Productividad', 'Prompts'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-  {
-    icon: CheckCircle2,
-    tipo: 'Checklist',
-    formato: '.NOTION',
-    descargas: '980 descargas',
-    titulo: 'Auditoría de Presencia Digital',
-    desc: '47 puntos de revisión para evaluar el estado actual de tu negocio digital: web, redes, SEO, contenido y conversión.',
-    tags: ['Marketing', 'Diagnóstico'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-  {
-    icon: FileText,
-    tipo: 'Framework',
-    formato: '.PDF',
-    descargas: '1,850 descargas',
-    titulo: 'Plan Estratégico a 90 Días',
-    desc: 'Marco de trabajo para definir objetivos, métricas, acciones y responsables. El mismo que usamos con nuestros clientes.',
-    tags: ['Estrategia', 'Planeación'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-  {
-    icon: FileSpreadsheet,
-    tipo: 'Dashboard',
-    formato: '.SLIDES',
-    descargas: '890 descargas',
-    titulo: 'Reporte de Métricas Mensual',
-    desc: 'Dashboard pre-armado para reportar tus KPIs de marketing digital de forma clara y profesional a tu equipo o clientes.',
-    tags: ['Analytics', 'Reportes'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-  {
-    icon: BookOpen,
-    tipo: 'E-book',
-    formato: '.PDF',
-    descargas: '3,200 descargas',
-    titulo: 'Guía de IA para PYMEs 2026',
-    desc: 'Un recorrido completo por las herramientas de IA más útiles para empresas pequeñas y medianas en México.',
-    tags: ['IA', 'PYMEs', 'Herramientas'],
-    color: '#84C638',
-    bg: 'bg-trebol/10',
-  },
-];
-
 export default function RecursosPage() {
-  const [recursosList, setRecursosList] = useState(recursos);
+  const [recursosList, setRecursosList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [downloadedItem, setDownloadedItem] = useState(null);
   const [filter, setFilter] = useState('Todos');
 
@@ -83,9 +15,17 @@ export default function RecursosPage() {
     fetch('/api/recursos')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setRecursosList(data);
+        if (Array.isArray(data)) {
+          setRecursosList(data);
+        } else {
+          setRecursosList([]);
+        }
       })
-      .catch((e) => console.warn('Error al cargar recursos:', e));
+      .catch((e) => {
+        console.warn('Error al cargar recursos desde DB:', e);
+        setRecursosList([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDownload = (rec) => {
@@ -96,7 +36,18 @@ export default function RecursosPage() {
     setTimeout(() => setDownloadedItem(null), 3500);
   };
 
-  const categories = ['Todos', 'Marketing', 'IA', 'Estrategia', 'Analytics'];
+  const getResourceIcon = (rec) => {
+    const fmt = (rec.formato || '').toUpperCase();
+    const tipo = (rec.tipo || '').toLowerCase();
+    if (fmt.includes('XLS') || fmt.includes('SHEET') || fmt.includes('CSV')) return FileSpreadsheet;
+    if (fmt.includes('NOTION')) return CheckCircle2;
+    if (fmt.includes('SLIDE') || fmt.includes('PPT')) return Table;
+    if (tipo.includes('guía') || tipo.includes('e-book') || tipo.includes('libro') || tipo.includes('ebook')) return BookOpen;
+    if (tipo.includes('check') || tipo.includes('auditoría')) return CheckCircle2;
+    return FileText;
+  };
+
+  const categories = ['Todos', ...Array.from(new Set(recursosList.flatMap(r => r.tags || []).filter(Boolean)))];
 
   const filteredRecursos = filter === 'Todos'
     ? recursosList
@@ -205,18 +156,38 @@ export default function RecursosPage() {
             ))}
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredRecursos.map((rec, idx) => {
-              const Icon = rec.icon || (rec.formato === '.XLSX' || rec.formato === '.SLIDES' ? Table : (rec.tipo === 'Guía Práctica' || rec.tipo === 'E-book' ? BookOpen : (rec.tipo === 'Checklist' ? CheckCircle2 : FileText)));
-              return (
-                <motion.div
-                  key={rec.id || rec.titulo}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ delay: idx * 0.08, duration: 0.5 }}
-                  className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/50 transition-all duration-500 flex flex-col justify-between relative overflow-hidden"
-                >
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-white/80 rounded-[2.5rem] p-8 md:p-10 border border-neutral-200/80 shadow-sm animate-pulse h-80 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="w-16 h-6 bg-neutral-200 rounded-full" />
+                    <div className="w-3/4 h-8 bg-neutral-200 rounded-xl" />
+                    <div className="w-full h-16 bg-neutral-200 rounded-xl" />
+                  </div>
+                  <div className="w-full h-12 bg-neutral-200 rounded-2xl" />
+                </div>
+              ))}
+            </div>
+          ) : filteredRecursos.length === 0 ? (
+            <div className="text-center py-20 bg-white/50 border border-neutral-200/60 rounded-[2.5rem] p-8 space-y-3">
+              <FileText size={42} className="text-trebol/40 mx-auto" />
+              <h3 className="text-xl font-bold text-carbon">No hay recursos en esta categoría</h3>
+              <p className="text-sm text-carbon/60 font-mono">Los recursos se actualizan desde el panel de administración.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredRecursos.map((rec, idx) => {
+                const Icon = getResourceIcon(rec);
+                return (
+                  <motion.div
+                    key={rec.id || rec.titulo}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ delay: idx * 0.08, duration: 0.5 }}
+                    className="group bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[2.5rem] p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.04)] hover:shadow-2xl hover:border-trebol/50 transition-all duration-500 flex flex-col justify-between relative overflow-hidden"
+                  >
 
                   {/* Círculo decorativo esquina superior derecha (solo visible en hover) */}
                   <div className="absolute -top-7 -right-7 w-[125px] h-[125px] rounded-full bg-trebol opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 pointer-events-none z-10 flex items-center justify-center">
@@ -263,6 +234,7 @@ export default function RecursosPage() {
               );
             })}
           </div>
+        )}
         </div>
       </section>
 

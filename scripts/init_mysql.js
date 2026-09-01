@@ -281,6 +281,8 @@ async function initMySQL() {
       ('usr_ventas', 'ventas', 'ventas123', 'Agente de Ventas CRM', 'ventas@treboldigital.com', 'agente_crm', '["manage_crm","edit_tarjetas"]');
     `);
     console.log('✅ Usuarios RBAC predeterminados creados (admin, editor, ventas).');
+  }
+
   // Tabla Recursos Descargables
   await connection.query(`
     CREATE TABLE IF NOT EXISTS recursos (
@@ -296,6 +298,19 @@ async function initMySQL() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
 
+  const [existingRecursos] = await connection.query("SELECT id FROM recursos LIMIT 1");
+  if (existingRecursos.length === 0) {
+    await connection.query(`
+      INSERT INTO recursos (id, tipo, formato, descargas, titulo, desc_texto, tags, download_url)
+      VALUES 
+      ('rec-1', 'Plantilla', '.XLSX', '1,420 descargas', 'Calendario Editorial Mensual', 'Organiza todo tu contenido del mes en un sistema simple y efectivo. Incluye columnas para canal, formato, tema, copy y estado.', '["Marketing","Contenido","Redes"]', '#'),
+      ('rec-2', 'Guía Práctica', '.PDF', '2,100 descargas', 'Cómo Usar ChatGPT en tu Empresa', 'Guía de 30 páginas con prompts probados, casos de uso reales y un plan de implementación por área de negocio.', '["IA","Productividad","Prompts"]', '#'),
+      ('rec-3', 'Checklist', '.NOTION', '980 descargas', 'Auditoría de Presencia Digital', '47 puntos de revisión para evaluar el estado actual de tu negocio digital: web, redes, SEO, contenido y conversión.', '["Marketing","Diagnóstico"]', '#'),
+      ('rec-4', 'Framework', '.PDF', '1,850 descargas', 'Plan Estratégico a 90 Días', 'Marco de trabajo para definir objetivos, métricas, acciones y responsables. El mismo que usamos con nuestros clientes.', '["Estrategia","Planeación"]', '#');
+    `);
+    console.log('✅ Recursos descargables iniciales sembrados en MySQL.');
+  }
+
   // Tabla Cursos & Talleres
   await connection.query(`
     CREATE TABLE IF NOT EXISTS talleres (
@@ -310,10 +325,23 @@ async function initMySQL() {
       cupos VARCHAR(100),
       desc_texto TEXT,
       imagen VARCHAR(255),
+      reservar_url VARCHAR(255) DEFAULT '/agenda',
       temas TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
   `);
+
+  const [existingTalleres] = await connection.query("SELECT id FROM talleres LIMIT 1");
+  if (existingTalleres.length === 0) {
+    await connection.query(`
+      INSERT INTO talleres (id, titulo, tipo, modalidad, duracion, fecha, hora, precio, cupos, desc_texto, imagen, reservar_url, temas)
+      VALUES 
+      ('tal-1', 'IA para no técnicos: Herramientas que cambian tu negocio', 'Taller Intensivo', 'Online en Vivo', '4 Horas', '15 Agosto, 2026', '10:00 AM – 2:00 PM (CST)', 'Gratuito', 'Quedan 5 lugares', 'Aprende a utilizar ChatGPT, Gemini, Make y agentes IA en la operación diaria de tu empresa. Cero código.', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80', '/agenda', '["Panorama IA 2026 & Herramientas Clave","ChatGPT & Claude para automatización operativa","Construcción de tu primer flujo en Make (30 min)","Entrenamiento de Agentes IA de atención y ventas"]'),
+      ('tal-2', 'Marketing Digital para PYMEs: De 0 a Estrategia en 1 Día', 'Workshop Presencial', 'Presencial · Toluca', '6 Horas', '22 Agosto, 2026', '9:00 AM – 3:00 PM (CST)', '$1,500 MXN', 'Quedan 3 lugares', 'Estructura tu marca, crea contenido que vende y lanza campañas de Google Ads rentables con resultados medibles.', 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80', '/agenda', '["Buyer Persona & Propuesta de Valor Única","Calendario Editorial & Copywriting de Conversión","SEO Local Google Maps & Optimización GMB","Campañas Básicas de Google Ads B2B/B2C"]'),
+      ('tal-3', 'Comunicación Interna Efectiva para Equipos en Crecimiento', 'Programa In-Company', 'Presencial u Online', '3 Horas', 'A Convenir', 'Horario flexible', 'A Medida', 'Hasta 30 personas', 'Taller práctico para mejorar la coordinación del equipo, reducir reuniones innecesarias y mejorar la claridad de roles.', 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80', '/agenda', '["Diagnóstico de Comunicación Interdepartamental","Matriz RACI y Claridad de Responsabilidades","Reuniones Efectivas: Metodología 15 Minutos","Cultura de Transparencia y Retroalimentación"]');
+    `);
+    console.log('✅ Talleres iniciales sembrados en MySQL.');
+  }
 
   // Tabla Configuración Global
   await connection.query(`

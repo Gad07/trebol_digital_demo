@@ -138,6 +138,7 @@ CREATE TABLE IF NOT EXISTS public.talleres (
   cupos TEXT,
   desc_texto TEXT,
   imagen TEXT,
+  reservar_url TEXT DEFAULT '/agenda',
   temas JSONB DEFAULT '[]'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -328,3 +329,28 @@ INSERT INTO public.usuarios (
   'agente_crm',
   '["manage_crm","edit_tarjetas"]'::jsonb
 ) ON CONFLICT (username) DO NOTHING;
+
+-- Insert Seed Recursos Descargables
+INSERT INTO public.recursos (
+  id, tipo, formato, descargas, titulo, desc_texto, tags, download_url
+) VALUES 
+('rec-1', 'Plantilla', '.XLSX', '1,420 descargas', 'Calendario Editorial Mensual', 'Organiza todo tu contenido del mes en un sistema simple y efectivo. Incluye columnas para canal, formato, tema, copy y estado.', '["Marketing","Contenido","Redes"]'::jsonb, '#'),
+('rec-2', 'Guía Práctica', '.PDF', '2,100 descargas', 'Cómo Usar ChatGPT en tu Empresa', 'Guía de 30 páginas con prompts probados, casos de uso reales y un plan de implementación por área de negocio.', '["IA","Productividad","Prompts"]'::jsonb, '#'),
+('rec-3', 'Checklist', '.NOTION', '980 descargas', 'Auditoría de Presencia Digital', '47 puntos de revisión para evaluar el estado actual de tu negocio digital: web, redes, SEO, contenido y conversión.', '["Marketing","Diagnóstico"]'::jsonb, '#'),
+('rec-4', 'Framework', '.PDF', '1,850 descargas', 'Plan Estratégico a 90 Días', 'Marco de trabajo para definir objetivos, métricas, acciones y responsables. El mismo que usamos con nuestros clientes.', '["Estrategia","Planeación"]'::jsonb, '#')
+ON CONFLICT (id) DO NOTHING;
+
+-- Insert Seed Talleres & Cursos
+INSERT INTO public.talleres (
+  id, titulo, tipo, modalidad, duracion, fecha, hora, precio, cupos, desc_texto, imagen, temas
+) VALUES 
+('tal-1', 'IA para no técnicos: Herramientas que cambian tu negocio', 'Taller Intensivo', 'Online en Vivo', '4 Horas', '15 Agosto, 2026', '10:00 AM – 2:00 PM (CST)', 'Gratuito', 'Quedan 5 lugares', 'Aprende a utilizar ChatGPT, Gemini, Make y agentes IA en la operación diaria de tu empresa. Cero código.', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80', '["Panorama IA 2026 & Herramientas Clave","ChatGPT & Claude para automatización operativa","Construcción de tu primer flujo en Make (30 min)","Entrenamiento de Agentes IA de atención y ventas"]'::jsonb),
+('tal-2', 'Marketing Digital para PYMEs: De 0 a Estrategia en 1 Día', 'Workshop Presencial', 'Presencial · Toluca', '6 Horas', '22 Agosto, 2026', '9:00 AM – 3:00 PM (CST)', '$1,500 MXN', 'Quedan 3 lugares', 'Estructura tu marca, crea contenido que vende y lanza campañas de Google Ads rentables con resultados medibles.', 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80', '["Buyer Persona & Propuesta de Valor Única","Calendario Editorial & Copywriting de Conversión","SEO Local Google Maps & Optimización GMB","Campañas Básicas de Google Ads B2B/B2C"]'::jsonb),
+('tal-3', 'Comunicación Interna Efectiva para Equipos en Crecimiento', 'Programa In-Company', 'Presencial u Online', '3 Horas', 'A Convenir', 'Horario flexible', 'A Medida', 'Hasta 30 personas', 'Taller práctico para mejorar la coordinación del equipo, reducir reuniones innecesarias y mejorar la claridad de roles.', 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80', '["Diagnóstico de Comunicación Interdepartamental","Matriz RACI y Claridad de Responsabilidades","Reuniones Efectivas: Metodología 15 Minutos","Cultura de Transparencia y Retroalimentación"]'::jsonb)
+ON CONFLICT (id) DO NOTHING;
+
+-- Insert Seed Config Banner de Clientes
+INSERT INTO public.config (clave, valor)
+VALUES ('clientes_banner', '{"logos":[{"id":"logo_suga","name":"SUGA","logoUrl":"https://www.suga.mx/assets/img/logo/Logo_02_sf.png","category":"Fabricación y distribución de suministros industriales"},{"id":"logo_circulo","name":"CÍRCULO DE EMPRESARIOS","logoUrl":"https://circulodeempresarios.com.mx/assets/img/ciempre/logo-color-sf-01.png","category":"Asociación Empresarial"}],"subtitulo":"Conoce cómo ayudamos a empresas en crecimiento a escalar sus ventas, optimizar su operación e implementar Inteligencia Artificial con resultados medibles desde el primer mes.","tituloMiddle":"su crecimiento con","tituloPrefix":"Empresas que impulsan","tituloHighlight":"Trébol Digital."}'::jsonb)
+ON CONFLICT (clave) DO NOTHING;
+

@@ -6,19 +6,35 @@ import Contact from '../components/Contact';
 import ClientLogosBanner from '../components/ClientLogosBanner';
 import LazyCanalesScrollytelling from '../components/LazyCanalesScrollytelling';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://treboldigital.com.mx";
+
 export const metadata = {
-  title: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
+  title: "Trébol Digital | Estrategia Digital, IA & Marketing",
   description:
-    "Empresa de estrategia digital integral, inteligencia artificial y desarrollo organizacional para empresas en desarrollo. Toluca, CDMX, Santa Fe y online en todo México.",
+    "Impulsamos empresas con Estrategia Digital, Inteligencia Artificial aplicada, Desarrollo Web y Cultura Organizacional en CDMX, Toluca y México. Agenda tu cita.",
   alternates: {
-    canonical: "https://treboldigital.com",
+    canonical: SITE_URL,
   },
   openGraph: {
-    title: "Trébol Digital | Estrategia Digital, IA y Desarrollo Organizacional en México",
+    title: "Trébol Digital | Estrategia Digital, IA & Marketing",
     description:
-      "Empresa de estrategia digital integral, inteligencia artificial y desarrollo organizacional para empresas en desarrollo. Toluca, CDMX, Santa Fe y online en todo México.",
-    url: "https://treboldigital.com",
+      "Transformamos empresas en marcas visibles y rentables con Inteligencia Artificial, Desarrollo Web y Estrategia Digital en México.",
+    url: SITE_URL,
     siteName: "Trébol Digital",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Trébol Digital - Estrategia Digital, IA y Desarrollo Organizacional",
+      },
+      {
+        url: "/images/TREBOL_01.png",
+        width: 512,
+        height: 512,
+        alt: "Trébol Digital Logo",
+      }
+    ],
   },
 };
 

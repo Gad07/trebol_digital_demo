@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 export function SwissMockup({ compact = false }) {
   return (
-    <div className="w-full h-full min-h-[500px] rounded-3xl bg-[#08120F] text-white p-8 md:p-12 flex flex-col justify-between font-sans select-none relative overflow-hidden shadow-2xl border border-emerald-950/60">
+    <div className="w-full h-full min-h-0 rounded-3xl bg-[#08120F] text-white p-8 md:p-12 flex flex-col justify-between font-sans select-none relative overflow-hidden shadow-2xl border border-emerald-950/60">
       
       {/* High-End Architectural Photography with Emerald/Dark Atmosphere */}
       <div className="absolute inset-0 z-0">

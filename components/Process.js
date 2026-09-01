@@ -160,6 +160,7 @@ export default function Process({ customSteps, title = "Metodología", titleGree
 
   useGSAP(() => {
     if (!containerRef.current) return;
+    setActiveStep(0);
 
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
@@ -204,7 +205,10 @@ export default function Process({ customSteps, title = "Metodología", titleGree
           onEnter: hideHeader,
           onLeave: showHeader,
           onEnterBack: hideHeader,
-          onLeaveBack: showHeader,
+          onLeaveBack: () => {
+            showHeader();
+            setActiveStep(0);
+          },
           onUpdate: (self) => {
             if (self.isActive) hideHeader();
             const p = self.progress;

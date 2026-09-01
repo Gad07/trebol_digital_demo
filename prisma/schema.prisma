@@ -138,19 +138,20 @@ model Recurso {
 }
 
 model Taller {
-  id         String   @id @default(uuid())
-  titulo     String
-  tipo       String?
-  modalidad  String?
-  duracion   String?
-  fecha      String?
-  hora       String?
-  precio     String?
-  cupos      String?
-  desc_texto String?
-  imagen     String?
-  temas      Json?    @default("[]")
-  created_at DateTime @default(now())
+  id           String   @id @default(uuid())
+  titulo       String
+  tipo         String?
+  modalidad    String?
+  duracion     String?
+  fecha        String?
+  hora         String?
+  precio       String?
+  cupos        String?
+  desc_texto   String?
+  imagen       String?
+  reservar_url String?  @default("/agenda")
+  temas        Json?    @default("[]")
+  created_at   DateTime @default(now())
 
   @@map("talleres")
 }

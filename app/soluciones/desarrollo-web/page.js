@@ -56,19 +56,19 @@ const powerUpServices = [
     title: 'Mantenimiento Web',
     desc: 'Mantén tu sitio actualizado, seguro y funcionando todos los meses.',
     icon: ShieldCheck,
-    whatsappMsg: 'Hola, me interesa agregar Mantenimiento Web a mi sitio de Trébol Digital.'
+    whatsappMsg: 'Hola Trébol Digital, vengo de su sitio web y me interesa agregar Mantenimiento Web a mi proyecto.'
   },
   {
     title: 'Redes Sociales',
     desc: 'Complementa tu sitio web con gestión profesional de tus redes sociales.',
     icon: Share2,
-    whatsappMsg: 'Hola, me interesa agregar Redes Sociales a mi plan de Desarrollo Web de Trébol Digital.'
+    whatsappMsg: 'Hola Trébol Digital, vengo de su sitio web y me interesa agregar Redes Sociales a mi plan de Desarrollo Web.'
   },
   {
     title: 'Publicidad Digital',
     desc: 'Atrae tráfico calificado a tu sitio con campañas de Google Ads o Meta Ads.',
     icon: Rocket,
-    whatsappMsg: 'Hola, me interesa agregar Publicidad Digital a mi plan de Desarrollo Web de Trébol Digital.'
+    whatsappMsg: 'Hola Trébol Digital, vengo de su sitio web y me interesa agregar Publicidad Digital a mi plan de Desarrollo Web.'
   }
 ];
 
@@ -118,10 +118,32 @@ export default function DesarrolloWebPage() {
   const [isBefore, setIsBefore] = useState(false);
   const [activeMode, setActiveMode] = useState(1); // Defaulting to Landing Page
   const [sliderPos, setSliderPos] = useState(50);
+  const containerRef = useRef(null);
+  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateSize = () => {
+      if (containerRef.current) {
+        setContainerDimensions({
+          width: containerRef.current.clientWidth,
+          height: containerRef.current.clientHeight,
+        });
+      }
+    };
+    updateSize();
+    const ro = new ResizeObserver(updateSize);
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const isMobile = containerDimensions.width > 0 && containerDimensions.width < 768;
+  const scale = isMobile ? containerDimensions.width / 1000 : 1;
+  const mockupHeight = isMobile && scale > 0 ? containerDimensions.height / scale : '100%';
 
   const renderModernMockup = (modeIndex) => {
     switch (modeIndex) {
@@ -394,11 +416,29 @@ export default function DesarrolloWebPage() {
           </div>
 
           {/* VIEWPORT INTERACTIVO CON MOCKUPS ADAPTABLES SEGÚN EL TIPO DE PROYECTO */}
-          <div className="relative w-full h-[270px] min-[380px]:h-[300px] min-[440px]:h-[340px] sm:h-[480px] md:h-[650px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]">
+          <div 
+            ref={containerRef}
+            className="relative w-full h-[270px] min-[380px]:h-[300px] min-[440px]:h-[340px] sm:h-[480px] md:h-[650px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 select-none bg-[#0a0a0a]"
+          >
 
             {/* 1. LADO DERECHO: LA NUEVA PLATAFORMA TRÉBOL EN CÓDIGO NATIVO */}
             <div className="absolute inset-0 w-full h-full overflow-hidden font-sans z-0 isolate">
-              <div className="w-[1000px] h-[850px] md:h-full origin-top-left transform scale-[0.32] min-[380px]:scale-[0.36] min-[440px]:scale-[0.42] sm:scale-[0.7] md:scale-100 relative z-0 flex flex-col">
+              <div 
+                style={
+                  isMobile
+                    ? {
+                        width: '1000px',
+                        height: `${mockupHeight}px`,
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                      }
+                    : {
+                        width: containerDimensions.width ? `${containerDimensions.width}px` : '100%',
+                        height: '100%',
+                      }
+                }
+                className="relative z-0 flex flex-col w-full h-full"
+              >
                 {renderModernMockup(activeMode)}
               </div>
             </div>
@@ -408,7 +448,23 @@ export default function DesarrolloWebPage() {
               className="absolute top-0 left-0 bottom-0 overflow-hidden z-20 isolate bg-[#e3e8f0] border-r-4 border-white shadow-[15px_0_35px_rgba(0,0,0,0.8)]"
               style={{ width: `${sliderPos}%` }}
             >
-              <div className="w-[1000px] h-[850px] md:h-full origin-top-left transform scale-[0.32] min-[380px]:scale-[0.36] min-[440px]:scale-[0.42] sm:scale-[0.7] md:scale-100 relative z-10 flex flex-col">
+              <div 
+                style={
+                  isMobile
+                    ? {
+                        width: '1000px',
+                        height: `${mockupHeight}px`,
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                      }
+                    : {
+                        width: containerDimensions.width ? `${containerDimensions.width}px` : '100%',
+                        minWidth: containerDimensions.width ? `${containerDimensions.width}px` : '100%',
+                        height: '100%',
+                      }
+                }
+                className="relative z-10 flex flex-col h-full"
+              >
                 <BadOldWebMockup type={projectTypes[activeMode].id} styleName={projectTypes[activeMode].label} />
               </div>
             </div>

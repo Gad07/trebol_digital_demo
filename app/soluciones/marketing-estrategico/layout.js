@@ -1,7 +1,9 @@
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://treboldigital.com.mx').replace(/\/$/, '');
+
 export const metadata = {
-  title: "Marketing Digital Estratégico para PYMEs en México | Trébol Digital",
+  title: "Marketing Digital Estratégico para Empresas en México",
   description:
-    "Transformamos tu negocio en una marca visible que atrae clientes potenciales. Estrategia digital, manejo de redes sociales, campañas y posicionamiento con resultados medibles. Toluca, CDMX y todo México.",
+    "Estrategia digital de captación, gestión de redes sociales, pauta publicitaria rentable y SEO local para PYMEs en Toluca, CDMX y México.",
   keywords: [
     "marketing digital para empresas",
     "estrategia de marketing digital",
@@ -17,14 +19,15 @@ export const metadata = {
     "Trébol Digital"
   ],
   alternates: {
-    canonical: "https://treboldigital.com/soluciones/marketing-estrategico",
+    canonical: `${SITE_URL}/soluciones/marketing-estrategico`,
   },
   openGraph: {
-    title: "Marketing Digital Estratégico para PYMEs en México | Trébol Digital",
+    title: "Marketing Digital Estratégico para Empresas en México | Trébol Digital",
     description:
-      "Transformamos tu negocio en una marca visible que atrae clientes potenciales. Estrategia digital, manejo de redes sociales, campañas y posicionamiento con resultados medibles. Toluca, CDMX y todo México.",
-    url: "https://treboldigital.com/soluciones/marketing-estrategico",
+      "Estrategia digital de captación, gestión de redes sociales, pauta publicitaria rentable y SEO local para PYMEs en Toluca, CDMX y México.",
+    url: `${SITE_URL}/soluciones/marketing-estrategico`,
     siteName: "Trébol Digital",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 

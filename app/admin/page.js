@@ -169,7 +169,7 @@ export default function AdminPage() {
   const [talleresList, setTalleresList] = useState([]);
   const [talleresLoading, setTalleresLoading] = useState(true);
   const [tallerModalOpen, setTallerModalOpen] = useState(false);
-  const [tallerForm, setTallerForm] = useState({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+  const [tallerForm, setTallerForm] = useState({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '', reservarUrl: '/agenda' });
 
   // Banner & Cinta de Clientes
   const [clientesForm, setClientesForm] = useState({
@@ -245,7 +245,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.ok) {
         setTallerModalOpen(false);
-        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '', reservarUrl: '/agenda' });
         reloadTalleres();
       }
     } catch (err) {
@@ -5537,7 +5537,7 @@ setTarjetasList(newList);
 
                     <button
                       onClick={() => {
-                        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '' });
+                        setTallerForm({ id: '', titulo: '', tipo: 'Workshop', modalidad: 'Online en Vivo', duracion: '4 Horas', fecha: 'A Convenir', hora: '10:00 AM', precio: 'Gratuito', cupos: 'Quedan 5 lugares', desc: '', imagen: '', temas: '', reservarUrl: '/agenda' });
                         setTallerModalOpen(true);
                       }}
                       className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
@@ -5576,6 +5576,13 @@ setTarjetasList(newList);
                               <span>Modalidad: {tal.modalidad}</span>
                               <span>Duración: {tal.duracion}</span>
                             </div>
+
+                            {tal.reservarUrl && (
+                              <div className="text-[10px] font-mono text-neutral-400 pt-1 flex items-center gap-1 truncate">
+                                <span className="font-bold text-neutral-500">Link Reservar:</span>
+                                <span className="text-trebol truncate">{tal.reservarUrl}</span>
+                              </div>
+                            )}
                           </div>
 
                           <div className="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
@@ -5595,6 +5602,7 @@ setTarjetasList(newList);
                                     cupos: tal.cupos || 'Cupos limitados',
                                     desc: tal.desc || '',
                                     imagen: tal.imagen || '',
+                                    reservarUrl: tal.reservarUrl || tal.reservar_url || '/agenda',
                                     temas: Array.isArray(tal.temas) ? tal.temas.join('\n') : tal.temas || ''
                                   });
                                   setTallerModalOpen(true);
@@ -5733,6 +5741,18 @@ setTarjetasList(newList);
                               onChange={(e) => setTallerForm({ ...tallerForm, desc: e.target.value })}
                               className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
                             />
+                          </div>
+
+                          <div className="space-y-1 font-mono">
+                            <label className="font-bold text-carbon/70 uppercase text-[10px]">Link / URL de Reservación (Botón &quot;Reservar&quot;)</label>
+                            <input
+                              type="text"
+                              placeholder="/agenda o https://wa.me/525564929081?text=Me%20interesa%20el%20taller"
+                              value={tallerForm.reservarUrl || ''}
+                              onChange={(e) => setTallerForm({ ...tallerForm, reservarUrl: e.target.value })}
+                              className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:outline-none"
+                            />
+                            <p className="text-[9px] text-neutral-400">Ingresa una ruta interna (ej. /agenda) o un enlace externo a WhatsApp, Stripe, Calendly, etc.</p>
                           </div>
 
                           <div className="space-y-1 font-mono">

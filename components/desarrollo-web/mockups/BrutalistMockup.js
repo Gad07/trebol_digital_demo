@@ -3,7 +3,7 @@
 export function BrutalistMockup({ compact = false }) {
   return (
     <div
-      className="w-full h-full min-h-[520px] text-black font-sans select-none relative overflow-hidden"
+      className="w-full h-full min-h-0 text-black font-sans select-none relative overflow-hidden"
       style={{ background: '#FFFFFF' }}
     >
       {/* ── TOP NAV ── */}

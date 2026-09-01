@@ -174,7 +174,7 @@ function OriginalTrebolHero({ sec, themeStyle }) {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
             {sec.ctaText && (
               <a
-                href={sec.ctaUrl || 'https://wa.me/525564929081'}
+                href={sec.ctaUrl || 'https://wa.me/525564929081?text=Hola%20Tr%C3%A9bol%20Digital,%20vengo%20de%20su%20sitio%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n.'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`px-7 py-4 rounded-2xl text-sm md:text-base transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${theme.buttonPrimary}`}
@@ -635,7 +635,7 @@ function PricingSection({ sec, themeStyle }) {
               </div>
 
               <a
-                href={p.url || 'https://wa.me/525564929081'}
+                href={p.url || 'https://wa.me/525564929081?text=Hola%20Tr%C3%A9bol%20Digital,%20vengo%20de%20su%20sitio%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n.'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`w-full py-4 font-bold text-sm text-center transition-all cursor-pointer block ${p.popular
@@ -846,7 +846,7 @@ export default function DynamicLandingRenderer({ landingData, landing }) {
                   {sec.subtitle && <p className="opacity-80 max-w-2xl mx-auto text-base">{sec.subtitle}</p>}
                   {sec.ctaText && (
                     <a
-                      href={sec.ctaUrl || 'https://wa.me/525564929081'}
+                      href={sec.ctaUrl || 'https://wa.me/525564929081?text=Hola%20Tr%C3%A9bol%20Digital,%20vengo%20de%20su%20sitio%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n.'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`inline-flex items-center gap-3 px-8 py-4 font-bold text-base transition-all shadow-lg cursor-pointer ${theme.buttonPrimary}`}
