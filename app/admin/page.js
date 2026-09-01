@@ -1280,37 +1280,65 @@ export default function AdminPage() {
         </div>
       ) : (
         /* DASHBOARD ADMIN CON MAQUETADOR MODULAR DE SECCIONES */
-        <div className="min-h-screen flex flex-col bg-hueso font-sans overflow-x-hidden">
+        <div className="min-h-screen flex flex-col bg-hueso font-sans">
+          {/* Backdrop para cerrar cualquier menú desplegable al hacer clic fuera */}
+          {openDropdown && (
+            <div
+              className="fixed inset-0 z-40 bg-black/5"
+              onClick={() => setOpenDropdown(null)}
+            />
+          )}
 
-          <header className="bg-white/95 backdrop-blur-xl border-b border-neutral-200/90 px-6 py-3 sticky top-0 z-50 shadow-sm">
-            <div className="max-w-[1700px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-3 overflow-x-hidden">
+          <header className="bg-white/95 backdrop-blur-xl border-b border-neutral-200/90 px-4 sm:px-6 py-3 sticky top-0 z-50 shadow-sm">
+            <div className="max-w-[1700px] mx-auto flex flex-col md:flex-row items-center justify-between gap-3 relative">
 
               {/* Brand Logo & User Info */}
-              <div className="flex items-center gap-3 self-start xl:self-auto">
-                <div className="shrink-0 relative">
-                  <img
-                    src="/images/TREBOL_01.png"
-                    alt="Trébol Logo"
-                    className="w-9 h-9 object-contain hover:rotate-180 transition-transform duration-700 ease-in-out cursor-pointer drop-shadow-sm"
-                  />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5"></span>
+              <div className="flex items-center justify-between w-full md:w-auto">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0 relative">
+                    <img
+                      src="/images/TREBOL_01.png"
+                      alt="Trébol Logo"
+                      className="w-9 h-9 object-contain hover:rotate-180 transition-transform duration-700 ease-in-out cursor-pointer drop-shadow-sm"
+                    />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white absolute -bottom-0.5 -right-0.5"></span>
+                  </div>
+                  <div>
+                    <h1 className="font-black text-carbon text-base tracking-tight leading-tight">Trébol Admin</h1>
+                    <p className="text-[11px] font-mono text-neutral-500 font-bold">
+                      Panel Ejecutivo <span className="text-trebol font-extrabold">@{email ? email.split('@')[0] : 'admin'}</span>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h1 className="font-black text-carbon text-base tracking-tight leading-tight">Trébol Admin</h1>
-                  <p className="text-[11px] font-mono text-neutral-500 font-bold">
-                    Panel Ejecutivo <span className="text-trebol font-extrabold">@{email ? email.split('@')[0] : 'admin'}</span>
-                  </p>
+
+                {/* Acciones Rápidas en Móvil */}
+                <div className="flex md:hidden items-center gap-2">
+                  <Link
+                    href="/"
+                    target="_blank"
+                    className="p-2 rounded-xl bg-hueso border border-neutral-200 text-carbon/80 font-mono text-xs font-bold transition-all shadow-sm"
+                    title="Ver Sitio"
+                  >
+                    <Globe size={16} />
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="p-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 font-mono text-xs font-bold cursor-pointer"
+                    title="Salir"
+                  >
+                    <LogOut size={16} />
+                  </button>
                 </div>
               </div>
 
               {/* Contenedor de Menús Desplegables Agrupados */}
-              <div className="flex flex-wrap items-center gap-2 font-mono text-xs z-50 max-w-full overflow-x-auto pb-1">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 font-mono text-xs z-50 w-full md:w-auto">
 
                 {/* 1. DESPLEGABLE: COMERCIAL & CRM */}
                 <div className="relative">
                   <button
                     onClick={() => setOpenDropdown(openDropdown === 'comercial' ? null : 'comercial')}
-                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                    className={`px-3.5 sm:px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
                       ['leads', 'tarjetas'].includes(activeTab)
                         ? 'bg-carbon text-white border-carbon shadow-md'
                         : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
@@ -1356,8 +1384,8 @@ export default function AdminPage() {
                 <div className="relative">
                   <button
                     onClick={() => setOpenDropdown(openDropdown === 'contenidos' ? null : 'contenidos')}
-                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
-                      ['blogs', 'casos', 'recursos', 'talleres', 'testimonios'].includes(activeTab)
+                    className={`px-3.5 sm:px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                      ['blogs', 'casos', 'recursos', 'talleres', 'testimonios', 'clientes'].includes(activeTab)
                         ? 'bg-carbon text-white border-carbon shadow-md'
                         : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
                     }`}
@@ -1368,7 +1396,7 @@ export default function AdminPage() {
                   </button>
 
                   {openDropdown === 'contenidos' && (
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 md:translate-x-0 md:left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
                       <button
                         onClick={() => { setActiveTab('blogs'); setOpenDropdown(null); }}
                         className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
@@ -1454,7 +1482,7 @@ export default function AdminPage() {
                 <div className="relative">
                   <button
                     onClick={() => setOpenDropdown(openDropdown === 'sistema' ? null : 'sistema')}
-                    className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
+                    className={`px-3.5 sm:px-4 py-2 rounded-xl font-bold transition-all cursor-pointer flex items-center gap-2 shadow-sm border ${
                       ['landings', 'popups', 'users'].includes(activeTab)
                         ? 'bg-carbon text-white border-carbon shadow-md'
                         : 'bg-white text-carbon/80 border-neutral-200 hover:border-trebol'
@@ -1466,7 +1494,7 @@ export default function AdminPage() {
                   </button>
 
                   {openDropdown === 'sistema' && (
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
+                    <div className="absolute top-full right-0 md:left-0 mt-2 w-64 bg-white border border-neutral-200 rounded-2xl p-2 shadow-2xl z-50 space-y-1">
                       <button
                         onClick={() => { setActiveTab('landings'); setOpenDropdown(null); }}
                         className={`w-full p-2.5 rounded-xl text-left flex items-center gap-3 transition-colors cursor-pointer ${
@@ -1511,8 +1539,8 @@ export default function AdminPage() {
 
               </div>
 
-              {/* Acciones Rápidas */}
-              <div className="flex items-center gap-2.5 self-end xl:self-auto shrink-0">
+              {/* Acciones Rápidas en Desktop */}
+              <div className="hidden md:flex items-center gap-2.5 shrink-0">
                 <Link
                   href="/"
                   target="_blank"
