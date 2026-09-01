@@ -68,9 +68,33 @@ const BLOG_CATEGORIAS = ['Inteligencia Artificial', 'Marketing', 'Estrategia', '
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Verificación de sesión en servidor al cargar
+  useEffect(() => {
+    fetch('/api/auth/session')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.ok && data.user) {
+          setIsAuthenticated(true);
+          setCurrentUser(data.user);
+        } else {
+          setIsAuthenticated(false);
+          setCurrentUser(null);
+        }
+      })
+      .catch(() => {
+        setIsAuthenticated(false);
+      })
+      .finally(() => {
+        setAuthChecking(false);
+      });
+  }, []);
 
   // Estado Global Dashboard
   const [activeTab, setActiveTab] = useState('popups');
@@ -124,6 +148,7 @@ export default function AdminPage() {
   const [currentUser, setCurrentUser] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [usersLoading, setUsersLoading] = useState(true);
+  const [userSaving, setUserSaving] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [userForm, setUserForm] = useState({
     username: '',
@@ -319,7 +344,11 @@ export default function AdminPage() {
 
   const handleSaveUser = async (e) => {
     e.preventDefault();
-    if (!userForm.username || !userForm.name) return;
+    if (!userForm.username || !userForm.name) {
+      alert('Por favor completa el Nombre de Usuario y Nombre Completo.');
+      return;
+    }
+    setUserSaving(true);
     try {
       const res = await fetch('/api/users', {
         method: 'POST',
@@ -331,9 +360,14 @@ export default function AdminPage() {
         setUserModalOpen(false);
         setUserForm({ username: '', password: '', name: '', email: '', role: 'editor_contenido', permissions: ['edit_landings', 'edit_blogs', 'edit_casos'] });
         reloadUsers();
+      } else {
+        alert(data.error || 'No se pudo guardar el usuario.');
       }
     } catch (err) {
       console.warn('Error al guardar usuario:', err);
+      alert('Error de conexión al guardar usuario.');
+    } finally {
+      setUserSaving(false);
     }
   };
 
@@ -518,6 +552,7 @@ export default function AdminPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setLoginLoading(true);
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -526,35 +561,26 @@ export default function AdminPage() {
         body: JSON.stringify({ username: email, password })
       });
       const data = await res.json();
-      if (data.ok && data.user) {
+      if (res.ok && data.ok && data.user) {
         setIsAuthenticated(true);
         setCurrentUser(data.user);
-        sessionStorage.setItem('trebol_admin_authenticated', 'true');
-        sessionStorage.setItem('trebol_admin_user', JSON.stringify(data.user));
+        setErrorMsg('');
       } else {
         setErrorMsg(data.error || 'Credenciales no válidas');
       }
     } catch (err) {
-      // Fallback para admin
-      if ((email === 'admin' || email === 'admin@treboldigital.com') && (password === 'admin' || password === 'trebol2026')) {
-        const adminUser = { username: 'admin', name: 'Gadiel Palma', role: 'super_admin', permissions: ['manage_users', 'edit_landings', 'edit_blogs', 'edit_casos', 'edit_tarjetas', 'manage_crm', 'manage_popups'] };
-        setIsAuthenticated(true);
-        setCurrentUser(adminUser);
-        sessionStorage.setItem('trebol_admin_authenticated', 'true');
-        sessionStorage.setItem('trebol_admin_user', JSON.stringify(adminUser));
-      } else {
-        setErrorMsg('Credenciales incorrectas');
-      }
+      setErrorMsg('No se pudo conectar con el servidor de autenticación');
+    } finally {
+      setLoginLoading(false);
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (err) { }
     setIsAuthenticated(false);
     setCurrentUser(null);
-    try {
-      sessionStorage.removeItem('trebol_admin_authenticated');
-      sessionStorage.removeItem('trebol_admin_user');
-    } catch (err) { }
   };
 
   const getLandingLiveUrl = (slug) => {
@@ -1146,7 +1172,7 @@ export default function AdminPage() {
       status: 'published'
     };
     const newList = [newTarjeta, ...tarjetasList];
-    setTarjetasList(newList);
+setTarjetasList(newList);
     setSelectedTarjetaId(newTarjeta.id);
   };
 
@@ -1179,6 +1205,17 @@ export default function AdminPage() {
     }
   };
 
+  if (authChecking) {
+    return (
+      <div className="min-h-screen bg-hueso flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol animate-pulse shadow-lg">
+          <ShieldCheck size={28} />
+        </div>
+        <p className="text-xs font-mono font-bold text-carbon/60">Verificando sesión segura...</p>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-hueso text-carbon font-sans selection:bg-trebol selection:text-white">
       {!isAuthenticated ? (
@@ -1191,29 +1228,31 @@ export default function AdminPage() {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             className="max-w-md w-full bg-white border border-neutral-200/90 rounded-[2.5rem] p-8 md:p-10 shadow-2xl relative z-10 space-y-6"
           >
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-2">
               <div className="w-14 h-14 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-center text-trebol mx-auto shadow-sm">
                 <Lock size={26} />
               </div>
               <h1 className="text-2xl md:text-3xl font-black text-carbon tracking-tight">Panel de Administración</h1>
-              <p className="text-xs text-carbon/70 font-light">Maquetador Modular de Landings Pages.</p>
+              <p className="text-xs text-carbon/60">Ingresa tus credenciales para acceder al panel.</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
               {errorMsg && (
-                <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono font-bold text-center">
-                  {errorMsg}
+                <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono font-bold text-center flex items-center justify-center gap-2">
+                  <AlertCircle size={16} className="shrink-0" />
+                  <span>{errorMsg}</span>
                 </div>
               )}
 
               <div className="space-y-1">
-                <label className="text-xs font-mono font-bold text-carbon/80 uppercase tracking-wider block">Correo de Administrador</label>
+                <label className="text-xs font-mono font-bold text-carbon/80 uppercase tracking-wider block">Usuario o Correo</label>
                 <div className="relative">
                   <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <input
                     type="text"
                     required
-                    placeholder="admin@treboldigital.com"
+                    autoComplete="username"
+                    placeholder="usuario@treboldigital.com"
                     value={email || ''}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-4 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner"
@@ -1226,53 +1265,46 @@ export default function AdminPage() {
                 <div className="relative">
                   <Key size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     required
+                    autoComplete="current-password"
                     placeholder="••••••••"
                     value={password || ''}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-4 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner"
+                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-11 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 cursor-pointer p-1"
+                    title={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 rounded-2xl bg-trebol text-white font-black text-xs md:text-sm hover:bg-lime-600 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer mt-2"
+                disabled={loginLoading}
+                className="w-full py-4 rounded-2xl bg-trebol text-white font-black text-xs md:text-sm hover:bg-lime-600 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer mt-2 disabled:opacity-50"
               >
-                <span>Iniciar Sesión en el Panel</span>
-                <ArrowRight size={16} />
+                {loginLoading ? (
+                  <>
+                    <RefreshCw size={16} className="animate-spin" />
+                    <span>Iniciando sesión...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Iniciar Sesión</span>
+                    <ArrowRight size={16} />
+                  </>
+                )}
               </button>
             </form>
 
-            <div className="pt-4 border-t border-neutral-100 text-center space-y-2">
-              <span className="text-[10px] font-mono font-bold text-neutral-400 block uppercase">
-                Prueba de Roles RBAC (1-Clic)
-              </span>
-              <div className="flex flex-wrap justify-center gap-1.5 font-mono text-[10px]">
-                <button
-                  type="button"
-                  onClick={() => { setEmail('admin'); setPassword('admin'); }}
-                  className="px-2.5 py-1 rounded-lg bg-trebol/10 text-trebol border border-trebol/20 font-bold hover:bg-trebol hover:text-white transition-colors cursor-pointer"
-                >
-                  Super Admin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setEmail('editor'); setPassword('editor123'); }}
-                  className="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 font-bold hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"
-                >
-                  Editor
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setEmail('ventas'); setPassword('ventas123'); }}
-                  className="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200 font-bold hover:bg-purple-600 hover:text-white transition-colors cursor-pointer"
-                >
-                  Ventas CRM
-                </button>
-              </div>
-              <Link href="/" className="text-xs text-trebol font-bold hover:underline font-mono inline-flex items-center gap-1 pt-1 block">
+            <div className="pt-2 text-center">
+              <Link href="/" className="text-xs text-neutral-500 hover:text-trebol font-bold transition-colors font-mono inline-flex items-center gap-1">
                 ← Volver al Sitio Web Principal
               </Link>
             </div>
@@ -5077,9 +5109,17 @@ export default function AdminPage() {
                             </button>
                             <button
                               type="submit"
-                              className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md cursor-pointer"
+                              disabled={userSaving}
+                              className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
                             >
-                              Guardar Usuario RBAC
+                              {userSaving ? (
+                                <>
+                                  <RefreshCw size={14} className="animate-spin" />
+                                  <span>Guardando...</span>
+                                </>
+                              ) : (
+                                <span>Guardar Usuario RBAC</span>
+                              )}
                             </button>
                           </div>
                         </form>
