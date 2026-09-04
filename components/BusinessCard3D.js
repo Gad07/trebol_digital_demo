@@ -21,8 +21,8 @@ export default function BusinessCard3D({
   bio = "Desarrollador Web y Especialista en Inteligencia Artificial. Integramos aplicaciones web de alto rendimiento en Next.js, agentes conversacionales 24/7 y automatización inteligente para empresas.",
   phone = "+52 55 6492 9081",
   email = "gadiel@treboldigital.com",
-  website = "treboldigital.com",
-  websiteUrl = "https://treboldigital.com",
+  website = "treboldigital.com.mx",
+  websiteUrl = "https://treboldigital.com.mx",
   whatsappUrl = "https://wa.me/525564929081?text=Hola%20Gadiel,%20vi%20tu%20perfil%20y%20me%20gustar%C3%ADa%20platicar.",
   photoUrl = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95"
 }) {

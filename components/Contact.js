@@ -5,10 +5,40 @@ import { ArrowUpRight, ShieldCheck, Clock, Zap } from 'lucide-react';
 
 export default function Contact({ isLanding }) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setSubmitted(true);
+    if (loading) return;
+    setLoading(true);
+
+    const formEl = e.currentTarget;
+    const name = formEl.querySelector('#name')?.value || '';
+    const email = formEl.querySelector('#email')?.value || '';
+    const message = formEl.querySelector('#message')?.value || '';
+
+    try {
+      await fetch('/api/citas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: `lead_contacto_${Date.now()}`,
+          nombre: name,
+          email: email,
+          empresa: name,
+          fecha: 'Por definir',
+          hora: 'Por definir',
+          mensaje: message || 'Contacto desde formulario principal',
+          notas: 'Lead captado desde formulario de Contacto web.',
+          status: 'confirmed'
+        })
+      });
+    } catch (err) {
+      console.warn('Error enviando contacto a CRM:', err);
+    } finally {
+      setLoading(false);
+      setSubmitted(true);
+    }
   }
 
   return (

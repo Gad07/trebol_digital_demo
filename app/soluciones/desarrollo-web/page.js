@@ -404,7 +404,7 @@ export default function DesarrolloWebPage() {
               <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500/90 shadow-sm" />
               <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-trebol shadow-sm" />
               <span className="text-[9.5px] sm:text-xs font-mono text-neutral-400 ml-1 truncate max-w-[140px] sm:max-w-none">
-                treboldigital.com/demo — {projectTypes[activeMode].label}
+                treboldigital.com.mx/demo — {projectTypes[activeMode].label}
               </span>
             </div>
 

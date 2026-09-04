@@ -178,7 +178,7 @@ export default function FacebookFeedMockup() {
             <div className="flex items-center gap-1 font-mono text-[#25D366]">
               <TrendingUp size={11} /> +140% Interacción Comercial
             </div>
-            <span className="font-semibold text-white">treboldigital.com</span>
+            <span className="font-semibold text-white">treboldigital.com.mx</span>
           </div>
         </div>
 
