@@ -257,32 +257,48 @@ const EXAMPLE_AREAS = [
 // ─────────────────────────────────────────────────────────────────────────────
 const TUTORIAL_STEPS = [
   {
+    stepNumber: 1,
     targetId: 'hero',
-    title: '1. Bienvenida de TREBOT',
-    speech: 'Hola, bienvenido a Trébol Digital. Me da gusto que estés aquí.',
-    buttonText: 'Siguiente',
-    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
+    badge: 'Paso 1 de 4',
+    title: 'Bienvenida de TREBOT',
+    speech: 'Hola, soy Trebot. Te ayudo a descubrir cómo la Inteligencia Artificial puede ahorrar tiempo a tu equipo y potenciar tus ventas. ¿Deseas hacer el recorrido conmigo o prefieres explorar por tu cuenta?',
+    cardText: 'Te mostraré cómo la Inteligencia Artificial puede transformar los procesos y las ventas de tu empresa, de forma práctica y sin complicaciones técnicas.',
+    question: '¿Deseas continuar con el recorrido guiado de Trebot o explorar por tu cuenta?',
+    primaryBtn: 'Continuar con Trebot',
+    secondaryBtn: 'Explorar por mi cuenta'
   },
   {
+    stepNumber: 2,
     targetId: 'que-es-ia',
-    title: '2. Presentación de TREBOT',
-    speech: 'Soy TREBOT, el asistente de inteligencia artificial de Trébol Digital. Te enseñamos a usar la Inteligencia Artificial en tu empresa para que ahorres tiempo, capacites a tu equipo y mantengas el control total.',
-    buttonText: 'Siguiente',
-    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
+    badge: 'Paso 2 de 4',
+    title: 'IA Práctica para tu Empresa',
+    speech: 'Conectamos asistentes inteligentes a WhatsApp, correo y sistemas contables, capacitando a tu equipo para que siempre tengan el control. ¿Quieres ver un ejemplo en acción o prefieres explorar por tu cuenta?',
+    cardText: 'No necesitas conocimientos técnicos ni programadores. Conectamos herramientas de IA a tus canales diarios y capacitamos a tu equipo para que mantengan la autonomía total.',
+    question: '¿Te gustaría ver ejemplos de flujos en tiempo real?',
+    primaryBtn: 'Ver ejemplos prácticos',
+    secondaryBtn: 'Explorar por mi cuenta'
   },
   {
+    stepNumber: 3,
     targetId: 'soluciones',
-    title: '3. Aplicación Práctica',
-    speech: 'Aquí te mostramos cómo se aplica la IA hoy en negocios reales: capacitando a tu equipo e implementando asistentes prácticos sin complicaciones técnicas. ¿Te gustaría ver un ejemplo?',
-    buttonText: 'Siguiente',
-    pos: 'right-2 md:right-6 lg:right-10 bottom-6 md:bottom-8 ml-auto'
+    badge: 'Paso 3 de 4',
+    title: 'Demostración en Vivo',
+    speech: 'Tenemos 4 soluciones listas para tu empresa. Elige cuál te gustaría ver en acción, o si prefieres, explora la página por tu propia cuenta.',
+    cardText: 'Selecciona una de las 4 áreas clave para ver la simulación interactiva paso a paso de cómo opera la IA en tiempo real.',
+    question: 'Elige qué área deseas ver en acción:',
+    primaryBtn: 'Ver flujos interactivos',
+    secondaryBtn: 'Explorar por mi cuenta'
   },
   {
+    stepNumber: 4,
     targetId: 'contacto',
-    title: '4. Tu Equipo al Mando',
-    speech: 'Te acompañamos en cada paso para que al final tu equipo administre la tecnología de forma autónoma. Si quieres implementar la IA en tu negocio, con gusto conversamos.',
-    buttonText: 'Hablar con un Asesor',
-    pos: 'right-4 md:right-8 bottom-6 md:bottom-8 ml-auto'
+    badge: 'Paso 4 de 4',
+    title: 'Tu Empresa con IA',
+    speech: 'Te acompañamos paso a paso para que tu equipo opere la tecnología de forma autónoma. ¿Deseas agendar una asesoría personalizada o prefieres explorar por tu propia cuenta?',
+    cardText: 'Te acompañamos en todo el proceso de adopción, capacitación y soporte para que tu equipo aproveche al máximo cada asistente con total seguridad.',
+    question: '¿Deseas agendar una asesoría personalizada gratuita?',
+    primaryBtn: 'Agendar Asesoría con un Experto',
+    secondaryBtn: 'Explorar por mi cuenta'
   }
 ];
 
@@ -1521,7 +1537,7 @@ export default function IAAplicadaPage() {
 
   const currentStepRef = useRef(-1);
 
-  // Función maestra para reproducir un paso y avanzar automáticamente en el recorrido
+  // Función maestra para reproducir un paso del recorrido
   const playStep = useCallback(async (stepIdx) => {
     stopAudio();
     if (stepIdx >= TUTORIAL_STEPS.length) {
@@ -1536,7 +1552,7 @@ export default function IAAplicadaPage() {
     setTutorialStep(stepIdx);
     currentStepRef.current = stepIdx;
     setSelectedDfdIndex(null);
-    setIsExplainingExample(false);
+    setIsExplainingExample(stepIdx === 2);
     setExampleSelectedArea(null);
 
     const stepData = TUTORIAL_STEPS[stepIdx];
@@ -1548,16 +1564,8 @@ export default function IAAplicadaPage() {
       }
     }, 80);
 
-    // Hablar el mensaje del paso actual
+    // Hablar el mensaje del paso actual (sin auto-avance automático, se espera la decisión del usuario)
     await speak(stepData.speech);
-
-    // Auto-avanzar secuencialmente en los pasos introductorios (0 y 1)
-    if (currentStepRef.current === stepIdx && stepIdx < 2) {
-      await new Promise((r) => setTimeout(r, 600));
-      if (currentStepRef.current === stepIdx) {
-        playStep(stepIdx + 1);
-      }
-    }
   }, [speak, stopAudio]);
 
   // Función para ejecutar la locución paso a paso NODO POR NODO en el canvas DFD
@@ -1582,7 +1590,7 @@ export default function IAAplicadaPage() {
       }
       setDfdActiveStep(i);
 
-      // Auto-scroll exclusivo en móvil para que el bot en la parte inferior no se encime sobre la tarjeta que explica
+      // Auto-scroll exclusivo en móvil
       if (typeof window !== 'undefined' && window.innerWidth < 768) {
         const mobileEl = document.getElementById(`mobile-node-step-${i}`);
         if (mobileEl) {
@@ -1603,6 +1611,7 @@ export default function IAAplicadaPage() {
     if (sequenceIdRef.current === currentSeqId) {
       setDfdActiveStep(-1);
       setIsSequencePlaying(false);
+      await speak('¡Listo! Así automatizamos este flujo en tiempo real. ¿Deseas explorar otra área o continuar con el recorrido?');
     }
   }, [speak, cancelSequence]);
 
@@ -1613,21 +1622,11 @@ export default function IAAplicadaPage() {
     await playDfdNodeSequence(areaId);
   }, [playDfdNodeSequence]);
 
-  // Manejador cuando el usuario responde "¡Sí, explícame un ejemplo!"
-  const handleExplainExample = useCallback(async () => {
-    stopAudio();
-    setIsExplainingExample(true);
-    setExampleSelectedArea(null);
-    const el = document.getElementById('soluciones');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    await speak('¡Excelente! ¿Cuál de estas 4 áreas te gustaría ver en acción? Selecciona una.');
-  }, [speak, stopAudio]);
-
   // Manejador para volver a la lista de selección de áreas
   const handleResetExampleSelection = useCallback(async () => {
     stopAudio();
     setExampleSelectedArea(null);
-    await speak('¿Cuál otra área te gustaría explorar? Elige una opción.');
+    await speak('¿Cuál otra área te gustaría explorar? Elige una opción o explora la página por tu cuenta.');
   }, [speak, stopAudio]);
 
   // Manejador para terminar la explicación y continuar al paso de Contacto
@@ -1649,8 +1648,8 @@ export default function IAAplicadaPage() {
     const allTexts = [
       ...TUTORIAL_STEPS.map((s) => s.speech),
       ...EXAMPLE_AREAS.map((a) => a.speech),
-      '¡Excelente! ¿Cuál de estas 4 áreas te gustaría ver en acción? Selecciona una.',
-      '¿Cuál otra área te gustaría explorar? Elige una opción.'
+      '¡Listo! Así automatizamos este flujo en tiempo real. ¿Deseas explorar otra área o continuar con el recorrido?',
+      '¿Cuál otra área te gustaría explorar? Elige una opción o explora la página por tu cuenta.'
     ];
 
     allTexts.forEach((text) => {
@@ -1661,17 +1660,7 @@ export default function IAAplicadaPage() {
         body: JSON.stringify({ text: clean, voice: 'nova' })
       }).catch(() => { });
     });
-
-    const hasSeen = localStorage.getItem('trebot_tutorial_seen');
-    if (!hasSeen) {
-      localStorage.setItem('trebot_tutorial_seen', 'true');
-      window.scrollTo(0, 0);
-      const timer = setTimeout(() => {
-        playStep(0);
-      }, 1200);
-      return () => clearTimeout(timer);
-    }
-  }, [playStep]);
+  }, []);
 
   // Función para ejecutar la locución secuencial automática (Sin Trébol -> Con Trébol IA) para un caso
   const playCaseExplanationSequence = useCallback(async (caseIdx) => {
@@ -1695,8 +1684,6 @@ export default function IAAplicadaPage() {
     // 3. Hablar la explicación de Con Trébol IA
     await speak(CASE_EXPLANATIONS[caseIdx].speechConTrebol);
   }, [speak]);
-
-
 
   // Selección manual de un nodo específico en el DFD
   const selectDfdSingleNode = useCallback(async (nodeIdx) => {
@@ -1747,6 +1734,8 @@ export default function IAAplicadaPage() {
   const closeTutorial = useCallback(() => {
     stopAudio();
     setShowTutorial(false);
+    setIsExplainingExample(false);
+    setExampleSelectedArea(null);
     currentStepRef.current = -1;
   }, [stopAudio]);
 
@@ -1770,186 +1759,281 @@ export default function IAAplicadaPage() {
               onClick={closeTutorial}
             />
 
-            {/* TREBOT MASCOTA EN 3D CON TARJETA Y DIÁLOGO — SIEMPRE VISIBLE */}
+            {/* GLOBO DE DIÁLOGO QUE EMERGE DE LA CABEZA DE TREBOT (SOLO PARA PASOS > 0) */}
             {tutorialStep > 0 && (
               <motion.div
-                key={tutorialStep}
-                initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 40, scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 90, damping: 15 }}
-                className={`fixed bottom-4 md:bottom-8 right-2 md:right-6 lg:right-10 flex-col md:flex-row-reverse z-[10000] flex items-center gap-4 md:gap-5 pointer-events-auto select-none transition-all duration-500 ease-in-out max-w-xl px-2 md:px-4`}
+                key={tutorialStep + (isExplainingExample ? '-explaining' : '') + (exampleSelectedArea !== null ? `-${exampleSelectedArea}` : '')}
+                initial={{ opacity: 0, scale: 0.1, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.6, y: 20 }}
+                transition={{ type: "spring", stiffness: 240, damping: 20 }}
+                style={{ transformOrigin: 'bottom right' }}
+                className="fixed bottom-4 md:bottom-8 right-2 md:right-6 lg:right-10 flex flex-col md:flex-row-reverse gap-4 md:gap-5 max-w-2xl z-[10000] items-center pointer-events-auto select-none transition-all duration-500 ease-in-out px-2 md:px-4"
               >
-                {/* TREBOT SVG 3D ALINEADO TOTALMENTE A LA DERECHA (SIEMPRE ACTIVO Y VISIBLE) */}
+                {/* TREBOT SVG 3D */}
                 <div className="relative drop-shadow-[0_30px_60px_rgba(132,198,56,0.75)] shrink-0">
                   <TrebotSVG
                     isSpeaking={isSpeaking}
-                    isHovered={isSpeaking || isSequencePlaying || tutorialStep === 0}
+                    isHovered={isSpeaking || isSequencePlaying}
                     isModal={true}
-                    size={220}
-                    armPose={isSequencePlaying || isExplainingExample ? 'point-left' : tutorialStep === 0 ? 'wave' : 'rest'}
+                    size={200}
+                    armPose={isSequencePlaying || isExplainingExample ? 'point-left' : 'rest'}
                     eyeExpression={isSpeaking ? 'wink' : 'circle'}
                   />
                 </div>
 
-                {/* TARJETA DE DIÁLOGO DE TREBOT — SE OCULTA MIENTRAS EJECUTA LA SECUENCIA NODO POR NODO */}
+                {/* TARJETA / GLOBO DE DIÁLOGO DE TREBOT CON PUNTERO DE CÓMIC */}
                 {!isSequencePlaying && (
-                  <div className="bg-[#141614]/95 border-2 border-trebol/50 rounded-3xl p-5 md:p-6 text-white shadow-2xl backdrop-blur-2xl space-y-4 max-w-md w-full relative">
-                    <div className="flex items-center justify-between gap-3 border-b border-[#2d302d] pb-3">
-                      <h4 className="text-sm md:text-base font-black text-white flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4 text-trebol shrink-0" />
-                        {isExplainingExample
-                          ? exampleSelectedArea !== null
-                            ? EXAMPLE_AREAS[exampleSelectedArea]?.title
-                            : 'Elige un área para ver en acción'
-                          : TUTORIAL_STEPS[tutorialStep]?.title}
-                      </h4>
-
-                      {/* BOTÓN DE CONTROL DE AUDIO DEL BOT */}
-                      <button
-                        onClick={toggleAudio}
-                        className={`px-3 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${muted
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
-                          : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
-                          }`}
-                        title={muted ? 'Activar audio del bot' : 'Quitar audio del bot'}
-                      >
-                        {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
-                        <span className="hidden sm:inline">{muted ? 'Audio Silenciado' : 'Voz Activada'}</span>
-                      </button>
+                  <div className="bg-[#111411]/95 border-2 border-trebol/40 rounded-3xl p-5 md:p-6 text-white shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(132,198,56,0.2)] backdrop-blur-2xl space-y-4 max-w-md w-full relative">
+                    
+                    {/* COLITA DE BOCADILLO DE CÓMIC HACIA LA CABEZA DE TREBOT (DESKTOP) */}
+                    <div className="absolute -right-6 bottom-12 hidden sm:block pointer-events-none z-30">
+                      <svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2 2 L26 28 L2 18 Z"
+                          fill="#111411"
+                          stroke="#84c638"
+                          strokeOpacity="0.4"
+                          strokeWidth="2"
+                          strokeLinejoin="round"
+                        />
+                        <rect x="0" y="3" width="5" height="14" fill="#111411" />
+                      </svg>
                     </div>
 
-                  {/* CASO 1: EN PASO 3 (INDEX 2) - PREGUNTA INICIAL "¿TE GUSTARÍA QUE TE EXPLIQUE UN EJEMPLO?" */}
-                  {tutorialStep === 2 && !isExplainingExample && (
-                    <div className="space-y-2.5 pt-2 border-t border-[#2d302d]">
-                      <div className="space-y-2">
-                        <button
-                          onClick={handleExplainExample}
-                          className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center justify-between cursor-pointer"
-                        >
-                          <span>¡Sí, explícame un ejemplo!</span>
-                          <ArrowRight size={15} />
-                        </button>
-
-                        <button
-                          onClick={() => playStep(3)}
-                          className="w-full px-4 py-2.5 rounded-2xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center justify-between cursor-pointer"
-                        >
-                          <span>No, continuar</span>
-                          <ChevronRight size={15} className="text-neutral-500" />
-                        </button>
-                      </div>
+                    {/* COLITA DE BOCADILLO DE CÓMIC PARA MÓVIL */}
+                    <div className="absolute -bottom-6 right-16 sm:hidden pointer-events-none z-30">
+                      <svg width="32" height="28" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2 2 L28 26 L18 2 Z"
+                          fill="#111411"
+                          stroke="#84c638"
+                          strokeOpacity="0.4"
+                          strokeWidth="2"
+                          strokeLinejoin="round"
+                        />
+                        <rect x="3" y="0" width="14" height="5" fill="#111411" />
+                      </svg>
                     </div>
-                  )}
-
-                  {/* CASO 2: EL USUARIO DIJO "SÍ" Y AHORA ELIGE CUÁL DE LAS 4 ÁREAS VER */}
-                  {isExplainingExample && exampleSelectedArea === null && (
-                    <div className="space-y-2.5 pt-1 border-t border-[#2d302d]">
-                      <p className="text-xs text-neutral-300 font-medium">
-                        Selecciona el área que deseas ver en acción:
-                      </p>
-                      
-                      <div className="space-y-2">
-                        {EXAMPLE_AREAS.map((area, idx) => (
-                          <button
-                            key={area.id}
-                            onClick={() => handleSelectExampleArea(area.id)}
-                            className="w-full px-3.5 py-2.5 rounded-2xl bg-[#1c1f1c] hover:bg-trebol/15 border border-[#2d302d] hover:border-trebol text-left transition-all duration-200 group cursor-pointer flex items-center justify-between gap-3 shadow-sm hover:shadow-md hover:scale-[1.01]"
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="w-6 h-6 rounded-lg bg-white/5 border border-white/10 group-hover:bg-trebol group-hover:border-trebol group-hover:text-slate-950 font-mono font-bold text-[11px] text-neutral-400 flex items-center justify-center shrink-0 transition-colors">
-                                0{idx + 1}
-                              </span>
-                              <span className="text-xs sm:text-sm font-bold text-white group-hover:text-trebol transition-colors leading-tight">
-                                {area.title}
-                              </span>
-                            </div>
-                            <ArrowRight size={14} className="text-neutral-500 group-hover:text-trebol shrink-0 -translate-x-0.5 group-hover:translate-x-0 transition-all" />
-                          </button>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <button
-                          onClick={() => playStep(3)}
-                          className="px-3 py-1.5 rounded-xl bg-transparent hover:bg-white/5 text-neutral-400 hover:text-white text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer"
-                        >
-                          <span>Saltar al paso final</span>
-                          <ChevronRight size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* CASO 3: EL USUARIO SELECCIONÓ UN ÁREA ESPECÍFICA Y ESTÁ VIENDO SU EXPLICACIÓN */}
-                  {isExplainingExample && exampleSelectedArea !== null && (
-                    <div className="space-y-3 pt-1 border-t border-[#2d302d]">
-                      <div className="p-3.5 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <span className="w-2 h-2 rounded-full bg-trebol animate-ping shrink-0" />
-                          <span className="text-xs font-bold text-white truncate">
-                            Explicando: <span className="text-trebol font-extrabold">{EXAMPLE_AREAS[exampleSelectedArea]?.title}</span>
-                          </span>
+                    
+                    {/* CUERPO DEL DIÁLOGO SEGÚN EL PASO */}
+                    
+                    {/* CASO 1: PASO 3 (INDEX 2) - SELECCIÓN DE ÁREAS */}
+                    {tutorialStep === 2 && isExplainingExample && exampleSelectedArea === null && (
+                      <div className="space-y-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <p className="text-xs text-neutral-300 font-light leading-relaxed">
+                            Selecciona uno de los 4 procesos para ver cómo la Inteligencia Artificial automatiza las tareas en tiempo real:
+                          </p>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <button
+                              onClick={toggleAudio}
+                              className={`p-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${muted
+                                ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                                : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                                }`}
+                              title={muted ? 'Activar voz del bot' : 'Silenciar voz del bot'}
+                            >
+                              {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
+                            </button>
+                            <button
+                              onClick={closeTutorial}
+                              className="p-1.5 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-neutral-800 transition-all cursor-pointer"
+                              title="Cerrar diálogo"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-trebol text-slate-950 font-bold shrink-0">
-                          En Vivo
-                        </span>
+
+                        <div className="space-y-2">
+                          {EXAMPLE_AREAS.map((area, idx) => (
+                            <button
+                              key={area.id}
+                              onClick={() => handleSelectExampleArea(area.id)}
+                              className="w-full px-3.5 py-2.5 rounded-2xl bg-[#1a1d1a] hover:bg-trebol/20 border border-neutral-800 hover:border-trebol text-left transition-all duration-200 group cursor-pointer flex items-center justify-between gap-3 shadow-sm hover:scale-[1.01]"
+                            >
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <span className="w-6 h-6 rounded-lg bg-white/5 border border-white/10 group-hover:bg-trebol group-hover:border-trebol group-hover:text-slate-950 font-mono font-bold text-[11px] text-neutral-400 flex items-center justify-center shrink-0 transition-colors">
+                                  0{idx + 1}
+                                </span>
+                                <div className="min-w-0">
+                                  <span className="text-xs font-bold text-white group-hover:text-trebol transition-colors block truncate">
+                                    {area.title}
+                                  </span>
+                                  <span className="text-[10px] text-neutral-400 block truncate">
+                                    {area.desc}
+                                  </span>
+                                </div>
+                              </div>
+                              <ArrowRight size={14} className="text-neutral-500 group-hover:text-trebol shrink-0 transition-transform group-hover:translate-x-0.5" />
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* PREGUNTA Y BOTONES DE CONTINUACIÓN O EXPLORAR POR SU CUENTA */}
+                        <div className="pt-2 border-t border-neutral-800/80 flex flex-col gap-2">
+                          <button
+                            onClick={() => playStep(3)}
+                            className="w-full px-4 py-2.5 rounded-2xl bg-[#1e221e] hover:bg-[#282d28] text-slate-200 font-bold text-xs border border-neutral-700 transition-all flex items-center justify-between cursor-pointer"
+                          >
+                            <span>Continuar al paso final</span>
+                            <ArrowRight size={14} className="text-trebol" />
+                          </button>
+
+                          <button
+                            onClick={closeTutorial}
+                            className="w-full px-4 py-2 rounded-2xl bg-transparent hover:bg-white/5 text-neutral-400 hover:text-white font-medium text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            <Eye size={13} />
+                            <span>Explorar por mi propia cuenta</span>
+                          </button>
+                        </div>
                       </div>
+                    )}
 
-                      <div className="flex items-center gap-2 pt-1">
-                        <button
-                          onClick={handleResetExampleSelection}
-                          className="px-3.5 py-2.5 rounded-xl bg-[#1e211e] hover:bg-[#282b28] text-slate-300 font-bold text-xs border border-[#2d302d] transition-all flex items-center gap-1.5 cursor-pointer"
-                        >
-                          <Sparkles size={13} className="text-trebol" />
-                          <span>Elegir otra área</span>
-                        </button>
+                    {/* CASO 2: DESPUÉS DE SELECCIONAR UN ÁREA Y VER SU EXPLICACIÓN */}
+                    {tutorialStep === 2 && isExplainingExample && exampleSelectedArea !== null && (
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="p-2.5 px-3 rounded-2xl bg-trebol/10 border border-trebol/30 flex items-center gap-2 min-w-0 flex-1">
+                            <span className="w-2 h-2 rounded-full bg-trebol animate-pulse shrink-0" />
+                            <span className="text-xs font-bold text-white truncate">
+                              Flujo: <span className="text-trebol font-extrabold">{EXAMPLE_AREAS[exampleSelectedArea]?.title}</span>
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <button
+                              onClick={toggleAudio}
+                              className={`p-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${muted
+                                ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                                : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                                }`}
+                              title={muted ? 'Activar voz del bot' : 'Silenciar voz del bot'}
+                            >
+                              {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
+                            </button>
+                            <button
+                              onClick={closeTutorial}
+                              className="p-1.5 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-neutral-800 transition-all cursor-pointer"
+                              title="Cerrar diálogo"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        </div>
 
-                        <button
-                          onClick={handleFinishExample}
-                          className="px-4 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
-                        >
-                          <span>Siguiente paso</span>
-                          <ArrowRight size={14} />
-                        </button>
+                        {/* PREGUNTA DE DECISIÓN */}
+                        <div className="p-3 rounded-2xl bg-[#171b17] border border-neutral-800 space-y-1">
+                          <span className="text-[10px] font-mono text-trebol uppercase font-bold tracking-wider block">
+                            ¿Qué te gustaría hacer?
+                          </span>
+                          <p className="text-xs text-neutral-200 font-medium leading-snug">
+                            Puedes probar otra solución, pasar al paso final o explorar la página por tu cuenta.
+                          </p>
+                        </div>
+
+                        {/* BOTONES DE DECISIÓN CLARA */}
+                        <div className="space-y-2 pt-1">
+                          <button
+                            onClick={handleFinishExample}
+                            className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.5)] flex items-center justify-between cursor-pointer"
+                          >
+                            <span>Continuar al paso final</span>
+                            <ArrowRight size={15} />
+                          </button>
+
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              onClick={handleResetExampleSelection}
+                              className="px-3 py-2.5 rounded-2xl bg-[#1a1d1a] hover:bg-[#252925] text-slate-300 font-bold text-xs border border-neutral-800 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                              <Sparkles size={13} className="text-trebol" />
+                              <span>Ver otra área</span>
+                            </button>
+
+                            <button
+                              onClick={closeTutorial}
+                              className="px-3 py-2.5 rounded-2xl bg-[#1a1d1a] hover:bg-[#252925] text-neutral-300 hover:text-white font-bold text-xs border border-neutral-800 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                              <Eye size={13} />
+                              <span>Explorar solo</span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* BOTONES DE CONTROL PARA LOS DEMÁS PASOS (0, 1 Y 3) */}
-                  {!isExplainingExample && tutorialStep !== 2 && (
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      <button
-                        onClick={() => {
-                          if (tutorialStep === TUTORIAL_STEPS.length - 1) {
-                            closeTutorial();
-                            const el = document.getElementById('contacto');
-                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                          } else {
-                            nextTutorialStep();
-                          }
-                        }}
-                        className="px-5 py-2.5 rounded-xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.6)] flex items-center gap-1.5 ml-auto cursor-pointer"
-                      >
-                        {TUTORIAL_STEPS[tutorialStep]?.buttonText}
-                      </button>
+                    {/* CASO 3: PASOS NORMALES (PASO 1 Y 4) */}
+                    {(!isExplainingExample || tutorialStep !== 2) && (
+                      <div className="space-y-3">
+                        {/* CABECERA CON PREGUNTA Y BOTONES ALINEADOS EN LA MISMA LÍNEA */}
+                        <div className="flex items-start justify-between gap-3">
+                          <h3 className="text-xs sm:text-sm font-bold text-white leading-snug pt-0.5">
+                            {TUTORIAL_STEPS[tutorialStep]?.question}
+                          </h3>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <button
+                              onClick={toggleAudio}
+                              className={`p-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${muted
+                                ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                                : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                                }`}
+                              title={muted ? 'Activar voz del bot' : 'Silenciar voz del bot'}
+                            >
+                              {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
+                            </button>
+                            <button
+                              onClick={closeTutorial}
+                              className="p-1.5 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-neutral-800 transition-all cursor-pointer"
+                              title="Cerrar diálogo"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        </div>
 
-                      <button
-                        onClick={closeTutorial}
-                        className="p-2 rounded-xl bg-[#1e211e] hover:bg-[#282b28] border border-[#2d302d] text-slate-400 hover:text-white cursor-pointer"
-                        title="Saltar Tour"
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </motion.div>
-          )}
-        </>
-      )}
-    </AnimatePresence>
+                        {/* OPCIONES DE ACCIÓN: CONTINUAR CON BOT VS EXPLORAR POR SU CUENTA */}
+                        <div className="space-y-2 pt-2 border-t border-neutral-800/80">
+                          {/* BOTÓN PRIMARIO: CONTINUAR CON EL BOT */}
+                          <button
+                            onClick={() => {
+                              if (tutorialStep === TUTORIAL_STEPS.length - 1) {
+                                closeTutorial();
+                                const el = document.getElementById('contacto');
+                                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              } else {
+                                nextTutorialStep();
+                              }
+                            }}
+                            className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.5)] flex items-center justify-between cursor-pointer"
+                          >
+                            <span>{TUTORIAL_STEPS[tutorialStep]?.primaryBtn || 'Continuar'}</span>
+                            <ArrowRight size={15} />
+                          </button>
+
+                          {/* BOTÓN SECUNDARIO: EXPLORAR POR MI PROPIA CUENTA */}
+                          <button
+                            onClick={closeTutorial}
+                            className="w-full px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white font-bold text-xs border border-neutral-800 transition-all flex items-center justify-between cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2">
+                              <Eye size={14} className="text-neutral-400" />
+                              <span>{TUTORIAL_STEPS[tutorialStep]?.secondaryBtn || 'Explorar por mi cuenta'}</span>
+                            </div>
+                            <ChevronRight size={14} className="text-neutral-500" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </>
+        )}
+      </AnimatePresence>
 
       {/* BOTÓN FLOTANTE SOLO VISIBLE FUERA DEL HERO Y ANTES DEL FOOTER */}
       {!showTutorial && showFloatingButton && (
@@ -2062,7 +2146,7 @@ export default function IAAplicadaPage() {
             </motion.div>
           </div>
 
-          {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA (RESPONSIVA & AGRANDADA EN PANTALLAS GRANDES) */}
+          {/* COLUMNA DERECHA: MASCOTA TREBOT INTERACTIVA CON GLOBO DE CÓMIC ANCLADO */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-end justify-end relative z-10 overflow-visible min-h-[360px] lg:min-h-[460px] xl:min-h-[540px] pt-8 lg:pt-0">
             <div
               onMouseEnter={() => setIsTrebotHovered(true)}
@@ -2072,6 +2156,103 @@ export default function IAAplicadaPage() {
             >
               {/* RESPLANDOR AMBIENTAL Y SOMBRA AURA DETRÁS DE TREBOT */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] lg:w-[32rem] lg:h-[32rem] xl:w-[40rem] xl:h-[40rem] 2xl:w-[48rem] 2xl:h-[48rem] bg-gradient-to-tr from-trebol/40 via-emerald-500/25 to-lime-400/20 rounded-full blur-[90px] xl:blur-[130px] pointer-events-none z-0 animate-pulse" />
+
+              {/* GLOBO DE DIÁLOGO DE CÓMIC ANCLADO DIRECTAMENTE A LA CABEZA DE TREBOT (PASO 1 EN EL HERO) */}
+              {showTutorial && tutorialStep === 0 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.1, x: 40, y: 40 }}
+                  animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  style={{ transformOrigin: "bottom right" }}
+                  className="absolute z-[10000] -top-10 sm:-top-16 md:-top-20 -left-6 sm:-left-20 md:-left-40 lg:-left-[430px] xl:-left-[470px] w-[90vw] sm:w-[420px] max-w-[420px] pointer-events-auto cursor-default select-none"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-[#111411]/95 border-2 border-trebol/40 rounded-3xl p-5 md:p-6 text-white shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(132,198,56,0.2)] backdrop-blur-2xl space-y-4 relative">
+                    
+                    {/* COLITA DE BOCADILLO DE CÓMIC APUNTANDO A LA CABEZA DE TREBOT (DESKTOP) */}
+                    <div className="absolute -right-6 bottom-16 hidden sm:block pointer-events-none z-30">
+                      <svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2 2 L26 28 L2 18 Z"
+                          fill="#111411"
+                          stroke="#84c638"
+                          strokeOpacity="0.4"
+                          strokeWidth="2"
+                          strokeLinejoin="round"
+                        />
+                        <rect x="0" y="3" width="5" height="14" fill="#111411" />
+                      </svg>
+                    </div>
+
+                    {/* COLITA DE BOCADILLO PARA MÓVIL */}
+                    <div className="absolute -bottom-6 right-16 sm:hidden pointer-events-none z-30">
+                      <svg width="32" height="28" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2 2 L28 26 L18 2 Z"
+                          fill="#111411"
+                          stroke="#84c638"
+                          strokeOpacity="0.4"
+                          strokeWidth="2"
+                          strokeLinejoin="round"
+                        />
+                        <rect x="3" y="0" width="14" height="5" fill="#111411" />
+                      </svg>
+                    </div>
+
+                    {/* CABECERA CON PREGUNTA Y BOTONES ALINEADOS EN LA MISMA LÍNEA */}
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-xs sm:text-sm font-bold text-white leading-snug pt-0.5">
+                        {TUTORIAL_STEPS[0]?.question}
+                      </h3>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={toggleAudio}
+                          className={`p-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${muted
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
+                            : 'bg-trebol/20 text-trebol border border-trebol/40 hover:bg-trebol/30'
+                            }`}
+                          title={muted ? 'Activar voz del bot' : 'Silenciar voz del bot'}
+                        >
+                          {muted ? <VolumeX size={14} /> : <Volume2 size={14} className="animate-pulse" />}
+                        </button>
+                        <button
+                          onClick={closeTutorial}
+                          className="p-1.5 rounded-xl text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 border border-neutral-800 transition-all cursor-pointer"
+                          title="Cerrar diálogo"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* OPCIONES DE ACCIÓN: CONTINUAR CON BOT VS EXPLORAR POR SU CUENTA */}
+                    <div className="space-y-2 pt-2 border-t border-neutral-800/80">
+                      {/* BOTÓN PRIMARIO: CONTINUAR CON EL BOT */}
+                      <button
+                        onClick={nextTutorialStep}
+                        className="w-full px-4 py-3 rounded-2xl bg-trebol text-slate-950 font-black text-xs hover:bg-lime-400 transition-all shadow-[0_0_20px_rgba(132,198,56,0.5)] flex items-center justify-between cursor-pointer"
+                      >
+                        <span>{TUTORIAL_STEPS[0]?.primaryBtn || 'Continuar con Trebot'}</span>
+                        <ArrowRight size={15} />
+                      </button>
+
+                      {/* BOTÓN SECUNDARIO: EXPLORAR POR MI PROPIA CUENTA */}
+                      <button
+                        onClick={closeTutorial}
+                        className="w-full px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white font-bold text-xs border border-neutral-800 transition-all flex items-center justify-between cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Eye size={14} className="text-neutral-400" />
+                          <span>{TUTORIAL_STEPS[0]?.secondaryBtn || 'Explorar por mi cuenta'}</span>
+                        </div>
+                        <ChevronRight size={14} className="text-neutral-500" />
+                      </button>
+                    </div>
+
+                  </div>
+                </motion.div>
+              )}
 
               {/* CABEZA Y CUERPO DE TREBOT CON SALUDO EN VOZ Y HOVER */}
               <div className="relative z-10 overflow-visible">

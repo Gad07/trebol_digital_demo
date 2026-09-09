@@ -31,8 +31,28 @@ export function ProposalCalculator() {
   const totalPrice = basePrice + pageCost + cmsCost + ecommerceCost + multilingualCost + aiCost;
   const estimatedDays = Math.ceil(10 + pagesCount * 1.5 + (hasEcommerce ? 7 : 0));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await fetch('/api/citas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: `cotizacion_${Date.now()}`,
+          nombre: formData.nombre || 'Prospecto Cotizador',
+          email: formData.email,
+          telefono: formData.telefono,
+          empresa: formData.empresa || 'Cotización Web',
+          fecha: 'Por definir',
+          hora: 'Por definir',
+          mensaje: `Cotización Web: ${pagesCount} páginas, estilo ${styleObj.name}. Features: CMS(${hasCMS}), E-commerce(${hasEcommerce}), Multilingual(${hasMultilingual}), IA(${hasAI}). Total estimado: $${totalPrice} USD (~${estimatedDays} días).`,
+          notas: `Lead captado en Cotizador Web. Presupuesto estimado: $${totalPrice} USD.`,
+          status: 'confirmed'
+        })
+      });
+    } catch (err) {
+      console.warn('Error enviando cotización a CRM:', err);
+    }
     setFormSubmitted(true);
   };
 

@@ -5,10 +5,43 @@ import { ArrowUpRight } from 'lucide-react';
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (loading) return;
+    setLoading(true);
+
+    const formEl = e.currentTarget;
+    const inputs = formEl.querySelectorAll('input');
+    const textarea = formEl.querySelector('textarea');
+    const nombre = inputs[0]?.value || '';
+    const apellido = inputs[1]?.value || '';
+    const email = inputs[2]?.value || '';
+    const msg = textarea?.value || '';
+
+    try {
+      await fetch('/api/citas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: `lead_blog_${Date.now()}`,
+          nombre: `${nombre} ${apellido}`.trim(),
+          email: email,
+          empresa: 'Lector de Blog',
+          fecha: 'Por definir',
+          hora: 'Por definir',
+          mensaje: msg,
+          notas: 'Lead captado desde formulario del Blog de Insights.',
+          status: 'confirmed'
+        })
+      });
+    } catch (err) {
+      console.warn('Error enviando lead blog:', err);
+    } finally {
+      setLoading(false);
+      setSubmitted(true);
+    }
   };
 
   return (
