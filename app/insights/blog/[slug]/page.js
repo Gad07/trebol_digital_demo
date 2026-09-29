@@ -1,134 +1,9 @@
-'use client';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Quote, User, Play, Award, Calendar, Clock, Video, BookOpen, Tag, ChevronRight } from 'lucide-react';
-import { use, useState, useEffect } from 'react';
+import { ArrowLeft, ArrowUpRight, Quote, User, Award, Calendar, Clock, BookOpen, ChevronRight } from 'lucide-react';
 import Contact from '@/components/Contact';
-
-const articulos = {
-  'ia-en-tu-negocio-hoy': {
-    plantilla: 'feature',
-    titulo: '5 formas de usar IA en tu negocio hoy mismo',
-    categoria: 'Inteligencia Artificial',
-    tiempo: '8 min',
-    fecha: '22 julio, 2026',
-    autor: 'Trébol Digital',
-    autorBio: 'Expertos en marketing y desarrollo tecnológico.',
-    extracto: 'La inteligencia artificial ya no es exclusiva para grandes corporativos. Te mostramos 5 herramientas prácticas que puedes implementar esta semana sin presupuesto millonario.',
-    imagen: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1800&q=80',
-    contenido: [
-      { tipo: 'subtitulo', texto: '1. Automatiza tu atención al cliente con ChatGPT' },
-      { tipo: 'parrafo', texto: 'Configura un asistente de IA que responda preguntas frecuentes de tus clientes 24/7. Herramientas como ChatGPT, Claude o Gemini pueden entrenarse con la información de tu negocio para dar respuestas precisas y en el tono de tu marca.' },
-      { tipo: 'subtitulo', texto: '2. Genera contenido con ayuda de la IA' },
-      { tipo: 'parrafo', texto: 'No se trata de que la IA escriba por ti, sino de que te ayude a estructurar ideas, crear borradores y superar el bloqueo creativo. Puedes generar el 80% del contenido con IA y darle el 20% de tu toque humano.' },
-      { tipo: 'subtitulo', texto: '3. Automatiza flujos repetitivos con Make o Zapier' },
-      { tipo: 'parrafo', texto: 'Conecta tus herramientas para que trabajen juntas sin intervención manual. Por ejemplo: cuando llega un lead en tu formulario web, que automáticamente se agregue a tu CRM y dispare un correo.' },
-      { tipo: 'subtitulo', texto: '4. Analiza datos con IA sin ser experto' },
-      { tipo: 'parrafo', texto: 'Herramientas como Julius AI o ChatGPT con Code Interpreter te permiten subir una hoja de cálculo y hacer preguntas en lenguaje natural obteniendo respuestas visuales en segundos.' },
-      { tipo: 'subtitulo', texto: '5. Crea imágenes y videos con IA para tus redes' },
-      { tipo: 'parrafo', texto: 'Midjourney, DALL-E o Canva AI te permiten crear imágenes profesionales para tus publicaciones sin necesidad de diseñador.' },
-    ],
-  },
-  'estrategia-de-contenido': {
-    plantilla: 'guia',
-    titulo: 'Cómo construir una estrategia de contenido desde cero',
-    categoria: 'Marketing',
-    tiempo: '10 min',
-    fecha: '15 julio, 2026',
-    autor: 'Trébol Digital',
-    autorBio: 'Expertos en marketing y desarrollo tecnológico.',
-    extracto: 'Un paso a paso para crear contenido que atraiga, conecte y convierta sin necesitar un equipo enorme ni presupuesto de agencia.',
-    imagen: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1800&q=80',
-    contenido: [
-      { tipo: 'parrafo', texto: 'Antes de escribir una sola palabra, necesitas saber exactamente a quién va dirigido tu contenido. Es una persona con un problema específico que tu negocio puede resolver.' },
-      { tipo: 'paso', numero: 1, titulo: 'Primero: define a quién le hablas', texto: 'Antes de escribir una sola palabra, necesitas saber exactamente a quién va dirigido tu contenido. Es una persona con un problema específico que tu negocio puede resolver.', checklist: ['Investiga a tu cliente ideal', 'Crea su perfil demográfico', 'Identifica sus mayores frustraciones'] },
-      { tipo: 'paso', numero: 2, titulo: 'Segundo: decide en qué canales vas a estar', texto: 'No necesitas estar en todos lados. Es mejor hacer bien 1 o 2 canales que hacer mal 5. Elige los canales donde está tu cliente ideal.', checklist: ['LinkedIn para B2B', 'Instagram/TikTok para B2C', 'Email marketing para conversiones'] },
-      { tipo: 'paso', numero: 3, titulo: 'Tercero: crea un calendario editorial', texto: 'La consistencia gana a la perfección. Un calendario editorial te ayuda a planificar, no improvisar.', checklist: ['Define frecuencia de publicación', 'Prepara contenido con 2 semanas de anticipación', 'Mide y optimiza el rendimiento'] },
-    ],
-  },
-  'seo-local-pymes': {
-    plantilla: 'listicle',
-    titulo: 'SEO local: la guía definitiva para PYMEs',
-    categoria: 'Marketing',
-    tiempo: '12 min',
-    fecha: '8 julio, 2026',
-    autor: 'Trébol Digital',
-    autorBio: 'Equipo de estrategia digital.',
-    extracto: 'Cómo aparecer primero en Google cuando alguien busca tu servicio en tu ciudad.',
-    imagen: 'https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?auto=format&fit=crop&w=1800&q=80',
-    contenido: [
-      { tipo: 'parrafo', texto: 'El SEO local es la herramienta más poderosa y subestimada para negocios que atienden en una ubicación específica. Mientras todos compiten por palabras clave genéricas, tú puedes dominar las búsquedas de tu ciudad.' },
-      { tipo: 'item', numero: 1, titulo: 'Google Business Profile', texto: 'Completar tu perfil al 100% aumenta drásticamente tus posibilidades de aparecer en el map pack. Sube fotos nuevas cada semana.', stat: '76%' },
-      { tipo: 'item', numero: 2, titulo: 'Palabras clave locales', texto: 'En lugar de competir por "abogado", compite por "abogado laboral en Guadalajara". Las keywords con ubicación tienen menos competencia.', stat: '3x' },
-      { tipo: 'item', numero: 3, titulo: 'Reseñas de clientes', texto: 'El 87% de los consumidores lee reseñas antes de decidirse. Responde a todas, tanto positivas como negativas.', stat: '87%' },
-      { tipo: 'item', numero: 4, titulo: 'Contenido geolocalizado', texto: 'Escribe sobre eventos locales, colabora con otros negocios de tu zona. El contenido localizado genera 2.5x más tráfico orgánico.', stat: '2.5x' },
-      { tipo: 'item', numero: 5, titulo: 'Backlinks locales', texto: 'Aparecer en directorios locales, páginas de cámaras de comercio y medios locales construye señales de confianza para Google.', stat: '43%' },
-    ],
-  },
-  'cultura-empresarial': {
-    plantilla: 'entrevista',
-    titulo: 'Por qué la cultura empresarial es tu mayor activo',
-    categoria: 'Organizacional',
-    tiempo: '7 min',
-    fecha: '1 julio, 2026',
-    autor: 'Ana Sofía Guerra',
-    autorBio: 'Consultora en cultura organizacional.',
-    extracto: 'Las empresas que crecen de forma sostenida tienen una cultura clara. Te explicamos cómo construirla aunque seas una PYME.',
-    imagen: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1800&q=80',
-    entrevistado: {
-      nombre: 'Ana Sofía Guerra',
-      rol: 'Consultora en Cultura Organizacional',
-      foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-    },
-    contenido: [
-      { tipo: 'intro', texto: 'Hablamos con Ana Sofía Guerra sobre por qué las PYMEs deberían prestar atención a su cultura empresarial desde el día uno.' },
-      { tipo: 'pregunta', texto: '¿Por qué la cultura importa tanto en una PYME?' },
-      { tipo: 'respuesta', texto: 'Porque en una PYME no hay capas de gestión que absorban los problemas. Si la cultura es mala, se siente de inmediato. En una empresa de 10 personas, una persona tóxica representa el 10% del ambiente.' },
-      { tipo: 'pullquote', texto: 'En una PYME, una persona tóxica representa el 10% del ambiente. En una corporación de 1000, es solo el 0.1%.', autor: 'Ana Sofía Guerra' },
-      { tipo: 'pregunta', texto: '¿Cómo se empieza a construir cultura desde cero?' },
-      { tipo: 'respuesta', texto: 'Lo primero es aceptar que ya tienes cultura, te guste o no. Tus equipos ya tienen formas de trabajar, comunicarse y resolver conflictos. El primer paso es hacer consciente lo que ya existe.' },
-      { tipo: 'pregunta', texto: '¿Qué recomiendas con presupuesto limitado?' },
-      { tipo: 'respuesta', texto: 'Tres cosas gratis: define tus valores en una frase que cualquier miembro del equipo pueda recordar. Celebra los aciertos en público y corrige en privado. Pide retroalimentación semanal con una sola pregunta.' },
-    ],
-  },
-  'automatizacion-sin-codigo': {
-    plantilla: 'guia',
-    titulo: 'Automatización sin código explicada',
-    categoria: 'Inteligencia Artificial',
-    tiempo: '9 min',
-    fecha: '24 junio, 2026',
-    autor: 'Diego Ramírez',
-    autorBio: 'Ingeniero de automatización.',
-    extracto: 'Tres herramientas de automatización explicadas sin tecnicismos.',
-    imagen: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1800&q=80',
-    contenido: [
-      { tipo: 'parrafo', texto: 'La automatización no requiere saber programar. Con estas tres herramientas, cualquier persona puede conectar aplicaciones y eliminar tareas repetitivas en minutos.' },
-      { tipo: 'paso', numero: 1, titulo: 'Identifica procesos repetitivos', texto: 'Durante una semana, anota cada tarea que haces de forma repetitiva: enviar correos, actualizar hojas de cálculo, mover archivos.', checklist: ['Tareas que haces +3 veces por semana', 'Calcula el tiempo que te toma', 'Pregúntate si necesita un humano'] },
-      { tipo: 'paso', numero: 2, titulo: 'Elige la herramienta', texto: 'Cada herramienta tiene un superpoder diferente. Make es visual y potente. Zapier es el más fácil. n8n es ideal si necesitas control total.', checklist: ['Make: flujos visuales complejos', 'Zapier: fácil para empezar', 'n8n: auto-hosteado'] },
-      { tipo: 'dato', label: 'Ahorro', valor: '30h', texto: 'por semana es el ahorro promedio reportado por equipos que automatizan al menos 3 procesos clave.' },
-      { tipo: 'paso', numero: 3, titulo: 'Prueba tu primer flujo', texto: 'Empieza con algo pequeño: cuando recibas un correo con un adjunto, que se guarde automáticamente en Drive. Una vez que funcione, escala.', checklist: ['Flujo simple de 2 pasos', 'Prueba con datos reales', 'Itera antes de escalar'] },
-    ],
-  },
-  'metricas-que-importan': {
-    plantilla: 'listicle',
-    titulo: 'Las métricas que realmente importan',
-    categoria: 'Estrategia',
-    tiempo: '11 min',
-    fecha: '17 junio, 2026',
-    autor: 'Trébol Digital',
-    autorBio: 'Equipo de estrategia.',
-    extracto: 'No todas las métricas son iguales. Separamos los vanity metrics de los que realmente importan.',
-    imagen: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=80',
-    contenido: [
-      { tipo: 'parrafo', texto: 'El mayor error que cometen los negocios al medir su desempeño es confundir actividad con progreso. Tener muchos seguidores no significa tener una marca fuerte. Recibir muchos correos no significa tener ventas.' },
-      { tipo: 'parrafo', texto: 'Las vanity metrics son aquellas que se ven bien en informes pero no te ayudan a tomar decisiones. Ejemplos: seguidores en redes, visitas al sitio web, descargas de una app.' },
-      { tipo: 'item', numero: 1, titulo: 'CAC (Costo de Adquisición de Clientes)', texto: 'Cuánto te cuesta conseguir un nuevo cliente. Es vital saberlo para saber si tu marketing es rentable.', stat: 'CAC' },
-      { tipo: 'item', numero: 2, titulo: 'LTV (Lifetime Value)', texto: 'Cuánto dinero genera un cliente a lo largo de su relación con tu negocio.', stat: 'LTV' },
-      { tipo: 'pullquote', texto: 'Lo que no se define no se puede medir. Lo que no se mide no se puede mejorar. Lo que no se mejora se degrada siempre.', autor: 'William Thomson Kelvin' },
-      { tipo: 'dato', label: 'Relación saludable', valor: '3:1', texto: 'es la proporción mínima recomendada entre LTV y CAC. Si tu LTV es menor a 3 veces tu CAC, necesitas ajustes.' },
-      { tipo: 'item', numero: 3, titulo: 'Tasa de Conversión', texto: 'El porcentaje de visitas a tu web que realizan la acción deseada (ej. agendar una cita o comprar).', stat: 'Conv.' },
-    ],
-  },
-};
+import BlogVideoPlayer from '@/components/BlogVideoPlayer';
+import { buildMetadata } from '@/lib/seo';
+import { articulos, resolveArticulo } from '@/lib/articulos';
 
 // ─────────────────────────────────────────────────────────────
 // DB-DRIVEN TEMPLATE: renders an article from blogs_db.json
@@ -304,8 +179,8 @@ function TemplateGeneral({ art }) {
               if (bloque.tipo === 'parrafo') {
                 const isFirst = i === 0;
                 return (
-                  <p 
-                    key={i} 
+                  <p
+                    key={i}
                     className="text-[16px] md:text-[17px] text-carbon/85 font-light leading-[1.8] text-justify mb-6 font-sans"
                   >
                     {isFirst && (
@@ -319,8 +194,8 @@ function TemplateGeneral({ art }) {
               }
               if (bloque.tipo === 'subtitulo') {
                 return (
-                  <h2 
-                    key={i} 
+                  <h2
+                    key={i}
                     className="font-serif text-2xl md:text-4xl font-black text-carbon tracking-tight mt-12 mb-6 leading-tight border-t-2 border-carbon pt-6"
                   >
                     {bloque.texto}
@@ -400,8 +275,6 @@ function TemplateGeneral({ art }) {
 
 /* ─── 2. PLANTILLA VIDEO ────────────────────────────────────────── */
 function TemplateVideo({ art }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
   return (
     <article className="bg-hueso relative">
       <ArticleHeader art={art} />
@@ -413,43 +286,7 @@ function TemplateVideo({ art }) {
             {art.extracto}
           </div>
 
-          {/* Prominent Video Player Card - 100% Home style and rounded */}
-          <div className="relative aspect-video w-full rounded-[2.5rem] overflow-hidden border border-white/60 shadow-2xl bg-carbon mb-14 group/video">
-            {isPlaying ? (
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-                title="Video post presentation"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center cursor-pointer" onClick={() => setIsPlaying(true)}>
-                <img
-                  src={art.imagen}
-                  alt={art.titulo}
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover/video:scale-102 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none" />
-                
-                {/* Glowing Glassmorphic Play Button */}
-                <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center shadow-2xl group-hover/video:scale-110 group-hover/video:bg-trebol group-hover/video:border-trebol/40 transition-all duration-500 z-10 relative">
-                  <div className="absolute inset-0 rounded-full bg-trebol/20 blur-[15px] scale-110 opacity-0 group-hover/video:opacity-100 transition-opacity duration-500" />
-                  <Play size={36} className="text-white fill-white translate-x-1" />
-                </div>
-
-                <div className="absolute bottom-8 left-8 text-left z-10">
-                  <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-trebol bg-white/90 backdrop-blur-sm border border-white px-3 py-1 rounded-full mb-3">
-                    <Video size={10} /> Video Exclusivo
-                  </span>
-                  <h3 className="font-serif text-2xl md:text-3xl font-black text-white leading-tight drop-shadow-md">
-                    Ver explicación en video
-                  </h3>
-                </div>
-              </div>
-            )}
-          </div>
+          <BlogVideoPlayer imagen={art.imagen} titulo={art.titulo} />
 
           {/* Rest of Content */}
           <div className="space-y-8">
@@ -562,10 +399,10 @@ function TemplateAutor({ art }) {
         {/* Guest portrait cards layout - Home style rounded */}
         <div className="grid md:grid-cols-[40%_1fr] gap-0 mb-16 border border-white/60 bg-white/50 backdrop-blur-xl rounded-[2.5rem] shadow-[0_8px_32px_rgba(0,0,0,0.03)] overflow-hidden">
           <div className="relative border-r border-carbon/10 aspect-[3/4] md:aspect-auto">
-            <img 
-              src={art.entrevistado?.foto || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"} 
-              alt={art.entrevistado?.nombre || art.autor} 
-              className="w-full h-full object-cover grayscale" 
+            <img
+              src={art.entrevistado?.foto || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"}
+              alt={art.entrevistado?.nombre || art.autor}
+              className="w-full h-full object-cover grayscale"
             />
           </div>
           <div className="flex flex-col justify-center p-8 md:p-12">
@@ -670,7 +507,7 @@ function TemplateLogros({ art }) {
           {/* Timeline vertical elegante para logros */}
           <div className="relative">
             <div className="absolute left-[36px] md:left-[56px] top-0 bottom-0 w-px bg-carbon/25" />
-            
+
             <div className="space-y-16">
               {art.contenido.map((bloque, i) => {
                 if (bloque.tipo === 'parrafo') {
@@ -742,48 +579,49 @@ const templates = {
   dynamic: TemplateDynamic,
 };
 
-export default function ArticuloPage({ params }) {
-  const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
+export const revalidate = 300;
 
-  const [art, setArt] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/blogs')
-      .then((r) => r.json())
-      .then((data) => {
-        const fallback = articulos[slug] || articulos['ia-en-tu-negocio-hoy'] || {};
-        if (Array.isArray(data)) {
-          const found = data.find((b) => b.slug === slug);
-          if (found) {
-            setArt({
-              ...fallback,
-              ...found,
-              content: found.content || fallback.content || null,
-              contenido: (Array.isArray(found.contenido) && found.contenido.length > 0) ? found.contenido : (fallback.contenido || [])
-            });
-            return;
-          }
-        }
-        setArt(fallback);
-      })
-      .catch(() => {
-        setArt(articulos[slug] || articulos['ia-en-tu-negocio-hoy']);
-      })
-      .finally(() => setLoading(false));
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <main className="w-full bg-hueso min-h-screen flex items-center justify-center">
-        <div className="space-y-4 text-center">
-          <div className="w-12 h-12 rounded-full border-4 border-trebol border-t-transparent animate-spin mx-auto" />
-          <p className="text-carbon/40 font-mono text-xs">Cargando artículo…</p>
-        </div>
-      </main>
-    );
+export async function generateStaticParams() {
+  const slugs = Object.keys(articulos);
+  try {
+    const { getBlogsFromDB } = await import('@/lib/db');
+    const blogs = await getBlogsFromDB();
+    for (const b of blogs || []) {
+      if (b && b.slug && !slugs.includes(b.slug)) slugs.push(b.slug);
+    }
+  } catch (err) {
+    console.warn('[Blog generateStaticParams Error]:', err.message);
   }
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const art = await resolveArticulo(slug);
+
+  if (!art) {
+    return buildMetadata({
+      title: 'Artículo no encontrado | Trébol Digital',
+      description: 'El artículo que buscas no existe o fue movido.',
+      path: '/insights/blog',
+      noindex: true,
+    });
+  }
+
+  return buildMetadata({
+    title: art.titulo,
+    description: art.extracto,
+    path: `/insights/blog/${slug}`,
+    type: 'article',
+    image: art.imagen
+      ? { url: art.imagen, width: 1200, height: 630, alt: art.titulo }
+      : undefined,
+  });
+}
+
+export default async function ArticuloPage({ params }) {
+  const { slug } = await params;
+  const art = await resolveArticulo(slug);
 
   if (!art) {
     return (
@@ -800,8 +638,29 @@ export default function ArticuloPage({ params }) {
   const hasStructuredContent = Boolean(art.content && art.content.secciones && art.content.secciones.length > 0);
   const Template = hasStructuredContent ? TemplateDynamic : (templates[art.plantilla] || TemplateDynamic);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: art.titulo,
+    description: art.extracto,
+    image: art.imagen ? [art.imagen] : undefined,
+    datePublished: art.created_at || undefined,
+    author: { '@type': 'Person', name: art.autor || 'Trébol Digital' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Trébol Digital',
+      logo: { '@type': 'ImageObject', url: 'https://treboldigital.com.mx/images/TREBOL_01.png' },
+    },
+    mainEntityOfPage: `https://treboldigital.com.mx/insights/blog/${slug}`,
+  };
+
   return (
     <main className="w-full bg-hueso min-h-screen relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Animated Green Ambient Light Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-40 left-0 w-[30rem] h-[30rem] bg-trebol/10 rounded-full blur-[120px]" />

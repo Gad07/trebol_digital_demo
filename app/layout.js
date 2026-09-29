@@ -99,12 +99,6 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      'es-MX': SITE_URL,
-    },
-  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

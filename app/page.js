@@ -6,7 +6,7 @@ import Contact from '../components/Contact';
 import ClientLogosBanner from '../components/ClientLogosBanner';
 import LazyCanalesScrollytelling from '../components/LazyCanalesScrollytelling';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://treboldigital.com.mx";
+import { SITE_URL } from '@/lib/seo';
 
 export const metadata = {
   title: "Trébol Digital | Estrategia Digital, IA & Marketing",
@@ -14,6 +14,9 @@ export const metadata = {
     "Impulsamos empresas con Estrategia Digital, Inteligencia Artificial aplicada, Desarrollo Web y Cultura Organizacional en CDMX, Toluca y México. Agenda tu cita.",
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      'es-MX': SITE_URL,
+    },
   },
   openGraph: {
     title: "Trébol Digital | Estrategia Digital, IA & Marketing",

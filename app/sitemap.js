@@ -1,7 +1,9 @@
 import { getBlogsFromDB, getLandingsFromDB, getCasosFromDB, getTarjetasFromDB } from '@/lib/db';
+import { SITE_URL } from '@/lib/seo';
+import { articulos } from '@/lib/articulos';
 
 export default async function sitemap() {
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://treboldigital.com.mx').replace(/\/$/, '');
+  const baseUrl = SITE_URL;
   const now = new Date().toISOString();
 
   // Páginas estáticas principales
@@ -95,8 +97,7 @@ export default async function sitemap() {
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.85,
-    },
-    {
+    },    {
       url: `${baseUrl}/politica-de-privacidad`,
       lastModified: now,
       changeFrequency: 'yearly',
@@ -114,9 +115,11 @@ export default async function sitemap() {
   let blogUrls = [];
   try {
     const blogs = await getBlogsFromDB();
-    blogUrls = (blogs || []).map(b => ({
-      url: `${baseUrl}/insights/blog/${b.slug}`,
-      lastModified: b.created_at ? new Date(b.created_at).toISOString() : now,
+    const slugs = new Set([...Object.keys(articulos), ...(blogs || []).map(b => b.slug).filter(Boolean)]);
+    const lastmods = new Map((blogs || []).map(b => [b.slug, b.created_at]));
+    blogUrls = [...slugs].map(slug => ({
+      url: `${baseUrl}/insights/blog/${slug}`,
+      lastModified: lastmods.get(slug) ? new Date(lastmods.get(slug)).toISOString() : now,
       changeFrequency: 'weekly',
       priority: 0.8,
     }));
