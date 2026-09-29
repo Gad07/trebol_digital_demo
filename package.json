@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "node server.js",
     "next:start": "next start",
     "postinstall": "prisma generate",
@@ -22,7 +22,7 @@
     "lottie-react": "^2.4.1",
     "lucide-react": "^1.27.0",
     "mysql2": "^3.23.4",
-    "next": "16.2.10",
+    "next": "^16.3.7",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -37,5 +37,8 @@
   },
   "prisma": {
     "seed": "node prisma/seed.js"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.2"
   }
 }
