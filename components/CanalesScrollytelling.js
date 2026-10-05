@@ -40,16 +40,16 @@ function TripleCameraModule() {
         transformStyle: 'preserve-3d'
       }}
     >
-      {/* ── APILAMIENTO 3D PARA EL VOLUMEN DE LA BASE DE CRISTAL DE CÁMARAS ── */}
-      {[...Array(12)].map((_, i) => (
+      {/* ── APILAMIENTO 3D PARA EL VOLUMEN DE LA BASE DE CRISTAL DE CÁMARAS (Optimizado) ── */}
+      {[0, 2, 4].map((z, i) => (
         <div
           key={`bump-${i}`}
           className="absolute inset-0 rounded-[2.2rem]"
           style={{
-            transform: `translateZ(${i * 0.5}px)`,
+            transform: `translateZ(${z}px)`,
             background: 'linear-gradient(135deg, rgba(70, 70, 69, 0.9) 0%, rgba(68, 65, 60, 0.95) 100%)',
             border: '0.5px solid rgba(255, 255, 255, 0.35)',
-            boxShadow: i === 0 ? '5px 10px 30px rgba(0, 0, 0, 0.8)' : 'none'
+            boxShadow: i === 0 ? '5px 10px 25px rgba(0, 0, 0, 0.75)' : 'none'
           }}
         />
       ))}
@@ -76,61 +76,40 @@ function TripleCameraModule() {
 
         {/* ── LENTE 1 (Top-Left): CÁMARA PRINCIPAL ── */}
         <div className="w-[42px] h-[42px] rounded-full absolute top-[16px] left-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-          {/* Cilindro exterior del bisel metálico (HUECO) */}
-          {/* Cilindro exterior del bisel metálico (HUECO) */}
-          {[...Array(32)].map((_, i) => (
-            <div key={`l1-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
-          ))}
-
-          {/* Cara frontal del anillo (Metal) */}
+          {/* Anillo de metal exterior */}
           <div
             className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
             style={{
-              transform: 'translateZ(16px)',
+              transform: 'translateZ(10px)',
               transformStyle: 'preserve-3d',
               background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
             }}
           >
             {/* Hueco interno del bisel */}
             <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
-
-              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
-              {[...Array(12)].map((_, i) => (
-                <div key={`l1-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
-              ))}
-
-              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
-              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
-
-                {/* Elemento de Apertura Interior (Más hundido todavía) */}
+              {/* Lente de Cristal */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-4px)', transformStyle: 'preserve-3d' }}>
+                {/* Elemento de Apertura Interior */}
                 <div
                   className="w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
                   style={{
-                    transform: 'translateZ(-8px)',
+                    transform: 'translateZ(-4px)',
                     transformStyle: 'preserve-3d',
                     background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
                     border: '1px solid rgba(255,255,255,0.03)'
                   }}
                 >
                   {/* Sensor con reflejo azul */}
-                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-1px)', transformStyle: 'preserve-3d' }}>
                     <div className="absolute w-[2.5px] h-[2.5px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '2px', left: '2px' }} />
                   </div>
                 </div>
 
                 {/* Contenedor 2D para reflejos superficiales del cristal */}
                 <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
-                  {/* Reflejo curvado del domo */}
                   <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
-
-                  {/* Brillo principal - Softbox de estudio */}
                   <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
-
-                  {/* Destello secundario */}
                   <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
-
-                  {/* Recubrimiento óptico sutil */}
-                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
                 </div>
               </div>
             </div>
@@ -139,61 +118,34 @@ function TripleCameraModule() {
 
         {/* ── LENTE 2 (Bottom-Left): CÁMARA ULTRA GRAN ANGULAR ── */}
         <div className="w-[42px] h-[42px] rounded-full absolute bottom-[16px] left-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-          {/* Cilindro exterior del bisel metálico (HUECO) */}
-          {/* Cilindro exterior del bisel metálico (HUECO) */}
-          {[...Array(32)].map((_, i) => (
-            <div key={`l2-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
-          ))}
-
-          {/* Cara frontal del anillo (Metal) */}
           <div
             className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
             style={{
-              transform: 'translateZ(16px)',
+              transform: 'translateZ(10px)',
               transformStyle: 'preserve-3d',
               background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
             }}
           >
-            {/* Hueco interno del bisel */}
             <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
-
-              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
-              {[...Array(12)].map((_, i) => (
-                <div key={`l2-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
-              ))}
-
-              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
-              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
-
-                {/* Elemento de Apertura Interior (Más hundido todavía) */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-4px)', transformStyle: 'preserve-3d' }}>
                 <div
                   className="w-[16px] h-[16px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
                   style={{
-                    transform: 'translateZ(-8px)',
+                    transform: 'translateZ(-4px)',
                     transformStyle: 'preserve-3d',
                     background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
                     border: '1px solid rgba(255,255,255,0.03)'
                   }}
                 >
-                  {/* Sensor con reflejo azul */}
-                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                  <div className="w-[8px] h-[8px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-1px)', transformStyle: 'preserve-3d' }}>
                     <div className="absolute w-[2.5px] h-[2.5px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '2px', left: '2px' }} />
                   </div>
                 </div>
 
-                {/* Contenedor 2D para reflejos superficiales del cristal */}
                 <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
-                  {/* Reflejo curvado del domo */}
                   <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
-
-                  {/* Brillo principal - Softbox de estudio */}
                   <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
-
-                  {/* Destello secundario */}
                   <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
-
-                  {/* Recubrimiento óptico sutil */}
-                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
                 </div>
               </div>
             </div>
@@ -202,84 +154,50 @@ function TripleCameraModule() {
 
         {/* ── LENTE 3 (Middle-Right): CÁMARA TELEFOTO ── */}
         <div className="w-[42px] h-[42px] rounded-full absolute top-[44px] right-[16px] flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-          {/* Cilindro exterior del bisel metálico (HUECO) */}
-          {[...Array(32)].map((_, i) => (
-            <div key={`l3-${i}`} className="absolute w-[42px] h-[42px] rounded-full border-[3px] border-[#3a3834] bg-transparent" style={{ transform: `translateZ(${i * 0.5}px)` }} />
-          ))}
-
-          {/* Cara frontal del anillo (Metal) */}
           <div
             className="absolute w-[42px] h-[42px] rounded-full flex items-center justify-center shadow-[4px_8px_16px_rgba(0,0,0,0.9),_inset_0_2px_3px_rgba(255,255,255,0.3)] border border-[#a39b8f]/40"
             style={{
-              transform: 'translateZ(16px)',
+              transform: 'translateZ(10px)',
               transformStyle: 'preserve-3d',
               background: 'radial-gradient(circle, transparent 16px, #111111 16.5px, #8a857b 17.5px, #ffffff 19.5px, #47433c 21px)'
             }}
           >
-            {/* Hueco interno del bisel */}
             <div className="w-[36px] h-[36px] rounded-full bg-transparent flex items-center justify-center shadow-[inset_0_4px_8px_rgba(0,0,0,0.8)]" style={{ transformStyle: 'preserve-3d' }}>
-
-              {/* Cilindro interno oscuro para dar profundidad física al barril del lente */}
-              {[...Array(12)].map((_, i) => (
-                <div key={`l3-in-${i}`} className="absolute w-[36px] h-[36px] rounded-full border-[1.5px] border-[#000]/60 bg-transparent" style={{ transform: `translateZ(-${i * 0.5}px)` }} />
-              ))}
-
-              {/* Lente de Cristal (Físicamente hundido dentro del barril) */}
-              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-6px)', transformStyle: 'preserve-3d' }}>
-
-                {/* Elemento de Apertura Interior (Más hundido todavía, más pequeño para telefoto) */}
+              <div className="w-[34px] h-[34px] rounded-full bg-[#08080a] relative flex items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-4px)', transformStyle: 'preserve-3d' }}>
                 <div
                   className="w-[13px] h-[13px] rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.05)]"
                   style={{
-                    transform: 'translateZ(-8px)',
+                    transform: 'translateZ(-4px)',
                     transformStyle: 'preserve-3d',
                     background: 'radial-gradient(circle at center, #020203 30%, #1a1c23 80%, #050608 100%)',
                     border: '1px solid rgba(255,255,255,0.03)'
                   }}
                 >
-                  {/* Sensor telefoto con reflejo azul */}
-                  <div className="w-[6px] h-[6px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-2px)', transformStyle: 'preserve-3d' }}>
+                  <div className="w-[6px] h-[6px] rounded-full bg-gradient-to-tr from-[#020202] to-[#0b101d] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,1)]" style={{ transform: 'translateZ(-1px)', transformStyle: 'preserve-3d' }}>
                     <div className="absolute w-[2px] h-[2px] bg-blue-400/80 rounded-full blur-[0.3px]" style={{ transform: 'translateZ(1px)', top: '1.5px', left: '1.5px' }} />
                   </div>
                 </div>
 
-                {/* Contenedor 2D para reflejos superficiales del cristal */}
                 <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" style={{ transform: 'translateZ(1px)' }}>
-                  {/* Reflejo curvado del domo */}
                   <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent mix-blend-screen" />
-
-                  {/* Brillo principal - Softbox de estudio */}
                   <div className="absolute top-[22%] left-[22%] w-[12px] h-[6px] bg-gradient-to-b from-white/80 to-white/10 rounded-full blur-[0.4px] rotate-[-35deg]" />
-
-                  {/* Destello secundario */}
                   <div className="absolute bottom-[28%] right-[28%] w-[4px] h-[2px] bg-white/30 rounded-full blur-[0.2px] rotate-[-35deg]" />
-
-                  {/* Recubrimiento óptico sutil */}
-                  <div className="absolute bottom-[8%] right-[8%] w-[75%] h-[75%] rounded-full bg-gradient-to-tl from-cyan-500/10 via-indigo-500/5 to-transparent blur-[1.5px] mix-blend-screen" />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-
-
         {/* ── FLASH BLANCO PREMIUM (Top-Right) ── */}
         <div
           className="w-[24px] h-[24px] rounded-full absolute top-[19px] right-[25px] bg-gradient-to-br from-[#1b1a18] via-[#2f2d2a] to-[#121110] border border-[#a39b8f]/20 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)] flex items-center justify-center"
           style={{ transform: 'translateZ(1px)' }}
         >
-          {/* Anillo de metal plateado con padding intermedio */}
           <div className="w-[20px] h-[20px] rounded-full p-[2px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85)] flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #f0f0f0 0%, #ffffff 50%, #d4d4d4 100%)' }}>
-            {/* Difusor concéntrico (Lente Fresnel) */}
             <div className="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center shadow-[inset_0_0_3px_rgba(0,0,0,0.15)]" style={{ backgroundImage: `radial-gradient(circle, transparent 20%, rgba(0,0,0,0.03) 21%, transparent 35%, rgba(0,0,0,0.03) 36%, transparent 50%, rgba(0,0,0,0.03) 51%, transparent 65%, rgba(0,0,0,0.03) 66%, transparent 100%)`, backgroundColor: '#fdfdfd' }}>
-
-              {/* Núcleo LED blanco perlado */}
               <div className="w-[8px] h-[8px] rounded-full bg-[#ffffff] shadow-[0_0_4px_rgba(255,255,255,1),inset_0_1px_1px_rgba(0,0,0,0.05)] flex items-center justify-center">
                 <div className="w-[3px] h-[3px] rounded-full bg-[#f8f9fa] blur-[0.5px]" />
               </div>
-
-              {/* Brillos especulares de cristal templado */}
               <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-white/70 pointer-events-none" />
               <div className="absolute top-[1.5px] left-[2.5px] w-[10px] h-[3px] bg-gradient-to-b from-white/90 to-transparent rounded-full blur-[0.3px] -rotate-45" />
             </div>
@@ -321,25 +239,20 @@ function YouTubeVideo({ videoId, title, scaleClass = "w-[120%] h-[100%]", isActi
   };
 
   useEffect(() => {
-    // Desbloqueo de audio dinámico ante interacción del usuario
+    let unmounted = false;
     const handleUserInteraction = () => {
-      if (isActive) {
+      if (isActive && !unmounted) {
         enableAudioAndDisableCaptions();
       }
     };
 
-    window.addEventListener('scroll', handleUserInteraction, { passive: true });
-    window.addEventListener('click', handleUserInteraction, { passive: true });
-    window.addEventListener('pointerdown', handleUserInteraction, { passive: true });
-    window.addEventListener('touchstart', handleUserInteraction, { passive: true });
-    window.addEventListener('wheel', handleUserInteraction, { passive: true });
+    window.addEventListener('click', handleUserInteraction, { passive: true, once: true });
+    window.addEventListener('touchstart', handleUserInteraction, { passive: true, once: true });
 
     return () => {
-      window.removeEventListener('scroll', handleUserInteraction);
+      unmounted = true;
       window.removeEventListener('click', handleUserInteraction);
-      window.removeEventListener('pointerdown', handleUserInteraction);
       window.removeEventListener('touchstart', handleUserInteraction);
-      window.removeEventListener('wheel', handleUserInteraction);
     };
   }, [isActive]);
 
@@ -895,17 +808,16 @@ export default function CanalesScrollytelling() {
             setActiveIndex(-1);
           },
           onUpdate: (self) => {
-            if (!self.isActive) {
-              setActiveIndex(-1);
-              return;
-            }
-            hideHeader();
+            if (!self.isActive) return;
             const p = self.progress;
-            if (p < 0.25) setActiveIndex(0);
-            else if (p < 0.50) setActiveIndex(1);
-            else if (p < 0.75) setActiveIndex(2);
-            else if (p < 1.0) setActiveIndex(3);
-            else setActiveIndex(-1);
+            let target = 0;
+            if (p < 0.25) target = 0;
+            else if (p < 0.50) target = 1;
+            else if (p < 0.75) target = 2;
+            else if (p < 1.0) target = 3;
+            else target = -1;
+
+            setActiveIndex((prev) => (prev !== target ? target : prev));
           },
         },
       });

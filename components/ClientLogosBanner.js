@@ -176,11 +176,15 @@ export default function ClientLogosBanner({ isLanding, hideTitle = false }) {
 
       <style jsx>{`
         @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
         }
         .animate-marquee {
           animation: marquee linear infinite;
+          will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
         .animate-marquee:hover {
           animation-play-state: paused;

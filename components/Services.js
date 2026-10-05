@@ -5,21 +5,21 @@ export default function Services({ sec }) {
   const defaultItems = [
     {
       icon: Target,
-      title: 'Estrategia & Tecnología Nativa',
-      desc: 'Unimos diseño web de calidad editorial, estrategias de marketing hipersegmentadas y modelos de Inteligencia Artificial ajustados a tu industria.',
-      bullets: ['Desarrollo nativo & SEO', 'Pauta de alta conversión']
+      title: 'Estrategia Digital & Desarrollo Web a la Medida',
+      desc: 'Diseñamos sitios web profesionales y de alta velocidad, campañas publicitarias dirigidas a tus clientes ideales y soluciones de Inteligencia Artificial adaptadas a tu negocio.',
+      bullets: ['Sitios web modernos & optimizados para Google', 'Campañas digitales de alta efectividad']
     },
     {
       icon: Zap,
       title: 'Sistemas Comerciales Escalables',
-      desc: 'No creamos simples vitrinas estáticas. Diseñamos ecosistemas digitales orientados a la conversión de clientes y retorno directo de inversión.',
-      bullets: ['Automatización con IA & CRM', 'Filtro anti-leads basura']
+      desc: 'No creamos simples vitrinas estáticas. Diseñamos ecosistemas digitales orientados a la captación de prospectos calificados y retorno directo de inversión.',
+      bullets: ['Automatización con IA & CRM', 'Filtro de prospectos calificados']
     },
     {
       icon: Users,
-      title: 'Capacitación & Autonomía Humana',
+      title: 'Capacitación & Autonomía del Equipo',
       desc: 'No generamos dependencia. Formamos y capacitamos a tu equipo para que tomen el control autónomo de todas las herramientas implementadas.',
-      bullets: ['Talleres prácticos a medida', 'Transferencia técnica total']
+      bullets: ['Talleres prácticos para tu equipo', 'Transferencia total de conocimiento']
     }
   ];
 

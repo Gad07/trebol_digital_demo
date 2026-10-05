@@ -41,13 +41,8 @@ export default function DirectorioPage() {
       {/* ─────────────────────────────────────────────────────────────
           1. HEADER DEL DIRECTORIO EJECUTIVO
          ───────────────────────────────────────────────────────────── */}
-      <section className="w-full max-w-6xl mx-auto px-5 sm:px-8 pt-28 sm:pt-36 pb-12 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-trebol text-xs font-mono font-bold uppercase tracking-wider shadow-sm mb-4">
-          <Sparkles size={14} />
-          <span>Equipo & Liderazgo Trébol</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-6xl font-black text-carbon tracking-tight mb-4">
+      <section className="w-full max-w-6xl mx-auto px-5 sm:px-8 pt-28 sm:pt-36 pb-12 text-center space-y-4">
+        <h1 className="text-4xl sm:text-6xl font-black text-carbon tracking-tight">
           Directorio <span className="text-trebol italic font-serif font-normal">Ejecutivo</span>
         </h1>
 
@@ -95,9 +90,26 @@ export default function DirectorioPage() {
                         {person.company || "TRÉBOL DIGITAL"}
                       </span>
 
-                      <h2 className="text-2xl sm:text-3xl font-black text-carbon leading-none">
-                        {person.firstName || person.first_name} <span className="text-trebol italic font-serif font-normal">{person.lastName || person.last_name}</span>
-                      </h2>
+                      {(() => {
+                        const lName = person.lastName || person.last_name || '';
+                        const words = lName.trim().split(/\s+/).filter(Boolean);
+                        const isMultiple = words.length > 1;
+
+                        return (
+                          <h2 className="text-2xl sm:text-3xl font-black text-carbon leading-none">
+                            {person.firstName || person.first_name}{' '}
+                            {isMultiple ? (
+                              <span className="text-lg sm:text-xl text-trebol italic font-serif font-normal block mt-1">
+                                {lName}
+                              </span>
+                            ) : (
+                              <span className="text-trebol italic font-serif font-normal">
+                                {lName}
+                              </span>
+                            )}
+                          </h2>
+                        );
+                      })()}
 
                       <p className="text-xs font-mono font-extrabold text-carbon/80 uppercase tracking-wider">
                         {person.title}

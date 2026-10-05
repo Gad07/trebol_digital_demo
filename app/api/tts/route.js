@@ -50,10 +50,17 @@ async function fetchGoogleTtsChunk(phrase) {
 
 export async function POST(request) {
   try {
-    const { text, voice = 'nova' } = await request.json();
+    let body = {};
+    try {
+      body = await request.json();
+    } catch (parseErr) {
+      return NextResponse.json({ error: 'Cuerpo de solicitud inválido o vacío' }, { status: 400 });
+    }
 
-    if (!text) {
-      return NextResponse.json({ error: 'Text is required' }, { status: 400 });
+    const { text, voice = 'nova' } = body || {};
+
+    if (!text || typeof text !== 'string') {
+      return NextResponse.json({ error: 'Text is required and must be a string' }, { status: 400 });
     }
 
     const cacheKey = `${voice}_${text.trim()}`;

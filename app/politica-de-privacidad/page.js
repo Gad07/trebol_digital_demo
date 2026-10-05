@@ -29,7 +29,7 @@ export default function PoliticaPrivacidadPage() {
           <section className="space-y-3">
             <h2 className="text-2xl font-bold text-[#2D2E2D]">1. Responsable del Tratamiento de Datos</h2>
             <p>
-              Trébol Digital, con contacto en <strong className="font-semibold text-[#2D2E2D]">hola@treboldigital.com</strong>, es responsable del tratamiento y protección de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
+              Trébol Digital, con contacto en <strong className="font-semibold text-[#2D2E2D]">contacto@treboldigital.com.mx</strong>, es responsable del tratamiento y protección de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
             </p>
           </section>
 
@@ -67,14 +67,14 @@ export default function PoliticaPrivacidadPage() {
           <section className="space-y-3">
             <h2 className="text-2xl font-bold text-[#2D2E2D]">5. Derechos ARCO</h2>
             <p>
-              Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse al tratamiento de sus datos personales (Derechos ARCO). Para ejercerlos, puede enviar una solicitud formal por correo electrónico a <strong className="font-semibold text-[#2D2E2D]">hola@treboldigital.com</strong>.
+              Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse al tratamiento de sus datos personales (Derechos ARCO). Para ejercerlos, puede enviar una solicitud formal por correo electrónico a <strong className="font-semibold text-[#2D2E2D]">contacto@treboldigital.com.mx</strong>.
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-2xl font-bold text-[#2D2E2D]">6. Contacto</h2>
             <p>
-              Si tiene preguntas o dudas acerca de esta política de privacidad, puede contactarnos en <a href="mailto:hola@treboldigital.com" className="text-[#5C9E43] font-bold hover:underline">hola@treboldigital.com</a> o vía WhatsApp al <a href="https://wa.me/525564929081?text=Hola%20Tr%C3%A9bol%20Digital,%20vengo%20de%20su%20sitio%20web%20y%20tengo%20una%20consulta%20sobre%20la%20pol%C3%ADtica%20de%20privacidad." target="_blank" rel="noopener noreferrer" className="text-[#5C9E43] font-bold hover:underline">+52 55 6492 9081</a>.
+              Si tiene preguntas o dudas acerca de esta política de privacidad, puede contactarnos en <a href="mailto:contacto@treboldigital.com.mx" className="text-[#5C9E43] font-bold hover:underline">contacto@treboldigital.com.mx</a> o vía WhatsApp al <a href="https://wa.me/525564929081?text=Hola%20Tr%C3%A9bol%20Digital,%20vengo%20de%20su%20sitio%20web%20y%20tengo%20una%20consulta%20sobre%20la%20pol%C3%ADtica%20de%20privacidad." target="_blank" rel="noopener noreferrer" className="text-[#5C9E43] font-bold hover:underline">+52 55 6492 9081</a>.
             </p>
           </section>
 

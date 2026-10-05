@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifySessionToken } from '@/lib/auth';
+import { verifySessionToken, createFingerprint } from '@/lib/auth';
 
 export async function GET(req) {
   try {
@@ -10,18 +10,27 @@ export async function GET(req) {
     const token = cookieToken || headerToken;
 
     if (!token) {
-      return NextResponse.json({ ok: false, authenticated: false }, { status: 401 });
-    }
-
-    const payload = verifySessionToken(token);
-
-    if (!payload) {
-      const response = NextResponse.json({ ok: false, authenticated: false, error: 'Sesión expirada' }, { status: 401 });
-      response.cookies.delete('trebol_admin_session');
+      const response = NextResponse.json({ ok: false, authenticated: false }, { status: 401 });
+      response.headers.set('Cache-Control', 'no-store, max-age=0');
       return response;
     }
 
-    return NextResponse.json({
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+               req.headers.get('x-real-ip') || 
+               'local-client';
+    const userAgent = req.headers.get('user-agent') || 'generic-client';
+    const fingerprint = createFingerprint(ip, userAgent);
+
+    const payload = verifySessionToken(token, fingerprint);
+
+    if (!payload) {
+      const response = NextResponse.json({ ok: false, authenticated: false, error: 'Sesión inválida o expirada' }, { status: 401 });
+      response.cookies.delete('trebol_admin_session');
+      response.headers.set('Cache-Control', 'no-store, max-age=0');
+      return response;
+    }
+
+    const response = NextResponse.json({
       ok: true,
       authenticated: true,
       user: {
@@ -33,6 +42,12 @@ export async function GET(req) {
         permissions: payload.permissions
       }
     });
+
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+
+    return response;
   } catch (e) {
     return NextResponse.json({ ok: false, error: 'Error al verificar sesión' }, { status: 500 });
   }

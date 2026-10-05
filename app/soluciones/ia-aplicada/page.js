@@ -67,9 +67,10 @@ export function TrebotSVG({ isSpeaking, isHovered, size, isModal = false, classN
         className={`relative select-none cursor-pointer transform-gpu flex items-center justify-center ${className || 'w-[300px] sm:w-[360px] md:w-[400px] lg:w-[460px] xl:w-[540px] 2xl:w-[620px] aspect-[1/1.15]'}`}
         style={size ? { width: size, height: typeof size === 'number' ? size * 1.15 : size } : undefined}
       >
+        <div className="absolute inset-6 rounded-full blur-3xl bg-[#84C638]/30 pointer-events-none -z-10 transform-gpu" />
         <motion.div
           key="trebot-model"
-          className="w-full h-full drop-shadow-[0_45px_90px_rgba(132,198,56,0.65)] flex items-center justify-center"
+          className="w-full h-full drop-shadow-[0_15px_30px_rgba(0,0,0,0.22)] flex items-center justify-center transform-gpu will-change-transform"
           animate={BOT2_FLOAT_ANIMATE}
           transition={BOT2_FLOAT_TRANSITION}
         >
@@ -1441,32 +1442,37 @@ export default function IAAplicadaPage() {
     stopAudioOnly();
     return new Promise(async (resolve) => {
       if (muted || typeof window === 'undefined' || !text) {
+        setIsSpeaking(false);
         resolve();
         return;
       }
 
-      // Convertir MAYÚSCULAS de TREBOT a Trebot para evitar que el motor TTS lo deletree letra por letra
+      // Convertir MAYÚSCULAS de TREBOT a Trebot para evitar deletreo
       const cleanText = text.replace(/\bTREBOT\b/g, 'Trebot').replace(/\bTREBOTS\b/g, 'Trebots');
 
       let resolved = false;
       let timerId = null;
+      let watchdogInterval = null;
+      let synthKeepAlive = null;
 
       const safeResolve = () => {
         if (!resolved) {
           resolved = true;
           if (timerId) clearTimeout(timerId);
+          if (watchdogInterval) clearInterval(watchdogInterval);
+          if (synthKeepAlive) clearInterval(synthKeepAlive);
           setIsSpeaking(false);
           resolve();
         }
       };
 
-      // Timer de seguridad por si el audio es bloqueado o falla (amplio para no cortar la locución)
-      const durationEstimate = Math.max(15000, cleanText.length * 200);
+      // Timeout realista basado en longitud del texto (~15 caracteres por segundo en español + 1.2s de margen)
+      const durationEstimate = Math.min(10000, Math.max(2500, Math.ceil((cleanText.length / 14) * 1000) + 1200));
       timerId = setTimeout(safeResolve, durationEstimate);
 
       try {
         const controller = new AbortController();
-        const fetchTimeout = setTimeout(() => controller.abort(), 9000);
+        const fetchTimeout = setTimeout(() => controller.abort(), 6000);
 
         const res = await fetch('/api/tts', {
           method: 'POST',
@@ -1483,7 +1489,7 @@ export default function IAAplicadaPage() {
           const audio = new Audio(audioUrl);
           currentAudioRef.current = audio;
 
-          setIsSpeaking(true);
+          // Eventos para finalización certera en móvil
           audio.onended = () => {
             URL.revokeObjectURL(audioUrl);
             safeResolve();
@@ -1492,48 +1498,89 @@ export default function IAAplicadaPage() {
             URL.revokeObjectURL(audioUrl);
             safeResolve();
           };
+          audio.onpause = () => {
+            if (audio.currentTime > 0 && audio.currentTime >= (audio.duration - 0.2)) {
+              URL.revokeObjectURL(audioUrl);
+              safeResolve();
+            }
+          };
 
-          // Mantener tono natural y humano (no chillón ni distorsionado)
           audio.preservesPitch = true;
           if ('webkitPreservesPitch' in audio) audio.webkitPreservesPitch = true;
           if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
-
-          // Velocidad 10% más rápida manteniendo tono perfecto
           audio.playbackRate = 1.10;
 
-          await audio.play();
-          return;
+          // Watchdog para dispositivos móviles donde onended puede no dispararse
+          let lastTime = 0;
+          let stalledCount = 0;
+          watchdogInterval = setInterval(() => {
+            if (!audio || audio.ended) {
+              safeResolve();
+              return;
+            }
+            if (audio.currentTime > 0 && audio.currentTime === lastTime && !audio.paused) {
+              stalledCount++;
+              if (stalledCount >= 3) { // 900ms sin avanzar
+                safeResolve();
+              }
+            } else {
+              stalledCount = 0;
+              lastTime = audio.currentTime;
+            }
+          }, 300);
+
+          try {
+            await audio.play();
+            setIsSpeaking(true);
+            return;
+          } catch (playErr) {
+            // Autoplay bloqueado por política de navegador móvil
+            URL.revokeObjectURL(audioUrl);
+          }
         }
       } catch (e) {
-        // Fallback a SpeechSynthesis solo si la red falla
+        // Fallback si la red o el servicio TTS no responden
       }
 
+      // Fallback a SpeechSynthesis si la API remota no está disponible
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(cleanText);
-        utter.lang = 'es-MX';
-        utter.pitch = 1.0;
-        utter.rate = 1.10;
+        try {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(cleanText);
+          utter.lang = 'es-MX';
+          utter.pitch = 1.0;
+          utter.rate = 1.10;
 
-        utter.onend = safeResolve;
-        utter.onerror = safeResolve;
+          utter.onend = safeResolve;
+          utter.onerror = safeResolve;
 
-        const voices = window.speechSynthesis.getVoices();
-        const femaleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('sabina') || v.name.toLowerCase().includes('monica') || v.name.toLowerCase().includes('laura') || v.name.toLowerCase().includes('lucia') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('mujer') || v.name.toLowerCase().includes('paulina') || v.name.toLowerCase().includes('mia')));
-        const genericVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
-        if (femaleVoice) {
-          utter.voice = femaleVoice;
-        } else if (genericVoice) {
-          utter.voice = genericVoice;
+          const voices = window.speechSynthesis.getVoices();
+          const femaleVoice = voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('sabina') || v.name.toLowerCase().includes('monica') || v.name.toLowerCase().includes('laura') || v.name.toLowerCase().includes('lucia') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('mujer') || v.name.toLowerCase().includes('paulina') || v.name.toLowerCase().includes('mia')));
+          const genericVoice = voices.find(v => v.lang.startsWith('es-MX')) || voices.find(v => v.lang.startsWith('es'));
+          if (femaleVoice) {
+            utter.voice = femaleVoice;
+          } else if (genericVoice) {
+            utter.voice = genericVoice;
+          }
+
+          // Keep-alive para bug de SpeechSynthesis en navegadores móviles Chrome/Safari
+          synthKeepAlive = setInterval(() => {
+            if (window.speechSynthesis && window.speechSynthesis.speaking) {
+              window.speechSynthesis.pause();
+              window.speechSynthesis.resume();
+            }
+          }, 1500);
+
+          setIsSpeaking(true);
+          window.speechSynthesis.speak(utter);
+        } catch {
+          safeResolve();
         }
-
-        setIsSpeaking(true);
-        window.speechSynthesis.speak(utter);
       } else {
         safeResolve();
       }
     });
-  }, [muted, stopAudio]);
+  }, [muted, stopAudioOnly]);
 
   const currentStepRef = useRef(-1);
 

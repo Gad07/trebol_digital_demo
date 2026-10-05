@@ -1,40 +1,83 @@
 [
   {
-    "id": "tarjeta_gadiel",
-    "slug": "gadiel-palma",
-    "firstName": "GADIEL",
-    "lastName": "PALMA",
-    "title": "DESARROLLADOR & ESPECIALISTA EN IA",
-    "company": "TRÉBOL DIGITAL",
-    "bio": "Desarrollador Web y Especialista en Inteligencia Artificial. Integramos aplicaciones web de alto rendimiento en Next.js, agentes conversacionales 24/7 y automatización inteligente para empresas.",
-    "phone": "+52 55 6492 9081",
-    "email": "gadiel@treboldigital.com",
-    "website": "treboldigital.com.mx",
-    "websiteUrl": "https://treboldigital.com.mx",
-    "whatsappUrl": "https://wa.me/525564929081?text=Hola%20Gadiel,%20vi%20tu%20perfil%20y%20me%20gustar%C3%ADa%20platicar.",
-    "photoUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95",
-    "semblanzaP1": "Gadiel Palma es Desarrollador Web y Especialista en Inteligencia Artificial en Trébol Digital. Ha diseñado e implementado arquitecturas serverless en Next.js, agentes conversacionales 24/7 y soluciones de automatización inteligente.",
-    "semblanzaP2": "Su enfoque combina ingeniería de software de alto rendimiento, optimización de velocidad de carga y experiencia de usuario fluida orientada a resultados de negocio.",
-    "citaTexto": "La ingeniería de software y la inteligencia artificial unidas transforman ideas complejas en experiencias digitales de alto impacto.",
-    "status": "published"
-  },
-  {
     "id": "tarjeta_sandra",
     "slug": "sandra-cuevas",
     "firstName": "SANDRA",
-    "lastName": "CUEVAS",
-    "title": "CEO & ESPECIALISTA EN MARKETING Y DESARROLLO ORGANIZACIONAL",
+    "lastName": " CUEVAS   GUEVARA",
+    "title": "Branding ·  Estrategia · Performance · Contenidos · Leads · Proyectos Digitales ",
     "company": "TRÉBOL DIGITAL",
-    "bio": "CEO y Estratega en Marketing & Desarrollo Organizacional. Lideramos la transformación de empresas en México mediante embudos publicitarios de alto impacto, alineación de equipos y aceleración de cultura organizacional.",
+    "bio": "Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones. \n",
+    "experienciaBadge": "+9 años de experiencia en marketing digital",
+    "pilaresTags": [
+      "Branding ·  Estrategia · Performance · Contenidos · Leads · Proyectos Digitales"
+    ],
     "phone": "+52 55 5555 1234",
     "email": "sandra@treboldigital.com",
     "website": "treboldigital.com.mx",
-    "websiteUrl": "https://treboldigital.com.mx",
+    "websiteUrl": "https://treboldigital.com",
     "whatsappUrl": "https://wa.me/525555551234?text=Hola%20Sandra,%20vi%20tu%20tarjeta%20digital%20y%20me%20gustar%C3%ADa%20platicar.",
-    "photoUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=95",
-    "semblanzaP1": "Sandra Cuevas se desempeña como CEO y Especialista en Marketing y Desarrollo Organizacional en Trébol Digital. Ha impulsado el crecimiento estructural y comercial de decenas de marcas en México.",
-    "semblanzaP2": "Su especialidad radica en conectar el posicionamiento de marca, la estrategia de captación B2B y el desarrollo del talento interno para construir organizaciones altamente competitivas.",
-    "citaTexto": "El verdadero marketing no solo atrae clientes, transforma la cultura y la fuerza motriz de toda la organización.",
+    "linkedinUrl": "https://www.linkedin.com/in/sandra-cuevas-manager/",
+    "photoUrl": "https://i.ibb.co/Ps99kyRZ/Whats-App-Image-2026-09-30-at-4-10-17-PM.jpg",
+    "portfolioUrl": "/casos-de-exito",
+    "showPortfolio": false,
+    "semblanzaP1": "Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones. ",
+    "semblanzaP2": "Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones. ",
+    "semblanzaP3": "Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones. ",
+    "citaTexto": "Entender el negocio primero. Después, construir el marketing que necesitas. ",
+    "enfoqueDestacado": "Entender el negocio primero. Después, construir el marketing que necesitas. ",
+    "servicios": [],
+    "diferencialTitulo": "No sólo hacemos marketing para tu empresa. Te enseñamos a aplicarla en tu negocio. ",
+    "diferencialFormula": "Estrategia + creatividad + análisis de datos + tecnología + capacitación. ",
+    "ctaTitulo": "¿TIENES UN RETO DE MARKETING? ",
+    "ctaSubtitulo": "Tengamos una sesión sin costo. Si buscas fortalecer tu marca, generar más oportunidades para tu negocio",
+    "status": "published"
+  },
+  {
+    "id": "tarjeta_gadiel",
+    "slug": "gadiel-palma",
+    "firstName": "GADIEL    ",
+    "lastName": "PALMA",
+    "title": "Desarrollo web · Arquitectura · Integraciones · Automatización · Experiencia digital",
+    "company": "TRÉBOL DIGITAL",
+    "bio": "Ayudo a marcas y negocios a transformar sus ideas en experiencias web envolventes, automatizadas y orientadas a resultados. Combino diseño inmersivo, desarrollo completo e inteligencia artificial para crear soluciones digitales rápidas, inteligentes y listas para crecer.",
+    "experienciaBadge": "Desarrollo Web Full-Stack, IA & Automatización",
+    "pilaresTags": [],
+    "phone": "+52 722 365 9263",
+    "email": "gadpalma7@gmail.com",
+    "website": "treboldigital.com.mx",
+    "websiteUrl": "https://treboldigital.com.mx",
+    "whatsappUrl": "https://wa.me/525564929081?text=Hola%20Gadiel,%20vi%20tu%20tarjeta%20digital%20y%20me%20gustar%C3%ADa%20platicar.",
+    "linkedinUrl": "https://www.linkedin.com/in/gadiel-palma-ramos-08375817b/",
+    "photoUrl": "https://i.ibb.co/dJp6PYk9/Whats-App-Image-2026-10-02-at-4-02-47-PM.jpg",
+    "portfolioUrl": "https://gadielpalma.dev/",
+    "showPortfolio": true,
+    "semblanzaP1": "Soy Gadiel Palma y me apasiona dar vida a proyectos digitales que no solo se vean bien, sino que funcionen de manera impecable. Me enfoco en construir sitios y plataformas web que atrapen a los visitantes desde el primer segundo, transformando ideas complejas en herramientas sencillas, veloces y listas para hacer crecer cualquier tipo de negocio.",
+    "semblanzaP2": "Combino el diseño de experiencias envolventes con la creación de la estructura interna que sostiene a cada página. Esto me permite integrar inteligencia artificial y automatizar procesos diarios, haciendo que la tecnología trabaje a tu favor, ahorre tiempo y resuelva problemas reales de forma totalmente transparente y sin enredos técnicos.",
+    "semblanzaP3": "Actualmente lidero la ejecución técnica en Trébol Digital, donde aseguro que la estrategia, el diseño y la tecnología caminen hacia el mismo objetivo. Acompaño a las marcas en cada etapa de su camino, convirtiéndome en un aliado estratégico para llevar sus ideas desde el concepto inicial hasta una solución digital madura y altamente competitiva.",
+    "citaTexto": "Entender el objetivo. Después, construir la solución tecnológica que lo haga posible.",
+    "enfoqueDestacado": "Entender el objetivo. Después, construir la solución tecnológica que lo haga posible.",
+    "servicios": [
+      {
+        "titulo": "Desarrollo Web",
+        "descripcion": "Sitios web · Landing pages · Soluciones a medida · Optimización"
+      },
+      {
+        "titulo": "Integración & Tecnología",
+        "descripcion": "APIs · Herramientas digitales · Integraciones · Automatización"
+      },
+      {
+        "titulo": "Proyectos digitales",
+        "descripcion": "Arquitectura · Implementación · Coordinación técnica · Escalabilidad"
+      },
+      {
+        "titulo": "Experiencia Digital",
+        "descripcion": "Rendimiento · Funcionalidad · Usabilidad · Mejora continua"
+      }
+    ],
+    "diferencialTitulo": "No sólo desarrollo páginas web.\n\nConstruyo soluciones digitales pensadas para funcionar, crecer y resolver necesidades reales de negocio",
+    "diferencialFormula": "Tecnología + estrategia + funcionalidad + visión de negocio.",
+    "ctaTitulo": "¿TIENES UN RETO DIGITAL?",
+    "ctaSubtitulo": "Si necesitas crear, mejorar o llevar tu negocio a una solución web más eficiente, conversemos.",
     "status": "published"
   }
 ]

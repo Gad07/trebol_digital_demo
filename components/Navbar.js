@@ -91,7 +91,8 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY || 0;
-      setScrolled(y > 30);
+      const next = y > 30;
+      setScrolled((prev) => (prev !== next ? next : prev));
     };
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);

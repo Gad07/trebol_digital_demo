@@ -210,12 +210,13 @@ export default function Process({ customSteps, title = "Metodología", titleGree
             setActiveStep(0);
           },
           onUpdate: (self) => {
-            if (self.isActive) hideHeader();
             const p = self.progress;
-            if (p < 0.25) setActiveStep(0);
-            else if (p < 0.50) setActiveStep(1);
-            else if (p < 0.75) setActiveStep(2);
-            else setActiveStep(3);
+            let target = 0;
+            if (p < 0.25) target = 0;
+            else if (p < 0.50) target = 1;
+            else if (p < 0.75) target = 2;
+            else target = 3;
+            setActiveStep((prev) => (prev !== target ? target : prev));
           }
         }
       });

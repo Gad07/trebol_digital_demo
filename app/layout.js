@@ -137,7 +137,7 @@ const jsonLd = {
       slogan: "Tenemos la suerte de encontrarnos",
       description: "Agencia y consultora de Estrategia Digital, Inteligencia Artificial aplicada, Desarrollo Web de alto rendimiento y Desarrollo Organizacional.",
       telephone: "+52-55-6492-9081",
-      email: "hola@treboldigital.com",
+      email: "contacto@treboldigital.com.mx",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Av. Paseo Tollocan & Av. Insurgentes Sur",
@@ -171,7 +171,7 @@ const jsonLd = {
       logo: `${SITE_URL}/images/TREBOL_01.png`,
       image: `${SITE_URL}/og-image.png`,
       telephone: "+52-55-6492-9081",
-      email: "hola@treboldigital.com",
+      email: "contacto@treboldigital.com.mx",
       priceRange: "$$",
       currenciesAccepted: "MXN, USD",
       paymentAccepted: "Credit Card, Debit Card, Bank Transfer, Stripe, Cash",

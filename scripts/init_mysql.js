@@ -98,18 +98,30 @@ async function initMySQL() {
       slug VARCHAR(255) UNIQUE NOT NULL,
       first_name VARCHAR(150) NOT NULL,
       last_name VARCHAR(150) NOT NULL,
-      title VARCHAR(150),
+      title VARCHAR(255),
       company VARCHAR(150),
       bio TEXT,
+      experiencia_badge VARCHAR(255),
+      pilares_tags TEXT,
       phone VARCHAR(50),
       email VARCHAR(150),
       website VARCHAR(150),
       website_url TEXT,
       whatsapp_url TEXT,
+      linkedin_url TEXT,
       photo_url TEXT,
+      portfolio_url VARCHAR(255) DEFAULT '/casos-de-exito',
+      show_portfolio BOOLEAN DEFAULT true,
       semblanza_p1 TEXT,
       semblanza_p2 TEXT,
+      semblanza_p3 TEXT,
       cita_texto TEXT,
+      enfoque_destacado TEXT,
+      servicios LONGTEXT,
+      diferencial_titulo TEXT,
+      diferencial_formula TEXT,
+      cta_titulo TEXT,
+      cta_subtitulo TEXT,
       status VARCHAR(50) DEFAULT 'published',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -118,83 +130,131 @@ async function initMySQL() {
   // Limpiar tarjeta anterior de gabriel si existe
   await connection.query("DELETE FROM tarjetas WHERE slug = 'gabriel-paz' OR slug = 'gabriel' OR id = 'tarjeta_gabriel';");
 
-  // Insertar o actualizar tarjeta por defecto para gadiel-palma
-  await connection.query(`
-    INSERT INTO tarjetas (
-      id, slug, first_name, last_name, title, company, bio, phone, email, website, website_url, whatsapp_url, photo_url, semblanza_p1, semblanza_p2, cita_texto
-    ) VALUES (
-      'tarjeta_gadiel',
-      'gadiel-palma',
-      'GADIEL',
-      'PALMA',
-      'DESARROLLADOR & ESPECIALISTA EN IA',
-      'TRÉBOL DIGITAL',
-      'Desarrollador Web y Especialista en Inteligencia Artificial. Integramos aplicaciones web de alto rendimiento en Next.js, agentes conversacionales 24/7 y automatización inteligente para empresas.',
-      '+52 55 6492 9081',
-      'gadiel@treboldigital.com',
-      'treboldigital.com.mx',
-      'https://treboldigital.com.mx',
-      'https://wa.me/525564929081?text=Hola%20Gadiel,%20vi%20tu%20tarjeta%20digital%20y%20me%20gustar%C3%ADa%20platicar.',
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95',
-      'Gadiel Palma es Desarrollador Web y Especialista en Inteligencia Artificial en Trébol Digital. Ha diseñado e implementado arquitecturas serverless en Next.js, agentes conversacionales 24/7 y soluciones de automatización inteligente.',
-      'Su enfoque combina ingeniería de software de alto rendimiento, optimización de velocidad de carga y experiencia de usuario fluida orientada a resultados de negocio.',
-      'La ingeniería de software y la inteligencia artificial unidas transforman ideas complejas en experiencias digitales de alto impacto.'
-    ) ON DUPLICATE KEY UPDATE
-      first_name = VALUES(first_name),
-      last_name = VALUES(last_name),
-      title = VALUES(title),
-      company = VALUES(company),
-      bio = VALUES(bio),
-      phone = VALUES(phone),
-      email = VALUES(email),
-      website = VALUES(website),
-      website_url = VALUES(website_url),
-      whatsapp_url = VALUES(whatsapp_url),
-      photo_url = VALUES(photo_url),
-      semblanza_p1 = VALUES(semblanza_p1),
-      semblanza_p2 = VALUES(semblanza_p2),
-      cita_texto = VALUES(cita_texto);
-  `);
-  console.log('✅ Tarjeta ejecutiva principal (gadiel-palma) actualizada exitosamente.');
-
   // Insertar o actualizar tarjeta para sandra-cuevas
   await connection.query(`
     INSERT INTO tarjetas (
-      id, slug, first_name, last_name, title, company, bio, phone, email, website, website_url, whatsapp_url, photo_url, semblanza_p1, semblanza_p2, cita_texto
+      id, slug, first_name, last_name, title, company, bio, experiencia_badge, pilares_tags, phone, email,
+      website, website_url, whatsapp_url, linkedin_url, photo_url, semblanza_p1, semblanza_p2, semblanza_p3,
+      cita_texto, enfoque_destacado, servicios, diferencial_titulo, diferencial_formula, cta_titulo, cta_subtitulo, status
     ) VALUES (
       'tarjeta_sandra',
       'sandra-cuevas',
       'SANDRA',
-      'CUEVAS',
-      'CEO & ESPECIALISTA EN MARKETING Y DESARROLLO ORGANIZACIONAL',
+      'CUEVAS GUEVARA',
+      'Marketing Digital · Estructura empresarial · IA aplicada a negocios',
       'TRÉBOL DIGITAL',
-      'CEO y Estratega en Marketing & Desarrollo Organizacional. Lideramos la transformación de empresas en México mediante embudos publicitarios de alto impacto, alineación de equipos y aceleración de cultura organizacional.',
+      'Convierto objetivos de negocio en estrategias de marketing que generan oportunidades, crecimiento y resultados.',
+      '+9 años de experiencia en marketing digital',
+      '["Branding","Estrategia","Performance","Contenidos","Leads","Proyectos Digitales"]',
       '+52 55 5555 1234',
       'sandra@treboldigital.com',
       'treboldigital.com.mx',
       'https://treboldigital.com.mx',
       'https://wa.me/525555551234?text=Hola%20Sandra,%20vi%20tu%20tarjeta%20digital%20y%20me%20gustar%C3%ADa%20platicar.',
+      'https://linkedin.com',
       'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=95',
-      'Sandra Cuevas se desempeña como CEO y Especialista en Marketing y Desarrollo Organizacional en Trébol Digital. Ha impulsado el crecimiento estructural y comercial de decenas de marcas en México.',
-      'Su especialidad radica en conectar el posicionamiento de marca, la estrategia de captación B2B y el desarrollo del talento interno para construir organizaciones altamente competitivas.',
-      'El verdadero marketing no solo atrae clientes, transforma la cultura y la fuerza motriz de toda la organización.'
+      'Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones.',
+      'Mi experiencia combina estrategia de marketing, performance, generación y conversión de leads, contenidos, indicadores, analítica y gestión de proyectos, trabajando de forma coordinada con equipos multidisciplinarios, agencias y áreas comerciales.',
+      'Actualmente impulso también Trébol Digital, desde donde ayudo a empresas a convertir sus objetivos comerciales en estrategias digitales claras, accionables y medibles.',
+      'Mi enfoque: entender el negocio primero. Después, construir el marketing que necesita.',
+      'Mi enfoque: entender el negocio primero. Después, construir el marketing que necesita.',
+      '[{"titulo":"Estrategia","descripcion":"Marketing digital · Branding · Desarrollo Empresarial · Posicionamiento"},{"titulo":"Performance","descripcion":"Campañas · Leads · Conversión · KPIs"},{"titulo":"Proyectos digitales","descripcion":"CRM · Automatización · Gestión de equipos · Agencias"},{"titulo":"IA para tu negocio","descripcion":"Uso y aplicación · Automatizaciones · Gestión con ética · Enfoque de aplicación"}]',
+      'No sólo hacemos marketing para tu empresa. Te enseñamos a aplicarla en tu negocio.',
+      'Estrategia + creatividad + análisis de datos + tecnología + capacitación.',
+      '¿TIENES UN RETO DE MARKETING?',
+      'Tengamos una sesión sin costo. Si buscas fortalecer tu marca o generar más oportunidades para tu negocio, conversemos hoy mismo.',
+      'published'
     ) ON DUPLICATE KEY UPDATE
       first_name = VALUES(first_name),
       last_name = VALUES(last_name),
       title = VALUES(title),
       company = VALUES(company),
       bio = VALUES(bio),
+      experiencia_badge = VALUES(experiencia_badge),
+      pilares_tags = VALUES(pilares_tags),
       phone = VALUES(phone),
       email = VALUES(email),
       website = VALUES(website),
       website_url = VALUES(website_url),
       whatsapp_url = VALUES(whatsapp_url),
+      linkedin_url = VALUES(linkedin_url),
       photo_url = VALUES(photo_url),
       semblanza_p1 = VALUES(semblanza_p1),
       semblanza_p2 = VALUES(semblanza_p2),
-      cita_texto = VALUES(cita_texto);
+      semblanza_p3 = VALUES(semblanza_p3),
+      cita_texto = VALUES(cita_texto),
+      enfoque_destacado = VALUES(enfoque_destacado),
+      servicios = VALUES(servicios),
+      diferencial_titulo = VALUES(diferencial_titulo),
+      diferencial_formula = VALUES(diferencial_formula),
+      cta_titulo = VALUES(cta_titulo),
+      cta_subtitulo = VALUES(cta_subtitulo),
+      status = VALUES(status);
   `);
-  console.log('✅ Tarjeta ejecutiva secundaria (sandra-cuevas) insertada exitosamente.');
+  console.log('✅ Tarjeta ejecutiva de Sandra Cuevas actualizada exitosamente.');
+
+  // Insertar o actualizar tarjeta para gadiel-palma
+  await connection.query(`
+    INSERT INTO tarjetas (
+      id, slug, first_name, last_name, title, company, bio, experiencia_badge, pilares_tags, phone, email,
+      website, website_url, whatsapp_url, linkedin_url, photo_url, semblanza_p1, semblanza_p2, semblanza_p3,
+      cita_texto, enfoque_destacado, servicios, diferencial_titulo, diferencial_formula, cta_titulo, cta_subtitulo, status
+    ) VALUES (
+      'tarjeta_gadiel',
+      'gadiel-palma',
+      'GADIEL',
+      'PALMA',
+      'Desarrollo Web · Inteligencia Artificial · Automatización & Sistemas',
+      'TRÉBOL DIGITAL',
+      'Transformo modelos de negocio y procesos manuales en plataformas web de alto rendimiento y ecosistemas con Inteligencia Artificial.',
+      '+7 años de experiencia en desarrollo & arquitectura de software',
+      '["Desarrollo Next.js","Agentes IA 24/7","Automatizaciones","Cloud & APIs","Sistemas Web","Arquitectura Serverless"]',
+      '+52 55 6492 9081',
+      'gadiel@treboldigital.com',
+      'treboldigital.com.mx',
+      'https://treboldigital.com.mx',
+      'https://wa.me/525564929081?text=Hola%20Gadiel,%20vi%20tu%20tarjeta%20digital%20y%20me%20gustar%C3%ADa%20platicar.',
+      'https://linkedin.com',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95',
+      'Gadiel Palma es Desarrollador Web y Especialista en Inteligencia Artificial en Trébol Digital. Ha diseñado e implementado arquitecturas serverless en Next.js, agentes conversacionales 24/7 y soluciones de automatización inteligente.',
+      'Su enfoque combina ingeniería de software de alto rendimiento, optimización de velocidad de carga y experiencia de usuario fluida orientada a resultados de negocio.',
+      'Lidera la integración tecnológica en Trébol Digital conectando interfaces web modernas con inteligencia artificial y automatizaciones seguras.',
+      'La ingeniería de software y la inteligencia artificial unidas transforman ideas complejas en experiencias digitales de alto impacto.',
+      'Mi enfoque: código limpio, máxima velocidad de carga y soluciones tecnológicas orientadas al retorno de inversión.',
+      '[{"titulo":"Estrategia Tecnológica","descripcion":"Arquitectura web · Modernización de sistemas · Consultoría tech · Escalabilidad"},{"titulo":"Desarrollo Web & Apps","descripcion":"Next.js · APIs serverless · Experiencia de usuario (UI/UX) · Alta velocidad"},{"titulo":"Automatización de Procesos","descripcion":"Flujos de trabajo · Conexión CRM · n8n & Make · Integración de plataformas"},{"titulo":"IA Aplicada a Negocios","descripcion":"Agentes conversacionales 24/7 · RAG & Knowledge bases · Automatización de tareas · Chatbots inteligentes"}]',
+      'No creamos software genérico. Diseñamos la infraestructura tecnológica que impulsa tu crecimiento.',
+      'Ingeniería robusta + UX de alto nivel + IA personalizada + automatización + soporte continuo.',
+      '¿TIENES UN RETO TECNOLÓGICO O DE IA?',
+      'Tengamos una sesión de diagnóstico sin costo. Analicemos cómo modernizar tu empresa y automatizar tus procesos.',
+      'published'
+    ) ON DUPLICATE KEY UPDATE
+      first_name = VALUES(first_name),
+      last_name = VALUES(last_name),
+      title = VALUES(title),
+      company = VALUES(company),
+      bio = VALUES(bio),
+      experiencia_badge = VALUES(experiencia_badge),
+      pilares_tags = VALUES(pilares_tags),
+      phone = VALUES(phone),
+      email = VALUES(email),
+      website = VALUES(website),
+      website_url = VALUES(website_url),
+      whatsapp_url = VALUES(whatsapp_url),
+      linkedin_url = VALUES(linkedin_url),
+      photo_url = VALUES(photo_url),
+      semblanza_p1 = VALUES(semblanza_p1),
+      semblanza_p2 = VALUES(semblanza_p2),
+      semblanza_p3 = VALUES(semblanza_p3),
+      cita_texto = VALUES(cita_texto),
+      enfoque_destacado = VALUES(enfoque_destacado),
+      servicios = VALUES(servicios),
+      diferencial_titulo = VALUES(diferencial_titulo),
+      diferencial_formula = VALUES(diferencial_formula),
+      cta_titulo = VALUES(cta_titulo),
+      cta_subtitulo = VALUES(cta_subtitulo),
+      status = VALUES(status);
+  `);
+  console.log('✅ Tarjeta ejecutiva de Gadiel Palma actualizada exitosamente.');
 
   // Tabla Citas / Agendamientos (Estilo Calendly & CRM)
   await connection.query(`

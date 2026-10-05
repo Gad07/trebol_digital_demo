@@ -74,12 +74,25 @@ export default function AdminPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [lockoutSeconds, setLockoutSeconds] = useState(0);
+  const [capsLockOn, setCapsLockOn] = useState(false);
+
+  // Contador de bloqueo temporal
+  useEffect(() => {
+    if (lockoutSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setLockoutSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [lockoutSeconds]);
 
   // Verificación de sesión en servidor al cargar
   useEffect(() => {
+    let isMounted = true;
     fetch('/api/auth/session')
       .then((r) => r.json())
       .then((data) => {
+        if (!isMounted) return;
         if (data.ok && data.user) {
           setIsAuthenticated(true);
           setCurrentUser(data.user);
@@ -89,11 +102,14 @@ export default function AdminPage() {
         }
       })
       .catch(() => {
-        setIsAuthenticated(false);
+        if (isMounted) setIsAuthenticated(false);
       })
       .finally(() => {
-        setAuthChecking(false);
+        if (isMounted) setAuthChecking(false);
       });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Estado Global Dashboard
@@ -372,7 +388,7 @@ export default function AdminPage() {
   };
 
   const handleDeleteUser = async (id) => {
-    if (!confirm('¿Estás seguro de eliminar este usuario del sistema RBAC?')) return;
+    if (!confirm('¿Estás seguro de eliminar este usuario del sistema?')) return;
     try {
       await fetch(`/api/users/${id}`, { method: 'DELETE' });
       setUsersList((prev) => prev.filter((u) => u.id !== id));
@@ -444,26 +460,77 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    reloadCitas();
-    reloadUsers();
-    reloadRecursos();
-    reloadTalleres();
-    reloadClientes();
+    let isMounted = true;
+
+    // Cargar citas
+    fetch('/api/citas')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) setCitasList(data);
+      })
+      .catch((e) => console.warn('Error al cargar citas:', e))
+      .finally(() => { if (isMounted) setCitasLoading(false); });
+
+    // Cargar usuarios
+    fetch('/api/users')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) setUsersList(data);
+      })
+      .catch((e) => console.warn('Error al cargar usuarios:', e))
+      .finally(() => { if (isMounted) setUsersLoading(false); });
+
+    // Cargar recursos
+    fetch('/api/recursos')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) setRecursosList(data);
+      })
+      .catch((e) => console.warn('Error al cargar recursos:', e))
+      .finally(() => { if (isMounted) setRecursosLoading(false); });
+
+    // Cargar talleres
+    fetch('/api/talleres')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) setTalleresList(data);
+      })
+      .catch((e) => console.warn('Error al cargar talleres:', e))
+      .finally(() => { if (isMounted) setTalleresLoading(false); });
+
+    // Cargar clientes
+    fetch('/api/clientes')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted && data) {
+          setClientesForm({
+            tituloPrefix: data.tituloPrefix || 'Empresas que impulsan',
+            tituloMiddle: data.tituloMiddle || 'su crecimiento con',
+            tituloHighlight: data.tituloHighlight || 'Trébol Digital.',
+            subtitulo: data.subtitulo || '',
+            logos: Array.isArray(data.logos) ? data.logos : []
+          });
+        }
+      })
+      .catch((e) => console.warn('Error al cargar datos de clientes:', e))
+      .finally(() => { if (isMounted) setClientesLoading(false); });
+
     // Cargar tarjetas desde servidor
     fetch('/api/tarjetas')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
           setTarjetasList(data);
           setSelectedTarjetaId(data[0].id);
         }
       })
       .catch((e) => console.warn('Error al cargar tarjetas:', e))
-      .finally(() => setTarjetasLoading(false));
+      .finally(() => { if (isMounted) setTarjetasLoading(false); });
+
     try {
       const auth = sessionStorage.getItem('trebol_admin_authenticated');
       const savedUserStr = sessionStorage.getItem('trebol_admin_user');
-      if (auth === 'true') {
+      if (auth === 'true' && isMounted) {
         setIsAuthenticated(true);
         if (savedUserStr) {
           try { setCurrentUser(JSON.parse(savedUserStr)); } catch (e) {}
@@ -473,15 +540,15 @@ export default function AdminPage() {
       }
 
       const savedList = localStorage.getItem('trebol_popups_list_v4');
-      if (savedList) {
+      if (savedList && isMounted) {
         setPopupsList(JSON.parse(savedList));
-      } else {
+      } else if (isMounted) {
         setPopupsList(DEFAULT_POPUPS_LIST);
         try { localStorage.setItem('trebol_popups_list_v4', JSON.stringify(DEFAULT_POPUPS_LIST)); } catch (e) {}
       }
 
       const savedLandings = localStorage.getItem('trebol_landings_list_v1');
-      if (savedLandings) {
+      if (savedLandings && isMounted) {
         const parsed = JSON.parse(savedLandings);
         if (parsed.some((l) => l.id === 'landing-campana-desarrollo-web')) {
           setLandingsList(parsed);
@@ -495,33 +562,33 @@ export default function AdminPage() {
     fetch('/api/blogs')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
           setBlogsList(data);
           setSelectedBlogId(data[0].id);
           try { localStorage.setItem('trebol_blogs_list_v1', JSON.stringify(data)); } catch (e) { }
         }
       })
       .catch((e) => console.warn('No se pudieron cargar los blogs:', e))
-      .finally(() => setBlogsLoading(false));
+      .finally(() => { if (isMounted) setBlogsLoading(false); });
 
     // Cargar casos desde servidor
     fetch('/api/casos')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
           setCasosList(data);
           setSelectedCasoId(data[0].id);
           try { localStorage.setItem('trebol_casos_list_v1', JSON.stringify(data)); } catch (e) { }
         }
       })
       .catch((e) => console.warn('No se pudieron cargar los casos:', e))
-      .finally(() => setCasosLoading(false));
+      .finally(() => { if (isMounted) setCasosLoading(false); });
 
     // Cargar testimonios desde servidor
     fetch('/api/testimonios')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+        if (isMounted && Array.isArray(data) && data.length > 0) {
           const normalized = data.map((t) => {
             const clienteName = t.cliente || t.nombre || t.name || t.autor || 'Cliente Trébol';
             const quoteText = t.quote || t.texto || t.testimonio || t.contenido || t.descripcion || t.comentario || t.mensaje || '';
@@ -546,11 +613,16 @@ export default function AdminPage() {
         }
       })
       .catch((e) => console.warn('No se pudieron cargar los testimonios:', e))
-      .finally(() => setTestimoniosLoading(false));
+      .finally(() => { if (isMounted) setTestimoniosLoading(false); });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (lockoutSeconds > 0) return;
     setErrorMsg('');
     setLoginLoading(true);
 
@@ -565,7 +637,11 @@ export default function AdminPage() {
         setIsAuthenticated(true);
         setCurrentUser(data.user);
         setErrorMsg('');
+        setLockoutSeconds(0);
       } else {
+        if (data.locked && data.retryAfterSeconds) {
+          setLockoutSeconds(data.retryAfterSeconds);
+        }
         setErrorMsg(data.error || 'Credenciales no válidas');
       }
     } catch (err) {
@@ -1157,22 +1233,37 @@ export default function AdminPage() {
       slug: `ejecutivo-${timestamp.toString().slice(-4)}`,
       firstName: 'NUEVO',
       lastName: 'EJECUTIVO',
-      title: 'DIRECTOR DE ESTRATEGIA',
+      title: 'Marketing Digital · Estructura empresarial · IA aplicada a negocios',
       company: 'TRÉBOL DIGITAL',
-      bio: 'Escribe aquí la introducción ejecutiva del perfil.',
+      bio: 'Convierto objetivos de negocio en estrategias de marketing que generan oportunidades, crecimiento y resultados.',
+      experienciaBadge: '+9 años de experiencia en marketing digital',
+      pilaresTags: ['Branding', 'Estrategia', 'Performance', 'Contenidos', 'Leads', 'Proyectos Digitales'],
       phone: '+52 55 0000 0000',
       email: 'ejecutivo@treboldigital.com',
       website: 'treboldigital.com.mx',
       websiteUrl: 'https://treboldigital.com.mx',
       whatsappUrl: 'https://wa.me/525500000000',
-      photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=95',
-      semblanzaP1: 'Resumen de la trayectoria profesional y áreas de especialización.',
-      semblanzaP2: 'Logros destacados y acompañamiento técnico a organizaciones.',
-      citaTexto: 'Frase ejecutiva o visión estratégica.',
+      linkedinUrl: 'https://linkedin.com',
+      photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=95',
+      semblanzaP1: 'Profesional con amplia experiencia desarrollando branding, redes sociales, estrategias, campañas y proyectos digitales para marcas y organizaciones.',
+      semblanzaP2: 'Experiencia que combina estrategia de marketing, performance, generación y conversión de leads, contenidos, indicadores, analítica y gestión de proyectos.',
+      semblanzaP3: 'Ayudo a empresas a convertir sus objetivos comerciales en estrategias digitales claras, accionables y medibles.',
+      citaTexto: 'Mi enfoque: entender el negocio primero. Después, construir el marketing que necesita.',
+      enfoqueDestacado: 'Mi enfoque: entender el negocio primero. Después, construir el marketing que necesita.',
+      servicios: [
+        { titulo: 'Estrategia', descripcion: 'Marketing digital · Branding · Desarrollo Empresarial · Posicionamiento' },
+        { titulo: 'Performance', descripcion: 'Campañas · Leads · Conversión · KPIs' },
+        { titulo: 'Proyectos digitales', descripcion: 'CRM · Automatización · Gestión de equipos · Agencias' },
+        { titulo: 'IA para tu negocio', descripcion: 'Uso y aplicación · Automatizaciones · Gestión con ética · Enfoque de aplicación' }
+      ],
+      diferencialTitulo: 'No sólo hacemos marketing para tu empresa. Te enseñamos a aplicarla en tu negocio.',
+      diferencialFormula: 'Estrategia + creatividad + análisis de datos + tecnología + capacitación.',
+      ctaTitulo: '¿TIENES UN RETO DE MARKETING?',
+      ctaSubtitulo: 'Tengamos una sesión sin costo. Si buscas fortalecer tu marca o generar más oportunidades para tu negocio...',
       status: 'published'
     };
     const newList = [newTarjeta, ...tarjetasList];
-setTarjetasList(newList);
+    setTarjetasList(newList);
     setSelectedTarjetaId(newTarjeta.id);
   };
 
@@ -1233,11 +1324,23 @@ setTarjetasList(newList);
                 <Lock size={26} />
               </div>
               <h1 className="text-2xl md:text-3xl font-black text-carbon tracking-tight">Panel de Administración</h1>
-              <p className="text-xs text-carbon/60">Ingresa tus credenciales para acceder al panel.</p>
+              <p className="text-xs text-carbon/60">Ingresa tus credenciales autorizadas para acceder.</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
-              {errorMsg && (
+              {lockoutSeconds > 0 && (
+                <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-mono font-bold text-center flex flex-col items-center justify-center gap-1 shadow-sm">
+                  <div className="flex items-center gap-1.5 text-amber-700">
+                    <ShieldAlert size={16} />
+                    <span>Bloqueo de Seguridad Activo</span>
+                  </div>
+                  <span className="text-[11px] font-mono text-amber-800">
+                    Reintenta en: {Math.floor(lockoutSeconds / 60)}:{(lockoutSeconds % 60).toString().padStart(2, '0')} min
+                  </span>
+                </div>
+              )}
+
+              {errorMsg && lockoutSeconds <= 0 && (
                 <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono font-bold text-center flex items-center justify-center gap-2">
                   <AlertCircle size={16} className="shrink-0" />
                   <span>{errorMsg}</span>
@@ -1251,27 +1354,38 @@ setTarjetasList(newList);
                   <input
                     type="text"
                     required
+                    disabled={lockoutSeconds > 0}
                     autoComplete="username"
                     placeholder="usuario@treboldigital.com"
                     value={email || ''}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-4 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner"
+                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-4 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-mono font-bold text-carbon/80 uppercase tracking-wider block">Contraseña</label>
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-mono font-bold text-carbon/80 uppercase tracking-wider block">Contraseña</label>
+                  {capsLockOn && (
+                    <span className="text-[10px] font-mono text-amber-600 font-bold flex items-center gap-1">
+                      ⚠️ Bloq Mayús activado
+                    </span>
+                  )}
+                </div>
                 <div className="relative">
                   <Key size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
+                    disabled={lockoutSeconds > 0}
                     autoComplete="current-password"
                     placeholder="••••••••"
                     value={password || ''}
+                    onKeyDown={(e) => setCapsLockOn(e.getModifierState && e.getModifierState('CapsLock'))}
+                    onKeyUp={(e) => setCapsLockOn(e.getModifierState && e.getModifierState('CapsLock'))}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-11 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner"
+                    className="w-full bg-hueso border border-neutral-200 text-carbon rounded-2xl py-3.5 pl-11 pr-11 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none transition-all shadow-inner disabled:opacity-50"
                   />
                   <button
                     type="button"
@@ -1286,14 +1400,16 @@ setTarjetasList(newList);
 
               <button
                 type="submit"
-                disabled={loginLoading}
-                className="w-full py-4 rounded-2xl bg-trebol text-white font-black text-xs md:text-sm hover:bg-lime-600 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer mt-2 disabled:opacity-50"
+                disabled={loginLoading || lockoutSeconds > 0}
+                className="w-full py-4 rounded-2xl bg-trebol text-white font-black text-xs md:text-sm hover:bg-lime-600 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loginLoading ? (
                   <>
                     <RefreshCw size={16} className="animate-spin" />
-                    <span>Iniciando sesión...</span>
+                    <span>Verificando credenciales...</span>
                   </>
+                ) : lockoutSeconds > 0 ? (
+                  <span>Acceso temporalmente bloqueado</span>
                 ) : (
                   <>
                     <span>Iniciar Sesión</span>
@@ -1303,7 +1419,11 @@ setTarjetasList(newList);
               </button>
             </form>
 
-            <div className="pt-2 text-center">
+            <div className="pt-2 border-t border-neutral-100 flex flex-col items-center gap-2">
+              <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-400 font-bold">
+                <ShieldCheck size={13} className="text-trebol" />
+                <span>Sesión Cifrada • Protección Anti Fuerza Bruta</span>
+              </div>
               <Link href="/" className="text-xs text-neutral-500 hover:text-trebol font-bold transition-colors font-mono inline-flex items-center gap-1">
                 ← Volver al Sitio Web Principal
               </Link>
@@ -1561,8 +1681,8 @@ setTarjetasList(newList);
                       >
                         <ShieldCheck size={16} className="text-trebol shrink-0" />
                         <div>
-                          <span className="font-bold text-xs block">Usuarios & RBAC</span>
-                          <span className="text-[10px] text-neutral-400 font-light block">Roles y permisos del sistema</span>
+                          <span className="font-bold text-xs block">Usuarios & Roles</span>
+                          <span className="text-[10px] text-neutral-400 font-light block">Roles y permisos del equipo</span>
                         </div>
                       </button>
                     </div>
@@ -3538,7 +3658,7 @@ setTarjetasList(newList);
               <div className="flex-1 flex items-center justify-center p-12">
                 <div className="space-y-4 text-center">
                   <div className="w-10 h-10 rounded-full border-4 border-trebol border-t-transparent animate-spin mx-auto" />
-                  <p className="text-carbon/40 font-mono text-xs">Cargando casos de éxito desde el servidor…</p>
+                  <p className="text-carbon/40 font-mono text-xs">Cargando casos de éxito…</p>
                 </div>
               </div>
             )}
@@ -3617,13 +3737,13 @@ setTarjetasList(newList);
                       </div>
                       <h3 className="text-lg font-black text-carbon">No hay Casos de Éxito</h3>
                       <p className="text-xs text-carbon/70 font-light leading-relaxed">
-                        Has eliminado todos los casos de éxito de la lista. Puedes guardar esta lista vacía en el servidor, restaurar los casos iniciales o crear uno nuevo.
+                        No hay casos de éxito en la lista. Puedes crear uno nuevo o guardar los cambios realizados.
                       </p>
 
                       {casosSaved && (
                         <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-sm">
                           <CheckCircle2 size={16} className="text-trebol" />
-                          <span>¡Guardado correctamente en servidor!</span>
+                          <span>¡Guardado correctamente!</span>
                         </div>
                       )}
 
@@ -3636,12 +3756,12 @@ setTarjetasList(newList);
                           {casosSaving ? (
                             <>
                               <RefreshCw size={14} className="animate-spin" />
-                              <span>Guardando en servidor…</span>
+                              <span>Guardando…</span>
                             </>
                           ) : (
                             <>
                               <Save size={14} />
-                              <span>Guardar Cambios en Servidor (Guardar Lista Vacía)</span>
+                              <span>Guardar Cambios</span>
                             </>
                           )}
                         </button>
@@ -3706,12 +3826,12 @@ setTarjetasList(newList);
                           ) : casosSaved ? (
                             <>
                               <CheckCircle2 size={13} />
-                              <span>¡Guardado en Servidor!</span>
+                              <span>¡Guardado!</span>
                             </>
                           ) : (
                             <>
                               <Save size={13} />
-                              <span>Guardar en Servidor</span>
+                              <span>Guardar Cambios</span>
                             </>
                           )}
                         </button>
@@ -3988,7 +4108,7 @@ setTarjetasList(newList);
                         onClick={saveTestimoniosToServer}
                         disabled={testimoniosSaving}
                         className="p-1.5 rounded-xl bg-carbon text-white hover:bg-trebol transition-all cursor-pointer disabled:opacity-50"
-                        title="Guardar Cambios en Servidor"
+                        title="Guardar Cambios"
                       >
                         <Save size={14} />
                       </button>
@@ -4069,13 +4189,13 @@ setTarjetasList(newList);
                       </div>
                       <h3 className="text-lg font-black text-carbon">No hay Testimonios creados</h3>
                       <p className="text-xs text-carbon/70 font-light leading-relaxed">
-                        Has eliminado todos los testimonios de la lista. Puedes guardar esta lista vacía en el servidor, restaurar los testimonios por defecto o crear uno nuevo.
+                        No hay testimonios en la lista. Puedes crear uno nuevo o guardar los cambios realizados.
                       </p>
 
                       {testimoniosSaved && (
                         <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-sm">
                           <CheckCircle2 size={16} className="text-trebol" />
-                          <span>¡Guardado correctamente en servidor!</span>
+                          <span>¡Guardado correctamente!</span>
                         </div>
                       )}
 
@@ -4088,12 +4208,12 @@ setTarjetasList(newList);
                           {testimoniosSaving ? (
                             <>
                               <RefreshCw size={14} className="animate-spin" />
-                              <span>Guardando cambios en servidor…</span>
+                              <span>Guardando…</span>
                             </>
                           ) : (
                             <>
                               <Save size={14} />
-                              <span>Guardar Cambios en Servidor (Guardar Lista Vacía)</span>
+                              <span>Guardar Cambios</span>
                             </>
                           )}
                         </button>
@@ -4376,7 +4496,7 @@ setTarjetasList(newList);
                         <div
                           key={t.id || t.slug}
                           onClick={() => setSelectedTarjetaId(t.id || t.slug)}
-                          className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${(selectedTarjetaId === t.id || selectedTarjetaId === t.slug || currentTarjeta?.id === t.id)
+                          className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${(selectedTarjetaId === t.id || selectedTarjetaId === t.slug || currentTarjeta?.id === t.id)
                               ? 'bg-trebol/10 border-trebol text-trebol shadow-sm font-extrabold'
                               : 'bg-hueso/60 border-neutral-200 text-carbon hover:bg-white'
                             }`}
@@ -4387,9 +4507,6 @@ setTarjetasList(newList);
                               /{t.slug}
                             </span>
                           </div>
-                          <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-white border border-neutral-200 text-trebol font-bold shrink-0">
-                            SQL
-                          </span>
                         </div>
                       ))
                     )}
@@ -4408,7 +4525,7 @@ setTarjetasList(newList);
                             {currentTarjeta.firstName} {currentTarjeta.lastName}
                           </h2>
                           <span className="text-xs font-mono text-neutral-400">
-                            Ruta pública: <strong className="text-trebol">/directorio/{currentTarjeta.slug}</strong>
+                            Enlace de la tarjeta: <strong className="text-trebol">/directorio/{currentTarjeta.slug}</strong>
                           </span>
                         </div>
 
@@ -4428,7 +4545,7 @@ setTarjetasList(newList);
                             className="px-5 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors shadow-md inline-flex items-center gap-1.5 cursor-pointer"
                           >
                             <Save size={14} />
-                            <span>{tarjetaSaving ? 'Guardando...' : tarjetaSaved ? '¡Guardado!' : 'Guardar en MySQL'}</span>
+                            <span>{tarjetaSaving ? 'Guardando...' : tarjetaSaved ? '¡Guardado!' : 'Guardar Cambios'}</span>
                           </button>
 
                           <button
@@ -4441,146 +4558,373 @@ setTarjetasList(newList);
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-3xl border border-neutral-200 shadow-sm">
+                      {/* CONTENEDOR MODULAR DE SECCIONES DE LA TARJETA */}
+                      <div className="space-y-6">
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">URL Slug (ej. gabriel-paz o tu-nombre)</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.slug || ''}
-                            onChange={(e) => updateCurrentTarjeta({ slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono font-bold focus:border-trebol focus:bg-white focus:outline-none"
-                          />
+                        {/* SECCIÓN 1: DATOS PRINCIPALES */}
+                        <div className="bg-white p-6 rounded-3xl border border-neutral-200/90 shadow-sm space-y-4">
+                          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
+                            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
+                              Datos Principales & Cabecera
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">Información del perfil</span>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Identificador del enlace (ej. sandra-cuevas)</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.slug || ''}
+                                onChange={(e) => updateCurrentTarjeta({ slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Foto de Perfil (Enlace o imagen)</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.photoUrl || ''}
+                                onChange={(e) => updateCurrentTarjeta({ photoUrl: e.target.value })}
+                                placeholder="https://images.unsplash.com/..."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Primer Nombre</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.firstName || ''}
+                                onChange={(e) => updateCurrentTarjeta({ firstName: e.target.value })}
+                                placeholder="SANDRA"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Apellidos</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.lastName || ''}
+                                onChange={(e) => updateCurrentTarjeta({ lastName: e.target.value })}
+                                placeholder="CUEVAS GUEVARA"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Puesto / Especialidades</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.title || ''}
+                                onChange={(e) => updateCurrentTarjeta({ title: e.target.value })}
+                                placeholder="Marketing Digital · Estructura empresarial · IA aplicada a negocios"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Empresa</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.company || ''}
+                                onChange={(e) => updateCurrentTarjeta({ company: e.target.value })}
+                                placeholder="TRÉBOL DIGITAL"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="md:col-span-2 space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Descripción / Mensaje Principal</label>
+                              <textarea
+                                rows={2}
+                                value={currentTarjeta.bio || ''}
+                                onChange={(e) => updateCurrentTarjeta({ bio: e.target.value })}
+                                placeholder="Convierto objetivos de negocio en estrategias de marketing que generan oportunidades, crecimiento y resultados."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-trebol uppercase block">Años de Experiencia / Trayectoria</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.experienciaBadge || ''}
+                                onChange={(e) => updateCurrentTarjeta({ experienciaBadge: e.target.value })}
+                                placeholder="+9 años de experiencia en marketing digital"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-trebol uppercase block">Palabras Clave / Especialidades Destacadas (separadas por comas)</label>
+                              <input
+                                type="text"
+                                value={Array.isArray(currentTarjeta.pilaresTags) ? currentTarjeta.pilaresTags.join(', ') : (currentTarjeta.pilaresTags || '')}
+                                onChange={(e) => {
+                                  const tags = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                                  updateCurrentTarjeta({ pilaresTags: tags });
+                                }}
+                                placeholder="Branding, Estrategia, Performance, Contenidos, Leads, Proyectos Digitales"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">URL de Foto de Retrato</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.photoUrl || ''}
-                            onChange={(e) => updateCurrentTarjeta({ photoUrl: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
-                          />
+                        {/* SECCIÓN 2: DATOS DE CONTACTO DIRECTO */}
+                        <div className="bg-white p-6 rounded-3xl border border-neutral-200/90 shadow-sm space-y-4">
+                          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
+                            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
+                              Datos de Contacto Directo & Redes
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">Canales de interacción</span>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Correo Electrónico</label>
+                              <input
+                                type="email"
+                                value={currentTarjeta.email || ''}
+                                onChange={(e) => updateCurrentTarjeta({ email: e.target.value })}
+                                placeholder="sandra@treboldigital.com"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Teléfono / WhatsApp</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.phone || ''}
+                                onChange={(e) => updateCurrentTarjeta({ phone: e.target.value })}
+                                placeholder="+52 55 5555 1234"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Texto del Sitio Web</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.website || ''}
+                                onChange={(e) => updateCurrentTarjeta({ website: e.target.value })}
+                                placeholder="treboldigital.com.mx"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Enlace del Sitio Web</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.websiteUrl || ''}
+                                onChange={(e) => updateCurrentTarjeta({ websiteUrl: e.target.value })}
+                                placeholder="https://treboldigital.com.mx"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Enlace de WhatsApp</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.whatsappUrl || ''}
+                                onChange={(e) => updateCurrentTarjeta({ whatsappUrl: e.target.value })}
+                                placeholder="https://wa.me/525555551234"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Enlace de LinkedIn</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.linkedinUrl || ''}
+                                onChange={(e) => updateCurrentTarjeta({ linkedinUrl: e.target.value })}
+                                placeholder="https://linkedin.com/in/sandra-cuevas"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-trebol uppercase block">Enlace de Portafolio (Externo o Interno)</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.portfolioUrl || '/casos-de-exito'}
+                                onChange={(e) => updateCurrentTarjeta({ portfolioUrl: e.target.value })}
+                                placeholder="https://... o /casos-de-exito"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none font-bold"
+                              />
+                            </div>
+
+                            <div className="md:col-span-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
+                              <div>
+                                <label className="text-xs font-mono font-bold text-carbon uppercase block">Mostrar botón de Portafolio en Tarjeta</label>
+                                <p className="text-[11px] text-carbon/60 font-sans">Activa o desactiva la visualización del botón de Portafolio en la tarjeta de presentación.</p>
+                              </div>
+                              <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={currentTarjeta.showPortfolio !== undefined ? Boolean(currentTarjeta.showPortfolio) : true}
+                                  onChange={(e) => updateCurrentTarjeta({ showPortfolio: e.target.checked })}
+                                  className="sr-only peer"
+                                />
+                                <div className="w-11 h-6 bg-neutral-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-trebol"></div>
+                              </label>
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Primer Nombre</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.firstName || ''}
-                            onChange={(e) => updateCurrentTarjeta({ firstName: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
-                          />
+                        {/* SECCIÓN 3: PRESENTACIÓN & HISTORIA */}
+                        <div className="bg-white p-6 rounded-3xl border border-neutral-200/90 shadow-sm space-y-4">
+                          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
+                            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
+                              Presentación & Historia
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">Texto de presentación</span>
+                          </div>
+
+                          <div className="space-y-3">
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Párrafo 1 (Introducción)</label>
+                              <textarea
+                                rows={3}
+                                value={currentTarjeta.semblanzaP1 || ''}
+                                onChange={(e) => updateCurrentTarjeta({ semblanzaP1: e.target.value })}
+                                placeholder="Soy Sandy Cuevas, profesional de marketing digital con más de 9 años de experiencia..."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Párrafo 2 (Experiencia y habilidades)</label>
+                              <textarea
+                                rows={3}
+                                value={currentTarjeta.semblanzaP2 || ''}
+                                onChange={(e) => updateCurrentTarjeta({ semblanzaP2: e.target.value })}
+                                placeholder="Mi experiencia combina estrategia de marketing, performance, generación y conversión de leads..."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Párrafo 3 (Enfoque de trabajo)</label>
+                              <textarea
+                                rows={3}
+                                value={currentTarjeta.semblanzaP3 || ''}
+                                onChange={(e) => updateCurrentTarjeta({ semblanzaP3: e.target.value })}
+                                placeholder="Actualmente impulso también Trébol Digital, desde donde ayudo a empresas..."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+
+                            <div className="space-y-1 pt-2 border-t border-neutral-100">
+                              <label className="text-xs font-mono font-bold text-trebol uppercase block">Frase / Cita de Enfoque</label>
+                              <textarea
+                                rows={2}
+                                value={currentTarjeta.enfoqueDestacado || currentTarjeta.citaTexto || ''}
+                                onChange={(e) => updateCurrentTarjeta({ enfoqueDestacado: e.target.value, citaTexto: e.target.value })}
+                                placeholder="Mi enfoque: entender el negocio primero. Después, construir el marketing que necesita."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-serif italic focus:border-trebol focus:bg-white focus:outline-none resize-none leading-relaxed"
+                              />
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Apellido (Se muestra en itálica verde)</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.lastName || ''}
-                            onChange={(e) => updateCurrentTarjeta({ lastName: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
-                          />
+                        {/* SECCIÓN 4: SERVICIOS & ESPECIALIDADES */}
+                        <div className="bg-white p-6 rounded-3xl border border-neutral-200/90 shadow-sm space-y-4">
+                          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
+                            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
+                              Servicios & Especialidades
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">4 bloques clave</span>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {[0, 1, 2, 3].map((index) => {
+                              const defaultTitles = ['Estrategia', 'Performance', 'Proyectos digitales', 'IA para tu negocio'];
+                              const defaultDescs = [
+                                'Marketing digital · Branding · Desarrollo Empresarial · Posicionamiento',
+                                'Campañas · Leads · Conversión · KPIs',
+                                'CRM · Automatización · Gestión de equipos · Agencias',
+                                'Uso y aplicación · Automatizaciones · Gestión con ética · Enfoque de aplicación'
+                              ];
+                              const currentServicios = Array.isArray(currentTarjeta.servicios) ? currentTarjeta.servicios : [];
+                              const item = currentServicios[index] || { titulo: defaultTitles[index], descripcion: defaultDescs[index] };
+
+                              return (
+                                <div key={index} className="p-4 rounded-2xl bg-hueso border border-neutral-200 space-y-2">
+                                  <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">
+                                    Bloque #{index + 1}
+                                  </span>
+                                  <div>
+                                    <label className="text-[10px] font-mono text-carbon/60 block mb-0.5">Título del Servicio</label>
+                                    <input
+                                      type="text"
+                                      value={item.titulo || ''}
+                                      onChange={(e) => {
+                                        const updated = [...currentServicios];
+                                        updated[index] = { ...item, titulo: e.target.value };
+                                        updateCurrentTarjeta({ servicios: updated });
+                                      }}
+                                      className="w-full bg-white border border-neutral-200 text-carbon font-bold rounded-lg p-2 text-xs focus:border-trebol focus:outline-none"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="text-[10px] font-mono text-carbon/60 block mb-0.5">Subtítulos / Especialidades</label>
+                                    <input
+                                      type="text"
+                                      value={item.descripcion || ''}
+                                      onChange={(e) => {
+                                        const updated = [...currentServicios];
+                                        updated[index] = { ...item, descripcion: e.target.value };
+                                        updateCurrentTarjeta({ servicios: updated });
+                                      }}
+                                      className="w-full bg-white border border-neutral-200 text-carbon rounded-lg p-2 text-xs focus:border-trebol focus:outline-none"
+                                    />
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Cargo / Puesto</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.title || ''}
-                            onChange={(e) => updateCurrentTarjeta({ title: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
+                        {/* SECCIÓN 5: LLAMADO A LA ACCIÓN & CITA */}
+                        <div className="bg-white p-6 rounded-3xl border border-neutral-200/90 shadow-sm space-y-4">
+                          <div className="border-b border-neutral-100 pb-3 flex items-center justify-between">
+                            <span className="text-xs font-mono font-bold text-trebol uppercase tracking-wider block">
+                              Llamado a la Acción & Cita
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">Mensaje final de contacto</span>
+                          </div>
 
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Empresa</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.company || ''}
-                            onChange={(e) => updateCurrentTarjeta({ company: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
+                          <div className="space-y-3">
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Título de Invitación</label>
+                              <input
+                                type="text"
+                                value={currentTarjeta.ctaTitulo || ''}
+                                onChange={(e) => updateCurrentTarjeta({ ctaTitulo: e.target.value })}
+                                placeholder="¿TIENES UN RETO DE MARKETING?"
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs font-bold focus:border-trebol focus:bg-white focus:outline-none"
+                              />
+                            </div>
 
-                        <div className="md:col-span-2 space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Biografía de Presentación</label>
-                          <textarea
-                            rows={3}
-                            value={currentTarjeta.bio || ''}
-                            onChange={(e) => updateCurrentTarjeta({ bio: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Correo Electrónico</label>
-                          <input
-                            type="email"
-                            value={currentTarjeta.email || ''}
-                            onChange={(e) => updateCurrentTarjeta({ email: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Teléfono / WhatsApp</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.phone || ''}
-                            onChange={(e) => updateCurrentTarjeta({ phone: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Sitio Web (Texto visible)</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.website || ''}
-                            onChange={(e) => updateCurrentTarjeta({ website: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="space-y-1">
-                          <label className="text-xs font-mono font-bold text-carbon/70 uppercase">Enlace WhatsApp (URL completa)</label>
-                          <input
-                            type="text"
-                            value={currentTarjeta.whatsappUrl || ''}
-                            onChange={(e) => updateCurrentTarjeta({ whatsappUrl: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-mono focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2 space-y-1 border-t border-neutral-100 pt-4">
-                          <label className="text-xs font-mono font-bold text-trebol uppercase">Semblanza Ejecutiva - Párrafo 1</label>
-                          <textarea
-                            rows={3}
-                            value={currentTarjeta.semblanzaP1 || ''}
-                            onChange={(e) => updateCurrentTarjeta({ semblanzaP1: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2 space-y-1">
-                          <label className="text-xs font-mono font-bold text-trebol uppercase">Semblanza Ejecutiva - Párrafo 2</label>
-                          <textarea
-                            rows={3}
-                            value={currentTarjeta.semblanzaP2 || ''}
-                            onChange={(e) => updateCurrentTarjeta({ semblanzaP2: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-sans focus:border-trebol focus:bg-white focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2 space-y-1">
-                          <label className="text-xs font-mono font-bold text-trebol uppercase">Cita / Visión Estratégica (Quote Box)</label>
-                          <textarea
-                            rows={2}
-                            value={currentTarjeta.citaTexto || ''}
-                            onChange={(e) => updateCurrentTarjeta({ citaTexto: e.target.value })}
-                            className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-3 text-xs font-serif italic focus:border-trebol focus:bg-white focus:outline-none"
-                          />
+                            <div className="space-y-1">
+                              <label className="text-xs font-mono font-bold text-carbon/80 uppercase block">Descripción / Texto de Invitación</label>
+                              <textarea
+                                rows={2}
+                                value={currentTarjeta.ctaSubtitulo || ''}
+                                onChange={(e) => updateCurrentTarjeta({ ctaSubtitulo: e.target.value })}
+                                placeholder="Tengamos una sesión sin costo. Si buscas fortalecer tu marca, generar más oportunidades para tu negocio..."
+                                className="w-full bg-hueso border border-neutral-200 text-carbon rounded-xl p-2.5 text-xs focus:border-trebol focus:bg-white focus:outline-none resize-none"
+                              />
+                            </div>
+                          </div>
                         </div>
 
                       </div>
@@ -4616,7 +4960,7 @@ setTarjetasList(newList);
                         className="px-4 py-2 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-1.5 shadow-md cursor-pointer"
                       >
                         <Plus size={14} />
-                        <span>+ Nueva Cita / Lead</span>
+                        <span>Nueva Cita / Contacto</span>
                       </button>
 
                       <button
@@ -4869,7 +5213,7 @@ setTarjetasList(newList);
               </div>
             )}
 
-            {/* MÓDULO 6: USUARIOS & RBAC */}
+            {/* MÓDULO 6: USUARIOS & PERMISOS */}
             {activeTab === 'users' && (
               <div className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-h-[88vh]">
                 <div className="max-w-7xl mx-auto space-y-6">
@@ -4877,10 +5221,10 @@ setTarjetasList(newList);
                   {/* CABECERA */}
                   <div className="flex flex-wrap items-center justify-between gap-4 border-b border-neutral-200 pb-4">
                     <div>
-                      <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Control de Acceso Basado en Roles (RBAC)</span>
+                      <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Gestión de Accesos & Roles</span>
                       <h2 className="text-2xl font-black text-carbon">Usuarios & Permisos del Sistema</h2>
                       <p className="text-xs font-mono text-neutral-400">
-                        Administra los roles ejecutivos, credenciales de acceso y permisos granulares de la plataforma.
+                        Administra los roles, cuentas de acceso y permisos de los integrantes del equipo.
                       </p>
                     </div>
 
@@ -4889,7 +5233,7 @@ setTarjetasList(newList);
                       className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
                     >
                       <Plus size={15} />
-                      <span>+ Crear Nuevo Usuario RBAC</span>
+                      <span>Crear Nuevo Usuario</span>
                     </button>
                   </div>
 
@@ -4901,7 +5245,7 @@ setTarjetasList(newList);
                         <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-600 text-white">Acceso Total</span>
                       </div>
                       <p className="text-xs text-emerald-900/80 font-light">
-                        Control ilimitado sobre usuarios, contenidos, maquetador de landings, popups y CRM.
+                        Control total sobre usuarios, contenidos, páginas de aterrizaje, popups y contactos.
                       </p>
                     </div>
 
@@ -4911,17 +5255,17 @@ setTarjetasList(newList);
                         <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">Contenidos</span>
                       </div>
                       <p className="text-xs text-blue-900/80 font-light">
-                        Permiso para redactar y publicar Blog, Casos de Éxito y Maquetar Landings.
+                        Permiso para redactar y publicar Blog, Casos de Éxito y Maquetar Páginas.
                       </p>
                     </div>
 
                     <div className="bg-purple-50/60 border border-purple-200/80 rounded-2xl p-4 space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono font-bold text-purple-800">Agente CRM / Ventas</span>
+                        <span className="text-xs font-mono font-bold text-purple-800">Agente Comercial</span>
                         <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-purple-600 text-white">Comercial</span>
                       </div>
                       <p className="text-xs text-purple-900/80 font-light">
-                        Gestión de Citas, Bitácora de seguimiento de prospectos y Directorio Ejecutivo.
+                        Gestión de Citas, seguimiento de prospectos y Directorio Ejecutivo.
                       </p>
                     </div>
                   </div>
@@ -4930,7 +5274,7 @@ setTarjetasList(newList);
                   <div className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm">
                     {usersLoading ? (
                       <div className="p-12 text-center font-mono text-xs text-neutral-400">
-                        Cargando directorio de usuarios RBAC...
+                        Cargando lista de usuarios...
                       </div>
                     ) : usersList.length === 0 ? (
                       <div className="p-12 text-center space-y-2 font-mono">
@@ -4943,8 +5287,8 @@ setTarjetasList(newList);
                           <thead>
                             <tr className="bg-neutral-50 border-b border-neutral-200 font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
                               <th className="p-4 font-bold">Usuario / Nombre</th>
-                              <th className="p-4 font-bold">Rol Ejecutivo</th>
-                              <th className="p-4 font-bold">Permisos Granulares Habilitados</th>
+                              <th className="p-4 font-bold">Rol Asignado</th>
+                              <th className="p-4 font-bold">Permisos Habilitados</th>
                               <th className="p-4 font-bold text-right">Acciones</th>
                             </tr>
                           </thead>
@@ -4953,8 +5297,8 @@ setTarjetasList(newList);
                               const roleBadges = {
                                 super_admin: { label: 'Super Admin', cls: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
                                 editor_contenido: { label: 'Editor', cls: 'bg-blue-100 text-blue-800 border-blue-300' },
-                                agente_crm: { label: 'Agente CRM', cls: 'bg-purple-100 text-purple-800 border-purple-300' },
-                                invitado_viewer: { label: 'Auditor', cls: 'bg-neutral-100 text-neutral-700 border-neutral-300' }
+                                agente_crm: { label: 'Agente Comercial', cls: 'bg-purple-100 text-purple-800 border-purple-300' },
+                                invitado_viewer: { label: 'Lector', cls: 'bg-neutral-100 text-neutral-700 border-neutral-300' }
                               };
                               const badge = roleBadges[usr.role] || roleBadges.editor_contenido;
                               const userPerms = Array.isArray(usr.permissions) ? usr.permissions : [];
@@ -5009,14 +5353,14 @@ setTarjetasList(newList);
                     )}
                   </div>
 
-                  {/* MODAL PARA CREAR NUEVO USUARIO RBAC */}
+                  {/* MODAL PARA CREAR NUEVO USUARIO */}
                   {userModalOpen && (
                     <div className="fixed inset-0 bg-carbon/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                       <div className="bg-white border border-neutral-200 rounded-[2.5rem] p-6 md:p-8 max-w-lg w-full shadow-2xl space-y-5 relative">
                         <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
                           <div>
-                            <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">RBAC Management</span>
-                            <h3 className="text-xl font-black text-carbon">Crear Usuario Ejecutivo</h3>
+                            <span className="text-[10px] font-mono font-bold text-trebol uppercase tracking-wider block">Gestión de Acceso</span>
+                            <h3 className="text-xl font-black text-carbon">Crear Nuevo Usuario</h3>
                           </div>
                           <button
                             onClick={() => setUserModalOpen(false)}
@@ -5079,7 +5423,7 @@ setTarjetasList(newList);
                           </div>
 
                           <div className="space-y-1">
-                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Rol Ejecutivo Asignado</label>
+                            <label className="font-mono font-bold text-carbon/70 uppercase text-[10px]">Rol Asignado</label>
                             <select
                               value={userForm.role}
                               onChange={(e) => {
@@ -5095,7 +5439,7 @@ setTarjetasList(newList);
                             >
                               <option value="super_admin">Super Administrador (Acceso Total)</option>
                               <option value="editor_contenido">Editor de Contenido (Blogs, Casos y Landings)</option>
-                              <option value="agente_crm">Agente CRM / Ventas (Citas y Directorio)</option>
+                              <option value="agente_crm">Agente Comercial (Citas y Directorio)</option>
                             </select>
                           </div>
 
@@ -5118,7 +5462,7 @@ setTarjetasList(newList);
                                   <span>Guardando...</span>
                                 </>
                               ) : (
-                                <span>Guardar Usuario RBAC</span>
+                                <span>Guardar Usuario</span>
                               )}
                             </button>
                           </div>
@@ -5349,7 +5693,7 @@ setTarjetasList(newList);
                       className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
                     >
                       <Plus size={15} />
-                      <span>+ Crear Nuevo Recurso</span>
+                      <span>Crear Nuevo Recurso</span>
                     </button>
                   </div>
 
@@ -5543,7 +5887,7 @@ setTarjetasList(newList);
                       className="px-4 py-2.5 rounded-xl bg-trebol text-white font-mono text-xs font-bold hover:bg-carbon transition-colors inline-flex items-center gap-2 shadow-md cursor-pointer"
                     >
                       <Plus size={15} />
-                      <span>+ Crear Nuevo Taller</span>
+                      <span>Crear Nuevo Taller</span>
                     </button>
                   </div>
 

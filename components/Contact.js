@@ -140,8 +140,8 @@ export default function Contact({ isLanding }) {
               }`}
             >
               <div className="space-y-1">
-                <h3 className={`text-xl sm:text-2xl font-black font-sans ${isLanding ? 'text-inherit' : 'text-carbon'}`}>Solicitar Diagnóstico</h3>
-                <p className={`text-xs sm:text-sm font-sans ${isLanding ? 'opacity-80' : 'text-carbon/70'}`}>Déjanos tus datos y nos comunicamos contigo inmediatamente.</p>
+                <h3 className={`text-xl sm:text-2xl font-black font-sans ${isLanding ? 'text-inherit' : 'text-carbon'}`}>Agendar Diagnóstico</h3>
+                <p className={`text-xs sm:text-sm font-sans ${isLanding ? 'opacity-80' : 'text-carbon/70'}`}>Déjanos tus datos para coordinar tu sesión estratégica sin costo.</p>
               </div>
 
               <div className="space-y-5 sm:space-y-6 pt-1">
@@ -191,7 +191,7 @@ export default function Contact({ isLanding }) {
                 type="submit"
                 className="w-full bg-carbon text-white text-sm sm:text-base md:text-lg font-bold py-3.5 sm:py-4 px-4 rounded-2xl hover:bg-trebol transition-colors duration-300 shadow-md cursor-pointer flex items-center justify-center gap-2 mt-1 font-sans"
               >
-                <span>Enviar solicitud de diagnóstico</span>
+                <span>Agendar Diagnóstico</span>
                 <ArrowUpRight size={18} />
               </button>
             </motion.form>
