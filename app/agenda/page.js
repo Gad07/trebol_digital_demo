@@ -368,23 +368,28 @@ export default function AgendaPage() {
                   )}
 
                   {paso === 4 && (
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="ml-auto inline-flex items-center gap-2 bg-trebol text-white text-xl font-bold py-5 px-12 rounded-full hover:bg-carbon transition-colors duration-500 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {loading ? (
-                        <span className="inline-flex items-center gap-2">
-                          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Agendando...
-                        </span>
-                      ) : (
-                        <>
-                          <Sparkles size={20} />
-                          Confirmar mi diagnóstico
-                        </>
-                      )}
-                    </button>
+                    <div className="ml-auto flex flex-col items-end gap-2">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="inline-flex items-center gap-2 bg-trebol text-white text-xl font-bold py-5 px-12 rounded-full hover:bg-carbon transition-colors duration-500 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      >
+                        {loading ? (
+                          <span className="inline-flex items-center gap-2">
+                            <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            Agendando...
+                          </span>
+                        ) : (
+                          <>
+                            <Sparkles size={20} />
+                            Confirmar mi diagnóstico
+                          </>
+                        )}
+                      </button>
+                      <p className="text-[11px] text-carbon/60 font-sans text-right max-w-sm">
+                        Al confirmar aceptas nuestra <a href="/politica-de-privacidad" target="_blank" className="underline hover:text-trebol font-medium">Política de Privacidad</a> y <a href="/terminos-y-condiciones" target="_blank" className="underline hover:text-trebol font-medium">Términos</a> (LFPDPPP).
+                      </p>
+                    </div>
                   )}
                 </div>
               </form>

@@ -97,13 +97,16 @@ export function ContactForm() {
               />
             </div>
 
-            <div className="text-center pt-4">
+            <div className="text-center pt-4 space-y-2">
               <button
                 type="submit"
-                className="bg-[#B35431] hover:bg-carbon text-white font-bold text-xs uppercase tracking-widest px-10 py-3.5 transition-all duration-300 font-sans"
+                className="bg-[#B35431] hover:bg-carbon text-white font-bold text-xs uppercase tracking-widest px-10 py-3.5 transition-all duration-300 font-sans cursor-pointer"
               >
                 Enviar
               </button>
+              <p className="text-[10px] text-carbon/50 font-sans">
+                Tus datos están protegidos conforme a nuestro <Link href="/politica-de-privacidad" className="underline hover:text-[#B35431]">Aviso de Privacidad</Link>.
+              </p>
             </div>
           </form>
         )}

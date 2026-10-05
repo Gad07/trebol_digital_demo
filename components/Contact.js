@@ -194,6 +194,9 @@ export default function Contact({ isLanding }) {
                 <span>Agendar Diagnóstico</span>
                 <ArrowUpRight size={18} />
               </button>
+              <p className={`text-[11px] text-center font-sans ${isLanding ? 'opacity-70' : 'text-carbon/60'}`}>
+                Tus datos están protegidos conforme a nuestro <a href="/politica-de-privacidad" className="underline hover:text-trebol font-medium">Aviso de Privacidad</a> (LFPDPPP).
+              </p>
             </motion.form>
           )}
         </div>

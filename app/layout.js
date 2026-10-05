@@ -337,6 +337,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PopupSystem from "../components/PopupSystem";
 import ScrollManager from "../components/ScrollManager";
+import CookieConsentBanner from "../components/CookieConsentBanner";
 
 export default function RootLayout({ children }) {
   return (
@@ -379,6 +380,7 @@ export default function RootLayout({ children }) {
         {children}
         <Footer />
         <PopupSystem />
+        <CookieConsentBanner />
 
         {/* ═══ Analytics & Tracking ═══ */}
 
@@ -394,6 +396,29 @@ export default function RootLayout({ children }) {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
+
+                // Google Consent Mode v2
+                var userConsent = null;
+                try {
+                  userConsent = localStorage.getItem('trebol_cookie_consent');
+                } catch(e){}
+
+                if (userConsent === 'accepted') {
+                  gtag('consent', 'default', {
+                    'analytics_storage': 'granted',
+                    'ad_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted'
+                  });
+                } else if (userConsent === 'essential_only') {
+                  gtag('consent', 'default', {
+                    'analytics_storage': 'denied',
+                    'ad_storage': 'denied',
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied'
+                  });
+                }
+
                 gtag('config', '${GA_ID}');
               `}
             </Script>

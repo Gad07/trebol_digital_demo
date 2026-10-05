@@ -111,11 +111,6 @@ export default function Footer() {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 </a>
               </div>
-              <div className="text-xs text-neutral-400 font-mono mt-2">
-                <a href="mailto:contacto@treboldigital.com.mx" className="hover:text-trebol transition-colors">
-                  contacto@treboldigital.com.mx
-                </a>
-              </div>
             </div>
           </div>
 
@@ -179,7 +174,18 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('trebol:open-cookie-settings'));
+                }
+              }}
+              className="hover:text-trebol transition-colors cursor-pointer text-left"
+            >
+              Configuración de Cookies
+            </button>
             <Link href="/politica-de-privacidad" className="hover:text-neutral-300 transition-colors">
               Política de Privacidad
             </Link>

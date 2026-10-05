@@ -153,16 +153,21 @@ export default function InsightsPage() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="w-full md:w-auto flex flex-col sm:flex-row gap-3 shrink-0"
+            className="w-full md:w-auto flex flex-col gap-2 shrink-0"
           >
-            <input
-              type="email"
-              placeholder="tu@email.com"
-              className="bg-white/10 border border-white/20 text-hueso placeholder:text-hueso/30 px-6 py-4 rounded-full outline-none focus:border-trebol transition-colors text-lg"
-            />
-            <button className="bg-trebol text-white font-bold px-8 py-4 rounded-full hover:bg-hueso hover:text-carbon transition-all duration-500 text-lg whitespace-nowrap">
-              Suscribirme
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="email"
+                placeholder="tu@email.com"
+                className="bg-white/10 border border-white/20 text-hueso placeholder:text-hueso/30 px-6 py-4 rounded-full outline-none focus:border-trebol transition-colors text-lg"
+              />
+              <button className="bg-trebol text-white font-bold px-8 py-4 rounded-full hover:bg-hueso hover:text-carbon transition-all duration-500 text-lg whitespace-nowrap cursor-pointer">
+                Suscribirme
+              </button>
+            </div>
+            <p className="text-[11px] text-hueso/50 font-sans text-center sm:text-left pl-2">
+              Respetamos tu privacidad. Consulta nuestro <a href="/politica-de-privacidad" className="underline hover:text-trebol">Aviso de Privacidad</a>.
+            </p>
           </motion.div>
         </div>
       </section>

@@ -220,6 +220,9 @@ export function ProposalCalculator() {
                 <Send size={16} />
                 <span>Enviar y Reservar Asesoría Técnica</span>
               </button>
+              <p className="text-[10px] text-neutral-400 text-center font-sans mt-2">
+                Tus datos están protegidos conforme a la LFPDPPP y nuestro <a href="/politica-de-privacidad" target="_blank" className="underline hover:text-trebol">Aviso de Privacidad</a>.
+              </p>
             </form>
           ) : (
             <div className="space-y-4 text-center py-6">
