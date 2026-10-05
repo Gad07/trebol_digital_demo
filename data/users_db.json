@@ -4,7 +4,7 @@
     "username": "admin",
     "password": "admin",
     "name": "Gadiel Palma",
-    "email": "gadiel@treboldigital.com",
+    "email": "gadiel@treboldigital.com.mx",
     "role": "super_admin",
     "permissions": ["manage_users", "edit_landings", "edit_blogs", "edit_casos", "edit_tarjetas", "manage_crm", "manage_popups"],
     "createdAt": "2026-08-20T12:00:00.000Z"
@@ -14,7 +14,7 @@
     "username": "editor",
     "password": "editor123",
     "name": "Sandra Cuevas",
-    "email": "sandra@treboldigital.com",
+    "email": "sandra@treboldigital.com.mx",
     "role": "editor_contenido",
     "permissions": ["edit_landings", "edit_blogs", "edit_casos"],
     "createdAt": "2026-08-20T12:00:00.000Z"
@@ -24,7 +24,7 @@
     "username": "ventas",
     "password": "ventas123",
     "name": "Agente de Ventas CRM",
-    "email": "ventas@treboldigital.com",
+    "email": "ventas@treboldigital.com.mx",
     "role": "agente_crm",
     "permissions": ["manage_crm", "edit_tarjetas"],
     "createdAt": "2026-08-20T12:00:00.000Z"

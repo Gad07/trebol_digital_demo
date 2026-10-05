@@ -1,27 +1,30 @@
+require('dotenv').config({ path: '.env.local' });
+require('dotenv').config({ path: '.env' });
 const mysql = require('mysql2/promise');
 
 async function initMySQL() {
-  console.log('🔌 Conectando a MySQL en XAMPP (localhost:3306)...');
+  const host = process.env.MYSQL_HOST || 'auth-db868.hstgr.io';
+  const port = Number(process.env.MYSQL_PORT) || 3306;
+  const user = process.env.MYSQL_USER || 'u380714863_tradm';
+  const password = process.env.MYSQL_PASSWORD || 'trebolDigitial3';
+  const dbName = process.env.MYSQL_DATABASE || 'u380714863_trebol';
+
+  console.log(`🔌 Conectando a MySQL en ${host}:${port}/${dbName}...`);
   
-  // Conectar primeramente a MySQL servidor sin especificar base de datos
   let connection;
   try {
     connection = await mysql.createConnection({
-      host: process.env.MYSQL_HOST || 'localhost',
-      port: Number(process.env.MYSQL_PORT) || 3306,
-      user: process.env.MYSQL_USER || 'root',
-      password: process.env.MYSQL_PASSWORD || ''
+      host,
+      port,
+      user,
+      password,
+      database: dbName
     });
-    console.log('✅ Conexión establecida con el servidor MySQL en XAMPP.');
+    console.log(`✅ Conexión establecida con MySQL (${host}/${dbName}).`);
   } catch (err) {
-    console.error('❌ Error al conectar a XAMPP MySQL:', err.message);
+    console.error('❌ Error al conectar a MySQL:', err.message);
     process.exit(1);
   }
-
-  const dbName = process.env.MYSQL_DATABASE || 'trebol_db';
-  console.log(`📦 Creando base de datos "${dbName}" si no existe...`);
-  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
-  await connection.query(`USE \`${dbName}\`;`);
 
   console.log('🛠️ Creando tablas en MySQL...');
 
