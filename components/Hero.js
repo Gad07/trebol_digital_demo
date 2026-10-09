@@ -66,6 +66,7 @@ export default function Hero() {
           >
             <a
               href="#section-contact"
+              onClick={() => { if (typeof window !== 'undefined' && typeof window.fbq === 'function') window.fbq('track', 'ClicButton'); }}
               className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-trebol text-white font-bold text-xs sm:text-sm md:text-base hover:bg-carbon transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
             >
               Agendar diagnóstico gratuito <ArrowUpRight size={17} />

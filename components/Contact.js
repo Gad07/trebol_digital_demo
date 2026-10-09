@@ -17,6 +17,10 @@ export default function Contact({ isLanding }) {
     const email = formEl.querySelector('#email')?.value || '';
     const message = formEl.querySelector('#message')?.value || '';
 
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'ClicButton');
+    }
+
     try {
       await fetch('/api/citas', {
         method: 'POST',
@@ -36,6 +40,10 @@ export default function Contact({ isLanding }) {
     } catch (err) {
       console.warn('Error enviando contacto a CRM:', err);
     } finally {
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', { content_name: 'Formulario Contacto Principal' });
+        window.fbq('track', 'Contact');
+      }
       setLoading(false);
       setSubmitted(true);
     }

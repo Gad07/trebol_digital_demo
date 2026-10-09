@@ -19,6 +19,11 @@ export default function ScrollManager() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // Track PageView on route changes in Meta Pixel
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'PageView');
+    }
+
     const hash = window.location.hash;
 
     // Ensure header is visible on page load/route change

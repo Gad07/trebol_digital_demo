@@ -39,6 +39,10 @@ export function ContactForm() {
     } catch (err) {
       console.warn('Error enviando lead blog:', err);
     } finally {
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead', { content_name: 'Formulario Blog Insights' });
+        window.fbq('track', 'Contact');
+      }
       setLoading(false);
       setSubmitted(true);
     }

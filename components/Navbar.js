@@ -441,6 +441,7 @@ export default function Navbar() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/agenda"
+                onClick={() => { if (typeof window !== 'undefined' && typeof window.fbq === 'function') window.fbq('track', 'ClicButton'); }}
                 className="inline-flex items-center gap-1.5 bg-[#5C9E43] hover:bg-[#2D2E2D] text-white font-bold text-xs px-5 py-2 rounded-full shadow-md hover:shadow-xl transition-all duration-300"
               >
                 <span>Diagnóstico Gratuito</span>

@@ -85,10 +85,18 @@ export default function AgendaPage() {
         body: JSON.stringify(payload)
       });
 
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Schedule', { content_name: 'Diagnóstico Estratégico', status: 'confirmed' });
+        window.fbq('track', 'Lead', { content_name: 'Diagnóstico Estratégico' });
+      }
+
       setEnviado(true);
     } catch (err) {
       console.warn('Error enviando cita a API/CRM:', err);
       // Ensure positive UX for the client even on network lag
+      if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+        window.fbq('track', 'Schedule', { content_name: 'Diagnóstico Estratégico', status: 'confirmed' });
+      }
       setEnviado(true);
     } finally {
       setLoading(false);

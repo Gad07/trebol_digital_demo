@@ -1,5 +1,11 @@
 import { Roboto, Manrope } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import PopupSystem from "../components/PopupSystem";
+import ScrollManager from "../components/ScrollManager";
+import CookieConsentBanner from "../components/CookieConsentBanner";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -332,16 +338,9 @@ const siteNavigationJsonLd = {
   ]
 };
 
-import { Suspense } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import PopupSystem from "../components/PopupSystem";
-import ScrollManager from "../components/ScrollManager";
-import CookieConsentBanner from "../components/CookieConsentBanner";
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className={`${roboto.variable} ${manrope.variable}`}>
+    <html lang="es" className={`${roboto.variable} ${manrope.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" sizes="192x192" />
@@ -358,46 +357,8 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationJsonLd) }}
         />
-        {/* ═══ Meta Pixel Code ═══ */}
-        {hasMetaPixelId && (
-          <>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  !function(f,b,e,v,n,t,s)
-                  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                  n.queue=[];t=b.createElement(e);t.async=!0;
-                  t.src=v;s=b.getElementsByTagName(e)[0];
-                  s.parentNode.insertBefore(t,s)}(window, document,'script',
-                  'https://connect.facebook.net/en_US/fbevents.js');
-
-                  try {
-                    var userConsent = localStorage.getItem('trebol_cookie_consent');
-                    if (userConsent === 'essential_only') {
-                      fbq('consent', 'revoke');
-                    }
-                  } catch(e){}
-
-                  fbq('init', '${META_PIXEL_ID}');
-                  fbq('track', 'PageView');
-                `,
-              }}
-            />
-            <noscript>
-              <img
-                height="1"
-                width="1"
-                style={{ display: 'none' }}
-                alt=""
-                src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-              />
-            </noscript>
-          </>
-        )}
       </head>
-      <body className={`${manrope.className} antialiased`}>
+      <body className={`${manrope.className} antialiased`} suppressHydrationWarning>
         <Suspense fallback={null}>
           <ScrollManager />
         </Suspense>
@@ -463,7 +424,62 @@ export default function RootLayout({ children }) {
           </>
         )}
 
+        {/* ═══ Meta Pixel ═══ */}
+        {hasMetaPixelId && (
+          <>
+            <Script id="meta-pixel" strategy="afterInteractive">
+              {`
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
 
+                try {
+                  var userConsent = localStorage.getItem('trebol_cookie_consent');
+                  if (userConsent === 'essential_only') {
+                    fbq('consent', 'revoke');
+                  }
+                } catch(e){}
+
+                fbq('init', '${META_PIXEL_ID}');
+                fbq('track', 'PageView');
+
+                // Evento personalizado ClicButton
+                window.trackClicButton = function() {
+                  if (typeof window.fbq === 'function') {
+                    fbq('track', 'ClicButton');
+                    fbq('trackCustom', 'ClicButton');
+                  }
+                };
+
+                if (typeof document !== 'undefined') {
+                  document.addEventListener('click', function(e) {
+                    var target = e.target && (e.target.closest('button, a, [role="button"], input[type="submit"], input[type="button"]') || e.target);
+                    if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || target.getAttribute('role') === 'button' || target.type === 'submit')) {
+                      if (typeof window.fbq === 'function') {
+                        fbq('track', 'ClicButton');
+                        fbq('trackCustom', 'ClicButton');
+                      }
+                    }
+                  }, true);
+                }
+              `}
+            </Script>
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: 'none' }}
+                alt=""
+                src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+              />
+            </noscript>
+          </>
+        )}
 
         {/* LinkedIn Insight Tag */}
         {hasLinkedInPartnerId && (
