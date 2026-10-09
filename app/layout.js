@@ -17,7 +17,7 @@ const manrope = Manrope({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://treboldigital.com.mx";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "1866462498132544";
 const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID;
 
 const hasValue = (value) => Boolean(value && !/^X+$/i.test(value));
@@ -427,20 +427,39 @@ export default function RootLayout({ children }) {
 
         {/* Meta Pixel */}
         {hasMetaPixelId && (
-          <Script id="meta-pixel" strategy="lazyOnload">
-            {`
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${META_PIXEL_ID}');
-              fbq('track', 'PageView');
-            `}
-          </Script>
+          <>
+            <Script id="meta-pixel" strategy="afterInteractive">
+              {`
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+
+                try {
+                  var userConsent = localStorage.getItem('trebol_cookie_consent');
+                  if (userConsent === 'essential_only') {
+                    fbq('consent', 'revoke');
+                  }
+                } catch(e){}
+
+                fbq('init', '${META_PIXEL_ID}');
+                fbq('track', 'PageView');
+              `}
+            </Script>
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: 'none' }}
+                alt=""
+                src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+              />
+            </noscript>
+          </>
         )}
 
         {/* LinkedIn Insight Tag */}

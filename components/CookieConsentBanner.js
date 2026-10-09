@@ -62,6 +62,10 @@ export default function CookieConsentBanner() {
       });
     }
 
+    if (typeof window.fbq === 'function') {
+      window.fbq('consent', marketing ? 'grant' : 'revoke');
+    }
+
     // Notificar a toda la app por si algún componente depende del consentimiento
     const consentPayload = {
       analytics,
